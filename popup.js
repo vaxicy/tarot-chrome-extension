@@ -120,6 +120,43 @@
       ],
       category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在展开事业牌阵...',
       usage: '适合分析工作、学业、职业发展相关的问题，帮助做出更明智的职业决策。'
+    },
+    timeflow: {
+      name: '时间之流',
+      positions: ['过去', '现在', '未来', '深层原因', '可能的结果'],
+      positionMeanings: [
+        '过去：影响当前情况的历史因素和已发生的事件。',
+        '现在：当前的核心状况和你的真实状态。',
+        '未来：基于当前趋势最可能的发展方向。',
+        '深层原因：潜藏在问题背后的根本动因。',
+        '可能的结果：综合所有因素后最终可能呈现的状态。'
+      ],
+      category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
+      usage: '在时间维度上全面分析问题，适合想要看清事情来龙去脉的情况。'
+    },
+    action: {
+      name: '问题行动结果',
+      positions: ['问题核心', '建议行动', '可能结果'],
+      positionMeanings: [
+        '问题核心：你最关心的核心问题或担忧。',
+        '建议行动：塔罗建议你采取的具体行动方向。',
+        '可能结果：如果按照建议行动，最可能得到的结果。'
+      ],
+      category: 'decision', difficulty: 'easy', recommended: true, loadingText: '正在展开问题行动结果...',
+      usage: '简洁明了的三位牌阵，适合快速决策和明确行动方向。'
+    },
+    mind: {
+      name: '心灵牌阵',
+      positions: ['意识', '潜意识', '理想', '现实', '建议'],
+      positionMeanings: [
+        '意识：你清醒时对自己和问题的认知。',
+        '潜意识：内心深处隐藏的动机、恐惧或渴望。',
+        '理想：你内心真正渴望达到的状态或结果。',
+        '现实：客观现实和实际的限制条件。',
+        '建议：综合意识与潜意识、理想与现实后的最佳建议。'
+      ],
+      category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开心灵牌阵...',
+      usage: '适合自我探索和内心成长类问题，帮助看清内心真实想法。'
     }
   };
 
@@ -199,6 +236,12 @@
       spread_horseshoe_desc: '7张牌 · 全面生活指引',
       spread_career_name: '事业牌阵',
       spread_career_desc: '5张牌 · 工作/学业决策',
+      spread_timeflow_name: '时间之流',
+      spread_timeflow_desc: '5张牌 · 时间维度全面分析',
+      spread_action_name: '问题行动结果',
+      spread_action_desc: '3张牌 · 快速决策与行动指引',
+      spread_mind_name: '心灵牌阵',
+      spread_mind_desc: '5张牌 · 自我探索与内心成长',
       placeholder_click_card: '点击上方卡牌查看详细解读',
       comprehensive_reading: '综合解读',
       btn_expand: '展开',
@@ -225,6 +268,9 @@
       five_tip: '通用深入分析牌阵，从问题核心到最终结果，层层递进。',
       horseshoe_tip: '马蹄铁形牌阵，覆盖过去到未来的完整时间线，适合全面了解局势。',
       career_tip: '专注事业与学业决策，从当前状况到未来发展，给出实用建议。',
+      timeflow_tip: '从时间维度全面分析问题，看清事情的来龙去脉与可能走向。',
+      action_tip: '简洁明了的三位牌阵，快速明确问题核心与最佳行动方向。',
+      mind_tip: '适合自我探索与内心成长，帮助看清意识与潜意识、理想与现实。',
       fortune_overall: '★ 综合运势',
       fortune_dimensions: '➡ 各维度评分',
       fortune_lucky_info: '💫 幸运信息',
@@ -281,11 +327,12 @@
       dilemma_dice_result_low: '小（1-3）',
       dilemma_winner_is: '胜出选项：',
       decision_tie: '平局，请再试一次！',
-      difficulty_easy: '简单',
-      difficulty_medium: '中等',
-      difficulty_hard: '复杂',
+      difficulty_easy: '★☆☆',
+      difficulty_medium: '★★☆',
+      difficulty_hard: '★★★',
       filter_all: '全部',
       filter_advanced: '复杂',
+      filter_favorites: '★ 收藏',
       spread_search_placeholder: '搜索牌阵...'
     },
     en: {
@@ -328,6 +375,12 @@
       spread_horseshoe_desc: '7 cards · Comprehensive life guidance',
       spread_career_name: 'Career Spread',
       spread_career_desc: '5 cards · Work / Study decisions',
+      spread_timeflow_name: 'Time Flow',
+      spread_timeflow_desc: '5 cards · Past to future analysis',
+      spread_action_name: 'Problem-Action-Result',
+      spread_action_desc: '3 cards · Quick decision & action guide',
+      spread_mind_name: 'Mind Spread',
+      spread_mind_desc: '5 cards · Self-exploration & inner growth',
       placeholder_click_card: 'Tap a card above to see detailed meaning',
       comprehensive_reading: 'Comprehensive Reading',
       btn_expand: 'Expand',
@@ -354,6 +407,9 @@
       five_tip: 'General in-depth spread. From core issue to final outcome, layer by layer.',
       horseshoe_tip: 'Horseshoe-shaped spread covering the full timeline from past to future. Great for a complete overview.',
       career_tip: 'Focused on career and study decisions. From current status to future development, with practical advice.',
+      timeflow_tip: 'Analyze the problem through time dimensions. See the past, present and future clearly.',
+      action_tip: 'Simple three-card spread. Quickly clarify the core issue and best action direction.',
+      mind_tip: 'For self-exploration and inner growth. Helps see consciousness, subconscious, ideal and reality.',
       fortune_overall: '★ Overall Fortune',
       fortune_dimensions: '➡ Dimension Scores',
       fortune_lucky_info: '💫 Lucky Info',
@@ -407,11 +463,12 @@
       dilemma_dice_result_low: 'Low (1-3)',
       dilemma_winner_is: 'Winner: ',
       decision_tie: 'It\'s a tie, try again!',
-      difficulty_easy: 'Easy',
-      difficulty_medium: 'Medium',
-      difficulty_hard: 'Hard',
+      difficulty_easy: '★☆☆',
+      difficulty_medium: '★★☆',
+      difficulty_hard: '★★★',
       filter_all: 'All',
       filter_advanced: 'Complex',
+      filter_favorites: '★ Favorites',
       spread_search_placeholder: 'Search spreads...'
     }
   };
@@ -520,7 +577,10 @@
           choice: ['Option A', 'Option B', 'Pros A', 'Pros B', 'Advice'],
           five: ['Present', 'Past', 'Future', 'Advice', 'Potential'],
           horseshoe: ['Past Influence', 'Current', 'Hidden Factor', 'Challenge', 'External', 'Hopes/Fears', 'Outcome'],
-          career: ['Current', 'Challenge', 'Strengths', 'Action', 'Future']
+          career: ['Current', 'Challenge', 'Strengths', 'Action', 'Future'],
+          timeflow: ['Past', 'Present', 'Future', 'Root Cause', 'Possible Outcome'],
+          action: ['Problem', 'Suggested Action', 'Possible Outcome'],
+          mind: ['Conscious', 'Subconscious', 'Ideal', 'Reality', 'Advice']
         };
         return enPositions[mode] || spread.positions;
       }
@@ -537,7 +597,10 @@
           choice: 'Analyzing the two options...',
           five: 'Unfolding the five-card spread...',
           horseshoe: 'Unfolding the Horseshoe spread...',
-          career: 'Unfolding the Career spread...'
+          career: 'Unfolding the Career spread...',
+          timeflow: 'Unfolding the Time Flow spread...',
+          action: 'Analyzing Problem-Action-Result...',
+          mind: 'Exploring the Mind spread...'
         };
         return enTexts[mode] || 'Shuffling cards...';
       }
@@ -662,6 +725,45 @@
 
       // 更新按钮文本
       this.updateButtonTexts();
+
+      // 注入星级到名称/描述行
+      this.injectDifficultyStars();
+    }
+
+    injectDifficultyStars() {
+      const diffStars = { easy: '★☆☆', medium: '★★☆', hard: '★★★' };
+
+      // 卡片：在名称后插入星级
+      document.querySelectorAll('.spread-card').forEach(btn => {
+        const key = btn.dataset.spread;
+        const spread = SPREADS[key];
+        if (!spread) return;
+        const nameEl = btn.querySelector('.spread-card-name');
+        if (!nameEl) return;
+        let inline = nameEl.querySelector('.difficulty-inline');
+        if (!inline) {
+          inline = document.createElement('span');
+          inline.className = 'difficulty-inline';
+          nameEl.appendChild(inline);
+        }
+        inline.textContent = diffStars[spread.difficulty] || '★☆☆';
+      });
+
+      // 列表项：在描述前插入星级
+      document.querySelectorAll('.spread-btn').forEach(btn => {
+        const key = btn.dataset.spread;
+        const spread = SPREADS[key];
+        if (!spread) return;
+        const descEl = btn.querySelector('.spread-desc');
+        if (!descEl) return;
+        let inline = descEl.querySelector('.difficulty-inline');
+        if (!inline) {
+          inline = document.createElement('span');
+          inline.className = 'difficulty-inline';
+          descEl.insertBefore(inline, descEl.firstChild);
+        }
+        inline.textContent = (diffStars[spread.difficulty] || '★☆☆') + '  ';
+      });
     }
 
     updateButtonTexts() {
@@ -741,6 +843,11 @@
       if (pageId === 'welcome-page') {
         const tag = document.getElementById('spread-name-tag');
         if (tag) tag.classList.add('hidden');
+      }
+      // 非占卜页面时隐藏牌阵布局可视化
+      if (pageId !== 'divination-page') {
+        const diag = document.getElementById('result-spread-diagram');
+        if (diag) diag.classList.add('hidden');
       }
     }
 
@@ -1079,6 +1186,43 @@
       });
     }
 
+    // ============ 结果页：渲染牌阵布局可视化 ============
+    renderResultSpreadDiagram(spreadType, positions) {
+      const container = document.getElementById('result-spread-diagram');
+      if (!container) return;
+      container.innerHTML = '';
+      container.classList.remove('hidden');
+
+      const spread = SPREADS[spreadType];
+      if (!spread) return;
+
+      positions.forEach((pos, idx) => {
+        const card = document.createElement('div');
+        card.className = 'result-diagram-card';
+        card.dataset.index = idx;
+        card.innerHTML = (idx + 1) + '<span class="result-diagram-card-label">' + pos + '</span>';
+
+        card.addEventListener('click', () => {
+          // 高亮对应牌和位置标签
+          container.querySelectorAll('.result-diagram-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+
+          const labels = document.querySelectorAll('.pos-label');
+          labels.forEach(l => l.classList.remove('active'));
+          if (labels[idx]) labels[idx].classList.add('active');
+
+          const cards = document.querySelectorAll('.tarot-card');
+          if (cards[idx]) {
+            cards[idx].style.transition = 'box-shadow 0.2s';
+            cards[idx].style.boxShadow = '0 0 20px var(--color-gold)';
+            setTimeout(() => { cards[idx].style.boxShadow = ''; }, 500);
+          }
+        });
+
+        container.appendChild(card);
+      });
+    }
+
     // ============ 抽牌通用函数 ============
     drawCards(count) {
       const deck = this.getShuffledDeck();
@@ -1193,6 +1337,7 @@
           }
 
           this.renderPositionLabels(positions);
+          this.renderResultSpreadDiagram(spreadType, positions);
           this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
 
           document.getElementById('page-title').textContent = this.getLocalizedSpreadName(spreadType);
@@ -1315,6 +1460,7 @@
           if (resultCards) resultCards.appendChild(crossContainer);
 
           this.renderPositionLabels(positions);
+          this.renderResultSpreadDiagram(spreadType, positions);
           this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
 
           document.getElementById('page-title').textContent = this.getLocalizedSpreadName('celtic');
@@ -1363,6 +1509,21 @@
       this.drawStandardSpread('career', 60, 96);
     }
 
+    // ============ 时间之流 ============
+    drawTimeflow() {
+      this.drawStandardSpread('timeflow', 60, 96);
+    }
+
+    // ============ 问题行动结果 ============
+    drawAction() {
+      this.drawStandardSpread('action', 60, 110);
+    }
+
+    // ============ 心灵牌阵 ============
+    drawMind() {
+      this.drawStandardSpread('mind', 60, 96);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -1374,6 +1535,9 @@
         case 'five':      this.drawFive(); break;
         case 'horseshoe': this.drawHorseshoe(); break;
         case 'career':    this.drawCareer(); break;
+        case 'timeflow':  this.drawTimeflow(); break;
+        case 'action':    this.drawAction(); break;
+        case 'mind':      this.drawMind(); break;
       }
     }
 
@@ -2015,25 +2179,25 @@
       chrome.storage.local.get({ tarot_favorites: [] }, (result) => {
         const favs = result.tarot_favorites || [];
         if (favs.length === 0) {
-          favList.innerHTML = '<div class="history-empty">' + this.t('fav_empty') + '</div>';
+          favList.innerHTML = '<div class="fav-empty"><div class="fav-empty-icon">&#9734;</div><div class="fav-empty-text">' + this.t('fav_empty') + '</div></div>';
           return;
         }
         let html = '';
         favs.forEach((card, idx) => {
-          html += '<div class="history-item" data-fav-idx="' + idx + '">';
-          html += '<div class="history-item-header">';
-          html += '<span class="history-spread">' + (card.name || card.originalName || 'Unknown') + '</span>';
-          html += '<button class="history-delete-btn" data-fav-delete-idx="' + idx + '" title="' + (this.currentLang === 'en' ? 'Remove' : '移除') + '">✕</button>';
+          html += '<div class="fav-item" data-fav-idx="' + idx + '">';
+          html += '<div class="fav-item-header">';
+          html += '<span class="fav-item-name">' + (card.name || card.originalName || 'Unknown') + '</span>';
+          html += '<button class="fav-item-delete" data-fav-delete-idx="' + idx + '" title="' + (this.currentLang === 'en' ? 'Remove' : '移除') + '">&#10005;</button>';
           html += '</div>';
           if (card.originalName && card.originalName !== card.name) {
-            html += '<div class="history-cards-preview" style="margin-top:4px;color:var(--color-text-muted);font-size:11px;">' + card.originalName + '</div>';
+            html += '<div class="fav-item-sub">' + card.originalName + '</div>';
           }
           html += '</div>';
         });
         favList.innerHTML = html;
 
         favList.onclick = (e) => {
-          const delBtn = e.target.closest('.history-delete-btn');
+          const delBtn = e.target.closest('.fav-item-delete');
           if (delBtn) {
             const delIdx = parseInt(delBtn.dataset.favDeleteIdx, 10);
             chrome.storage.local.get({ tarot_favorites: [] }, (result) => {
@@ -2045,7 +2209,7 @@
             });
             return;
           }
-          const item = e.target.closest('.history-item');
+          const item = e.target.closest('.fav-item');
           if (item) {
             const idx = parseInt(item.dataset.favIdx, 10);
             const card = favs[idx];
@@ -2491,130 +2655,240 @@
       }
     }
 
-    // ============ 搜索功能 ============
-    initSearch() {
-      const searchToggleBtn = document.getElementById('search-toggle-btn');
-      const searchCloseBtn = document.getElementById('search-close-btn');
-      const searchInput = document.getElementById('search-input');
-      const searchPanel = document.getElementById('search-panel');
+    // ============ 牌阵搜索功能 ============
+    initSpreadSearch() {
+      const searchInput = document.getElementById('spread-search-input');
+      const clearBtn = document.getElementById('spread-search-clear');
+      if (!searchInput) return;
 
-      if (searchToggleBtn) {
-        searchToggleBtn.addEventListener('click', () => {
-          if (searchPanel) {
-            searchPanel.classList.remove('hidden');
-            if (searchInput) searchInput.focus();
-          }
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        if (clearBtn) clearBtn.classList.toggle('hidden', query.length === 0);
+
+        const spreadBtns = document.querySelectorAll('.spread-btn');
+        const categoryTitles = document.querySelectorAll('.spread-category-title');
+        const filterBtns = document.querySelectorAll('.spread-filter-btn');
+
+        // 搜索时取消分类筛选高亮
+        filterBtns.forEach(b => b.classList.remove('active'));
+        const allBtn = document.querySelector('.spread-filter-btn[data-filter="all"]');
+        if (allBtn) allBtn.classList.add('active');
+
+        if (!query) {
+          // 清空搜索，显示所有牌阵
+          spreadBtns.forEach(btn => btn.style.display = '');
+          categoryTitles.forEach(title => title.style.display = '');
+          return;
+        }
+
+        // 搜索匹配：名称、描述、分类、难度
+        spreadBtns.forEach(btn => {
+          const key = btn.dataset.spread;
+          const spread = SPREADS[key];
+          if (!spread) return;
+
+          const nameZh = (spread.name || '').toLowerCase();
+          const nameEn = (this.t('spread_' + key + '_name') || '').toLowerCase();
+          const desc = (spread.usage || '').toLowerCase();
+          const category = (spread.category || '').toLowerCase();
+          const difficulty = (spread.difficulty || '').toLowerCase();
+
+              const categoryKeyMap = { simple: 'cat_beginner', relationship: 'cat_relationship', decision: 'cat_decision', general: 'cat_general', career: 'cat_career', advanced: 'filter_advanced' };
+          const catKey = categoryKeyMap[spread.category] || '';
+          const catName = (this.t(catKey) || '') + (spread.category || '');
+          const matches = nameZh.includes(query) || nameEn.includes(query)
+            || desc.includes(query) || category.includes(query)
+            || catName.toLowerCase().includes(query)
+            || difficulty.includes(query);
+
+          btn.style.display = matches ? '' : 'none';
         });
-      }
 
-      if (searchCloseBtn) {
-        searchCloseBtn.addEventListener('click', () => {
-          if (searchPanel) {
-            searchPanel.classList.add('hidden');
-            if (searchInput) searchInput.value = '';
-            const results = document.getElementById('search-results');
-            if (results) results.innerHTML = '';
+        // 控制分类标题显示
+        categoryTitles.forEach(title => {
+          let showTitle = false;
+          let nextEl = title.nextElementSibling;
+          while (nextEl && !nextEl.classList.contains('spread-category-title')) {
+            if (nextEl.classList.contains('spread-btn') && nextEl.style.display !== 'none') {
+              showTitle = true;
+              break;
+            }
+            nextEl = nextEl.nextElementSibling;
           }
+          title.style.display = showTitle ? '' : 'none';
         });
-      }
+      });
 
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          this.performSearch(e.target.value);
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          searchInput.dispatchEvent(new Event('input'));
         });
       }
     }
 
-    getPinyinInitials(chineseStr) {
-      const PINYIN_MAP = {
-        '魔': 'mo', '法': 'fa', '师': 'shi', '女': 'nv', '祭': 'ji', '司': 'si',
-        '皇': 'huang', '帝': 'di', '恋': 'lian', '人': 'ren', '战': 'zhan', '车': 'che',
-        '力': 'li', '隐': 'yin', '者': 'zhe', '命': 'ming', '运': 'yun', '之': 'zhi',
-        '轮': 'lun', '正': 'zheng', '义': 'yi', '倒': 'dao', '悬': 'xuan', '挂': 'gua',
-        '死': 'si', '神': 'shen', '节': 'jie', '制': 'zhi', '恶': 'e', '魔': 'mo',
-        '塔': 'ta', '星': 'xing', '月': 'yue', '太': 'tai', '阳': 'yang', '审': 'shen',
-        '判': 'pan', '世': 'shi', '界': 'jie', '愚': 'yu', '者': 'zhe',
-        '权': 'quan', '杖': 'zhang', '圣': 'sheng', '杯': 'bei', '宝': 'bao', '剑': 'jian',
-        '币': 'bi', '国': 'guo', '王': 'wang', '后': 'hou', '骑': 'qi', '士': 'shi',
-        '侍': 'shi', '从': 'cong'
+    // ============ 牌阵悬浮预览 ============
+    initSpreadHoverPreview() {
+      const preview = document.getElementById('spread-hover-preview');
+      if (!preview) return;
+
+      document.querySelectorAll('.spread-info-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', (e) => {
+          const key = btn.dataset.spreadKey;
+          const spread = SPREADS[key];
+          if (!spread) return;
+
+          const diffStars = { easy: '★☆☆', medium: '★★☆', hard: '★★★' };
+          const catLabels = {
+            simple: this.t('cat_beginner') || '新手',
+            relationship: this.t('cat_relationship') || '情感',
+            decision: this.t('cat_decision') || '决策',
+            general: this.t('cat_general') || '通用',
+            career: this.t('cat_career') || '事业',
+            advanced: this.t('filter_advanced') || '复杂'
+          };
+
+          preview.innerHTML =
+            '<div class="hover-title">' + spread.name + '</div>' +
+            '<div class="hover-meta">' +
+              '<span class="hover-meta-tag">' + (diffStars[spread.difficulty] || '★☆☆') + '</span>' +
+              '<span class="hover-meta-tag">' + (catLabels[spread.category] || spread.category) + '</span>' +
+              '<span class="hover-meta-tag">' + spread.positions.length + '张牌</span>' +
+            '</div>' +
+            '<div class="hover-usage">' + (spread.usage || '') + '</div>';
+
+          preview.classList.remove('hidden');
+          this.positionHoverPreview(e.target, preview);
+        });
+
+        btn.addEventListener('mousemove', (e) => {
+          this.positionHoverPreview(e.target, preview);
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          preview.classList.add('hidden');
+        });
+      });
+    }
+
+    positionHoverPreview(target, preview) {
+      const rect = target.getBoundingClientRect();
+      const previewRect = preview.getBoundingClientRect();
+      let left = rect.right + 10;
+      let top = rect.top;
+
+      // 防止超出右边界
+      if (left + 260 > window.innerWidth) {
+        left = rect.left - 270;
+      }
+      // 防止超出下边界
+      if (top + preview.offsetHeight > window.innerHeight) {
+        top = window.innerHeight - preview.offsetHeight - 10;
+      }
+      // 防止超出上边界
+      if (top < 0) top = 10;
+
+      preview.style.left = left + 'px';
+      preview.style.top = top + 'px';
+    }
+
+    // ============ 牌阵收藏功能 ============
+    initSpreadFavorites() {
+      const FAV_KEY = 'tarot_spread_favorites';
+      const toggleBtns = () => {
+        chrome.storage.local.get({ [FAV_KEY]: [] }, (result) => {
+          const favs = result[FAV_KEY] || [];
+          document.querySelectorAll('.spread-fav-btn').forEach(btn => {
+            const key = btn.dataset.spreadKey;
+            btn.textContent = favs.includes(key) ? '★' : '☆';
+            btn.classList.toggle('active', favs.includes(key));
+            btn.title = favs.includes(key) ? (this.currentLang === 'en' ? 'Unfavorite' : '取消收藏') : (this.currentLang === 'en' ? 'Add to Favorites' : '收藏牌阵');
+          });
+        });
       };
-      let result = '';
-      for (let i = 0; i < chineseStr.length; i++) {
-        const ch = chineseStr[i];
-        if (PINYIN_MAP[ch]) {
-          result += PINYIN_MAP[ch];
-        } else {
-          result += ch;
-        }
-      }
-      return result.toLowerCase();
+
+      // 为所有牌阵按钮添加收藏按钮
+      document.querySelectorAll('[data-spread]').forEach(btn => {
+        const key = btn.dataset.spread;
+        if (!key) return;
+        // 避免重复添加
+        if (btn.querySelector('.spread-fav-btn')) return;
+
+        const favBtn = document.createElement('button');
+        favBtn.className = 'spread-fav-btn';
+        favBtn.dataset.spreadKey = key;
+        favBtn.type = 'button';
+        favBtn.textContent = '☆';
+        btn.appendChild(favBtn);
+      });
+
+      toggleBtns();
+
+      document.querySelectorAll('.spread-fav-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const key = btn.dataset.spreadKey;
+          chrome.storage.local.get({ [FAV_KEY]: [] }, (result) => {
+            let favs = result[FAV_KEY] || [];
+            if (favs.includes(key)) {
+              favs = favs.filter(k => k !== key);
+            } else {
+              favs.push(key);
+            }
+            const data = {};
+            data[FAV_KEY] = favs;
+            chrome.storage.local.set(data, () => {
+              toggleBtns();
+              // 如果当前正在按收藏筛选，刷新显示
+              const activeFilter = document.querySelector('.spread-filter-btn.active');
+              if (activeFilter && activeFilter.dataset.filter === 'favorites') {
+                this.applySpreadFilter('favorites');
+              }
+            });
+          });
+        });
+      });
     }
 
-    performSearch(query) {
-      const resultsContainer = document.getElementById('search-results');
-      if (!resultsContainer) return;
+    applySpreadFilter(filter) {
+      const allBtns = document.querySelectorAll('[data-spread]');
+      const categoryTitles = document.querySelectorAll('.spread-category-title');
+      const FAV_KEY = 'tarot_spread_favorites';
 
-      if (!query || query.trim().length === 0) {
-        resultsContainer.innerHTML = '';
+      if (filter === 'favorites') {
+        chrome.storage.local.get({ [FAV_KEY]: [] }, (result) => {
+          const favs = result[FAV_KEY] || [];
+          allBtns.forEach(b => {
+            b.style.display = favs.includes(b.dataset.spread) ? '' : 'none';
+          });
+          categoryTitles.forEach(t => t.style.display = 'none');
+        });
         return;
       }
 
-      const queryLower = query.toLowerCase().replace(/\s+/g, '');
-      const cards = this.getDeckData();
-      const results = [];
-
-      cards.forEach((card) => {
-        const nameZh = card.name.toLowerCase();
-        const nameEn = (card.originalName || '').toLowerCase();
-        const upright = (card.upright || '').toLowerCase();
-        const reversed = (card.reversed || '').toLowerCase();
-        const pinyinZh = this.getPinyinInitials(card.name).toLowerCase();
-
-        const matchesNameZh = nameZh.includes(queryLower);
-        const matchesNameEn = nameEn.includes(queryLower);
-        const matchesPinyin = pinyinZh.includes(queryLower);
-        const matchesId = String(card.id) === queryLower;
-        const matchesUpright = upright.includes(queryLower);
-        const matchesReversed = reversed.includes(queryLower);
-
-        if (matchesNameZh || matchesNameEn || matchesPinyin || matchesId || matchesUpright || matchesReversed) {
-          results.push(card);
+      // 其他筛选逻辑
+      allBtns.forEach(b => {
+        const spread = SPREADS[b.dataset.spread];
+        if (!spread) return;
+        if (filter === 'all') {
+          b.style.display = '';
+        } else {
+          b.style.display = (spread.category === filter || (filter === 'advanced' && spread.difficulty === 'hard')) ? '' : 'none';
         }
       });
 
-      if (results.length === 0) {
-        resultsContainer.innerHTML = '<div style="text-align:center;color:var(--color-text-muted);padding:20px;font-size:12px;">' +
-          (this.currentLang === 'en' ? 'No results found' : '未找到结果，支持中文名、英文名、拼音首字母、ID搜索') + '</div>';
-        return;
-      }
-
-      let html = '';
-      results.forEach((card) => {
-        const name = deckManager.getCardName(card);
-        const meaning = card.upright.substring(0, 50) + '...';
-        html += '<div class="search-result-item" data-card-id="' + card.id + '">';
-        html += '<div class="search-result-item-title">' + name + ' (ID: ' + card.id + ')</div>';
-        html += '<div class="search-result-item-preview">' + meaning + '</div>';
-        html += '</div>';
-      });
-
-      resultsContainer.innerHTML = html;
-
-      // 绑定点击事件：打开预览 + 自动关闭搜索面板
-      resultsContainer.querySelectorAll('.search-result-item').forEach((item) => {
-        item.addEventListener('click', () => {
-          const cardId = parseInt(item.dataset.cardId);
-          const card = cards.find((c) => c.id === cardId);
-          if (card) {
-            this.showCardPreview(card);
-            // 自动关闭搜索面板
-            const searchPanel = document.getElementById('search-panel');
-            const searchInput = document.getElementById('search-input');
-            if (searchPanel) searchPanel.classList.add('hidden');
-            if (searchInput) searchInput.value = '';
-            resultsContainer.innerHTML = '';
+      // 控制分类标题
+      categoryTitles.forEach(title => {
+        let showTitle = false;
+        let nextEl = title.nextElementSibling;
+        while (nextEl && !nextEl.classList.contains('spread-category-title')) {
+          if ((nextEl.classList.contains('spread-btn') || nextEl.classList.contains('spread-card')) && nextEl.style.display !== 'none') {
+            showTitle = true;
+            break;
           }
-        });
+          nextEl = nextEl.nextElementSibling;
+        }
+        title.style.display = showTitle ? '' : 'none';
       });
     }
 
@@ -2725,9 +2999,10 @@
 
         this.showPage('welcome-page');
         this.bindEvents();
-        this.initSearch();
         this.initSpreadSearch();
         this.initSpreadFilter();
+        this.initSpreadHoverPreview();
+        this.initSpreadFavorites();
         this.updateFortuneDate();
 
         console.log('Tarot App 初始化完成');
@@ -2754,6 +3029,9 @@
               case 'five':      this.drawFive(); break;
               case 'horseshoe': this.drawHorseshoe(); break;
               case 'career':    this.drawCareer(); break;
+              case 'timeflow':  this.drawTimeflow(); break;
+              case 'action':    this.drawAction(); break;
+              case 'mind':      this.drawMind(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -2907,7 +3185,7 @@
     // ============ 牌阵筛选功能 ============
     initSpreadFilter() {
       const filterBtns = document.querySelectorAll('.spread-filter-btn');
-      const spreadBtns = document.querySelectorAll('.spread-btn');
+      const spreadBtns = document.querySelectorAll('[data-spread]');
       const categoryTitles = document.querySelectorAll('.spread-category-title');
 
       filterBtns.forEach(btn => {
@@ -2917,6 +3195,11 @@
           // 更新按钮状态
           filterBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
+
+          if (filter === 'favorites') {
+            this.applySpreadFilter('favorites');
+            return;
+          }
 
           // 筛选牌阵按钮
           spreadBtns.forEach(spreadBtn => {
@@ -2941,7 +3224,7 @@
             let showTitle = false;
             let nextEl = title.nextElementSibling;
             while (nextEl && !nextEl.classList.contains('spread-category-title')) {
-              if (nextEl.classList.contains('spread-btn') && nextEl.style.display !== 'none') {
+              if ((nextEl.classList.contains('spread-btn') || nextEl.classList.contains('spread-card')) && nextEl.style.display !== 'none') {
                 showTitle = true;
                 break;
               }
@@ -2953,78 +3236,6 @@
       });
     }
 
-    // ============ 牌阵搜索功能 ============
-    initSpreadSearch() {
-      const searchInput = document.getElementById('spread-search-input');
-      const clearBtn = document.getElementById('spread-search-clear');
-      if (!searchInput) return;
-
-      searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim().toLowerCase();
-        if (clearBtn) clearBtn.classList.toggle('hidden', query.length === 0);
-
-        const spreadBtns = document.querySelectorAll('.spread-btn');
-        const categoryTitles = document.querySelectorAll('.spread-category-title');
-        const filterBtns = document.querySelectorAll('.spread-filter-btn');
-
-        // 搜索时取消分类筛选高亮
-        filterBtns.forEach(b => b.classList.remove('active'));
-        const allBtn = document.querySelector('.spread-filter-btn[data-filter="all"]');
-        if (allBtn) allBtn.classList.add('active');
-
-        if (!query) {
-          // 清空搜索，显示所有牌阵
-          spreadBtns.forEach(btn => btn.style.display = '');
-          categoryTitles.forEach(title => title.style.display = '');
-          return;
-        }
-
-        // 搜索匹配：名称、描述、分类、难度
-        spreadBtns.forEach(btn => {
-          const key = btn.dataset.spread;
-          const spread = SPREADS[key];
-          if (!spread) return;
-
-          const nameZh = (spread.name || '').toLowerCase();
-          const nameEn = (this.t('spread_' + key + '_name') || '').toLowerCase();
-          const desc = (spread.usage || '').toLowerCase();
-          const category = (spread.category || '').toLowerCase();
-          const difficulty = (spread.difficulty || '').toLowerCase();
-
-              const categoryKeyMap = { simple: 'cat_beginner', relationship: 'cat_relationship', decision: 'cat_decision', general: 'cat_general', career: 'cat_career', advanced: 'filter_advanced' };
-          const catKey = categoryKeyMap[spread.category] || '';
-          const catName = (this.t(catKey) || '') + (spread.category || '');
-          const matches = nameZh.includes(query) || nameEn.includes(query)
-            || desc.includes(query) || category.includes(query)
-            || catName.toLowerCase().includes(query)
-            || difficulty.includes(query);
-
-          btn.style.display = matches ? '' : 'none';
-        });
-
-        // 控制分类标题显示
-        categoryTitles.forEach(title => {
-          let showTitle = false;
-          let nextEl = title.nextElementSibling;
-          while (nextEl && !nextEl.classList.contains('spread-category-title')) {
-            if (nextEl.classList.contains('spread-btn') && nextEl.style.display !== 'none') {
-              showTitle = true;
-              break;
-            }
-            nextEl = nextEl.nextElementSibling;
-          }
-          title.style.display = showTitle ? '' : 'none';
-        });
-      });
-
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-          searchInput.value = '';
-          searchInput.dispatchEvent(new Event('input'));
-        });
-      }
-    }
-
     // ============ 牌阵详情弹窗 ============
     showSpreadDetail(spreadKey) {
       const spread = SPREADS[spreadKey];
@@ -3034,10 +3245,10 @@
       const body = document.getElementById('spread-detail-body');
       if (!modal || !body) return;
 
-      const difficultyLabels = { easy: '简单', medium: '中等', hard: '复杂' };
-      const difficultyColors = { easy: '#4CAF50', medium: '#FF9800', hard: '#F44336' };
-      const diffLabel = difficultyLabels[spread.difficulty] || '未知';
-      const diffColor = difficultyColors[spread.difficulty] || '#999';
+      const diffStars = { easy: '★☆☆', medium: '★★☆', hard: '★★★' };
+      const diffColors = { easy: '#4CAF50', medium: '#FF9800', hard: '#F44336' };
+      const diffLabel = diffStars[spread.difficulty] || '★☆☆';
+      const diffColor = diffColors[spread.difficulty] || '#999';
 
       const categoryKeyMap = {
         simple: 'cat_beginner', relationship: 'cat_relationship', decision: 'cat_decision',
@@ -3056,13 +3267,16 @@
       html += '  </div>';
       html += '</div>';
 
+      // 视觉示意图
+      html += this.getSpreadDiagramHtml(spreadKey);
+
       html += '<div class="spread-detail-usage">';
-      html += '  <div class="spread-detail-section-title">适用场景</div>';
+      html += '  <div class="spread-detail-section-title">' + (this.currentLang === 'en' ? 'When to Use' : '适用场景') + '</div>';
       html += '  <div class="spread-detail-text">' + (spread.usage || '') + '</div>';
       html += '</div>';
 
       html += '<div class="spread-detail-positions">';
-      html += '  <div class="spread-detail-section-title">牌位含义</div>';
+      html += '  <div class="spread-detail-section-title">' + (this.currentLang === 'en' ? 'Positions' : '牌位含义') + '</div>';
       for (let i = 0; i < spread.positions.length; i++) {
         html += '<div class="spread-detail-position">';
         html += '  <div class="spread-detail-pos-name">' + (i + 1) + '. ' + spread.positions[i] + '</div>';
@@ -3078,6 +3292,152 @@
       modal.onclick = (e) => {
         if (e.target === modal) modal.classList.add('hidden');
       };
+    }
+
+    // ============ 牌阵视觉示意图 ============
+    getSpreadDiagramHtml(spreadKey) {
+      const spread = SPREADS[spreadKey];
+      if (!spread) return '';
+
+      const positions = spread.positions;
+      let html = '<div class="spread-detail-diagram">';
+      html += '<div class="spread-detail-diagram-title">' + (this.currentLang === 'en' ? 'Layout Diagram' : '牌阵布局示意图') + '</div>';
+      html += '<div class="spread-diagram-layout">';
+
+      switch (spreadKey) {
+        case 'single':
+          // 单张牌：居中
+          html += this.diagramCard(1, positions[0]);
+          break;
+
+        case 'three':
+          // 三牌阵：横向一排
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i]);
+          }
+          break;
+
+        case 'celtic':
+          // 凯尔特十字：十字形 + 右侧一列
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;margin:0 4px;">';
+          html += this.diagramCard(2, positions[1], '28px');
+          html += this.diagramCard(1, positions[0], '28px');
+          html += this.diagramCard(3, positions[2], '28px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;gap:2px;">';
+          for (let i = 3; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '28px');
+          }
+          html += '</div>';
+          break;
+
+        case 'relation':
+          // 关系牌阵：2×3
+          html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '26px');
+          }
+          html += '</div>';
+          break;
+
+        case 'choice':
+          // 二选一：A/B 并排 + 下方综合
+          html += '<div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">';
+          html += '<div style="display:flex;flex-direction:column;gap:2px;">';
+          html += this.diagramCard(1, '选项A', '26px');
+          html += this.diagramCard(3, 'A结果', '26px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;gap:2px;">';
+          html += this.diagramCard(2, '选项B', '26px');
+          html += this.diagramCard(4, 'B结果', '26px');
+          html += '</div>';
+          html += '</div>';
+          html += '<div style="display:flex;justify-content:center;margin-top:4px;">';
+          html += this.diagramCard(5, positions[4], '26px');
+          html += '</div>';
+          break;
+
+        case 'five':
+          // 五张牌阵：十字
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += this.diagramCard(3, positions[2], '28px');
+          html += this.diagramCard(1, positions[0], '28px');
+          html += this.diagramCard(2, positions[1], '28px');
+          html += this.diagramCard(4, positions[3], '28px');
+          html += '</div>';
+          html += '<div style="display:flex;justify-content:center;margin-top:2px;">';
+          html += this.diagramCard(5, positions[4], '28px');
+          html += '</div>';
+          break;
+
+        case 'horseshoe':
+          // 马蹄铁：U形
+          html += '<div style="display:flex;gap:3px;flex-wrap:wrap;justify-content:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], i >= 4 ? '26px' : '28px');
+          }
+          html += '</div>';
+          break;
+
+        case 'career':
+          // 事业牌阵：纵向
+          html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '28px');
+          }
+          html += '</div>';
+          break;
+
+        case 'timeflow':
+          // 时间之流：从左到右时间轴
+          html += '<div style="display:flex;gap:4px;align-items:flex-end;justify-content:center;flex-wrap:wrap;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], i >= 3 ? '26px' : '30px');
+          }
+          html += '</div>';
+          break;
+
+        case 'action':
+          // 问题行动结果：横向一排
+          html += '<div style="display:flex;gap:6px;justify-content:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i]);
+          }
+          html += '</div>';
+          break;
+
+        case 'mind':
+          // 心灵牌阵：十字形
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += this.diagramCard(2, positions[1], '26px');
+          html += '<div style="display:flex;gap:4px;align-items:center;">';
+          html += this.diagramCard(1, positions[0], '30px');
+          html += this.diagramCard(5, positions[4], '30px');
+          html += '</div>';
+          html += this.diagramCard(3, positions[2], '26px');
+          html += this.diagramCard(4, positions[3], '26px');
+          html += '</div>';
+          break;
+
+        default:
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i]);
+          }
+      }
+
+      html += '</div></div>';
+      return html;
+    }
+
+    diagramCard(num, label, height) {
+      const h = height || '44px';
+      const fontSize = height ? '8px' : '9px';
+      const labelSize = height ? '7px' : '8px';
+      const shortLabel = label.length > 5 ? label.substring(0, 5) + '…' : label;
+      return '<div class="spread-diagram-card" style="height:' + h + ';font-size:' + fontSize + ';">' +
+               num +
+               '<span class="spread-diagram-card-label" style="font-size:' + labelSize + ';">' + shortLabel + '</span>' +
+             '</div>';
     }
   }
 

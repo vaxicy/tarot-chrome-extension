@@ -11,18 +11,6 @@
         <!-- 牌阵提示浮层 -->
         <div id="spread-tooltip" class="spread-tooltip hidden"></div>
 
-        <!-- 搜索按钮 -->
-        <button id="search-toggle-btn" class="search-toggle-btn" type="button" title="搜索牌意">&#128269;</button>
-        
-        <!-- 搜索面板 -->
-        <div id="search-panel" class="search-panel hidden">
-            <div class="search-header">
-                <input type="text" id="search-input" class="search-input" placeholder="搜索卡牌或牌意..." />
-                <button id="search-close-btn" class="search-close-btn" type="button">&#10005;</button>
-            </div>
-            <div id="search-results" class="search-results"></div>
-        </div>
-        
         <!-- 卡牌预览模态框 -->
         <div id="card-preview-modal" class="card-preview-modal hidden">
             <div class="card-preview-content">
@@ -38,53 +26,48 @@
                 <h1 data-i18n-key="welcome_title">哈利波特塔罗牌</h1>
                 <p class="welcome-subtitle" data-i18n-key="welcome_subtitle">探索魔法世界的命运指引</p>
 
-                <!-- 牌组选择器 -->
-                <div class="deck-selector">
-                    <label for="deck-select" data-i18n-key="label_deck">选择牌组：</label>
-                    <select id="deck-select">
-                        <option value="hp" data-i18n-key="deck_hp">哈利波特主题</option>
-                        <option value="rider" data-i18n-key="deck_rider">伟特塔罗</option>
-                        <option value="marseille" data-i18n-key="deck_marseille">马赛塔罗</option>
-                        <option value="thoth" data-i18n-key="deck_thoth">托特塔罗</option>
-                        <option value="angel" data-i18n-key="deck_angel">天使塔罗</option>
-                    </select>
-                    <label for="lang-select" style="margin-left:12px;" data-i18n-key="label_lang">语言：</label>
-                    <select id="lang-select">
-                        <option value="zh">中文</option>
-                        <option value="en">English</option>
-                    </select>
-                    <button id="sound-toggle-btn" class="sound-toggle-btn" type="button" title="翻牌音效">&#128264;</button>
+                <!-- 顶部工具栏 -->
+                <div class="top-toolbar">
+                    <div class="toolbar-selects">
+                        <select id="deck-select" class="toolbar-select">
+                            <option value="hp" data-i18n-key="deck_hp">哈利波特主题</option>
+                            <option value="rider" data-i18n-key="deck_rider">伟特塔罗</option>
+                            <option value="marseille" data-i18n-key="deck_marseille">马赛塔罗</option>
+                            <option value="thoth" data-i18n-key="deck_thoth">托特塔罗</option>
+                            <option value="angel" data-i18n-key="deck_angel">天使塔罗</option>
+                        </select>
+                        <select id="lang-select" class="toolbar-select">
+                            <option value="zh">中文</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button id="sound-toggle-btn" class="toolbar-icon-btn" type="button" title="翻牌音效">&#128264;</button>
+                        <button id="history-btn" type="button" class="toolbar-icon-btn" title="历史记录">
+                            <span>&#128214;</span>
+                        </button>
+                        <button id="fav-btn" type="button" class="toolbar-icon-btn" title="收藏夹">
+                            <span>&#9733;</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="action-buttons-row">
-                    <button id="history-btn" type="button" class="history-btn">
-                        <span class="instruction-icon">&#128214;</span>
-                        <span data-i18n-key="btn_history">查看历史记录</span>
+                <!-- 工具卡片网格 -->
+                <div class="tool-grid">
+                    <button id="daily-fortune-btn" type="button" class="tool-card">
+                        <span class="tool-card-icon">&#127774;</span>
+                        <span class="tool-card-label" data-i18n-key="btn_daily_fortune">今日运势</span>
+                        <span class="tool-card-sub" id="fortune-date"></span>
                     </button>
-                    <button id="fav-btn" type="button" class="history-btn">
-                        <span class="instruction-icon">&#9733;</span>
-                        <span data-i18n-key="btn_favorites">收藏夹</span>
+                    <button id="number-gen-btn" type="button" class="tool-card tool-card-purple">
+                        <span class="tool-card-icon">&#127917;</span>
+                        <span class="tool-card-label" data-i18n-key="btn_number_gen">命运数字</span>
+                    </button>
+                    <button id="dilemma-btn" type="button" class="tool-card tool-card-pink">
+                        <span class="tool-card-icon">&#129516;</span>
+                        <span class="tool-card-label" data-i18n-key="btn_dilemma">选择困难症</span>
                     </button>
                 </div>
-
-                <!-- 每日运势入口 -->
-                <button id="daily-fortune-btn" type="button" class="daily-fortune-btn">
-                    <span class="fortune-icon">&#127774;</span>
-                    <span data-i18n-key="btn_daily_fortune">今日运势</span>
-                    <span class="fortune-date" id="fortune-date"></span>
-                </button>
-
-                <!-- 命运数字生成器入口 -->
-                <button id="number-gen-btn" type="button" class="daily-fortune-btn" style="border-color: #9C27B0; background: linear-gradient(135deg, rgba(156,39,176,0.15) 0%, rgba(156,39,176,0.05) 100%);">
-                    <span class="fortune-icon">&#127917;</span>
-                    <span data-i18n-key="btn_number_gen">命运数字</span>
-                </button>
-
-                <!-- 选择困难症入口 -->
-                <button id="dilemma-btn" type="button" class="daily-fortune-btn" style="border-color: #E91E63; background: linear-gradient(135deg, rgba(233,30,99,0.15) 0%, rgba(233,30,99,0.05) 100%);">
-                    <span class="fortune-icon">&#129516;</span>
-                    <span data-i18n-key="btn_dilemma">选择困难症</span>
-                </button>
 
                 <!-- 每日运势面板 -->
                 <div id="daily-fortune-panel" class="daily-fortune-panel hidden">
@@ -113,31 +96,36 @@
                     <button class="spread-filter-btn" type="button" data-filter="general" data-i18n-key="cat_general">&#128302; 通用</button>
                     <button class="spread-filter-btn" type="button" data-filter="career" data-i18n-key="cat_career">&#128188; 事业</button>
                     <button class="spread-filter-btn" type="button" data-filter="advanced" data-i18n-key="filter_advanced">&#9764; 复杂</button>
+                    <button class="spread-filter-btn" type="button" data-filter="favorites" data-i18n-key="filter_favorites">&#9733; 收藏</button>
                 </div>
 
-                <!-- 牌阵选择（列表式布局） -->
+                <!-- 牌阵选择 -->
                 <div class="spread-selection">
                     <div class="spread-category-title" data-i18n-key="cat_beginner">&#127775; 新手推荐</div>
-                    <button id="single-draw-btn" class="spread-btn" type="button" data-spread="single" data-i18n-tip="single_tip">
-                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
-                        <span class="spread-info-btn" data-spread-key="single" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🔮</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="single_name">单牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="single_desc">每日指引 / 快速决策</span>
-                        </div>
-                    </button>
-                    <button id="three-draw-btn" class="spread-btn" type="button" data-spread="three" data-i18n-tip="three_tip">
-                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
-                        <span class="spread-info-btn" data-spread-key="three" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">⏳</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="three_name">三牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="three_desc">过去・现在・未来</span>
-                        </div>
-                    </button>
+                    <!-- 简单牌阵：横向卡片布局 -->
+                    <div class="spread-simple-grid">
+                        <button id="single-draw-btn" class="spread-card" type="button" data-spread="single" data-i18n-tip="single_tip">
+                            <span class="spread-card-difficulty" title="简单">&#11088;&#11088;&#11088;</span>
+                            <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                            <span class="spread-info-btn" data-spread-key="single" title="查看牌阵说明">i</span>
+                            <span class="spread-card-icon">&#128302;</span>
+                            <div class="spread-card-info">
+                                <span class="spread-card-name" data-i18n-spread="single_name">单牌阵</span>
+                                <span class="spread-card-desc" data-i18n-spread="single_desc">每日指引 / 快速决策</span>
+                            </div>
+                        </button>
+                        <button id="three-draw-btn" class="spread-card" type="button" data-spread="three" data-i18n-tip="three_tip">
+                            <span class="spread-card-difficulty" title="简单">&#11088;&#11088;&#11088;</span>
+                            <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                            <span class="spread-info-btn" data-spread-key="three" title="查看牌阵说明">i</span>
+                            <span class="spread-card-icon">&#9203;</span>
+                            <div class="spread-card-info">
+                                <span class="spread-card-name" data-i18n-spread="three_name">三牌阵</span>
+                                <span class="spread-card-desc" data-i18n-spread="three_desc">过去・现在・未来</span>
+                            </div>
+                        </button>
+                    </div>
+                    <!-- 其他牌阵：纵向列表 -->
 
                     <div class="spread-category-title" data-i18n-key="cat_relationship">&#128149; 情感关系</div>
                     <button id="celtic-draw-btn" class="spread-btn" type="button" data-spread="celtic" data-i18n-tip="celtic_tip">
@@ -170,6 +158,16 @@
                             <span class="spread-desc" data-i18n-spread="choice_desc">面临两个选择时</span>
                         </div>
                     </button>
+                    <button id="action-draw-btn" class="spread-btn" type="button" data-spread="action" data-i18n-tip="action_tip">
+                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                        <span class="spread-info-btn" data-spread-key="action" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">&#9889;</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="action_name">问题行动结果</span>
+                            <span class="spread-desc" data-i18n-spread="action_desc">快速决策与行动指引</span>
+                        </div>
+                    </button>
 
                     <div class="spread-category-title" data-i18n-key="cat_general">&#128302; 通用深入</div>
                     <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
@@ -188,6 +186,24 @@
                         <div class="spread-info">
                             <span class="spread-name" data-i18n-spread="horseshoe_name">马蹄铁牌阵</span>
                             <span class="spread-desc" data-i18n-spread="horseshoe_desc">全面生活指引</span>
+                        </div>
+                    </button>
+                    <button id="timeflow-draw-btn" class="spread-btn" type="button" data-spread="timeflow" data-i18n-tip="timeflow_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="timeflow" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">⏱️</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="timeflow_name">时间之流</span>
+                            <span class="spread-desc" data-i18n-spread="timeflow_desc">时间维度全面分析</span>
+                        </div>
+                    </button>
+                    <button id="mind-draw-btn" class="spread-btn" type="button" data-spread="mind" data-i18n-tip="mind_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="mind" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">🧠</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="mind_name">心灵牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="mind_desc">自我探索与内心成长</span>
                         </div>
                     </button>
 
@@ -217,6 +233,9 @@
             <div id="cards-container" class="cards-container">
                 <div id="result-cards" class="result-cards"></div>
             </div>
+
+            <!-- 牌阵布局可视化 -->
+            <div id="result-spread-diagram" class="result-spread-diagram hidden"></div>
 
             <!-- 牌位标签 -->
             <div id="position-labels" class="position-labels"></div>
@@ -278,7 +297,7 @@
                 <h1 data-i18n-key="fav_title">收藏夹</h1>
                 <p class="step-hint" data-i18n-key="fav_hint">你收藏的卡牌</p>
             </header>
-            <div id="fav-list" class="history-list"></div>
+            <div id="fav-list" class="fav-list"></div>
             <div class="action-buttons">
                 <button id="fav-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
             </div>
@@ -447,6 +466,9 @@
                 <div id="spread-detail-body" class="spread-detail-body"></div>
             </div>
         </div>
+
+        <!-- 牌阵悬浮预览 -->
+        <div id="spread-hover-preview" class="spread-hover-preview hidden"></div>
     </div>
 
     <script src="tarot-cards.js"></script>
