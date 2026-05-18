@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "哈利波特塔罗牌",
+  "version": "1.1",
+  "description": "探索魔法世界的命运指引 - 哈利波特主题塔罗牌占卜扩展",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": ["storage"]
+}

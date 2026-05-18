@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>生成塔罗牌图标</title>
+<style>
+  body { background:#1a0f40; color:#FFD700; font-family:Microsoft YaHei,sans-serif; text-align:center; padding:20px; }
+  canvas { margin:8px; border:2px solid #FFD700; border-radius:8px; background:#2D1B69; }
+  button { padding:12px 32px; font-size:16px; background:linear-gradient(135deg,#2D1B69,#4A2F9F); color:#FFD700; border:2px solid #FFD700; border-radius:10px; cursor:pointer; margin:12px; }
+  button:hover { box-shadow:0 0 20px rgba(255,215,0,0.5); }
+  .preview { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  p { color:#A89CC8; font-size:13px; margin-top:8px; }
+</style>
+</head>
+<body>
+<h2>&#9889; 哈利波特塔罗牌 - 图标生成器</h2>
+<p>点击按钮生成 3 个尺寸的图标，下载后放入 <b>icons/</b> 文件夹</p>
+<div class="preview">
+  <div><canvas id="c16" width="16" height="16"></canvas><p>16×16</p></div>
+  <div><canvas id="c48" width="48" height="48"></canvas><p>48×48</p></div>
+  <div><canvas id="c128" width="128" height="128"></canvas><p>128×128</p></div>
+</div>
+<br>
+<button onclick="generate()">&#10024; 生成并下载图标</button>
+
+<script>
+// 绘制塔罗牌主题图标
+// 设计：深紫背景 + 金色塔罗牌 + 星星元素
+function drawIcon(ctx, size) {
+  var s = size;
+  var half = s / 2;
+
+  // ---- 背景：深紫圆角矩形 ----
+  ctx.clearRect(0, 0, s, s);
+  roundRect(ctx, 0, 0, s, s, s * 0.2);
+  var bgGrad = ctx.createRadialGradient(half, half, 0, half, half, s * 0.7);
+  bgGrad.addColorStop(0, '#4A2F9F');
+  bgGrad.addColorStop(1, '#1A0F40');
+  ctx.fillStyle = bgGrad;
+  ctx.fill();
+
+  // ---- 装饰：小星星 ----
+  ctx.fillStyle = 'rgba(255,215,0,0.3)';
+  var stars = [
+    [0.18, 0.15], [0.82, 0.12], [0.15, 0.85],
+    [0.88, 0.88], [0.5, 0.08], [0.08, 0.5]
+  ];
+  stars.forEach(function(pos) {
+    drawStar(ctx, s * pos[0], s * pos[1], s * 0.03, 5);
+  });
+
+  // ---- 塔罗牌主体（菱形/牌形）----
+  var pad = s * 0.15;
+  var cardW = s - pad * 2;
+  var cardH = cardW * 1.4;
+  var cardX = pad;
+  var cardY = (s - cardH) / 2;
+
+  // 牌背：金色边框 + 深紫填充
+  roundRect(ctx, cardX, cardY, cardW, cardH, s * 0.06);
+  ctx.fillStyle = '#1A0F40';
+  ctx.fill();
+  ctx.strokeStyle = '#FFD700';
+  ctx.lineWidth = Math.max(1, s * 0.025);
+  ctx.stroke();
+
+  // 牌中心：五角星（塔罗象征）
+  var cx = half;
+  var cy = half;
+  var starR = s * 0.22;
+  // 外发光
+  ctx.shadowColor = '#FFD700';
+  ctx.shadowBlur = s * 0.1;
+  drawStar(ctx, cx, cy, starR, 5);
+  ctx.fillStyle = '#FFD700';
+  ctx.fill();
+  ctx.shadowBlur = 0;
+
+  // 星星内圈：小圆
+  ctx.beginPath();
+  ctx.arc(cx, cy, s * 0.06, 0, Math.PI * 2);
+  ctx.fillStyle = '#1A0F40';
+  ctx.fill();
+
+  // ---- 顶部装饰线 ----
+  ctx.strokeStyle = 'rgba(255,215,0,0.5)';
+  ctx.lineWidth = Math.max(1, s * 0.01);
+  ctx.beginPath();
+  ctx.moveTo(cardX + cardW * 0.2, cardY + cardH * 0.18);
+  ctx.lineTo(cardX + cardW * 0.8, cardY + cardH * 0.18);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cardX + cardW * 0.2, cardY + cardH * 0.82);
+  ctx.lineTo(cardX + cardW * 0.8, cardY + cardH * 0.82);
+  ctx.stroke();
+
+  // ---- 角落小装饰 ----
+  var cornerSize = s * 0.04;
+  [[cardX + cardW*0.08, cardY + cardH*0.08],
+   [cardX + cardW*0.92, cardY + cardH*0.08],
+   [cardX + cardW*0.08, cardY + cardH*0.92],
+   [cardX + cardW*0.92, cardY + cardH*0.92]
+  ].forEach(function(pos) {
+    ctx.beginPath();
+    ctx.arc(pos[0], pos[1], cornerSize, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFD700';
+    ctx.fill();
+  });
+}
+
+// 辅助：圆角矩形
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+// 辅助：画五角星
+function drawStar(ctx, cx, cy, r, points) {
+  ctx.beginPath();
+  for (var i = 0; i < points * 2; i++) {
+    var angle = (Math.PI / 2 * 3) + (i * Math.PI / points);
+    var radius = i % 2 === 0 ? r : r * 0.45;
+    var x = cx + Math.cos(angle) * radius;
+    var y = cy + Math.sin(angle) * radius;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+}
+
+// 生成并下载
+function generate() {
+  [['c16', 16], ['c48', 48], ['c128', 128]].forEach(function(item) {
+    var id = item[0], size = item[1];
+    var c = document.getElementById(id);
+    var ctx = c.getContext('2d');
+    drawIcon(ctx, size);
+
+    // 下载
+    var link = document.createElement('a');
+    link.download = 'icon' + size + '.png';
+    link.href = c.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+  alert('✅ 3 个图标已下载！\n请将它们移动到 icons/ 文件夹');
+}
+</script>
+</body>
+</html>

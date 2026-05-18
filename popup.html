@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>哈利波特塔罗牌</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-wrapper">
+        <!-- 牌阵提示浮层 -->
+        <div id="spread-tooltip" class="spread-tooltip hidden"></div>
+
+        <!-- 搜索按钮 -->
+        <button id="search-toggle-btn" class="search-toggle-btn" type="button" title="搜索牌意">&#128269;</button>
+        
+        <!-- 搜索面板 -->
+        <div id="search-panel" class="search-panel hidden">
+            <div class="search-header">
+                <input type="text" id="search-input" class="search-input" placeholder="搜索卡牌或牌意..." />
+                <button id="search-close-btn" class="search-close-btn" type="button">&#10005;</button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+        </div>
+        
+        <!-- 卡牌预览模态框 -->
+        <div id="card-preview-modal" class="card-preview-modal hidden">
+            <div class="card-preview-content">
+                <button id="card-preview-fav" class="card-preview-fav" type="button" title="收藏">☆</button>
+                <button id="card-preview-close" class="card-preview-close" type="button">&#10005;</button>
+                <div id="card-preview-body" class="card-preview-body"></div>
+            </div>
+        </div>
+        <!-- 欢迎页面 -->
+        <section id="welcome-page" class="page">
+            <div class="welcome-content">
+                <div class="welcome-icon">&#9889;</div>
+                <h1 data-i18n-key="welcome_title">哈利波特塔罗牌</h1>
+                <p class="welcome-subtitle" data-i18n-key="welcome_subtitle">探索魔法世界的命运指引</p>
+
+                <!-- 牌组选择器 -->
+                <div class="deck-selector">
+                    <label for="deck-select" data-i18n-key="label_deck">选择牌组：</label>
+                    <select id="deck-select">
+                        <option value="hp" data-i18n-key="deck_hp">哈利波特主题</option>
+                        <option value="rider" data-i18n-key="deck_rider">伟特塔罗</option>
+                        <option value="marseille" data-i18n-key="deck_marseille">马赛塔罗</option>
+                        <option value="thoth" data-i18n-key="deck_thoth">托特塔罗</option>
+                        <option value="angel" data-i18n-key="deck_angel">天使塔罗</option>
+                    </select>
+                    <label for="lang-select" style="margin-left:12px;" data-i18n-key="label_lang">语言：</label>
+                    <select id="lang-select">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                    </select>
+                    <button id="sound-toggle-btn" class="sound-toggle-btn" type="button" title="翻牌音效">&#128264;</button>
+                </div>
+
+                <div class="action-buttons-row">
+                    <button id="history-btn" type="button" class="history-btn">
+                        <span class="instruction-icon">&#128214;</span>
+                        <span data-i18n-key="btn_history">查看历史记录</span>
+                    </button>
+                    <button id="fav-btn" type="button" class="history-btn">
+                        <span class="instruction-icon">&#9733;</span>
+                        <span data-i18n-key="btn_favorites">收藏夹</span>
+                    </button>
+                </div>
+
+                <!-- 每日运势入口 -->
+                <button id="daily-fortune-btn" type="button" class="daily-fortune-btn">
+                    <span class="fortune-icon">&#127774;</span>
+                    <span data-i18n-key="btn_daily_fortune">今日运势</span>
+                    <span class="fortune-date" id="fortune-date"></span>
+                </button>
+
+                <!-- 命运数字生成器入口 -->
+                <button id="number-gen-btn" type="button" class="daily-fortune-btn" style="border-color: #9C27B0; background: linear-gradient(135deg, rgba(156,39,176,0.15) 0%, rgba(156,39,176,0.05) 100%);">
+                    <span class="fortune-icon">&#127917;</span>
+                    <span data-i18n-key="btn_number_gen">命运数字</span>
+                </button>
+
+                <!-- 选择困难症入口 -->
+                <button id="dilemma-btn" type="button" class="daily-fortune-btn" style="border-color: #E91E63; background: linear-gradient(135deg, rgba(233,30,99,0.15) 0%, rgba(233,30,99,0.05) 100%);">
+                    <span class="fortune-icon">&#129516;</span>
+                    <span data-i18n-key="btn_dilemma">选择困难症</span>
+                </button>
+
+                <!-- 每日运势面板 -->
+                <div id="daily-fortune-panel" class="daily-fortune-panel hidden">
+                    <div class="fortune-panel-header">
+                        <span class="fortune-panel-title" data-i18n-key="fortune_panel_title">&#127774; 今日运势</span>
+                        <button id="regenerate-fortune-btn" class="fortune-action-btn" type="button" title="重新生成">&#128260;</button>
+                        <button id="close-fortune-btn" class="fortune-close-btn" type="button">&#10005;</button>
+                    </div>
+                    <div class="fortune-panel-body" id="fortune-content">
+                        <div class="fortune-loading" data-i18n-key="fortune_loading">正在解读今日运势...</div>
+                    </div>
+                </div>
+
+                <!-- 牌阵搜索栏 -->
+                <div class="spread-search-bar">
+                    <input type="text" id="spread-search-input" class="spread-search-input" placeholder="搜索牌阵..." data-i18n-key="spread_search_placeholder" />
+                    <button id="spread-search-clear" class="spread-search-clear hidden" type="button">&#10005;</button>
+                </div>
+
+                <!-- 牌阵筛选栏 -->
+                <div class="spread-filter-bar">
+                    <button class="spread-filter-btn active" type="button" data-filter="all" data-i18n-key="filter_all">全部</button>
+                    <button class="spread-filter-btn" type="button" data-filter="simple" data-i18n-key="cat_beginner">&#127775; 新手</button>
+                    <button class="spread-filter-btn" type="button" data-filter="relationship" data-i18n-key="cat_relationship">&#128149; 情感</button>
+                    <button class="spread-filter-btn" type="button" data-filter="decision" data-i18n-key="cat_decision">&#128161; 决策</button>
+                    <button class="spread-filter-btn" type="button" data-filter="general" data-i18n-key="cat_general">&#128302; 通用</button>
+                    <button class="spread-filter-btn" type="button" data-filter="career" data-i18n-key="cat_career">&#128188; 事业</button>
+                    <button class="spread-filter-btn" type="button" data-filter="advanced" data-i18n-key="filter_advanced">&#9764; 复杂</button>
+                </div>
+
+                <!-- 牌阵选择（列表式布局） -->
+                <div class="spread-selection">
+                    <div class="spread-category-title" data-i18n-key="cat_beginner">&#127775; 新手推荐</div>
+                    <button id="single-draw-btn" class="spread-btn" type="button" data-spread="single" data-i18n-tip="single_tip">
+                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                        <span class="spread-info-btn" data-spread-key="single" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">🔮</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="single_name">单牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="single_desc">每日指引 / 快速决策</span>
+                        </div>
+                    </button>
+                    <button id="three-draw-btn" class="spread-btn" type="button" data-spread="three" data-i18n-tip="three_tip">
+                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                        <span class="spread-info-btn" data-spread-key="three" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">⏳</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="three_name">三牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="three_desc">过去・现在・未来</span>
+                        </div>
+                    </button>
+
+                    <div class="spread-category-title" data-i18n-key="cat_relationship">&#128149; 情感关系</div>
+                    <button id="celtic-draw-btn" class="spread-btn" type="button" data-spread="celtic" data-i18n-tip="celtic_tip">
+                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                        <span class="spread-info-btn" data-spread-key="celtic" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">✨</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="celtic_name">凯尔特十字</span>
+                            <span class="spread-desc" data-i18n-spread="celtic_desc">全面深入解读</span>
+                        </div>
+                    </button>
+                    <button id="relation-draw-btn" class="spread-btn" type="button" data-spread="relation" data-i18n-tip="relation_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                        <span class="spread-info-btn" data-spread-key="relation" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">💖</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="relation_name">关系牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="relation_desc">人际关系 / 感情</span>
+                        </div>
+                    </button>
+
+                    <div class="spread-category-title" data-i18n-key="cat_decision">&#128161; 决策分析</div>
+                    <button id="choice-draw-btn" class="spread-btn" type="button" data-spread="choice" data-i18n-tip="choice_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="choice" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">⚖️</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="choice_name">二选一牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="choice_desc">面临两个选择时</span>
+                        </div>
+                    </button>
+
+                    <div class="spread-category-title" data-i18n-key="cat_general">&#128302; 通用深入</div>
+                    <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="five" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">📜</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="five_name">五张牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="five_desc">通用问题深入分析</span>
+                        </div>
+                    </button>
+                    <button id="horseshoe-draw-btn" class="spread-btn" type="button" data-spread="horseshoe" data-i18n-tip="horseshoe_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="horseshoe" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">🍀</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="horseshoe_name">马蹄铁牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="horseshoe_desc">全面生活指引</span>
+                        </div>
+                    </button>
+
+                    <div class="spread-category-title" data-i18n-key="cat_career">&#128188; 事业学业</div>
+                    <button id="career-draw-btn" class="spread-btn" type="button" data-spread="career" data-i18n-tip="career_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="career" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">📈</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="career_name">事业牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="career_desc">工作/学业决策</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 占卜页面 -->
+        <section id="divination-page" class="page hidden">
+            <header>
+                <h1 id="page-title">单牌占卜</h1>
+                <div id="spread-name-tag" class="spread-name-tag hidden"></div>
+                <p id="step-hint" class="step-hint">正在为你抽取命运之牌...</p>
+            </header>
+
+            <!-- 抽牌展示区 -->
+            <div id="cards-container" class="cards-container">
+                <div id="result-cards" class="result-cards"></div>
+            </div>
+
+            <!-- 牌位标签 -->
+            <div id="position-labels" class="position-labels"></div>
+
+            <!-- 解读区 -->
+            <div id="result-meaning" class="result-meaning">
+                <div class="placeholder-text" data-i18n-key="placeholder_click_card">点击上方卡牌查看详细解读</div>
+            </div>
+
+            <!-- 综合解读区 -->
+            <div id="comprehensive-reading" class="comprehensive-reading hidden">
+                <div class="comprehensive-header">
+                    <span class="comprehensive-icon">&#10024;</span>
+                    <span class="comprehensive-title" data-i18n-key="comprehensive_reading">综合解读</span>
+                    <button id="toggle-reading-btn" class="toggle-reading-btn" type="button" data-i18n-key="btn_expand">展开</button>
+                </div>
+                <div id="comprehensive-content" class="comprehensive-content"></div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button id="back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+                <button id="reshuffle-btn" type="button" data-i18n-key="btn_reshuffle">重新占卜</button>
+                <button id="share-btn" type="button" data-i18n-key="btn_share">分享结果</button>
+                <button id="copy-result-btn" type="button" class="secondary-btn" data-i18n-key="btn_copy_result">复制结果</button>
+            </div>
+        </section>
+
+        <!-- 历史记录页面 -->
+        <section id="history-page" class="page hidden">
+            <header>
+                <h1 data-i18n-key="history_title">历史记录</h1>
+                <p class="step-hint" data-i18n-key="history_hint">查看过往的占卜记录</p>
+            </header>
+
+            <div id="history-list" class="history-list"></div>
+
+            <!-- 历史记录详情面板 -->
+            <div id="history-detail-panel" class="history-detail-panel hidden">
+                <div class="history-detail-header">
+                    <span class="history-detail-title" id="history-detail-title" data-i18n-key="history_detail_title">占卜详情</span>
+                    <button id="close-history-detail-btn" class="fortune-close-btn" type="button">&#10005;</button>
+                </div>
+                <div class="history-detail-body" id="history-detail-content"></div>
+                <div class="history-detail-footer">
+                    <button id="history-detail-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back_to_list">返回列表</span></button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="history-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+                <button id="clear-history-btn" type="button" class="secondary-btn" data-i18n-key="btn_clear_history">清空记录</button>
+            </div>
+        </section>
+
+        <!-- 收藏页面 -->
+        <section id="fav-page" class="page hidden">
+            <header>
+                <h1 data-i18n-key="fav_title">收藏夹</h1>
+                <p class="step-hint" data-i18n-key="fav_hint">你收藏的卡牌</p>
+            </header>
+            <div id="fav-list" class="history-list"></div>
+            <div class="action-buttons">
+                <button id="fav-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+            </div>
+        </section>
+
+        <!-- 命运数字生成器页面 -->
+        <section id="number-gen-page" class="page hidden">
+            <header>
+                <h1 data-i18n-key="numgen_title">命运数字生成器</h1>
+                <p class="step-hint" data-i18n-key="numgen_hint">让塔罗命运指引为你挑选幸运数字</p>
+            </header>
+
+            <div class="numgen-body">
+                <!-- 区间设置 -->
+                <div class="numgen-range">
+                    <div class="numgen-range-group">
+                        <label for="numgen-min" data-i18n-key="numgen_min">最小值</label>
+                        <input type="number" id="numgen-min" class="numgen-input" value="1" min="0" max="99999" />
+                    </div>
+                    <span class="numgen-range-sep">~</span>
+                    <div class="numgen-range-group">
+                        <label for="numgen-max" data-i18n-key="numgen_max">最大值</label>
+                        <input type="number" id="numgen-max" class="numgen-input" value="100" min="1" max="99999" />
+                    </div>
+                </div>
+
+                <!-- 生成数量 -->
+                <div class="numgen-quantity">
+                    <label for="numgen-qty" data-i18n-key="numgen_quantity">生成数量</label>
+                    <input type="number" id="numgen-qty" class="numgen-input numgen-qty-input" value="1" min="1" max="50" />
+                </div>
+
+                <!-- 快速预设 -->
+                <div class="numgen-presets">
+                    <button class="numgen-preset-btn" data-min="1" data-max="10" type="button">1-10</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="100" type="button">1-100</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="1000" type="button">1-1000</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="49" type="button" data-i18n-key="numgen_preset_lottery">六合彩(1-49)</button>
+                </div>
+
+                <!-- 生成按钮 -->
+                <button id="numgen-generate-btn" type="button" class="numgen-generate-btn">
+                    <span data-i18n-key="numgen_generate">生成命运数字</span>
+                </button>
+
+                <!-- 结果展示 -->
+                <div id="numgen-result" class="numgen-result hidden">
+                    <div id="numgen-numbers" class="numgen-numbers-container">
+                        <!-- 数字由JS动态生成 -->
+                    </div>
+                    <div class="numgen-number-label" data-i18n-key="numgen_numbers_label">你的命运数字</div>
+                    <button id="numgen-copy-btn" class="numgen-copy-btn" type="button" data-i18n-key="numgen_copy">复制数字</button>
+
+                    <!-- 塔罗解读 -->
+                    <div id="numgen-reading" class="numgen-reading">
+                        <div class="numgen-reading-title" data-i18n-key="numgen_reading_title">&#10024; 塔罗命运指引</div>
+                        <div id="numgen-reading-content" class="numgen-reading-content"></div>
+                    </div>
+                </div>
+
+                <!-- 历史记录 -->
+                <div id="numgen-history" class="numgen-history hidden">
+                    <div class="numgen-history-title"><span data-i18n-key="numgen_history_title">📋 历史记录</span></div>
+                    <div id="numgen-history-list" class="numgen-history-list"></div>
+                    <button id="numgen-clear-history-btn" type="button" class="secondary-btn" style="margin-size:11px;" data-i18n-key="numgen_clear_history">清空历史</button>
+                </div>
+
+            </div>
+
+            <div class="action-buttons">
+                <button id="numgen-regenerate-btn" type="button" class="secondary-btn hidden">
+                    <span data-i18n-key="numgen_regenerate">重新生成</span>
+                </button>
+                <button id="numgen-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+            </div>
+        </section>
+
+        <!-- 选择困难症页面 -->
+        <section id="dilemma-page" class="page hidden">
+            <header>
+                <h1 data-i18n-key="dilemma_title">选择困难症</h1>
+                <p class="step-hint" data-i18n-key="dilemma_hint">输入两个选项，用猜拳、摇骰子或塔罗帮你做决定</p>
+            </header>
+
+            <div class="dilemma-body">
+                <!-- 输入区域 -->
+                <div class="dilemma-inputs">
+                    <div class="dilemma-input-group">
+                        <label for="dilemma-input-a" data-i18n-key="dilemma_label_a">选项 A</label>
+                        <input type="text" id="dilemma-input-a" class="dilemma-input" placeholder="输入第一个选项..." />
+                    </div>
+                    <span class="dilemma-vs">VS</span>
+                    <div class="dilemma-input-group">
+                        <label for="dilemma-input-b" data-i18n-key="dilemma_label_b">选项 B</label>
+                        <input type="text" id="dilemma-input-b" class="dilemma-input" placeholder="输入第二个选项..." />
+                    </div>
+                </div>
+
+                <!-- 决定方式 -->
+                <div class="dilemma-methods">
+                    <div class="dilemma-method-title" data-i18n-key="dilemma_choose_method">选择决定方式</div>
+                    <div class="dilemma-method-buttons">
+                        <button id="dilemma-rps-btn" class="dilemma-method-btn" type="button">
+                            <span class="dilemma-method-icon">&#9994;</span>
+                            <span data-i18n-key="dilemma_rps">猜拳决胜</span>
+                        </button>
+                        <button id="dilemma-dice-btn" class="dilemma-method-btn" type="button">
+                            <span class="dilemma-method-icon">&#127922;</span>
+                            <span data-i18n-key="dilemma_dice">摇骰子</span>
+                        </button>
+                        <button id="dilemma-tarot-btn" class="dilemma-method-btn" type="button">
+                            <span class="dilemma-method-icon">&#127183;</span>
+                            <span data-i18n-key="dilemma_tarot">塔罗抽牌</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 游戏区域 -->
+                <div id="dilemma-game-area" class="dilemma-game-area hidden">
+                    <!-- 猜拳 -->
+                    <div id="dilemma-rps-area" class="dilemma-game-panel hidden">
+                        <div class="dilemma-game-panel-title" data-i18n-key="dilemma_rps_title">&#9994; 猜拳决胜</div>
+                        <div class="dilemma-rps-buttons">
+                            <button id="dilemma-rps-rock" class="dilemma-rps-btn" type="button" title="石头">&#9994;</button>
+                            <button id="dilemma-rps-paper" class="dilemma-rps-btn" type="button" title="布">&#128400;</button>
+                            <button id="dilemma-rps-scissors" class="dilemma-rps-btn" type="button" title="剪刀">&#9996;</button>
+                        </div>
+                    </div>
+                    <!-- 摇骰子 -->
+                    <div id="dilemma-dice-area" class="dilemma-game-panel hidden">
+                        <div class="dilemma-game-panel-title" data-i18n-key="dilemma_dice_title">&#127922; 摇骰子</div>
+                        <div class="dilemma-dice-options">
+                            <button id="dilemma-dice-high" class="dilemma-dice-btn" type="button" data-i18n-key="dilemma_dice_high">大（4-6）</button>
+                            <button id="dilemma-dice-low" class="dilemma-dice-btn" type="button" data-i18n-key="dilemma_dice_low">小（1-3）</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 结果展示 -->
+                <div id="dilemma-result" class="dilemma-result hidden"></div>
+
+                <!-- 塔罗解读 -->
+                <div id="dilemma-reading" class="dilemma-reading hidden">
+                    <div class="dilemma-reading-title" data-i18n-key="dilemma_tarot_reading">&#10024; 塔罗命运解读</div>
+                    <div id="dilemma-card-slot" class="dilemma-card-slot"></div>
+                    <div id="dilemma-reading-content" class="dilemma-reading-content"></div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="dilemma-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+                <button id="dilemma-redo-btn" type="button" class="secondary-btn hidden" data-i18n-key="dilemma_redo">再来一次</button>
+            </div>
+        </section>
+
+        <!-- 加载动画 -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" data-i18n-key="loading_shuffle">正在洗牌...</div>
+        </div>
+
+        <!-- 牌阵详情弹窗 -->
+        <div id="spread-detail-modal" class="spread-detail-modal hidden">
+            <div class="spread-detail-content">
+                <button id="spread-detail-close" class="spread-detail-close" type="button">&#10005;</button>
+                <div id="spread-detail-body" class="spread-detail-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="tarot-cards.js"></script>
+    <script src="rider-waite-cards.js"></script>
+    <script src="marseille-cards.js"></script>
+    <script src="thoth-cards.js"></script>
+    <script src="angel-cards.js"></script>
+    <script src="deck-manager.js"></script>
+    <script src="popup.js"></script>
+    <script src="dilemma-spread.js"></script>
+</body>
+</html>
