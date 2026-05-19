@@ -2640,8 +2640,13 @@
     }
 
     clearNumgenHistory() {
+      const msg = this.currentLang === 'en' ? 'Clear all number generation history?' : '确定清空所有命运数字历史记录吗？';
+      if (!confirm(msg)) return;
       localStorage.removeItem('numgen_history');
+      const listEl = document.getElementById('numgen-history-list');
+      if (listEl) listEl.innerHTML = '';
       this.loadNumgenHistory();
+      console.log('命运数字历史已清空');
     }
 
     copyNumgenNumber() {

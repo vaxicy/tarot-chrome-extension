@@ -268,7 +268,7 @@
         <section id="history-page" class="page hidden">
             <header>
                 <h1 data-i18n-key="history_title">历史记录</h1>
-                <p class="step-hint" data-i18n-key="history_hint">查看过往的占卜记录</p>
+                <button id="clear-history-btn" type="button" class="clear-history-text-btn" data-i18n-key="btn_clear_history">清空记录</button>
             </header>
 
             <div id="history-list" class="history-list"></div>
@@ -287,7 +287,6 @@
 
             <div class="action-buttons">
                 <button id="history-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
-                <button id="clear-history-btn" type="button" class="secondary-btn" data-i18n-key="btn_clear_history">清空记录</button>
             </div>
         </section>
 
@@ -360,9 +359,11 @@
 
                 <!-- 历史记录 -->
                 <div id="numgen-history" class="numgen-history hidden">
-                    <div class="numgen-history-title"><span data-i18n-key="numgen_history_title">📋 历史记录</span></div>
+                    <div class="numgen-history-header">
+                        <div class="numgen-history-title" data-i18n-key="numgen_history_title">📋 历史记录</div>
+                        <button id="numgen-clear-history-btn" type="button" class="clear-history-text-btn" data-i18n-key="numgen_clear_history">清空历史</button>
+                    </div>
                     <div id="numgen-history-list" class="numgen-history-list"></div>
-                    <button id="numgen-clear-history-btn" type="button" class="secondary-btn" style="margin-size:11px;" data-i18n-key="numgen_clear_history">清空历史</button>
                 </div>
 
             </div>

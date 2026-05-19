@@ -2079,24 +2079,48 @@ button:active {
 #history-page {
   justify-content: flex-start;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 16px;
 }
 
 #history-page header {
-  text-align: center;
-  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 12px;
+  padding: 0 8px;
 }
 
 #history-page header h1 {
   font-size: 18px;
   color: var(--color-gold);
   letter-spacing: 2px;
-  margin-bottom: 4px;
+  margin-bottom: 0;
 }
 
-#history-page .step-hint {
-  font-size: 12px;
+.clear-history-text-btn {
+  background: transparent;
+  border: none;
   color: var(--color-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.clear-history-text-btn:hover {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.clear-history-text-btn:active {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.2);
+  transform: scale(0.96);
 }
 
 .history-list {
@@ -2911,6 +2935,80 @@ button:active {
 
 .numgen-regenerate-btn {
   /* 鎸夐挳宸茬Щ锟?action-buttons 鍖哄煙锛岀敱鍏ㄥ眬 action-buttons 鏍峰紡鎺у埗闂磋窛 */
+}
+
+/* 命运数字历史记录 */
+.numgen-history {
+  width: 100%;
+  max-width: 380px;
+  margin-top: 8px;
+}
+
+.numgen-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.numgen-history-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 1px;
+}
+
+.numgen-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.numgen-history-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.numgen-history-list::-webkit-scrollbar-thumb {
+  background: var(--color-gold-dark);
+  border-radius: 2px;
+}
+
+.numgen-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: rgba(26, 15, 64, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: all 0.2s ease;
+}
+
+.numgen-history-item:hover {
+  background: rgba(26, 15, 64, 0.7);
+  border-color: rgba(255, 215, 0, 0.3);
+  transform: translateX(2px);
+}
+
+.numgen-history-item .num {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--color-gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.35);
+  flex-shrink: 0;
+  min-width: 40px;
+}
+
+.numgen-history-item .meta {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: right;
+  white-space: nowrap;
 }
 
 /* ============ 鎶夋嫨鐗岄樀 ============ */
