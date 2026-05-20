@@ -567,16 +567,6 @@ body::before {
 .recommended-badge {
   display: none;
 }
-  color: var(--color-gold);
-  background: rgba(26, 15, 64, 0.95);
-  border: 1px solid var(--color-gold-dark);
-  border-radius: 4px;
-  padding: 1px 4px;
-  line-height: 1.4;
-  pointer-events: none;
-  z-index: 2;
-  white-space: nowrap;
-}
 
 /* ============ 闅惧害鏍囩 ============ */
 .difficulty-tag {
@@ -1497,107 +1487,66 @@ button:active {
   }
 }
 
-/* ============ 鐗屼綅鏍囩 ============ */
-.position-labels {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 22px;
-  margin-bottom: 16px;
-  flex-shrink: 0;
-}
-
-.pos-label {
-  font-size: 10px;
-  color: var(--color-gold-light);
-  background: rgba(26, 15, 64, 0.7);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-radius: 6px;
-  padding: 2px 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-/* ============ 牌阵位置标签（结果页） ============ */
-.position-labels {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 14px;
-  margin-bottom: 12px;
-  flex-shrink: 0;
-}
-
-.pos-label {
-  font-size: 10px;
-  color: var(--color-gold-light);
-  background: rgba(26, 15, 64, 0.7);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-radius: 6px;
-  padding: 4px 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.pos-label:hover,
-.pos-label.active {
-  background: rgba(255, 215, 0, 0.2);
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
-  transform: scale(1.05);
-}
-
 /* ============ 结果页：牌阵布局可视化 ============ */
 .result-spread-diagram {
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
-  padding: 8px;
+  margin-bottom: 8px;
+  padding: 10px 8px 16px;
   background: rgba(26, 15, 64, 0.4);
   border-radius: 8px;
   border: 1px solid rgba(255, 215, 0, 0.08);
+  position: relative;
 }
 
 .result-diagram-card {
-  width: 28px;
-  height: 38px;
-  border: 1px solid rgba(255, 215, 0, 0.35);
-  border-radius: 4px;
-  background: rgba(26, 15, 64, 0.6);
+  width: 36px;
+  height: 44px;
+  border: 1.5px solid rgba(255, 215, 0, 0.4);
+  border-radius: 6px;
+  background: rgba(26, 15, 64, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 8px;
+  font-size: 11px;
   color: var(--color-gold);
   font-weight: 700;
   position: relative;
   transition: all 0.2s;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.result-diagram-card:hover {
+  border-color: var(--color-gold);
+  background: rgba(255, 215, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
 }
 
 .result-diagram-card.active {
   border-color: var(--color-gold);
-  background: rgba(255, 215, 0, 0.15);
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-  transform: scale(1.1);
+  background: rgba(255, 215, 0, 0.2);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+  transform: scale(1.08);
 }
 
 .result-diagram-card-label {
+  display: block;
   position: absolute;
-  bottom: -12px;
+  bottom: -16px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 7px;
+  font-size: 8px;
   color: var(--color-text-muted);
   white-space: nowrap;
   font-weight: 400;
+  letter-spacing: 0.3px;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ============ 鍑皵鐗瑰崄瀛楃墝闃靛竷灞€ ============ */
@@ -1659,14 +1608,6 @@ button:active {
   gap: 22px;
 }
 
-.result-cards .cc-pos-label {
-  font-size: 9px;
-  color: var(--color-text-muted);
-  text-align: center;
-  max-width: 64px;
-  line-height: 1.3;
-}
-
 /* ============ 鍏崇郴鐗岄樀甯冨眬锟?琛岋拷?鍒楋級 ============ */
 .relation-spread-layout {
   display: grid;
@@ -1684,12 +1625,80 @@ button:active {
   gap: 22px;
 }
 
-.result-cards .relation-pos-label {
-  font-size: 9px;
-  color: var(--color-gold-light);
-  text-align: center;
-  max-width: 64px;
-  line-height: 1.3;
+/* ============ 鎭嬩汉鐗岄樀甯冨眬锛?+2锛夛級 ============ */
+.love-spread-layout {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  gap: 14px 6px;
+  padding: 12px 4px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 涓嬫帓涓ュ紶灞呬腑 */
+.love-spread-layout .love-card-wrap:nth-child(6) {
+  grid-column: 2;
+}
+
+.love-spread-layout .love-card-wrap:nth-child(7) {
+  grid-column: 4;
+}
+
+.result-cards .love-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============ 澶嶅悎鐗岄樀甯冨眬锛?脳2锛夛級 ============ */
+.broken-spread-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  gap: 14px 8px;
+  padding: 12px 4px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.result-cards .broken-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============ 骞磋繍鐗岄樀甯冨眬锛?+2锛夛級 ============ */
+.year-spread-layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  gap: 12px 6px;
+  padding: 12px 4px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 涓嬫帓涓ュ紶灞呬腑 */
+.year-spread-layout .year-card-wrap:nth-child(5) {
+  grid-column: 2;
+}
+
+.year-spread-layout .year-card-wrap:nth-child(6) {
+  grid-column: 3;
+}
+
+.year-spread-layout .year-card-wrap:nth-child(7) {
+  grid-column: 4;
+}
+
+.result-cards .year-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 /* ============ 澶х墝闃靛崱鐗屽鍣ㄦ粴锟?============ */
@@ -1727,14 +1736,6 @@ button:active {
   gap: 22px;
 }
 
-.result-cards .choice-pos-label {
-  font-size: 9px;
-  color: var(--color-gold-light);
-  text-align: center;
-  max-width: 64px;
-  line-height: 1.3;
-}
-
 /* ============ 浜斿紶鐗岄樀甯冨眬锟?锟?寮狅級 ============ */
 .five-spread-layout {
   display: flex;
@@ -1749,14 +1750,6 @@ button:active {
   flex-direction: column;
   align-items: center;
   gap: 22px;
-}
-
-.result-cards .five-pos-label {
-  font-size: 9px;
-  color: var(--color-gold-light);
-  text-align: center;
-  max-width: 64px;
-  line-height: 1.3;
 }
 
 /* ============ 椹箘閾佺墝闃靛竷灞€锛堝姬褰㈡帓鍒楋級 ============ */
@@ -1783,14 +1776,6 @@ button:active {
   z-index: 2;
 }
 
-.result-cards .horseshoe-pos-label {
-  font-size: 8px;
-  color: var(--color-text-muted);
-  text-align: center;
-  max-width: 56px;
-  line-height: 1.3;
-}
-
 /* ============ 浜嬩笟鐗岄樀甯冨眬锟?锟?寮狅級 ============ */
 .career-spread-layout {
   display: flex;
@@ -1805,14 +1790,6 @@ button:active {
   flex-direction: column;
   align-items: center;
   gap: 22px;
-}
-
-.result-cards .career-pos-label {
-  font-size: 9px;
-  color: var(--color-gold-light);
-  text-align: center;
-  max-width: 64px;
-  line-height: 1.3;
 }
 
 /* ============ 姣忔棩杩愬娍鎸夐挳 ============ */

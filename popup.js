@@ -157,6 +157,91 @@
       ],
       category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开心灵牌阵...',
       usage: '适合自我探索和内心成长类问题，帮助看清内心真实想法。'
+    },
+    // ============ 新增情感关系牌阵 ============
+    love: {
+      name: '恋人牌阵',
+      positions: ['你', '对方', '你们的关系', '面临的挑战', '周围的影响', '关系的未来', '建议'],
+      positionMeanings: [
+        '你：你在这段感情中的状态、感受和行为模式。',
+        '对方：对方在感情中的真实状态和对你的感受。',
+        '你们的关系：这段关系的本质和当前的互动模式。',
+        '面临的挑战：这段感情中需要面对和解决的问题。',
+        '周围的影响：来自外界（朋友、家人、环境）对这段关系的影响。',
+        '关系的未来：基于当前状态，这段关系可能的发展方向。',
+        '建议：塔罗对这段感情的建议和指引。'
+      ],
+      category: 'relationship', difficulty: 'medium', recommended: true, loadingText: '正在解读恋人牌阵...',
+      usage: '适合正在恋爱或暧昧中的人，全面分析两人关系的各个层面。'
+    },
+    broken: {
+      name: '复合牌阵',
+      positions: ['问题根源', '对方的想法', '你的状态', '障碍', '复合的可能性', '建议'],
+      positionMeanings: [
+        '问题根源：导致分手或关系破裂的核心原因。',
+        '对方的想法：对方目前对你的真实想法和感受。',
+        '你的状态：你在这段关系中的真实状态和需要成长的地方。',
+        '障碍：复合道路上需要克服的困难和阻碍。',
+        '复合的可能性：基于双方状态，复合的可能性有多大。',
+        '建议：塔罗对你是否应该复合、以及如何行动的建议。'
+      ],
+      category: 'relationship', difficulty: 'medium', recommended: false, loadingText: '正在解读复合牌阵...',
+      usage: '适合分手后想了解是否还有复合可能，或想看清分手原因时使用。'
+    },
+    // ============ 新增决策分析牌阵 ============
+    yesno: {
+      name: '是否牌阵',
+      positions: ['支持因素', '反对因素', '综合建议'],
+      positionMeanings: [
+        '支持因素：支持你做这件事的理由和有利条件。',
+        '反对因素：反对你做这件事的理由和需要注意的风险。',
+        '综合建议：综合两方面因素后，塔罗给出的建议（正位偏向"是"，逆位偏向"否"）。'
+      ],
+      category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在解读是否牌阵...',
+      usage: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。'
+    },
+    // ============ 新增事业学业牌阵 ============
+    jobchange: {
+      name: '换工作牌阵',
+      positions: ['现状', '想离职的原因', '新机会的本质', '风险与挑战', '建议'],
+      positionMeanings: [
+        '现状：你目前的工作状态和感受。',
+        '想离职的原因：促使你想离开当前工作的核心因素。',
+        '新机会的本质：新工作或新机会的真实情况。',
+        '风险与挑战：换工作可能面临的困难和挑战。',
+        '建议：塔罗对你是否应该换工作、以及如何选择的建议。'
+      ],
+      category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在解读换工作牌阵...',
+      usage: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。'
+    },
+    // ============ 新增自我成长牌阵 ============
+    shadow: {
+      name: '阴影牌阵',
+      positions: ['意识自我', '阴影自我', '需要释放的', '成长方向', '建议'],
+      positionMeanings: [
+        '意识自我：你平时展现给外界的自我形象。',
+        '阴影自我：你不愿面对或否认的性格面向，可能正是你需要整合的部分。',
+        '需要释放的：阻碍你成长的旧模式、执念或创伤。',
+        '成长方向：你接下来应该专注的成长方向。',
+        '建议：塔罗对你自我整合和成长的建议。'
+      ],
+      category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在展开阴影牌阵...',
+      usage: '适合想要深入了解自己、进行心理成长或整合阴影面的人。'
+    },
+    year: {
+      name: '年运牌阵',
+      positions: ['整体运势', '事业/学业', '感情/人际关系', '财富/物质', '健康/身心', '需要注意的', '年度建议'],
+      positionMeanings: [
+        '整体运势：这一年的整体能量和主题。',
+        '事业/学业：这一年事业或学业方面的发展。',
+        '感情/人际关系：这一年感情和人际方面的情况。',
+        '财富/物质：这一年财务和物质生活方面的状况。',
+        '健康/身心：这一年健康和身心状态需要注意的地方。',
+        '需要注意的：这一年需要特别留意的人、事、物。',
+        '年度建议：塔罗对这一年整体行动的建议。'
+      ],
+      category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
+      usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。'
     }
   };
 
@@ -333,7 +418,26 @@
       filter_all: '全部',
       filter_advanced: '复杂',
       filter_favorites: '★ 收藏',
-      spread_search_placeholder: '搜索牌阵...'
+      spread_search_placeholder: '搜索牌阵...',
+      cat_self: '🌱 自我成长',
+      spread_love_name: '恋人牌阵',
+      spread_love_desc: '7张牌 · 恋爱关系全面分析',
+      spread_broken_name: '复合牌阵',
+      spread_broken_desc: '6张牌 · 分手原因与复合可能',
+      spread_yesno_name: '是否牌阵',
+      spread_yesno_desc: '3张牌 · 是/否决策指引',
+      spread_jobchange_name: '换工作牌阵',
+      spread_jobchange_desc: '5张牌 · 跳槽/转行决策',
+      spread_shadow_name: '阴影牌阵',
+      spread_shadow_desc: '5张牌 · 自我整合与成长',
+      spread_year_name: '年运牌阵',
+      spread_year_desc: '7张牌 · 全年运势指引',
+      love_tip: '适合正在恋爱或暧昧中的人，全面分析两人关系的各个层面。',
+      broken_tip: '适合分手后想了解是否还有复合可能，或想看清分手原因时使用。',
+      yesno_tip: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。',
+      jobchange_tip: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。',
+      shadow_tip: '适合想要深入了解自己、进行心理成长或整合阴影面的人。',
+      year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。'
     },
     en: {
       welcome_title: 'Harry Potter Tarot',
@@ -469,7 +573,26 @@
       filter_all: 'All',
       filter_advanced: 'Complex',
       filter_favorites: '★ Favorites',
-      spread_search_placeholder: 'Search spreads...'
+      spread_search_placeholder: 'Search spreads...',
+      cat_self: '🌱 Self Growth',
+      spread_love_name: 'Love Spread',
+      spread_love_desc: '7 cards · Comprehensive relationship analysis',
+      spread_broken_name: 'Reunion Spread',
+      spread_broken_desc: '6 cards · Breakup reasons & reunion chance',
+      spread_yesno_name: 'Yes/No Spread',
+      spread_yesno_desc: '3 cards · Yes/No decision guidance',
+      spread_jobchange_name: 'Job Change Spread',
+      spread_jobchange_desc: '5 cards · Job hopping / Career change',
+      spread_shadow_name: 'Shadow Spread',
+      spread_shadow_desc: '5 cards · Self-integration & growth',
+      spread_year_name: 'Yearly Spread',
+      spread_year_desc: '7 cards · Yearly fortune guidance',
+      love_tip: 'For those in love or flirting, comprehensively analyzes all aspects of the relationship.',
+      broken_tip: 'Use when you want to know if there is a chance to get back together, or to understand the reason for the breakup.',
+      yesno_tip: 'When you are hesitant about a decision and just want a "yes" or "no" guidance.',
+      jobchange_tip: 'For those considering job change, career switch, or job hopping, helps make wiser career decisions.',
+      shadow_tip: 'For those who want to understand themselves deeply, do psychological growth or integrate shadow self.',
+      year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.'
     }
   };
 
@@ -558,7 +681,11 @@
         const enNames = {
           single: 'Single Card', three: 'Past-Present-Future', celtic: 'Celtic Cross',
           relation: 'Relationship', choice: 'Choice Spread', five: 'Five Card',
-          horseshoe: 'Horseshoe', career: 'Career Spread'
+          horseshoe: 'Horseshoe', career: 'Career Spread', timeflow: 'Time Flow',
+          action: 'Problem-Action-Result', mind: 'Mind Spread',
+          // 新增牌阵
+          love: 'Love Spread', broken: 'Reunion Spread', yesno: 'Yes/No Spread',
+          jobchange: 'Job Change Spread', shadow: 'Shadow Spread', year: 'Yearly Spread'
         };
         return enNames[mode] || spread.name;
       }
@@ -580,7 +707,14 @@
           career: ['Current', 'Challenge', 'Strengths', 'Action', 'Future'],
           timeflow: ['Past', 'Present', 'Future', 'Root Cause', 'Possible Outcome'],
           action: ['Problem', 'Suggested Action', 'Possible Outcome'],
-          mind: ['Conscious', 'Subconscious', 'Ideal', 'Reality', 'Advice']
+          mind: ['Conscious', 'Subconscious', 'Ideal', 'Reality', 'Advice'],
+          // 新增牌阵
+          love: ['You', 'Partner', 'Your Relationship', 'Challenges', 'External Influence', 'Relationship Future', 'Advice'],
+          broken: ['Root Cause', 'Their Thoughts', 'Your State', 'Obstacles', 'Reunion Possibility', 'Advice'],
+          yesno: ['Supporting Factors', 'Opposing Factors', 'Comprehensive Advice'],
+          jobchange: ['Current Situation', 'Reason for Leaving', 'Nature of New Opportunity', 'Risks & Challenges', 'Advice'],
+          shadow: ['Conscious Self', 'Shadow Self', 'What to Release', 'Growth Direction', 'Advice'],
+          year: ['Overall Fortune', 'Career/Study', 'Love/Relationships', 'Wealth/Material', 'Health/Wellness', 'Things to Note', 'Annual Advice']
         };
         return enPositions[mode] || spread.positions;
       }
@@ -600,7 +734,14 @@
           career: 'Unfolding the Career spread...',
           timeflow: 'Unfolding the Time Flow spread...',
           action: 'Analyzing Problem-Action-Result...',
-          mind: 'Exploring the Mind spread...'
+          mind: 'Exploring the Mind spread...',
+          // 新增牌阵
+          love: 'Reading the Love spread...',
+          broken: 'Reading the Reunion spread...',
+          yesno: 'Analyzing Yes/No spread...',
+          jobchange: 'Analyzing Job Change spread...',
+          shadow: 'Exploring the Shadow spread...',
+          year: 'Unfolding the Yearly spread...'
         };
         return enTexts[mode] || 'Shuffling cards...';
       }
@@ -750,7 +891,7 @@
       });
 
       // 列表项：在描述前插入星级
-      document.querySelectorAll('.spread-btn').forEach(btn => {
+      document.querySelectorAll('.spread-btn, .spread-card').forEach(btn => {
         const key = btn.dataset.spread;
         const spread = SPREADS[key];
         if (!spread) return;
@@ -840,10 +981,6 @@
       });
       const target = document.getElementById(pageId);
       if (target) target.classList.remove('hidden');
-      if (pageId === 'welcome-page') {
-        const tag = document.getElementById('spread-name-tag');
-        if (tag) tag.classList.add('hidden');
-      }
       // 非占卜页面时隐藏牌阵布局可视化
       if (pageId !== 'divination-page') {
         const diag = document.getElementById('result-spread-diagram');
@@ -1156,36 +1293,6 @@
       }
     }
 
-    // ============ 渲染牌位标签 ============
-    renderPositionLabels(positions) {
-      const container = document.getElementById('position-labels');
-      if (!container) return;
-      container.innerHTML = '';
-      positions.forEach((pos, idx) => {
-        const span = document.createElement('span');
-        span.className = 'pos-label' + (idx === 0 ? ' active' : '');
-        span.textContent = (idx + 1) + '. ' + pos;
-        span.dataset.index = idx;
-        span.addEventListener('click', () => {
-          if (this.currentCards && this.currentCards[idx]) {
-            const item = this.currentCards[idx];
-            this.showMeaning(item.card, item.isReversed, item.position);
-            container.querySelectorAll('.pos-label').forEach((l) => { l.classList.remove('active'); });
-            span.classList.add('active');
-            const cards = document.querySelectorAll('.tarot-card');
-            if (cards[idx]) {
-              cards[idx].style.transition = 'box-shadow 0.1s';
-              cards[idx].style.boxShadow = '0 0 20px var(--color-gold)';
-              setTimeout(() => {
-                cards[idx].style.boxShadow = '';
-              }, 400);
-            }
-          }
-        });
-        container.appendChild(span);
-      });
-    }
-
     // ============ 结果页：渲染牌阵布局可视化 ============
     renderResultSpreadDiagram(spreadType, positions) {
       const container = document.getElementById('result-spread-diagram');
@@ -1200,16 +1307,22 @@
         const card = document.createElement('div');
         card.className = 'result-diagram-card';
         card.dataset.index = idx;
-        card.innerHTML = (idx + 1) + '<span class="result-diagram-card-label">' + pos + '</span>';
+
+        // 添加序号
+        const numSpan = document.createElement('span');
+        numSpan.textContent = (idx + 1);
+        card.appendChild(numSpan);
+
+        // 添加位置标签
+        const label = document.createElement('div');
+        label.className = 'result-diagram-card-label';
+        label.textContent = pos.name || pos;
+        card.appendChild(label);
 
         card.addEventListener('click', () => {
-          // 高亮对应牌和位置标签
+          // 高亮对应牌
           container.querySelectorAll('.result-diagram-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
-
-          const labels = document.querySelectorAll('.pos-label');
-          labels.forEach(l => l.classList.remove('active'));
-          if (labels[idx]) labels[idx].classList.add('active');
 
           const cards = document.querySelectorAll('.tarot-card');
           if (cards[idx]) {
@@ -1273,9 +1386,8 @@
             resultCards.appendChild(wrap);
           }
 
-          this.renderPositionLabels([singlePos]);
+
           document.getElementById('page-title').textContent = this.currentLang === 'en' ? 'Single Card' : '单牌占卜';
-          this.showSpreadNameTag('single');
           this.setDeckHint(this.currentLang === 'en' ? 'Tap card to toggle upright/reversed' : '点击卡牌可切换正/逆位解读');
 
           const compSecSingle = document.getElementById('comprehensive-reading');
@@ -1317,31 +1429,21 @@
 
             if (spreadType === 'horseshoe' && i === 3) wrap.classList.add('horseshoe-center');
 
-            const label = document.createElement('div');
-            label.className = spreadType + '-pos-label';
-            label.textContent = (i + 1) + '. ' + positions[i];
-            wrap.appendChild(label);
-
             ((c, rev, pos, idx) => {
               wrap.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.playFlipSound();
                 this.showMeaning(c, rev, pos);
-                const labels = document.querySelectorAll('.pos-label');
-                labels.forEach((l) => { l.classList.remove('active'); });
-                if (labels[idx]) labels[idx].classList.add('active');
               });
             })(drawn[i].card, drawn[i].isReversed, positions[i], i);
 
             if (resultCards) resultCards.appendChild(wrap);
           }
 
-          this.renderPositionLabels(positions);
           this.renderResultSpreadDiagram(spreadType, positions);
           this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
 
           document.getElementById('page-title').textContent = this.getLocalizedSpreadName(spreadType);
-          this.showSpreadNameTag(spreadType);
           this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌义');
 
           const compContent = document.getElementById('comprehensive-content');
@@ -1368,120 +1470,96 @@
 
     // ============ 凯尔特十字占卜 ============
     drawCeltic() {
-      this.showLoading(this.getLocalizedLoadingText('celtic'));
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.currentMode = 'celtic';
-          const drawn = this.drawCards(10);
-          const positions = this.getLocalizedPositions('celtic');
-          this.currentCards = [];
+      this.currentMode = 'celtic';
+      const drawn = this.drawCards(10);
+      const positions = this.getLocalizedPositions('celtic');
+      this.currentCards = [];
 
-          const resultCards = document.getElementById('result-cards');
-          if (resultCards) {
-            resultCards.innerHTML = '';
-            resultCards.className = 'result-cards celtic-cross-layout';
-          }
+      const resultCards = document.getElementById('result-cards');
+      if (resultCards) {
+        resultCards.innerHTML = '';
+        resultCards.className = 'result-cards celtic-cross-layout';
+      }
 
-          const crossContainer = document.createElement('div');
-          crossContainer.className = 'celtic-cross-center';
+      const crossContainer = document.createElement('div');
+      crossContainer.className = 'celtic-cross-center';
 
-          const crossGrid = document.createElement('div');
-          crossGrid.className = 'celtic-cross-cross';
+      const crossGrid = document.createElement('div');
+      crossGrid.className = 'celtic-cross-cross';
 
-          const crossPositions = [0, 1, 2, 3, 4];
-          crossPositions.forEach((posIdx) => {
-            this.currentCards.push({ card: drawn[posIdx].card, isReversed: drawn[posIdx].isReversed, position: positions[posIdx] });
+      const crossPositions = [0, 1, 2, 3, 4];
+      crossPositions.forEach((posIdx) => {
+        this.currentCards.push({ card: drawn[posIdx].card, isReversed: drawn[posIdx].isReversed, position: positions[posIdx] });
 
-            const wrap = this.createCardEl(drawn[posIdx].card, drawn[posIdx].isReversed, true, 52, 82);
-            wrap.classList.add('cc-card-wrap');
+        const wrap = this.createCardEl(drawn[posIdx].card, drawn[posIdx].isReversed, true, 52, 82);
+        wrap.classList.add('cc-card-wrap');
 
-            if (posIdx === 1) {
-              wrap.style.transform = 'rotate(90deg)';
-              wrap.style.zIndex = '2';
-            }
+        if (posIdx === 1) {
+          wrap.style.transform = 'rotate(90deg)';
+          wrap.style.zIndex = '2';
+        }
 
-            const label = document.createElement('div');
-            label.className = 'cc-pos-label';
-            label.textContent = (posIdx + 1) + '. ' + positions[posIdx];
+        const wrapper = document.createElement('div');
+        wrapper.className = 'cc-pos-' + (posIdx + 1);
+        wrapper.appendChild(wrap);
 
-            const wrapper = document.createElement('div');
-            wrapper.className = 'cc-pos-' + (posIdx + 1);
-            wrapper.appendChild(wrap);
-            wrapper.appendChild(label);
-
-            ((c, rev, pos, idx) => {
-              wrap.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.showMeaning(c, rev, pos);
-                const labels = document.querySelectorAll('.pos-label');
-                labels.forEach((l) => { l.classList.remove('active'); });
-                if (labels[idx]) labels[idx].classList.add('active');
-              });
-            })(drawn[posIdx].card, drawn[posIdx].isReversed, positions[posIdx], posIdx);
-
-            crossGrid.appendChild(wrapper);
+        ((c, rev, pos, idx) => {
+          wrap.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.showMeaning(c, rev, pos);
           });
+        })(drawn[posIdx].card, drawn[posIdx].isReversed, positions[posIdx], posIdx);
 
-          crossContainer.appendChild(crossGrid);
-
-          const staffContainer = document.createElement('div');
-          staffContainer.className = 'celtic-cross-staff';
-
-          for (let i = 5; i < 10; i++) {
-            this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
-
-            const wrap2 = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, 52, 82);
-            wrap2.classList.add('cc-card-wrap');
-
-            const label2 = document.createElement('div');
-            label2.className = 'cc-pos-label';
-            label2.textContent = (i + 1) + '. ' + positions[i];
-
-            const wrapper2 = document.createElement('div');
-            wrapper2.className = 'cc-staff-pos';
-            wrapper2.appendChild(wrap2);
-            wrapper2.appendChild(label2);
-
-            ((c, rev, pos, idx) => {
-              wrap2.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.showMeaning(c, rev, pos);
-                const labels = document.querySelectorAll('.pos-label');
-                labels.forEach((l) => { l.classList.remove('active'); });
-                if (labels[idx]) labels[idx].classList.add('active');
-              });
-            })(drawn[i].card, drawn[i].isReversed, positions[i], i);
-
-            staffContainer.appendChild(wrapper2);
-          }
-
-          crossContainer.appendChild(staffContainer);
-
-          if (resultCards) resultCards.appendChild(crossContainer);
-
-          this.renderPositionLabels(positions);
-          this.renderResultSpreadDiagram(spreadType, positions);
-          this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
-
-          document.getElementById('page-title').textContent = this.getLocalizedSpreadName('celtic');
-          this.showSpreadNameTag('celtic');
-          this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌义');
-
-          const compContent = document.getElementById('comprehensive-content');
-          const compSection = document.getElementById('comprehensive-reading');
-          if (compContent && compSection) {
-            compContent.innerHTML = this.generateComprehensiveReading();
-            compSection.classList.remove('hidden');
-            compContent.classList.remove('hidden');
-            const tBtn = document.getElementById('toggle-reading-btn');
-            if (tBtn) tBtn.textContent = this.t('btn_collapse');
-          }
-
-          this.showPage('divination-page');
-          this.hideLoading();
-          this.saveToHistory();
-        });
+        crossGrid.appendChild(wrapper);
       });
+
+      crossContainer.appendChild(crossGrid);
+
+      const staffContainer = document.createElement('div');
+      staffContainer.className = 'celtic-cross-staff';
+
+      for (let i = 5; i < 10; i++) {
+        this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
+
+        const wrap2 = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, 52, 82);
+        wrap2.classList.add('cc-card-wrap');
+
+        const wrapper2 = document.createElement('div');
+        wrapper2.className = 'cc-staff-pos';
+        wrapper2.appendChild(wrap2);
+
+        ((c, rev, pos, idx) => {
+          wrap2.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.showMeaning(c, rev, pos);
+          });
+        })(drawn[i].card, drawn[i].isReversed, positions[i], i);
+
+        staffContainer.appendChild(wrapper2);
+      }
+
+      crossContainer.appendChild(staffContainer);
+
+      if (resultCards) resultCards.appendChild(crossContainer);
+
+      this.renderResultSpreadDiagram('celtic', positions);
+      this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
+
+      document.getElementById('page-title').textContent = this.getLocalizedSpreadName('celtic');
+      this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌义');
+
+      const compContent = document.getElementById('comprehensive-content');
+      const compSection = document.getElementById('comprehensive-reading');
+      if (compContent && compSection) {
+        compContent.innerHTML = this.generateComprehensiveReading();
+        compSection.classList.remove('hidden');
+        compContent.classList.remove('hidden');
+        const tBtn = document.getElementById('toggle-reading-btn');
+        if (tBtn) tBtn.textContent = this.t('btn_collapse');
+      }
+
+      this.showPage('divination-page');
+      this.saveToHistory();
     }
 
     // ============ 关系牌阵占卜 ============
@@ -1524,6 +1602,40 @@
       this.drawStandardSpread('mind', 60, 96);
     }
 
+    // ============ 新增情感关系牌阵 ============
+    // ============ 恋人牌阵 ============
+    drawLove() {
+      this.drawStandardSpread('love', 60, 96);
+    }
+
+    // ============ 复合牌阵 ============
+    drawBroken() {
+      this.drawStandardSpread('broken', 60, 96);
+    }
+
+    // ============ 新增决策分析牌阵 ============
+    // ============ 是否牌阵 ============
+    drawYesno() {
+      this.drawStandardSpread('yesno', 70, 112);
+    }
+
+    // ============ 新增事业学业牌阵 ============
+    // ============ 换工作牌阵 ============
+    drawJobchange() {
+      this.drawStandardSpread('jobchange', 60, 96);
+    }
+
+    // ============ 新增自我成长牌阵 ============
+    // ============ 阴影牌阵 ============
+    drawShadow() {
+      this.drawStandardSpread('shadow', 60, 96);
+    }
+
+    // ============ 年运牌阵 ============
+    drawYear() {
+      this.drawStandardSpread('year', 60, 96);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -1538,6 +1650,13 @@
         case 'timeflow':  this.drawTimeflow(); break;
         case 'action':    this.drawAction(); break;
         case 'mind':      this.drawMind(); break;
+        // 新增牌阵
+        case 'love':      this.drawLove(); break;
+        case 'broken':    this.drawBroken(); break;
+        case 'yesno':     this.drawYesno(); break;
+        case 'jobchange': this.drawJobchange(); break;
+        case 'shadow':    this.drawShadow(); break;
+        case 'year':      this.drawYear(); break;
       }
     }
 
@@ -1549,23 +1668,11 @@
       this.showPage('welcome-page');
     }
 
-    // ============ 显示结果页牌阵名标签 ============
-    showSpreadNameTag(spreadType) {
-      const tag = document.getElementById('spread-name-tag');
-      if (!tag) return;
-      const spread = SPREADS[spreadType];
-      if (!spread) return;
-      const name = this.getLocalizedSpreadName(spreadType);
-      tag.textContent = this.currentLang === 'en' ? name + ' Spread' : name;
-      tag.classList.remove('hidden');
-    }
-
     // ============ 更新静态 UI 文本 ============
     updateStaticUIText() {
       const pageTitle = document.getElementById('page-title');
       if (pageTitle && this.currentCards.length > 0) {
         pageTitle.textContent = this.getLocalizedSpreadName(this.currentMode);
-        this.showSpreadNameTag(this.currentMode);
       }
       const stepHint = document.getElementById('step-hint');
       if (stepHint && this.currentCards.length > 0) {
@@ -1591,23 +1698,6 @@
         if (nameSpan) nameSpan.textContent = displayName;
       });
 
-      // 更新位置标签
-      const posLabels = document.querySelectorAll('.pos-label');
-      const positions = this.getLocalizedPositions(this.currentMode);
-      posLabels.forEach((label, idx) => {
-        if (positions[idx]) {
-          label.textContent = (idx + 1) + '. ' + positions[idx];
-        }
-      });
-
-      // 更新牌阵内的内联标签
-      const inlineLabels = document.querySelectorAll('[class*="-pos-label"]');
-      inlineLabels.forEach((label, idx) => {
-        if (positions[idx]) {
-          const num = label.textContent.match(/^\d+\./);
-          if (num) label.textContent = num[0] + ' ' + positions[idx];
-        }
-      });
     }
 
     // ============ 切换牌组 ============
@@ -2673,7 +2763,7 @@
         const query = searchInput.value.trim().toLowerCase();
         if (clearBtn) clearBtn.classList.toggle('hidden', query.length === 0);
 
-        const spreadBtns = document.querySelectorAll('.spread-btn');
+        const spreadBtns = document.querySelectorAll('.spread-btn, .spread-card');
         const categoryTitles = document.querySelectorAll('.spread-category-title');
         const filterBtns = document.querySelectorAll('.spread-filter-btn');
 
@@ -2753,6 +2843,7 @@
             decision: this.t('cat_decision') || '决策',
             general: this.t('cat_general') || '通用',
             career: this.t('cat_career') || '事业',
+            self: this.t('cat_self') || '自我成长',
             advanced: this.t('filter_advanced') || '复杂'
           };
 
@@ -3036,7 +3127,7 @@
 
     // ============ 绑定事件（扩展） ============
     bindEvents() {
-      const spreadBtns = document.querySelectorAll('.spread-btn');
+      const spreadBtns = document.querySelectorAll('.spread-btn, .spread-card');
       console.log('绑定事件，找到', spreadBtns.length, '个牌阵按钮');
       spreadBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
@@ -3055,6 +3146,13 @@
               case 'timeflow':  this.drawTimeflow(); break;
               case 'action':    this.drawAction(); break;
               case 'mind':      this.drawMind(); break;
+              // 新增牌阵
+              case 'love':      this.drawLove(); break;
+              case 'broken':    this.drawBroken(); break;
+              case 'yesno':     this.drawYesno(); break;
+              case 'jobchange': this.drawJobchange(); break;
+              case 'shadow':    this.drawShadow(); break;
+              case 'year':      this.drawYear(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -3080,9 +3178,7 @@
           this.updateFortuneDate();
           if (this.currentCards && this.currentCards.length > 0) {
             this.reRenderCurrentCards();
-            const activeLabel = document.querySelector('.pos-label.active');
-            const activeIdx = activeLabel ? parseInt(activeLabel.dataset.index || '0') : 0;
-            const item = this.currentCards[activeIdx] || this.currentCards[0];
+            const item = this.currentCards[0];
             if (item) this.showMeaning(item.card, item.isReversed, item.position);
           }
         });
@@ -3275,7 +3371,8 @@
 
       const categoryKeyMap = {
         simple: 'cat_beginner', relationship: 'cat_relationship', decision: 'cat_decision',
-        general: 'cat_general', career: 'cat_career', advanced: 'filter_advanced'
+        general: 'cat_general', career: 'cat_career', advanced: 'filter_advanced',
+        self: 'cat_self'
       };
       const catKey = categoryKeyMap[spread.category] || spread.category;
       const catLabel = this.t(catKey) || spread.category;
@@ -3439,6 +3536,72 @@
           html += '</div>';
           html += this.diagramCard(3, positions[2], '26px');
           html += this.diagramCard(4, positions[3], '26px');
+          html += '</div>';
+          break;
+
+        case 'love':
+          // 恋人牌阵：2×3 + 下方建议
+          html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;">';
+          html += this.diagramCard(1, positions[0], '26px');
+          html += this.diagramCard(2, positions[1], '26px');
+          html += this.diagramCard(3, positions[2], '26px');
+          html += this.diagramCard(4, positions[3], '26px');
+          html += '</div>';
+          html += '<div style="display:flex;gap:4px;justify-content:center;">';
+          html += this.diagramCard(5, positions[4], '26px');
+          html += this.diagramCard(6, positions[5], '26px');
+          html += '</div>';
+          html += '<div style="display:flex;justify-content:center;margin-top:4px;">';
+          html += this.diagramCard(7, positions[6], '26px');
+          html += '</div>';
+          break;
+
+        case 'broken':
+          // 复合牌阵：纵向
+          html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '28px');
+          }
+          html += '</div>';
+          break;
+
+        case 'yesno':
+          // 是否牌阵：横向一排
+          html += '<div style="display:flex;gap:6px;justify-content:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i]);
+          }
+          html += '</div>';
+          break;
+
+        case 'jobchange':
+          // 换工作牌阵：纵向
+          html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '28px');
+          }
+          html += '</div>';
+          break;
+
+        case 'shadow':
+          // 阴影牌阵：十字形
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += this.diagramCard(2, positions[1], '26px');
+          html += '<div style="display:flex;gap:4px;align-items:center;">';
+          html += this.diagramCard(1, positions[0], '30px');
+          html += this.diagramCard(5, positions[4], '30px');
+          html += '</div>';
+          html += this.diagramCard(3, positions[2], '26px');
+          html += this.diagramCard(4, positions[3], '26px');
+          html += '</div>';
+          break;
+
+        case 'year':
+          // 年运牌阵：纵向一列
+          html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], i === 6 ? '32px' : '26px');
+          }
           html += '</div>';
           break;
 

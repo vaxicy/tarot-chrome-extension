@@ -139,12 +139,29 @@
                     </button>
                     <button id="relation-draw-btn" class="spread-btn" type="button" data-spread="relation" data-i18n-tip="relation_tip">
                         <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
                         <span class="spread-info-btn" data-spread-key="relation" title="查看牌阵说明">i</span>
                         <span class="spread-icon">💖</span>
                         <div class="spread-info">
                             <span class="spread-name" data-i18n-spread="relation_name">关系牌阵</span>
                             <span class="spread-desc" data-i18n-spread="relation_desc">人际关系 / 感情</span>
+                        </div>
+                    </button>
+                    <button id="love-draw-btn" class="spread-btn" type="button" data-spread="love" data-i18n-tip="love_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="love" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">💕</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="love_name">恋人牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="love_desc">恋爱关系全面分析</span>
+                        </div>
+                    </button>
+                    <button id="broken-draw-btn" class="spread-btn" type="button" data-spread="broken" data-i18n-tip="broken_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="broken" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">💔</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="broken_name">复合牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="broken_desc">分手原因与复合可能</span>
                         </div>
                     </button>
 
@@ -166,6 +183,15 @@
                         <div class="spread-info">
                             <span class="spread-name" data-i18n-spread="action_name">问题行动结果</span>
                             <span class="spread-desc" data-i18n-spread="action_desc">快速决策与行动指引</span>
+                        </div>
+                    </button>
+                    <button id="yesno-draw-btn" class="spread-btn" type="button" data-spread="yesno" data-i18n-tip="yesno_tip">
+                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                        <span class="spread-info-btn" data-spread-key="yesno" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">❓</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="yesno_name">是否牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="yesno_desc">是/否决策指引</span>
                         </div>
                     </button>
 
@@ -217,6 +243,35 @@
                             <span class="spread-desc" data-i18n-spread="career_desc">工作/学业决策</span>
                         </div>
                     </button>
+                    <button id="jobchange-draw-btn" class="spread-btn" type="button" data-spread="jobchange" data-i18n-tip="jobchange_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="jobchange" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">💼</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="jobchange_name">换工作牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="jobchange_desc">跳槽/转行决策</span>
+                        </div>
+                    </button>
+
+                    <div class="spread-category-title" data-i18n-key="cat_self">&#127793; 自我成长</div>
+                    <button id="shadow-draw-btn" class="spread-btn" type="button" data-spread="shadow" data-i18n-tip="shadow_tip">
+                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                        <span class="spread-info-btn" data-spread-key="shadow" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">🖤</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="shadow_name">阴影牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="shadow_desc">自我整合与成长</span>
+                        </div>
+                    </button>
+                    <button id="year-draw-btn" class="spread-btn" type="button" data-spread="year" data-i18n-tip="year_tip">
+                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                        <span class="spread-info-btn" data-spread-key="year" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">📅</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="year_name">年运牌阵</span>
+                            <span class="spread-desc" data-i18n-spread="year_desc">全年运势指引</span>
+                        </div>
+                    </button>
                 </div>
             </div>
         </section>
@@ -225,7 +280,6 @@
         <section id="divination-page" class="page hidden">
             <header>
                 <h1 id="page-title">单牌占卜</h1>
-                <div id="spread-name-tag" class="spread-name-tag hidden"></div>
                 <p id="step-hint" class="step-hint">正在为你抽取命运之牌...</p>
             </header>
 
@@ -236,9 +290,6 @@
 
             <!-- 牌阵布局可视化 -->
             <div id="result-spread-diagram" class="result-spread-diagram hidden"></div>
-
-            <!-- 牌位标签 -->
-            <div id="position-labels" class="position-labels"></div>
 
             <!-- 解读区 -->
             <div id="result-meaning" class="result-meaning">
