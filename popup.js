@@ -2781,20 +2781,35 @@
 
     positionHoverPreview(target, preview) {
       const rect = target.getBoundingClientRect();
-      const previewRect = preview.getBoundingClientRect();
-      let left = rect.right + 10;
-      let top = rect.top;
+      const pw = preview.offsetWidth || 260;
+      const ph = preview.offsetHeight;
+      const parentCard = target.closest('.spread-card');
 
-      // 防止超出右边界
-      if (left + 260 > window.innerWidth) {
-        left = rect.left - 270;
+      let left, top;
+
+      if (parentCard) {
+        // 卡片（单牌阵/三牌阵）：预览框放卡片正下方，居中对齐
+        left = rect.left + rect.width / 2 - pw / 2;
+        top = parentCard.getBoundingClientRect().bottom + 8;
+      } else {
+        // 列表项：i 在左侧 → 预览框放按钮左侧
+        left = rect.left - pw - 8;
+        top = rect.top;
       }
-      // 防止超出下边界
-      if (top + preview.offsetHeight > window.innerHeight) {
-        top = window.innerHeight - preview.offsetHeight - 10;
+
+      // 左边界保护
+      if (left < 4) left = 4;
+      // 右边界保护
+      if (left + pw > window.innerWidth - 4) {
+        left = window.innerWidth - pw - 4;
       }
-      // 防止超出上边界
-      if (top < 0) top = 10;
+
+      // 下边界保护：空间不足则改到上方
+      if (top + ph > window.innerHeight - 4) {
+        top = rect.top - ph - 8;
+      }
+      // 上边界保护
+      if (top < 4) top = 4;
 
       preview.style.left = left + 'px';
       preview.style.top = top + 'px';

@@ -563,12 +563,10 @@ body::before {
   right: 6px;
 }
 
-/* ============ 推荐角标 ============ */
+/* ============ 推荐角标（已统一隐藏） ============ */
 .recommended-badge {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 8px;
+  display: none;
+}
   color: var(--color-gold);
   background: rgba(26, 15, 64, 0.95);
   border: 1px solid var(--color-gold-dark);
