@@ -1790,16 +1790,19 @@
       return n;
     }
 
-    getDailyFortune() {
+    getDailyFortune(forceRefresh = false) {
       const now = new Date();
       const dateStr = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-      const seed = this.daySeed(dateStr);
-      const rng = this.mulberry32(seed);
 
-      const cached = localStorage.getItem('daily_fortune_' + dateStr);
-      if (cached) {
-        try { return JSON.parse(cached); } catch (e) {}
+      if (!forceRefresh) {
+        const cached = localStorage.getItem('daily_fortune_' + dateStr);
+        if (cached) {
+          try { return JSON.parse(cached); } catch (e) {}
+        }
       }
+
+      const seed = forceRefresh ? Date.now() : this.daySeed(dateStr);
+      const rng = this.mulberry32(seed);
 
       // 用均匀的 Mulberry32 RNG 替代旧方案
       const rand = () => rng();
@@ -1868,8 +1871,8 @@
       return fortune;
     }
 
-    renderDailyFortune() {
-      const fortune = this.getDailyFortune();
+    renderDailyFortune(forceRefresh = false) {
+      const fortune = this.getDailyFortune(forceRefresh);
       const container = document.getElementById('fortune-content');
       if (!container) return;
 
@@ -3083,7 +3086,7 @@
           const now = new Date();
           const dateStr = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
           try { localStorage.removeItem('daily_fortune_' + dateStr); } catch (e) {}
-          this.renderDailyFortune();
+          this.renderDailyFortune(true);
         },
         'close-fortune-btn': () => {
           const panel = document.getElementById('daily-fortune-panel');

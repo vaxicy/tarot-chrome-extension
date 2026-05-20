@@ -47,20 +47,45 @@
       var rpsArea = document.getElementById('dilemma-rps-area');
       var diceArea = document.getElementById('dilemma-dice-area');
       var redoBtn = document.getElementById('dilemma-redo-btn');
+      var readingRedo = document.getElementById('dilemma-reading-redo');
       if (resultDiv) { resultDiv.innerHTML = ''; resultDiv.classList.add('hidden'); }
       if (readingDiv) { readingDiv.classList.add('hidden'); }
       if (gameArea) gameArea.classList.add('hidden');
       if (rpsArea) rpsArea.classList.add('hidden');
       if (diceArea) diceArea.classList.add('hidden');
       if (redoBtn) redoBtn.classList.add('hidden');
+      if (readingRedo) readingRedo.classList.add('hidden');
     }
 
     function showResult(html) {
       var resultDiv = document.getElementById('dilemma-result');
       var redoBtn = document.getElementById('dilemma-redo-btn');
+      var readingRedo = document.getElementById('dilemma-reading-redo');
       if (resultDiv) {
-        resultDiv.innerHTML = html;
+        // 非塔罗方式在结果卡片右上角添加「再来一次」按钮
+        var redoHtml = '';
+        if (redoBtn && currentMethod !== 'tarot') {
+          redoHtml = '<button type="button" class="dilemma-redo-inline" title="' + (app.t('dilemma_redo') || '再来一次') + '">&#128260;</button>';
+        }
+        resultDiv.innerHTML = redoHtml + html;
         resultDiv.classList.remove('hidden');
+
+        // 绑定内联再来一次按钮（非塔罗）
+        var inlineRedo = resultDiv.querySelector('.dilemma-redo-inline');
+        if (inlineRedo) {
+          inlineRedo.addEventListener('click', function() {
+            if (currentMethod === 'rps') { resetResultArea(); chooseMethod('rps'); }
+            else if (currentMethod === 'dice') { resetResultArea(); chooseMethod('dice'); }
+          });
+        }
+      }
+      // 塔罗方式：显示解读区右上角的刷新按钮
+      if (readingRedo) {
+        if (currentMethod === 'tarot') {
+          readingRedo.classList.remove('hidden');
+        } else {
+          readingRedo.classList.add('hidden');
+        }
       }
       if (redoBtn) redoBtn.classList.remove('hidden');
     }
@@ -75,7 +100,6 @@
       var meaning = app.getMeaningText(card, isRev);
       var lang = app.currentLang || 'zh';
       var cardName = getCardName(card);
-      var position = lang === 'en' ? 'Fate Guidance' : '命运指引';
 
       // 渲染卡牌
       var slot = document.getElementById('dilemma-card-slot');
@@ -86,8 +110,9 @@
         el.addEventListener('click', function() { el.classList.toggle('flipped'); });
       }
 
-      // 生成解读
+      // 生成解读（卡片化）
       var html = '';
+      html += '<div class="dilemma-result-game">';
       html += '<div style="margin-bottom:10px;"><span style="color:var(--color-gold);font-weight:700;">' + (lang === 'en' ? 'Winner: ' : '胜出选项：') + '</span><span style="color:var(--color-gold-light);font-weight:700;">' + winnerOption + '</span></div>';
       html += '<div style="margin-bottom:10px;"><span style="color:var(--color-gold);font-weight:700;">' + (lang === 'en' ? 'Fate Card: ' : '命运之牌：') + '</span><span style="color:var(--color-gold-light);">' + cardName + (isRev ? (lang === 'en' ? ' (Reversed)' : '（逆位）') : (lang === 'en' ? ' (Upright)' : '（正位）')) + '</span></div>';
       html += '<div style="line-height:1.8;">' + meaning + '</div>';
@@ -109,6 +134,7 @@
         }
         html += '</div>';
       }
+      html += '</div>';
 
       var contentEl = document.getElementById('dilemma-reading-content');
       if (contentEl) contentEl.innerHTML = html;
@@ -146,48 +172,50 @@
       if (slot && app.createCardEl) {
         slot.innerHTML = '';
         slot.style.display = 'flex';
-        slot.style.gap = '20px';
+        slot.style.gap = '24px';
         slot.style.justifyContent = 'center';
-        var wrapA = document.createElement('div');
-        wrapA.style.display = 'flex';
-        wrapA.style.flexDirection = 'column';
-        wrapA.style.alignItems = 'center';
-        wrapA.style.gap = '6px';
-        var elA = app.createCardEl(cardA, isRevA, true, 60, 96);
-        var labelA = document.createElement('div');
-        labelA.style.fontSize = '11px';
-        labelA.style.color = 'var(--color-gold)';
-        labelA.style.fontWeight = '700';
-        labelA.textContent = texts.a;
-        wrapA.appendChild(labelA);
-        wrapA.appendChild(elA);
-        elA.addEventListener('click', function() { elA.classList.toggle('flipped'); });
+        slot.style.alignItems = 'flex-start';
 
-        var wrapB = document.createElement('div');
-        wrapB.style.display = 'flex';
-        wrapB.style.flexDirection = 'column';
-        wrapB.style.alignItems = 'center';
-        wrapB.style.gap = '6px';
-        var elB = app.createCardEl(cardB, isRevB, true, 60, 96);
-        var labelB = document.createElement('div');
-        labelB.style.fontSize = '11px';
-        labelB.style.color = 'var(--color-gold)';
-        labelB.style.fontWeight = '700';
-        labelB.textContent = texts.b;
-        wrapB.appendChild(labelB);
-        wrapB.appendChild(elB);
-        elB.addEventListener('click', function() { elB.classList.toggle('flipped'); });
+        function makeCardWrap(card, isReversed, labelText) {
+          var wrap = document.createElement('div');
+          wrap.className = 'dilemma-card-wrap';
+          var label = document.createElement('div');
+          label.className = 'dilemma-card-label';
+          label.textContent = labelText;
+          var el = app.createCardEl(card, isReversed, true, 90, 140);
+          var nameEl = document.createElement('div');
+          nameEl.className = 'dilemma-card-name';
+          var cName = getCardName(card);
+          nameEl.textContent = cName + (isReversed ? (lang === 'en' ? ' (Reversed)' : ' · 逆位') : (lang === 'en' ? ' (Upright)' : ' · 正位'));
+          wrap.appendChild(label);
+          wrap.appendChild(el);
+          wrap.appendChild(nameEl);
+          el.addEventListener('click', function() { el.classList.toggle('flipped'); });
+          return wrap;
+        }
 
-        slot.appendChild(wrapA);
-        slot.appendChild(wrapB);
+        slot.appendChild(makeCardWrap(cardA, isRevA, texts.a));
+
+        var vsBadge = document.createElement('div');
+        vsBadge.className = 'dilemma-vs-badge';
+        vsBadge.textContent = 'VS';
+        slot.appendChild(vsBadge);
+
+        slot.appendChild(makeCardWrap(cardB, isRevB, texts.b));
       }
 
       var html = '';
-      html += '<div style="margin-bottom:10px;"><span style="color:var(--color-gold);font-weight:700;">' + texts.a + '</span> → <span style="color:var(--color-gold-light);">' + nameA + (isRevA ? (lang === 'en' ? ' (Reversed)' : '（逆位）') : (lang === 'en' ? ' (Upright)' : '（正位）')) + '</span></div>';
-      html += '<div style="margin-bottom:12px;line-height:1.7;">' + meaningA + '</div>';
-      html += '<div style="margin-bottom:10px;"><span style="color:var(--color-gold);font-weight:700;">' + texts.b + '</span> → <span style="color:var(--color-gold-light);">' + nameB + (isRevB ? (lang === 'en' ? ' (Reversed)' : '（逆位）') : (lang === 'en' ? ' (Upright)' : '（正位）')) + '</span></div>';
-      html += '<div style="margin-bottom:12px;line-height:1.7;">' + meaningB + '</div>';
-      html += '<div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,215,0,0.2);"><span style="color:var(--color-gold);font-weight:700;">' + (lang === 'en' ? 'Recommendation: ' : '综合推荐：') + '</span><span style="color:var(--color-gold-light);font-weight:700;">' + recommended + '</span>' + (lang === 'en' ? ' has more positive energy.' : ' 的牌面能量更积极。') + '</div>';
+      html += '<div class="dilemma-tarot-readings">';
+      html += '<div class="dilemma-tarot-reading-col">';
+      html += '<div class="dilemma-tarot-reading-title"><span style="color:var(--color-gold);font-weight:700;">' + texts.a + '</span> <span style="color:var(--color-text-muted);">→</span> <span style="color:var(--color-gold-light);">' + nameA + '</span></div>';
+      html += '<div class="dilemma-tarot-reading-text">' + meaningA + '</div>';
+      html += '</div>';
+      html += '<div class="dilemma-tarot-reading-col">';
+      html += '<div class="dilemma-tarot-reading-title"><span style="color:var(--color-gold);font-weight:700;">' + texts.b + '</span> <span style="color:var(--color-text-muted);">→</span> <span style="color:var(--color-gold-light);">' + nameB + '</span></div>';
+      html += '<div class="dilemma-tarot-reading-text">' + meaningB + '</div>';
+      html += '</div>';
+      html += '</div>';
+      html += '<div class="dilemma-tarot-recommend"><span style="color:var(--color-gold);font-weight:700;">' + (lang === 'en' ? 'Recommendation: ' : '综合推荐：') + '</span><span style="color:var(--color-gold-light);font-weight:700;">' + recommended + '</span><span style="color:var(--color-text-muted);">' + (lang === 'en' ? ' has more positive energy' : ' 的牌面能量更积极') + '</span></div>';
 
       var contentEl = document.getElementById('dilemma-reading-content');
       if (contentEl) contentEl.innerHTML = html;
@@ -197,96 +225,170 @@
       return recommended;
     }
 
-    // ============ 猜拳 ============
+    // ============ 猜拳（带动画） ============
     function playRPS(userChoice) {
       var texts = validateInputs();
       if (!texts) return;
 
       var choices = ['\u270A', '\u270B', '\u270C'];
-      var computerChoice = Math.floor(Math.random() * 3);
-      var beats = { 0: 2, 1: 0, 2: 1 };
-      var userWins = beats[userChoice] === computerChoice;
-      var isTie = userChoice === computerChoice;
       var lang = app.currentLang || 'zh';
 
-      var html = '';
-      html += '<div class="dilemma-result-game">';
-      html += '<div class="dilemma-result-row">' + app.t('dilemma_you_chose') + choices[userChoice] + '</div>';
-      html += '<div class="dilemma-result-row">' + app.t('dilemma_computer_chose') + choices[computerChoice] + '</div>';
+      // 禁用猜拳按钮
+      var rpsBtns = document.querySelectorAll('.dilemma-rps-btn');
+      rpsBtns.forEach(function(b) { b.disabled = true; });
 
-      var winnerOption = '';
-      if (isTie) {
-        html += '<div class="dilemma-result-winner">' + app.t('decision_tie') + '</div>';
-        html += '</div>';
-        showResult(html);
-        return;
-      } else if (userWins) {
-        winnerOption = texts.a;
-        html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
-      } else {
-        winnerOption = texts.b;
-        html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
-      }
-      html += '</div>';
-      showResult(html);
+      // 显示动画区域
+      var animDiv = document.getElementById('dilemma-rps-animation');
+      var countdownEl = animDiv ? animDiv.querySelector('.dilemma-rps-countdown') : null;
+      var userHand = animDiv ? animDiv.querySelector('.dilemma-rps-user') : null;
+      var compHand = animDiv ? animDiv.querySelector('.dilemma-rps-computer') : null;
 
-      // 塔罗解读
-      drawTarotForWinner(winnerOption);
+      if (animDiv) animDiv.classList.remove('hidden');
+      if (userHand) { userHand.textContent = '\u270A'; userHand.classList.remove('rps-reveal'); }
+      if (compHand) { compHand.textContent = '\u270A'; compHand.classList.remove('rps-reveal'); }
+
+      // 倒计时动画
+      var steps = lang === 'en' ? ['Rock', 'Paper', 'Scissors', 'Go!'] : ['石头', '布', '剪刀', '出！'];
+      var idx = 0;
+      if (countdownEl) countdownEl.textContent = steps[0];
+
+      var countInterval = setInterval(function() {
+        idx++;
+        if (idx < steps.length) {
+          if (countdownEl) { countdownEl.textContent = steps[idx]; countdownEl.style.animation = 'none'; void countdownEl.offsetWidth; countdownEl.style.animation = ''; }
+          // 手势摇动
+          if (userHand) userHand.classList.add('rps-shake');
+          if (compHand) compHand.classList.add('rps-shake');
+          setTimeout(function() {
+            if (userHand) userHand.classList.remove('rps-shake');
+            if (compHand) compHand.classList.remove('rps-shake');
+          }, 120);
+        } else {
+          clearInterval(countInterval);
+          // 揭晓
+          var computerChoice = Math.floor(Math.random() * 3);
+          var beats = { 0: 2, 1: 0, 2: 1 };
+          var userWins = beats[userChoice] === computerChoice;
+          var isTie = userChoice === computerChoice;
+
+          if (userHand) { userHand.textContent = choices[userChoice]; userHand.classList.add('rps-reveal'); }
+          if (compHand) { compHand.textContent = choices[computerChoice]; compHand.classList.add('rps-reveal'); }
+
+          setTimeout(function() {
+            if (countdownEl) countdownEl.textContent = '';
+
+            var html = '';
+            html += '<div class="dilemma-result-game">';
+            html += '<div class="dilemma-result-row">' + app.t('dilemma_you_chose') + choices[userChoice] + '</div>';
+            html += '<div class="dilemma-result-row">' + app.t('dilemma_computer_chose') + choices[computerChoice] + '</div>';
+
+            var winnerOption = '';
+            if (isTie) {
+              html += '<div class="dilemma-result-winner">' + app.t('decision_tie') + '</div>';
+              html += '</div>';
+              showResult(html);
+            } else if (userWins) {
+              winnerOption = texts.a;
+              html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
+              html += '</div>';
+              showResult(html);
+              drawTarotForWinner(winnerOption);
+            } else {
+              winnerOption = texts.b;
+              html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
+              html += '</div>';
+              showResult(html);
+              drawTarotForWinner(winnerOption);
+            }
+
+            rpsBtns.forEach(function(b) { b.disabled = false; });
+          }, 500);
+        }
+      }, 500);
     }
 
-    // ============ 摇骰子 ============
+    // ============ 摇骰子（带动画） ============
     function playDice(userHighLow) {
-      // userHighLow: true=押大, false=押小
-      // 选项A = 你，选项B = 电脑
-      // 押大 → 点数大者赢；押小 → 点数小者赢
       var texts = validateInputs();
       if (!texts) return;
 
-      var userDice = Math.floor(Math.random() * 6) + 1;
-      var compDice = Math.floor(Math.random() * 6) + 1;
-      var diceEmojis = ['\u2680', '\u2681', '\u2682', '\u2683', '\u2684', '\u2685'];
       var lang = app.currentLang || 'zh';
 
-      // 判断谁赢：押大→点数大者胜；押小→点数小者胜
-      var userWins;
-      if (userHighLow) {
-        // 押大
-        userWins = userDice > compDice;
-      } else {
-        // 押小
-        userWins = userDice < compDice;
+      // 禁用骰子按钮
+      var diceBtns = document.querySelectorAll('.dilemma-dice-btn');
+      diceBtns.forEach(function(b) { b.disabled = true; });
+
+      // 显示动画区域
+      var animDiv = document.getElementById('dilemma-dice-animation');
+      var rollingEl = animDiv ? animDiv.querySelector('.dilemma-dice-rolling') : null;
+      if (animDiv) animDiv.classList.remove('hidden');
+      if (rollingEl) {
+        rollingEl.textContent = '\u9855';
+        rollingEl.classList.remove('dice-stop');
+        rollingEl.style.animation = 'diceRoll 0.12s linear infinite';
       }
 
-      var isTie = userDice === compDice;
-      var userBetLabel = userHighLow ? app.t('dilemma_dice_result_high') : app.t('dilemma_dice_result_low');
+      // 模拟滚动 1.2 秒后停止
+      setTimeout(function() {
+        var userDice = Math.floor(Math.random() * 6) + 1;
+        var compDice = Math.floor(Math.random() * 6) + 1;
+        var diceEmojis = ['\u2680', '\u2681', '\u2682', '\u2683', '\u2684', '\u2685'];
 
-      var html = '';
-      html += '<div class="dilemma-result-game">';
-      html += '<div style="margin-bottom:8px;font-size:13px;color:var(--color-gold);font-weight:700;">' + app.t('dilemma_you_bet') + userBetLabel + '</div>';
-      html += '<div style="display:flex;justify-content:space-around;align-items:center;margin:10px 0;">';
-      html += '  <div style="text-align:center;"><div style="font-size:36px;">' + diceEmojis[userDice - 1] + '</div><div style="font-size:11px;color:var(--color-gold);">' + (lang === 'en' ? 'You (' + texts.a + ')' : '你（' + texts.a + '）') + '</div><div style="font-size:18px;font-weight:700;color:var(--color-text);">' + userDice + '</div></div>';
-      html += '  <div style="font-size:20px;color:var(--color-gold);">VS</div>';
-      html += '  <div style="text-align:center;"><div style="font-size:36px;">' + diceEmojis[compDice - 1] + '</div><div style="font-size:11px;color:var(--color-gold-light);">' + (lang === 'en' ? 'Computer (' + texts.b + ')' : '电脑（' + texts.b + '）') + '</div><div style="font-size:18px;font-weight:700;color:var(--color-text);">' + compDice + '</div></div>';
-      html += '</div>';
+        if (rollingEl) {
+          rollingEl.style.animation = 'none';
+          rollingEl.textContent = diceEmojis[userDice - 1];
+          rollingEl.classList.add('dice-stop');
+        }
 
-      var winnerOption = '';
-      if (isTie) {
-        html += '<div class="dilemma-result-winner">' + app.t('decision_tie') + '</div>';
+        // 判断输赢
+        var userWins;
+        if (userHighLow) {
+          userWins = userDice > compDice;
+        } else {
+          userWins = userDice < compDice;
+        }
+        var isTie = userDice === compDice;
+        var userBetLabel = userHighLow ? app.t('dilemma_dice_result_high') : app.t('dilemma_dice_result_low');
+
+        // 用结果卡片展示
+        var html = '';
+        html += '<div class="dilemma-result-game">';
+        html += '<div style="margin-bottom:10px;font-size:13px;color:var(--color-gold);font-weight:700;">' + app.t('dilemma_you_bet') + userBetLabel + '</div>';
+        html += '<div class="dilemma-result-dice-wrap">';
+        html += '  <div class="dilemma-result-dice">';
+        html += '    <div class="dilemma-result-dice-emoji">' + diceEmojis[userDice - 1] + '</div>';
+        html += '    <div class="dilemma-result-dice-label">' + (lang === 'en' ? 'You (' + texts.a + ')' : '你（' + texts.a + '）') + '</div>';
+        html += '    <div class="dilemma-result-dice-value">' + userDice + '</div>';
+        html += '  </div>';
+        html += '  <div style="font-size:20px;color:var(--color-gold);align-self:center;">VS</div>';
+        html += '  <div class="dilemma-result-dice">';
+        html += '    <div class="dilemma-result-dice-emoji">' + diceEmojis[compDice - 1] + '</div>';
+        html += '    <div class="dilemma-result-dice-label">' + (lang === 'en' ? 'Computer (' + texts.b + ')' : '电脑（' + texts.b + '）') + '</div>';
+        html += '    <div class="dilemma-result-dice-value">' + compDice + '</div>';
+        html += '  </div>';
+        html += '</div>';
+
+        var winnerOption = '';
+        if (isTie) {
+          html += '<div class="dilemma-result-winner">' + app.t('decision_tie') + '</div>';
+          html += '</div>';
+          showResult(html);
+          diceBtns.forEach(function(b) { b.disabled = false; });
+          return;
+        } else if (userWins) {
+          winnerOption = texts.a;
+          html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
+        } else {
+          winnerOption = texts.b;
+          html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
+        }
         html += '</div>';
         showResult(html);
-        return;
-      } else if (userWins) {
-        winnerOption = texts.a;
-        html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
-      } else {
-        winnerOption = texts.b;
-        html += '<div class="dilemma-result-winner">' + app.t('dilemma_winner_is') + winnerOption + '</div>';
-      }
-      html += '</div>';
-      showResult(html);
 
-      // 塔罗解读
-      drawTarotForWinner(winnerOption);
+        // 塔罗解读
+        drawTarotForWinner(winnerOption);
+        diceBtns.forEach(function(b) { b.disabled = false; });
+      }, 1200);
     }
 
     // ============ 塔罗抽牌对比 ============
@@ -305,22 +407,39 @@
       showResult(html);
     }
 
-    // ============ 选择方式 ============
+    // ============ 选择方式（Tab 切换）============
     function chooseMethod(method) {
       var texts = getOptionTexts();
       currentMethod = method;
       optionA = texts.a;
       optionB = texts.b;
 
+      // Tab 按钮激活态
+      var tabBtns = document.querySelectorAll('.dilemma-method-btn');
+      tabBtns.forEach(function(btn) {
+        if (btn.dataset.method === method) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
       var gameArea = document.getElementById('dilemma-game-area');
       var rpsArea = document.getElementById('dilemma-rps-area');
       var diceArea = document.getElementById('dilemma-dice-area');
+      var rpsAnim = document.getElementById('dilemma-rps-animation');
+      var diceAnim = document.getElementById('dilemma-dice-animation');
       var resultDiv = document.getElementById('dilemma-result');
       var readingDiv = document.getElementById('dilemma-reading');
       var redoBtn = document.getElementById('dilemma-redo-btn');
+      var readingRedo = document.getElementById('dilemma-reading-redo');
 
+      // 重置所有区域
       if (resultDiv) { resultDiv.innerHTML = ''; resultDiv.classList.add('hidden'); }
       if (readingDiv) { readingDiv.classList.add('hidden'); }
+      if (rpsAnim) { rpsAnim.classList.add('hidden'); rpsAnim.querySelector('.dilemma-rps-countdown').textContent = ''; }
+      if (diceAnim) { diceAnim.classList.add('hidden'); }
+      if (readingRedo) readingRedo.classList.add('hidden');
 
       if (method === 'rps') {
         if (gameArea) gameArea.classList.remove('hidden');
@@ -395,6 +514,15 @@
           else if (currentMethod === 'tarot') { resetResultArea(); chooseMethod('tarot'); }
         });
         redoBtn._bound = true;
+      }
+
+      // 塔罗解读区再来一次
+      var readingRedoBtn = document.getElementById('dilemma-reading-redo');
+      if (readingRedoBtn && !readingRedoBtn._bound) {
+        readingRedoBtn.addEventListener('click', function() {
+          if (currentMethod === 'tarot') { resetResultArea(); chooseMethod('tarot'); }
+        });
+        readingRedoBtn._bound = true;
       }
     }
 

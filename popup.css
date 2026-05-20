@@ -22,6 +22,10 @@
   box-sizing: border-box;
 }
 
+.hidden {
+  display: none !important;
+}
+
 body {
   width: var(--popup-width);
   height: var(--popup-height);
@@ -3029,8 +3033,8 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  padding: 8px 4px 16px;
+  gap: 12px;
+  padding: 8px 4px 12px;
   flex: 1;
   overflow-y: auto;
 }
@@ -3194,7 +3198,34 @@ button:active {
   gap: 8px;
   width: 100%;
   animation: numgenFadeIn 0.6s ease-out;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.dilemma-redo-inline {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(26, 15, 64, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--color-gold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dilemma-redo-inline:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: var(--color-gold);
+  transform: scale(1.1);
 }
 
 .dilemma-result-game {
@@ -3261,28 +3292,53 @@ button:active {
 .dilemma-card-slot {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 6px 0 12px;
 }
 
 .dilemma-card-slot .tarot-card {
-  width: 80px;
-  height: 126px;
+  width: 90px;
+  height: 140px;
   cursor: pointer;
 }
 
 .dilemma-card-slot .card-3d-wrap {
   perspective: 1000px;
   display: inline-block;
-  width: 80px;
-  height: 126px;
+  width: 90px;
+  height: 140px;
+}
+
+.dilemma-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dilemma-card-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.5px;
+}
+
+.dilemma-card-name {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 100px;
 }
 
 .dilemma-vs-badge {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 900;
   color: var(--color-gold);
-  text-shadow: 0 0 10px var(--color-gold);
+  text-shadow: 0 0 12px var(--color-gold);
   align-self: center;
-  margin-top: 40px;
+  margin-top: 55px;
   flex-shrink: 0;
 }
 
@@ -3317,26 +3373,102 @@ button:active {
   border-radius: 2px;
 }
 
+.dilemma-reading-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 8px;
+}
+
 .dilemma-reading-title {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-gold);
   text-align: center;
-  margin-bottom: 10px;
   letter-spacing: 1px;
+  flex: 1;
+}
+
+.dilemma-reading-redo {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgba(26, 15, 64, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--color-gold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dilemma-reading-redo:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: var(--color-gold);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .dilemma-reading-content {
   font-size: 12px;
   color: var(--color-text);
-  line-height: 1.8;
+  line-height: 1.7;
   text-align: justify;
-  padding: 10px;
+}
+
+/* 鍢庣綏瀵规瘮瑙ｈ */
+.dilemma-tarot-readings {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dilemma-tarot-reading-col {
   background: rgba(26, 15, 64, 0.5);
-  border: 1px solid rgba(255, 215, 0, 0.15);
-  border-radius: 10px;
-  max-height: 180px;
-  overflow-y: auto;
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.dilemma-tarot-reading-title {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.dilemma-tarot-reading-text {
+  font-size: 12px;
+  color: var(--color-text);
+  line-height: 1.7;
+  text-align: justify;
+}
+
+.dilemma-tarot-recommend {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.dilemma-redo-main {
+  background: rgba(255, 215, 0, 0.12) !important;
+  border: 1px solid var(--color-gold) !important;
+  color: var(--color-gold) !important;
+  font-weight: 700 !important;
+}
+
+.dilemma-redo-main:hover {
+  background: rgba(255, 215, 0, 0.25) !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
 }
 
 /* 鍢庣綏瑙ｈ瀹瑰櫒 */
