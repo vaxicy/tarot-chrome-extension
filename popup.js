@@ -19,25 +19,41 @@
   const SPREADS = {
     single: {
       name: '单牌占卜',
+      nameEn: 'Single Card',
       positions: ['今日指引'],
+      positionsEn: ['Daily Guidance'],
       positionMeanings: ['一张牌概括当前能量状态，适合快速提问或每日指引。正位通常表示顺利，逆位提示需要注意的方向。'],
+      positionMeaningsEn: ['One card summarizes the current energy state. Good for quick questions or daily guidance. Upright suggests smoothness; reversed indicates areas to watch.'],
       category: 'simple', difficulty: 'easy', recommended: true, loadingText: '正在抽取今日指引...',
-      usage: '适合每日抽一张牌作为当日指引，或针对一个具体问题寻求答案。'
+      loadingTextEn: 'Drawing your daily guidance...',
+      usage: '适合每日抽一张牌作为当日指引，或针对一个具体问题寻求答案。',
+      usageEn: 'Suitable for drawing one card daily as guidance, or for a specific question.'
     },
     three: {
       name: '三牌占卜',
+      nameEn: 'Three Card Spread',
       positions: ['过去', '现在', '未来'],
+      positionsEn: ['Past', 'Present', 'Future'],
       positionMeanings: [
         '过去：影响当前情况的历史因素或已发生的事件。',
         '现在：当前的核心状况、你的状态和正在发生的事。',
         '未来：基于当前趋势可能的发展方向，并非注定不变。'
       ],
+      positionMeaningsEn: [
+        'Past: Historical factors or events that influence the current situation.',
+        'Present: The core situation, your state, and what is happening now.',
+        'Future: Possible development direction based on current trends; not set in stone.'
+      ],
       category: 'simple', difficulty: 'easy', recommended: true, loadingText: '正在展开三张牌...',
-      usage: '最经典的牌阵，适合大多数问题，时间线清晰，解读直观。'
+      loadingTextEn: 'Laying out three cards...',
+      usage: '最经典的牌阵，适合大多数问题，时间线清晰，解读直观。',
+      usageEn: 'The most classic spread, suitable for most questions. Clear timeline, intuitive reading.'
     },
     celtic: {
       name: '凯尔特十字',
+      nameEn: 'Celtic Cross',
       positions: ['当前情况', '挑战/障碍', '过去基础', '近期过去', '可能未来', '近期未来', '你的态度', '外部影响', '希望与恐惧', '最终结果'],
+      positionsEn: ['Current Situation', 'Challenge', 'Past', 'Future', 'Above', 'Below', 'Advice', 'External', 'Hopes/Fears', 'Outcome'],
       positionMeanings: [
         '当前情况：你目前所处的境况和核心问题。',
         '挑战/障碍：当前面临的主要困难或需要克服的挑战。',
@@ -50,12 +66,28 @@
         '希望与恐惧：你内心深处的期望和担忧。',
         '最终结果：综合所有因素后最可能的结果。'
       ],
+      positionMeaningsEn: [
+        'Current Situation: The situation you are currently in and the core issue.',
+        'Challenge: The main difficulty or challenge you are currently facing.',
+        'Past: Past reasons and foundations that formed the current situation.',
+        'Future: Recent past events that still influence you.',
+        'Above: Possible future development direction (not guaranteed to happen).',
+        'Below: Things that will happen in the near future.',
+        'Advice: Your true attitude and feelings toward this issue.',
+        'External: Influence from external people, events, or things on the issue.',
+        'Hopes/Fears: Expectations and worries deep in your heart.',
+        'Outcome: The most likely result after integrating all factors.'
+      ],
       category: 'advanced', difficulty: 'hard', recommended: false, loadingText: '正在展开凯尔特十字...',
-      usage: '适合重要且复杂的问题，需要全面深入分析时使用。建议有一定塔罗基础后再尝试。'
+      loadingTextEn: 'Unfolding the Celtic Cross...',
+      usage: '适合重要且复杂的问题，需要全面深入分析时使用。建议有一定塔罗基础后再尝试。',
+      usageEn: 'Suitable for important and complex questions requiring comprehensive analysis. Recommended after gaining some Tarot foundation.'
     },
     relation: {
       name: '关系牌阵',
+      nameEn: 'Relationship Spread',
       positions: ['你', '对方', '你的态度', '对方的态度', '当前关系', '发展方向'],
+      positionsEn: ['You', 'Partner', 'Your Attitude', 'Their Attitude', 'Current Relationship', 'Direction'],
       positionMeanings: [
         '你：你在这段关系中的状态、能量和角色。',
         '对方：对方在这段关系中的状态、能量和角色。',
@@ -64,12 +96,24 @@
         '当前关系：你们之间目前的关系状态和互动模式。',
         '发展方向：这段关系未来的可能走向。'
       ],
+      positionMeaningsEn: [
+        'You: Your state, energy, and role in this relationship.',
+        'Partner: The other person\'s state, energy, and role in this relationship.',
+        'Your Attitude: Your true feelings and attitude toward this relationship.',
+        'Their Attitude: The other person\'s true feelings and attitude toward this relationship.',
+        'Current Relationship: The current relationship status and interaction pattern between you.',
+        'Direction: The possible future direction of this relationship.'
+      ],
       category: 'relationship', difficulty: 'medium', recommended: true, loadingText: '正在解读关系牌阵...',
-      usage: '适合分析任何人际关系，包括爱情、友情、亲子关系、职场关系等。'
+      loadingTextEn: 'Reading the relationship spread...',
+      usage: '适合分析任何人际关系，包括爱情、友情、亲子关系、职场关系等。',
+      usageEn: 'Suitable for analyzing any interpersonal relationship, including romance, friendship, parenting, workplace relationships, etc.'
     },
     choice: {
       name: '二选一牌阵',
+      nameEn: 'Choice Spread',
       positions: ['选项A', '选项B', 'A的可能结果', 'B的可能结果', '建议/提醒'],
+      positionsEn: ['Option A', 'Option B', 'Outcome A', 'Outcome B', 'Advice'],
       positionMeanings: [
         '选项A：第一个选项的现状和本质。',
         '选项B：第二个选项的现状和本质。',
@@ -77,12 +121,23 @@
         'B的可能结果：如果选择B，可能带来的结果。',
         '建议/提醒：塔罗对你的建议，以及需要特别注意的事项。'
       ],
+      positionMeaningsEn: [
+        'Option A: The current status and nature of the first option.',
+        'Option B: The current status and nature of the second option.',
+        'Outcome A: The possible result if you choose A.',
+        'Outcome B: The possible result if you choose B.',
+        'Advice: The Tarot\'s advice for you, and points to pay special attention to.'
+      ],
       category: 'decision', difficulty: 'medium', recommended: false, loadingText: '正在分析两个选项...',
-      usage: '当你在两个选项中犹豫不决时使用，帮助看清每个选项的利弊和可能结果。'
+      loadingTextEn: 'Analyzing the two options...',
+      usage: '当你在两个选项中犹豫不决时使用，帮助看清每个选项的利弊和可能结果。',
+      usageEn: 'Use when you are hesitating between two options. Helps clarify the pros and cons and possible outcomes of each option.'
     },
     five: {
       name: '五张牌阵',
+      nameEn: 'Five Card Spread',
       positions: ['问题核心', '面临的障碍', '潜意识/隐藏因素', '建议的行动', '可能的结果'],
+      positionsEn: ['Problem', 'Obstacle', 'Subconscious', 'Suggested Action', 'Possible Outcome'],
       positionMeanings: [
         '问题核心：问题的本质和最关键的因素。',
         '面临的障碍：阻碍问题解决的主要困难和挑战。',
@@ -90,12 +145,23 @@
         '建议的行动：塔罗建议你采取的行动方向。',
         '可能的结果：如果按照建议行动，可能得到的结果。'
       ],
+      positionMeaningsEn: [
+        'Problem: The essence of the problem and the most critical factor.',
+        'Obstacle: The main difficulty or challenge that hinders problem-solving.',
+        'Subconscious: Motivations, emotions, or hidden influencing factors you may not be aware of.',
+        'Suggested Action: The action direction the Tarot suggests you take.',
+        'Possible Outcome: The possible result if you act on the suggestion.'
+      ],
       category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开五张牌阵...',
-      usage: '适合分析任何类型的问题，从问题核心到解决方案，层层递进。'
+      loadingTextEn: 'Unfolding the five-card spread...',
+      usage: '适合分析任何类型的问题，从问题核心到解决方案，层层递进。',
+      usageEn: 'Suitable for analyzing any type of problem, from the core issue to the solution, layer by layer.'
     },
     horseshoe: {
       name: '马蹄铁牌阵',
+      nameEn: 'Horseshoe Spread',
       positions: ['过去的影响', '现在的情况', '隐藏的因素', '面临的挑战', '外部影响', '希望与恐惧', '最终结果'],
+      positionsEn: ['Past Influence', 'Current', 'Hidden Factor', 'Challenge', 'External', 'Hopes/Fears', 'Outcome'],
       positionMeanings: [
         '过去的影响：过去事件对当前情况的持续影响。',
         '现在的情况：当前问题的实际状况。',
@@ -105,12 +171,25 @@
         '希望与恐惧：内心深处的期望与担忧，可能影响决策。',
         '最终结果：综合所有因素后，最有可能发生的结果。'
       ],
+      positionMeaningsEn: [
+        'Past Influence: The lasting impact of past events on the current situation.',
+        'Current: The actual status of the current problem.',
+        'Hidden Factor: Important factors that have not been discovered or valued.',
+        'Challenge: Difficulties that need to be faced and overcome.',
+        'External: Influence of environment, others, or uncontrollable factors on the problem.',
+        'Hopes/Fears: Deep expectations and worries that may affect decision-making.',
+        'Outcome: The most likely result after integrating all factors.'
+      ],
       category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开马蹄铁牌阵...',
-      usage: '适合全面了解一个情况的各个层面，时间跨度从过去到未来。'
+      loadingTextEn: 'Unfolding the Horseshoe spread...',
+      usage: '适合全面了解一个情况的各个层面，时间跨度从过去到未来。',
+      usageEn: 'Suitable for comprehensively understanding all aspects of a situation, spanning from past to future.'
     },
     career: {
       name: '事业牌阵',
+      nameEn: 'Career Spread',
       positions: ['当前状况', '面临的挑战', '你的优势', '建议的行动', '未来发展'],
+      positionsEn: ['Current', 'Challenge', 'Strengths', 'Action', 'Future'],
       positionMeanings: [
         '当前状况：你在事业/学业方面的现状。',
         '面临的挑战：工作中遇到的困难或需要克服的障碍。',
@@ -118,12 +197,23 @@
         '建议的行动：塔罗建议你在事业/学业上采取的行动。',
         '未来发展：基于当前情况，事业/学业的可能发展方向。'
       ],
+      positionMeaningsEn: [
+        'Current: Your current status in career/studies.',
+        'Challenge: Difficulties encountered at work or obstacles to overcome.',
+        'Strengths: Your abilities, resources, or favorable conditions.',
+        'Action: Actions the Tarot suggests you take in career/studies.',
+        'Future: Possible development direction of career/studies based on the current situation.'
+      ],
       category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在展开事业牌阵...',
-      usage: '适合分析工作、学业、职业发展相关的问题，帮助做出更明智的职业决策。'
+      loadingTextEn: 'Unfolding the Career spread...',
+      usage: '适合分析工作、学业、职业发展相关的问题，帮助做出更明智的职业决策。',
+      usageEn: 'Suitable for analyzing work, study, and career development related questions. Helps make wiser career decisions.'
     },
     timeflow: {
       name: '时间之流',
+      nameEn: 'Time Flow Spread',
       positions: ['过去', '现在', '未来', '深层原因', '可能的结果'],
+      positionsEn: ['Past', 'Present', 'Future', 'Root Cause', 'Possible Outcome'],
       positionMeanings: [
         '过去：影响当前情况的历史因素和已发生的事件。',
         '现在：当前的核心状况和你的真实状态。',
@@ -131,23 +221,43 @@
         '深层原因：潜藏在问题背后的根本动因。',
         '可能的结果：综合所有因素后最终可能呈现的状态。'
       ],
+      positionMeaningsEn: [
+        'Past: Historical factors and events that influenced the current situation.',
+        'Present: The core situation and your true state at present.',
+        'Future: The most likely development direction based on current trends.',
+        'Root Cause: The root cause hidden behind the problem.',
+        'Possible Outcome: The state that may eventually appear after integrating all factors.'
+      ],
       category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
-      usage: '在时间维度上全面分析问题，适合想要看清事情来龙去脉的情况。'
+      loadingTextEn: 'Unfolding the Time Flow spread...',
+      usage: '在时间维度上全面分析问题，适合想要看清事情来龙去脉的情况。',
+      usageEn: 'Comprehensively analyze problems across the time dimension. Suitable for situations where you want to see the whole story.'
     },
     action: {
       name: '问题行动结果',
+      nameEn: 'Problem-Action-Result',
       positions: ['问题核心', '建议行动', '可能结果'],
+      positionsEn: ['Problem', 'Suggested Action', 'Possible Outcome'],
       positionMeanings: [
         '问题核心：你最关心的核心问题或担忧。',
         '建议行动：塔罗建议你采取的具体行动方向。',
         '可能结果：如果按照建议行动，最可能得到的结果。'
       ],
+      positionMeaningsEn: [
+        'Problem: The core problem or worry you care about most.',
+        'Suggested Action: The specific action direction the Tarot suggests you take.',
+        'Possible Outcome: The most likely result if you act on the suggestion.'
+      ],
       category: 'decision', difficulty: 'easy', recommended: true, loadingText: '正在展开问题行动结果...',
-      usage: '简洁明了的三位牌阵，适合快速决策和明确行动方向。'
+      loadingTextEn: 'Analyzing Problem-Action-Result...',
+      usage: '简洁明了的三位牌阵，适合快速决策和明确行动方向。',
+      usageEn: 'A concise three-card spread, suitable for quick decision-making and clarifying action directions.'
     },
     mind: {
       name: '心灵牌阵',
+      nameEn: 'Mind Spread',
       positions: ['意识', '潜意识', '理想', '现实', '建议'],
+      positionsEn: ['Conscious', 'Subconscious', 'Ideal', 'Reality', 'Advice'],
       positionMeanings: [
         '意识：你清醒时对自己和问题的认知。',
         '潜意识：内心深处隐藏的动机、恐惧或渴望。',
@@ -155,13 +265,24 @@
         '现实：客观现实和实际的限制条件。',
         '建议：综合意识与潜意识、理想与现实后的最佳建议。'
       ],
+      positionMeaningsEn: [
+        'Conscious: Your awareness of yourself and the problem when awake.',
+        'Subconscious: Hidden motivations, fears, or desires deep in your heart.',
+        'Ideal: The state or result you truly desire deep in your heart.',
+        'Reality: Objective reality and actual limiting conditions.',
+        'Advice: The best advice after integrating conscious and subconscious, ideal and reality.'
+      ],
       category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开心灵牌阵...',
-      usage: '适合自我探索和内心成长类问题，帮助看清内心真实想法。'
+      loadingTextEn: 'Exploring the Mind spread...',
+      usage: '适合自我探索和内心成长类问题，帮助看清内心真实想法。',
+      usageEn: 'Suitable for self-exploration and inner growth questions. Helps clarify your true inner thoughts.'
     },
     // ============ 新增情感关系牌阵 ============
     love: {
       name: '恋人牌阵',
+      nameEn: 'Love Spread',
       positions: ['你', '对方', '你们的关系', '面临的挑战', '周围的影响', '关系的未来', '建议'],
+      positionsEn: ['You', 'Partner', 'Your Relationship', 'Challenges', 'External Influence', 'Relationship Future', 'Advice'],
       positionMeanings: [
         '你：你在这段感情中的状态、感受和行为模式。',
         '对方：对方在感情中的真实状态和对你的感受。',
@@ -171,12 +292,25 @@
         '关系的未来：基于当前状态，这段关系可能的发展方向。',
         '建议：塔罗对这段感情的建议和指引。'
       ],
+      positionMeaningsEn: [
+        'You: Your state, feelings, and behavior pattern in this relationship.',
+        'Partner: The other person\'s true state in the relationship and feelings toward you.',
+        'Your Relationship: The nature of this relationship and the current interaction pattern.',
+        'Challenges: Problems that need to be faced and resolved in this relationship.',
+        'External Influence: Influence from the outside (friends, family, environment) on this relationship.',
+        'Relationship Future: Possible development direction of this relationship based on the current state.',
+        'Advice: The Tarot\'s advice and guidance for this relationship.'
+      ],
       category: 'relationship', difficulty: 'medium', recommended: true, loadingText: '正在解读恋人牌阵...',
-      usage: '适合正在恋爱或暧昧中的人，全面分析两人关系的各个层面。'
+      loadingTextEn: 'Reading the Love spread...',
+      usage: '适合正在恋爱或暧昧中的人，全面分析两人关系的各个层面。',
+      usageEn: 'Suitable for people who are in love or in an ambiguous stage. Comprehensively analyzes all aspects of the two-person relationship.'
     },
     broken: {
       name: '复合牌阵',
+      nameEn: 'Reunion Spread',
       positions: ['问题根源', '对方的想法', '你的状态', '障碍', '复合的可能性', '建议'],
+      positionsEn: ['Root Cause', 'Their Thoughts', 'Your State', 'Obstacles', 'Reunion Possibility', 'Advice'],
       positionMeanings: [
         '问题根源：导致分手或关系破裂的核心原因。',
         '对方的想法：对方目前对你的真实想法和感受。',
@@ -185,25 +319,46 @@
         '复合的可能性：基于双方状态，复合的可能性有多大。',
         '建议：塔罗对你是否应该复合、以及如何行动的建议。'
       ],
+      positionMeaningsEn: [
+        'Root Cause: The core reason that led to the breakup or relationship rupture.',
+        'Their Thoughts: The other person\'s true thoughts and feelings about you at present.',
+        'Your State: Your true state in this relationship and areas where you need to grow.',
+        'Obstacles: Difficulties and barriers that need to be overcome on the road to getting back together.',
+        'Reunion Possibility: How likely is a reunion based on both parties\' status.',
+        'Advice: The Tarot\'s advice on whether you should get back together and how to act.'
+      ],
       category: 'relationship', difficulty: 'medium', recommended: false, loadingText: '正在解读复合牌阵...',
-      usage: '适合分手后想了解是否还有复合可能，或想看清分手原因时使用。'
+      loadingTextEn: 'Reading the Reunion spread...',
+      usage: '适合分手后想了解是否还有复合可能，或想看清分手原因时使用。',
+      usageEn: 'Suitable for use after a breakup when you want to know if there is still a possibility of getting back together, or want to see the reason for the breakup.'
     },
     // ============ 新增决策分析牌阵 ============
     yesno: {
       name: '是否牌阵',
+      nameEn: 'Yes/No Spread',
       positions: ['支持因素', '反对因素', '综合建议'],
+      positionsEn: ['Supporting Factors', 'Opposing Factors', 'Comprehensive Advice'],
       positionMeanings: [
         '支持因素：支持你做这件事的理由和有利条件。',
         '反对因素：反对你做这件事的理由和需要注意的风险。',
         '综合建议：综合两方面因素后，塔罗给出的建议（正位偏向"是"，逆位偏向"否"）。'
       ],
+      positionMeaningsEn: [
+        'Supporting Factors: Reasons and favorable conditions that support you doing this.',
+        'Opposing Factors: Reasons against doing this and risks that need attention.',
+        'Comprehensive Advice: The Tarot\'s advice after integrating both factors (upright leans toward "yes", reversed leans toward "no").'
+      ],
       category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在解读是否牌阵...',
-      usage: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。'
+      loadingTextEn: 'Analyzing Yes/No spread...',
+      usage: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。',
+      usageEn: 'Use when you are hesitating about a decision and just want a "yes" or "no" guidance.'
     },
     // ============ 新增事业学业牌阵 ============
     jobchange: {
       name: '换工作牌阵',
+      nameEn: 'Job Change Spread',
       positions: ['现状', '想离职的原因', '新机会的本质', '风险与挑战', '建议'],
+      positionsEn: ['Current Situation', 'Reason for Leaving', 'Nature of New Opportunity', 'Risks & Challenges', 'Advice'],
       positionMeanings: [
         '现状：你目前的工作状态和感受。',
         '想离职的原因：促使你想离开当前工作的核心因素。',
@@ -211,13 +366,24 @@
         '风险与挑战：换工作可能面临的困难和挑战。',
         '建议：塔罗对你是否应该换工作、以及如何选择的建议。'
       ],
+      positionMeaningsEn: [
+        'Current Situation: Your current work status and feelings.',
+        'Reason for Leaving: The core factor that prompts you to want to leave your current job.',
+        'Nature of New Opportunity: The true situation of the new job or new opportunity.',
+        'Risks & Challenges: Difficulties and challenges you may face when changing jobs.',
+        'Advice: The Tarot\'s advice on whether you should change jobs and how to choose.'
+      ],
       category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在解读换工作牌阵...',
-      usage: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。'
+      loadingTextEn: 'Analyzing Job Change spread...',
+      usage: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。',
+      usageEn: 'Suitable for people who are considering changing jobs, switching careers, or job hopping. Helps make wiser career decisions.'
     },
     // ============ 新增自我成长牌阵 ============
     shadow: {
       name: '阴影牌阵',
+      nameEn: 'Shadow Spread',
       positions: ['意识自我', '阴影自我', '需要释放的', '成长方向', '建议'],
+      positionsEn: ['Conscious Self', 'Shadow Self', 'What to Release', 'Growth Direction', 'Advice'],
       positionMeanings: [
         '意识自我：你平时展现给外界的自我形象。',
         '阴影自我：你不愿面对或否认的性格面向，可能正是你需要整合的部分。',
@@ -225,12 +391,23 @@
         '成长方向：你接下来应该专注的成长方向。',
         '建议：塔罗对你自我整合和成长的建议。'
       ],
+      positionMeaningsEn: [
+        'Conscious Self: The self-image you usually present to the outside world.',
+        'Shadow Self: The personality aspects you are unwilling to face or deny, which may be exactly the parts you need to integrate.',
+        'What to Release: Old patterns, obsessions, or traumas that hinder your growth.',
+        'Growth Direction: The growth direction you should focus on next.',
+        'Advice: The Tarot\'s advice for your self-integration and growth.'
+      ],
       category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在展开阴影牌阵...',
-      usage: '适合想要深入了解自己、进行心理成长或整合阴影面的人。'
+      loadingTextEn: 'Unfolding the Shadow spread...',
+      usage: '适合想要深入了解自己、进行心理成长或整合阴影面的人。',
+      usageEn: 'Suitable for people who want to deeply understand themselves, engage in psychological growth, or integrate their shadow side.'
     },
     year: {
       name: '年运牌阵',
+      nameEn: 'Yearly Spread',
       positions: ['整体运势', '事业/学业', '感情/人际关系', '财富/物质', '健康/身心', '需要注意的', '年度建议'],
+      positionsEn: ['Overall Fortune', 'Career/Study', 'Love/Relationships', 'Wealth/Material', 'Health/Wellness', 'Things to Note', 'Annual Advice'],
       positionMeanings: [
         '整体运势：这一年的整体能量和主题。',
         '事业/学业：这一年事业或学业方面的发展。',
@@ -240,8 +417,19 @@
         '需要注意的：这一年需要特别留意的人、事、物。',
         '年度建议：塔罗对这一年整体行动的建议。'
       ],
+      positionMeaningsEn: [
+        'Overall Fortune: The overall energy and theme of this year.',
+        'Career/Study: Developments in career or studies this year.',
+        'Love/Relationships: Situation in love and interpersonal relationships this year.',
+        'Wealth/Material: Financial and material life status this year.',
+        'Health/Wellness: Areas of health and physical/mental state that need attention this year.',
+        'Things to Note: People, events, or things that need special attention this year.',
+        'Annual Advice: The Tarot\'s advice for overall actions this year.'
+      ],
       category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
-      usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。'
+      loadingTextEn: 'Unfolding the Yearly spread...',
+      usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
+      usageEn: 'Suitable for drawing at New Year or birthday to understand the fortune trend and development in various fields for the whole year.'
     }
   };
 
@@ -342,6 +530,9 @@
       btn_clear_history: '清空记录',
       history_empty: '暂无历史记录',
       fav_empty: '暂无收藏，点击卡牌预览中的 ☆ 可收藏喜欢的卡牌。',
+      alert_copy_success: '占卜结果已复制到剪贴板！',
+      alert_copy_fail: '复制失败，请手动复制结果',
+      alert_draw_error: '抽牌出错: ',
       fav_title: '收藏夹',
       fav_hint: '你收藏的卡牌',
       loading_shuffle: '正在洗牌...',
@@ -437,7 +628,56 @@
       yesno_tip: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。',
       jobchange_tip: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。',
       shadow_tip: '适合想要深入了解自己、进行心理成长或整合阴影面的人。',
-      year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。'
+      year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
+      // 牌意
+      btn_custom_meaning: '自定义牌意',
+      cards_count_label: '张牌',
+      // 综合解读标题
+      theme_title: '★ 整体主题',
+      relation_title: '⚙ 牌面关系分析',
+      trend_title: '➡ 运势走向',
+      advice_title: '⚡ 行动建议',
+      // 整体主题
+      theme_intro: '本次{0}抽取了 {1} 张牌，其中正位 {2} 张，逆位 {3} 张。',
+      theme_has_majors: '大阿卡那牌出现了 {0} 张（{1}），预示本次问题涉及重要的生命课题或深层转变，值得认真对待。',
+      theme_no_majors: '本次抽到的均为小阿卡那牌，问题更偏向日常生活层面的具体事务。',
+      theme_dominant: '牌面中「{0}」元素最为突出，',
+      theme_wands: '整体能量偏向行动、热情与创造力，是一个需要主动出击的时期。',
+      theme_cups: '整体能量偏向情感、直觉与人际关系，需要更多关注内心感受。',
+      theme_swords: '整体能量偏向思维、沟通与挑战，需要理性分析和清晰判断。',
+      theme_pentacles: '整体能量偏向物质、事业与实际成果，需要脚踏实地的行动。',
+      theme_mostly_reversed: '逆位牌占多数，提示当前局面可能存在阻碍、内在抗拒或需要调整方向；建议以更灵活的态度面对变化。',
+      theme_mostly_upright: '正位牌占多数，整体能量通畅，当前方向基本正确，保持信心继续推进即可。',
+      // 牌面关系分析
+      relation_three_past: '过去（{0} {1}）为现在（{2} {3}）埋下了伏笔，而现在的能量将延续至未来（{4} {5}）。',
+      relation_three_past_rev_now_up: '逆位的过去牌显示旧有模式正在被化解，现在是一个重新出发的契机。',
+      relation_three_past_up_now_rev: '过去的顺利积累未能延续到现在，需要审视哪里出现了偏差。',
+      relation_three_now_rev_future_up: '现在的困难是暂时的，未来有逆转向上的趋势，请坚持下去。',
+      relation_you: '你（{0} {1}）与对方（{2} {3}）之间存在着明显的能量互动。',
+      relation_same_rev: '双方的牌位状态相似，说明你们对这段关系的认知较为一致，但双方都可能带着某些内在抗拒或困惑。',
+      relation_same_up: '双方的牌位状态相似，说明你们对这段关系的认知较为一致，这是一段相对和谐、互相理解的关系。',
+      relation_diff: '你们的牌位状态不同，可能存在认知差异或不同步的情况，需要更多沟通。',
+      relation_choice: '选项A（{0} {1}）与选项B（{2} {3}）呈现出不同的能量走向。建议牌（{4} {5}）为你的决策提供了重要指引，请仔细体悟这张牌的启示。',
+      relation_celtic: '十字中心的两张牌——当前情况（{0}）与挑战（{1}）——构成了问题的核心张力。过去的能量（{2}）仍在影响着现在，而最终结果牌（{3}）指明了这段旅程可能的归宿。',
+      relation_suite_continue: '「{0}」与「{1}」同为{2} suite，能量有延续性；',
+      relation_rev_to_up: '从「{0}」的逆位转向「{1}」的正位，说明局势正在好转；',
+      relation_up_to_rev: '从「{0}」的正位走向「{1}」的逆位，需要警惕潜在风险；',
+      relation_smooth: '各张牌位之间的能量流转较为平稳，没有明显的冲突或突变，整体呈现出渐进式的发展轨迹。',
+      // 运势走向
+      trend_good: '牌面显示整体走势向好——前半段逆位较多，暗示起步或有阻碍；后半段正位增多，预示局面将逐步打开，坚持将有所收获。',
+      trend_warning: '需要留意的走势——前半段相对顺利，但后半段逆位增多，提示后续可能出现变数或挑战，宜未雨绸缪、保持警觉。',
+      trend_stable: '牌面显示能量相对平稳，没有剧烈的好转或恶化。这是一个沉淀和积累的时期，适合稳扎稳打，不宜冒进也不宜消极。',
+      trend_major_turn: '「{0}」的出现预示着重大转折即将到来，请做好迎接变化的心理准备。',
+      // 行动建议
+      advice_intro: '综合牌面指引，当前最值得采取的态度是：',
+      advice_upright: '积极践行「{0}」的正位能量——{1} 在具体行动上，',
+      advice_wands: '请主动出击，不要等待机会来找你。',
+      advice_cups: '请倾听内心的声音，跟随直觉做出选择。',
+      advice_swords: '请理性分析局势，用清晰的思维指导行动。',
+      advice_pentacles: '请专注实际步骤，一步一个脚印地推进计划。',
+      advice_major: '请思考这张牌所传达的核心讯息，并将其融入你的决策中。',
+      advice_reversed: '「{0}」逆位提醒你，{1} 建议先处理内在阻碍，再重新出发。',
+      advice_many_reversed: '牌面逆位较多，建议给自己更多耐心和宽容，不要强求立竿见影的结果，允许事物按照自己的节奏展开。'
     },
     en: {
       welcome_title: 'Harry Potter Tarot',
@@ -500,6 +740,9 @@
       btn_clear_history: 'Clear History',
       history_empty: 'No history yet',
       fav_empty: 'No favorites yet. Click ☆ in card preview to favorite a card.',
+      alert_copy_success: 'Reading result copied to clipboard!',
+      alert_copy_fail: 'Copy failed, please copy manually.',
+      alert_draw_error: 'Card drawing error: ',
       fav_title: 'Favorites',
       fav_hint: 'Your favorite cards',
       loading_shuffle: 'Shuffling...',
@@ -592,7 +835,56 @@
       yesno_tip: 'When you are hesitant about a decision and just want a "yes" or "no" guidance.',
       jobchange_tip: 'For those considering job change, career switch, or job hopping, helps make wiser career decisions.',
       shadow_tip: 'For those who want to understand themselves deeply, do psychological growth or integrate shadow self.',
-      year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.'
+      year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.',
+      // Card meaning
+      btn_custom_meaning: 'Custom Meaning',
+      cards_count_label: 'cards',
+      // Comprehensive reading titles
+      theme_title: '★ Overall Theme',
+      relation_title: '⚙ Card Relationships',
+      trend_title: '➡ Trend',
+      advice_title: '⚡ Advice',
+      // Overall theme
+      theme_intro: 'In this {0} reading, {1} cards were drawn, with {2} upright and {3} reversed.',
+      theme_has_majors: 'Major Arcana cards appeared ({0} cards: {1}). This indicates the question involves important life themes or deep transformations, which deserve serious attention.',
+      theme_no_majors: 'All cards drawn are from the Minor Arcana, suggesting the question is more about daily life matters.',
+      theme_dominant: 'The element of {0} is most prominent, ',
+      theme_wands: 'indicating that overall energy leans toward action, passion and creativity. This is a time to take initiative.',
+      theme_cups: 'indicating that overall energy leans toward emotions, intuition and relationships. More attention to inner feelings is needed.',
+      theme_swords: 'indicating that overall energy leans toward thinking, communication and challenges. Rational analysis and clear judgment are needed.',
+      theme_pentacles: 'indicating that overall energy leans toward material matters, career and practical results. Down-to-earth actions are required.',
+      theme_mostly_reversed: 'Reversed cards are in the majority, suggesting that there may be obstacles, inner resistance or a need to adjust direction in the current situation; a more flexible attitude toward change is recommended.',
+      theme_mostly_upright: 'Upright cards are in the majority, indicating that overall energy flows smoothly. The current direction is basically correct, just keep confidence and continue moving forward.',
+      // Card relationships
+      relation_three_past: 'The past ({0} {1}) sets the stage for the present ({2} {3}), and the present energy will continue into the future ({4} {5}).',
+      relation_three_past_rev_now_up: 'The reversed past card shows old patterns are being resolved; now is a time for a fresh start.',
+      relation_three_past_up_now_rev: 'The smooth accumulation from the past has not continued into the present. Review where deviations occurred.',
+      relation_three_now_rev_future_up: 'Current difficulties are temporary; the future shows an upward trend. Please persevere.',
+      relation_you: 'You ({0} {1}) and the other person ({2} {3}) have a clear energy interaction.',
+      relation_same_rev: 'Both cards are in similar positions, indicating you share a relatively consistent understanding of this relationship, yet both may carry some inner resistance or confusion.',
+      relation_same_up: 'Both cards are in similar positions, indicating you share a relatively consistent understanding of this relationship. This is a relatively harmonious and mutually understanding relationship.',
+      relation_diff: 'Your card positions differ, which may indicate cognitive differences or being out of sync. More communication is needed.',
+      relation_choice: 'Option A ({0} {1}) and Option B ({2} {3}) show different energy directions. The advice card ({4} {5}) provides important guidance for your decision; please reflect carefully on its message.',
+      relation_celtic: 'The two cards at the center of the cross — Current Situation ({0}) and Challenge ({1}) — form the core tension of the issue. The energy of the past ({2}) still influences the present, while the final outcome card ({3}) points to the possible destination of this journey.',
+      relation_suite_continue: '"{0}" and "{1}" are both from the {2} suit, showing energy continuity; ',
+      relation_rev_to_up: 'From reversed "{0}" to upright "{1}", the situation is improving; ',
+      relation_up_to_rev: 'From upright "{0}" to reversed "{1}", be alert to potential risks; ',
+      relation_smooth: 'The energy flow between card positions is relatively stable, with no obvious conflicts or sudden changes, showing a gradual development trajectory.',
+      // Trend
+      trend_good: 'The spread shows an overall positive trend — more reversals in the first half suggest obstacles at the start; more upright cards in the second half indicate the situation will gradually open up. Persistence will bring rewards.',
+      trend_warning: 'A trend to watch — the first half goes relatively smoothly, but more reversals in the second half suggest possible changes or challenges ahead. Prepare in advance and stay alert.',
+      trend_stable: 'The spread shows relatively stable energy without dramatic improvement or deterioration. This is a period of accumulation and settling. Stay steady, neither rush nor be passive.',
+      trend_major_turn: 'The appearance of "{0}" indicates a major turning point is coming. Be mentally prepared to embrace change.',
+      // Advice
+      advice_intro: 'Based on the overall spread guidance, the most worthwhile attitude to adopt now is: ',
+      advice_upright: 'Actively embrace the upright energy of "{0}" — {1} In concrete actions, ',
+      advice_wands: 'take the initiative and do not wait for opportunities to come to you.',
+      advice_cups: 'listen to your inner voice and follow your intuition when making choices.',
+      advice_swords: 'analyze the situation rationally and let clear thinking guide your actions.',
+      advice_pentacles: 'focus on practical steps and advance your plan one step at a time.',
+      advice_major: 'reflect on the core message this card conveys and integrate it into your decision-making.',
+      advice_reversed: 'The reversed "{0}" reminds you that {1} It is suggested to resolve inner obstacles first before starting anew.',
+      advice_many_reversed: 'With many reversed cards in the spread, it is recommended to give yourself more patience and tolerance. Do not demand immediate results; allow things to unfold at their own pace.'
     }
   };
 
@@ -613,14 +905,21 @@
       this.customMeanings = {};
       this.CUSTOM_MEANINGS_KEY = 'tarot_custom_meanings';
 
+      // 英文牌意 fallback 缓存（rider-waite 映射）
+      this.riderWaiteMap = new Map();
+
       // 初始化
       this.init();
     }
 
     // ============ 工具方法 ============
-    t(key) {
+    t(key, ...args) {
       const dict = I18N[this.currentLang] || I18N.zh;
-      return dict[key] || key;
+      let text = dict[key] || key;
+      args.forEach((arg, idx) => {
+        text = text.replace(new RegExp('\\{' + idx + '\\}', 'g'), arg);
+      });
+      return text;
     }
 
     // ============ 自定义牌意管理 ============
@@ -645,9 +944,23 @@
 
     getMeaningText(card, isReversed) {
       const type = isReversed ? 'reversed' : 'upright';
+      // 优先使用自定义牌意
       if (this.customMeanings[card.id] && this.customMeanings[card.id][type]) {
         return this.customMeanings[card.id][type];
       }
+      // 其次使用当前牌组的多语言 translations
+      if (card.translations && card.translations[this.currentLang]) {
+        const trans = card.translations[this.currentLang][type];
+        if (trans) return trans;
+      }
+      // fallback：英文模式下从 rider-waite 牌组查找同 ID 卡的英文翻译
+      if (this.currentLang === 'en' && this.riderWaiteMap && this.riderWaiteMap.has(card.id)) {
+        const riderCard = this.riderWaiteMap.get(card.id);
+        if (riderCard.translations && riderCard.translations.en && riderCard.translations.en[type]) {
+          return riderCard.translations.en[type];
+        }
+      }
+      // 兜底：原始中文
       return isReversed ? card.reversed : card.upright;
     }
 
@@ -677,76 +990,25 @@
     getLocalizedSpreadName(mode) {
       const spread = SPREADS[mode];
       if (!spread) return this.currentLang === 'en' ? 'Tarot Reading' : '塔罗占卜';
-      if (this.currentLang === 'en') {
-        const enNames = {
-          single: 'Single Card', three: 'Past-Present-Future', celtic: 'Celtic Cross',
-          relation: 'Relationship', choice: 'Choice Spread', five: 'Five Card',
-          horseshoe: 'Horseshoe', career: 'Career Spread', timeflow: 'Time Flow',
-          action: 'Problem-Action-Result', mind: 'Mind Spread',
-          // 新增牌阵
-          love: 'Love Spread', broken: 'Reunion Spread', yesno: 'Yes/No Spread',
-          jobchange: 'Job Change Spread', shadow: 'Shadow Spread', year: 'Yearly Spread'
-        };
-        return enNames[mode] || spread.name;
-      }
-      return spread.name;
+      return this.currentLang === 'en' ? (spread.nameEn || spread.name) : spread.name;
     }
 
     getLocalizedPositions(mode) {
       const spread = SPREADS[mode];
       if (!spread) return [];
       if (this.currentLang === 'en') {
-        const enPositions = {
-          single: ['Daily Guidance'],
-          three: ['Past', 'Present', 'Future'],
-          celtic: ['Current Situation', 'Challenge', 'Past', 'Future', 'Above', 'Below', 'Advice', 'External', 'Hopes/Fears', 'Outcome'],
-          relation: ['You', 'Partner', 'Your Attitude', 'Their Attitude', 'Current Relationship', 'Direction'],
-          choice: ['Option A', 'Option B', 'Pros A', 'Pros B', 'Advice'],
-          five: ['Present', 'Past', 'Future', 'Advice', 'Potential'],
-          horseshoe: ['Past Influence', 'Current', 'Hidden Factor', 'Challenge', 'External', 'Hopes/Fears', 'Outcome'],
-          career: ['Current', 'Challenge', 'Strengths', 'Action', 'Future'],
-          timeflow: ['Past', 'Present', 'Future', 'Root Cause', 'Possible Outcome'],
-          action: ['Problem', 'Suggested Action', 'Possible Outcome'],
-          mind: ['Conscious', 'Subconscious', 'Ideal', 'Reality', 'Advice'],
-          // 新增牌阵
-          love: ['You', 'Partner', 'Your Relationship', 'Challenges', 'External Influence', 'Relationship Future', 'Advice'],
-          broken: ['Root Cause', 'Their Thoughts', 'Your State', 'Obstacles', 'Reunion Possibility', 'Advice'],
-          yesno: ['Supporting Factors', 'Opposing Factors', 'Comprehensive Advice'],
-          jobchange: ['Current Situation', 'Reason for Leaving', 'Nature of New Opportunity', 'Risks & Challenges', 'Advice'],
-          shadow: ['Conscious Self', 'Shadow Self', 'What to Release', 'Growth Direction', 'Advice'],
-          year: ['Overall Fortune', 'Career/Study', 'Love/Relationships', 'Wealth/Material', 'Health/Wellness', 'Things to Note', 'Annual Advice']
-        };
-        return enPositions[mode] || spread.positions;
+        return spread.positionsEn || spread.positions;
       }
       return spread.positions;
     }
 
     getLocalizedLoadingText(mode) {
-      if (this.currentLang === 'en') {
-        const enTexts = {
-          single: 'Drawing your daily guidance...',
-          three: 'Laying out three cards...',
-          celtic: 'Unfolding the Celtic Cross...',
-          relation: 'Reading the relationship spread...',
-          choice: 'Analyzing the two options...',
-          five: 'Unfolding the five-card spread...',
-          horseshoe: 'Unfolding the Horseshoe spread...',
-          career: 'Unfolding the Career spread...',
-          timeflow: 'Unfolding the Time Flow spread...',
-          action: 'Analyzing Problem-Action-Result...',
-          mind: 'Exploring the Mind spread...',
-          // 新增牌阵
-          love: 'Reading the Love spread...',
-          broken: 'Reading the Reunion spread...',
-          yesno: 'Analyzing Yes/No spread...',
-          jobchange: 'Analyzing Job Change spread...',
-          shadow: 'Exploring the Shadow spread...',
-          year: 'Unfolding the Yearly spread...'
-        };
-        return enTexts[mode] || 'Shuffling cards...';
-      }
       const spread = SPREADS[mode];
-      return spread ? spread.loadingText : '正在洗牌...';
+      if (!spread) return this.currentLang === 'en' ? 'Shuffling cards...' : '正在洗牌...';
+      if (this.currentLang === 'en') {
+        return spread.loadingTextEn || 'Shuffling cards...';
+      }
+      return spread.loadingText || '正在洗牌...';
     }
 
     // ============ 运势相关本地化 ============
@@ -970,7 +1232,7 @@
     setDeckHint(baseText) {
       const hint = document.getElementById('step-hint');
       if (hint) {
-        hint.textContent = baseText + ' · ' + DECK_NAMES[this.currentDeck];
+        hint.textContent = baseText + ' · ' + this.getLocalizedDeckName(this.currentDeck);
       }
     }
 
@@ -1039,7 +1301,7 @@
         '<div class="card-meaning">' +
           '<div class="meaning-header">' + displayName + posLabel + ' - ' + posText + '</div>' +
           '<div class="meaning-text">' + meaning + '</div>' +
-          '<button class="custom-meaning-btn" data-card-id="' + card.id + '" data-type="' + (isReversed ? 'reversed' : 'upright') + '">' + this.t('自定义牌意') + '</button>' +
+          '<button class="custom-meaning-btn" data-card-id="' + card.id + '" data-type="' + (isReversed ? 'reversed' : 'upright') + '">' + this.t('btn_custom_meaning') + '</button>' +
         '</div>';
 
       // 绑定自定义牌意按钮
@@ -1069,7 +1331,6 @@
       });
 
       const majors = cards.filter((item) => item.card.suit === 'major');
-      const minors = cards.filter((item) => item.card.suit !== 'major');
 
       const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
       cards.forEach((item) => {
@@ -1079,7 +1340,7 @@
         else if (item.card.suit === 'pentacles') elements.pentacles++;
       });
 
-      let dominantElement = '无';
+      let dominantElement = 'none';
       let maxCount = 0;
       for (const el in elements) {
         if (elements[el] > maxCount) { maxCount = elements[el]; dominantElement = el; }
@@ -1089,31 +1350,31 @@
         : { wands: '权杖（火）', cups: '圣杯（水）', swords: '宝剑（风）', pentacles: '星币（土）' };
 
       let html = '<div class="reading-section">';
-      html += '<div class="reading-section-title">★ 整体主题</div>';
+      html += '<div class="reading-section-title">' + this.t('theme_title') + '</div>';
       html += '<div class="reading-section-body">';
 
-      let text = '本次' + spreadName + '抽取了 ' + cards.length + ' 张牌，';
-      text += '其中正位 ' + uprightCount + ' 张，逆位 ' + reversedCount + ' 张。';
+      let text = this.t('theme_intro', spreadName, cards.length, uprightCount, reversedCount);
 
       if (majors.length > 0) {
-        text += ' 大阿卡那牌出现了 ' + majors.length + ' 张（' + majors.map((m) => deckManager.getCardName(m.card)).join('、') + '），';
-        text += '预示本次问题涉及重要的生命课题或深层转变，值得认真对待。';
+        const sep = this.currentLang === 'en' ? ', ' : '、';
+        const majorNames = majors.map((m) => deckManager.getCardName(m.card)).join(sep);
+        text += this.t('theme_has_majors', majors.length, majorNames);
       } else {
-        text += ' 本次抽到的均为小阿卡那牌，问题更偏向日常生活层面的具体事务。';
+        text += this.t('theme_no_majors');
       }
 
       if (maxCount > 1) {
-        text += ' 牌面中「' + (elementNames[dominantElement] || dominantElement) + '」元素最为突出，';
-        if (dominantElement === 'wands') text += '整体能量偏向行动、热情与创造力，是一个需要主动出击的时期。';
-        else if (dominantElement === 'cups') text += '整体能量偏向情感、直觉与人际关系，需要更多关注内心感受。';
-        else if (dominantElement === 'swords') text += '整体能量偏向思维、沟通与挑战，需要理性分析和清晰判断。';
-        else if (dominantElement === 'pentacles') text += '整体能量偏向物质、事业与实际成果，需要脚踏实地的行动。';
+        text += this.t('theme_dominant', elementNames[dominantElement] || dominantElement);
+        if (dominantElement === 'wands') text += this.t('theme_wands');
+        else if (dominantElement === 'cups') text += this.t('theme_cups');
+        else if (dominantElement === 'swords') text += this.t('theme_swords');
+        else if (dominantElement === 'pentacles') text += this.t('theme_pentacles');
       }
 
       if (reversedCount >= cards.length * 0.5) {
-        text += ' 逆位牌占多数，提示当前局面可能存在阻碍、内在抗拒或需要调整方向；建议以更灵活的态度面对变化。';
+        text += this.t('theme_mostly_reversed');
       } else if (uprightCount >= cards.length * 0.7) {
-        text += ' 正位牌占多数，整体能量通畅，当前方向基本正确，保持信心继续推进即可。';
+        text += this.t('theme_mostly_upright');
       }
 
       html += text + '</div></div>';
@@ -1123,52 +1384,54 @@
     // ============ 综合解读 - 分析牌面关系 ============
     analyzeCardRelations(mode, cards, positions) {
       let html = '<div class="reading-section">';
-      html += '<div class="reading-section-title">⚙ 牌面关系分析</div>';
+      html += '<div class="reading-section-title">' + this.t('relation_title') + '</div>';
       html += '<div class="reading-section-body">';
 
       let text = '';
 
       if (mode === 'three') {
         const past = cards[0], now = cards[1], future = cards[2];
-        text += '过去（' + deckManager.getCardName(past.card) + ' ' + this.getPosText(past.isReversed) + '）';
-        text += '为现在（' + deckManager.getCardName(now.card) + ' ' + this.getPosText(now.isReversed) + '）';
-        text += '埋下了伏笔，而现在的能量将延续至未来（' + deckManager.getCardName(future.card) + ' ' + this.getPosText(future.isReversed) + '）。';
-        if (past.isReversed && !now.isReversed) text += ' 逆位的过去牌显示旧有模式正在被化解，现在是一个重新出发的契机。';
-        if (!past.isReversed && now.isReversed) text += ' 过去的顺利积累未能延续到现在，需要审视哪里出现了偏差。';
-        if (now.isReversed && !future.isReversed) text += ' 现在的困难是暂时的，未来有逆转向上的趋势，请坚持下去。';
+        text += this.t('relation_three_past',
+          deckManager.getCardName(past.card), this.getPosText(past.isReversed),
+          deckManager.getCardName(now.card), this.getPosText(now.isReversed),
+          deckManager.getCardName(future.card), this.getPosText(future.isReversed));
+        if (past.isReversed && !now.isReversed) text += this.t('relation_three_past_rev_now_up');
+        if (!past.isReversed && now.isReversed) text += this.t('relation_three_past_up_now_rev');
+        if (now.isReversed && !future.isReversed) text += this.t('relation_three_now_rev_future_up');
       } else if (mode === 'relation') {
-        text += '你（' + deckManager.getCardName(cards[0].card) + ' ' + this.getPosText(cards[0].isReversed) + '）与对方（' + deckManager.getCardName(cards[1].card) + ' ' + this.getPosText(cards[1].isReversed) + '）';
-        text += '之间存在着明显的能量互动。';
+        text += this.t('relation_you',
+          deckManager.getCardName(cards[0].card), this.getPosText(cards[0].isReversed),
+          deckManager.getCardName(cards[1].card), this.getPosText(cards[1].isReversed));
         if (cards[0].isReversed === cards[1].isReversed) {
-          text += ' 双方的牌位状态相似，说明你们对这段关系的认知较为一致，';
-          text += cards[0].isReversed ? '但双方都可能带着某些内在抗拒或困惑。' : '这是一段相对和谐、互相理解的关系。';
+          text += cards[0].isReversed ? this.t('relation_same_rev') : this.t('relation_same_up');
         } else {
-          text += ' 你们的牌位状态不同，可能存在认知差异或不同步的情况，需要更多沟通。';
+          text += this.t('relation_diff');
         }
       } else if (mode === 'choice') {
-        text += '选项A（' + deckManager.getCardName(cards[0].card) + ' ' + this.getPosText(cards[0].isReversed) + '）与选项B（' + deckManager.getCardName(cards[1].card) + ' ' + this.getPosText(cards[1].isReversed) + '）';
-        text += '呈现出不同的能量走向。';
-        text += ' 建议牌（' + deckManager.getCardName(cards[4].card) + ' ' + this.getPosText(cards[4].isReversed) + '）';
-        text += '为你的决策提供了重要指引，请仔细体悟这张牌的启示。';
+        text += this.t('relation_choice',
+          deckManager.getCardName(cards[0].card), this.getPosText(cards[0].isReversed),
+          deckManager.getCardName(cards[1].card), this.getPosText(cards[1].isReversed),
+          deckManager.getCardName(cards[4].card), this.getPosText(cards[4].isReversed));
       } else if (mode === 'celtic') {
-        text += '十字中心的两张牌——当前情况（' + deckManager.getCardName(cards[0].card) + '）与挑战（' + deckManager.getCardName(cards[1].card) + '）';
-        text += '——构成了问题的核心张力。';
-        text += ' 过去的能量（' + deckManager.getCardName(cards[2].card) + '）仍在影响着现在，';
-        text += '而最终结果牌（' + deckManager.getCardName(cards[9].card) + '）指明了这段旅程可能的归宿。';
+        text += this.t('relation_celtic',
+          deckManager.getCardName(cards[0].card),
+          deckManager.getCardName(cards[1].card),
+          deckManager.getCardName(cards[2].card),
+          deckManager.getCardName(cards[9].card));
       } else {
         for (let i = 0; i < cards.length - 1; i++) {
           const c1 = cards[i], c2 = cards[i + 1];
           if (c1.card.suit === c2.card.suit) {
-            text += '「' + positions[i] + '」与「' + positions[i + 1] + '」同为' + c1.card.suit + '  suite，能量有延续性；';
+            text += this.t('relation_suite_continue', positions[i], positions[i + 1], c1.card.suit);
           }
           if (c1.isReversed && !c2.isReversed) {
-            text += '从「' + positions[i] + '」的逆位转向「' + positions[i + 1] + '」的正位，说明局势正在好转；';
+            text += this.t('relation_rev_to_up', positions[i], positions[i + 1]);
           }
           if (!c1.isReversed && c2.isReversed) {
-            text += '从「' + positions[i] + '」的正位走向「' + positions[i + 1] + '」的逆位，需要警惕潜在风险；';
+            text += this.t('relation_up_to_rev', positions[i], positions[i + 1]);
           }
         }
-        if (text === '') text = '各张牌位之间的能量流转较为平稳，没有明显的冲突或突变，整体呈现出渐进式的发展轨迹。';
+        if (text === '') text = this.t('relation_smooth');
       }
 
       html += text + '</div></div>';
@@ -1178,7 +1441,7 @@
     // ============ 综合解读 - 分析运势走向 ============
     analyzeTrend(cards) {
       let html = '<div class="reading-section">';
-      html += '<div class="reading-section-title">➡ 运势走向</div>';
+      html += '<div class="reading-section-title">' + this.t('trend_title') + '</div>';
       html += '<div class="reading-section-body">';
 
       let text = '';
@@ -1189,20 +1452,20 @@
       secondHalf.forEach((c) => { if (c.isReversed) secondRev++; });
 
       if (secondRev < firstRev) {
-        text = '牌面显示整体走势向好——前半段逆位较多，暗示起步或有阻碍；后半段正位增多，预示局面将逐步打开，坚持将有所收获。';
+        text = this.t('trend_good');
       } else if (secondRev > firstRev) {
-        text = '需要留意的走势——前半段相对顺利，但后半段逆位增多，提示后续可能出现变数或挑战，宜未雨绸缪、保持警觉。';
+        text = this.t('trend_warning');
       } else {
-        text = '牌面显示能量相对平稳，没有剧烈的好转或恶化。这是一个沉淀和积累的时期，适合稳扎稳打，不宜冒进也不宜消极。';
+        text = this.t('trend_stable');
       }
 
-      const 转折牌En = ['Wheel of Fortune', 'Judgement', 'The Tower', 'Death'];
-      const 转折牌Zh = ['命运之轮', '审判', '塔', '死神'];
+      const turningCardsEn = ['Wheel of Fortune', 'Judgement', 'The Tower', 'Death'];
+      const turningCardsZh = ['命运之轮', '审判', '塔', '死神'];
       cards.forEach((item) => {
         const nameToCheck = this.currentLang === 'en' ? item.card.originalName : item.card.name;
-        const 转折牌 = this.currentLang === 'en' ? 转折牌En : 转折牌Zh;
-        if (转折牌.includes(nameToCheck)) {
-          text += ' 「' + deckManager.getCardName(item.card) + '」的出现预示着重大转折即将到来，请做好迎接变化的心理准备。';
+        const turningCards = this.currentLang === 'en' ? turningCardsEn : turningCardsZh;
+        if (turningCards.includes(nameToCheck)) {
+          text += this.t('trend_major_turn', deckManager.getCardName(item.card));
         }
       });
 
@@ -1213,7 +1476,7 @@
     // ============ 综合解读 - 生成行动建议 ============
     generateAdvice(mode, cards) {
       let html = '<div class="reading-section">';
-      html += '<div class="reading-section-title">⚡ 行动建议</div>';
+      html += '<div class="reading-section-title">' + this.t('advice_title') + '</div>';
       html += '<div class="reading-section-body">';
 
       let text = '';
@@ -1224,23 +1487,22 @@
       else adviceCard = cards[cards.length - 1];
 
       if (adviceCard) {
-        text += '综合牌面指引，当前最值得采取的态度是：';
+        text += this.t('advice_intro');
         if (!adviceCard.isReversed) {
-          text += '积极践行「' + deckManager.getCardName(adviceCard.card) + '」的正位能量——' + adviceCard.card.upright + ' 在具体行动上，';
-          if (adviceCard.card.suit === 'wands') text += '请主动出击，不要等待机会来找你。';
-          else if (adviceCard.card.suit === 'cups') text += '请倾听内心的声音，跟随直觉做出选择。';
-          else if (adviceCard.card.suit === 'swords') text += '请理性分析局势，用清晰的思维指导行动。';
-          else if (adviceCard.card.suit === 'pentacles') text += '请专注实际步骤，一步一个脚印地推进计划。';
-          else text += '请思考这张牌所传达的核心讯息，并将其融入你的决策中。';
+          text += this.t('advice_upright', deckManager.getCardName(adviceCard.card), this.getMeaningText(adviceCard.card, false));
+          if (adviceCard.card.suit === 'wands') text += this.t('advice_wands');
+          else if (adviceCard.card.suit === 'cups') text += this.t('advice_cups');
+          else if (adviceCard.card.suit === 'swords') text += this.t('advice_swords');
+          else if (adviceCard.card.suit === 'pentacles') text += this.t('advice_pentacles');
+          else text += this.t('advice_major');
         } else {
-          text += '「' + deckManager.getCardName(adviceCard.card) + '」逆位提醒你，';
-          text += adviceCard.card.reversed + ' 建议先处理内在阻碍，再重新出发。';
+          text += this.t('advice_reversed', deckManager.getCardName(adviceCard.card), this.getMeaningText(adviceCard.card, true));
         }
       }
 
       const reversedCount = cards.filter((item) => item.isReversed).length;
       if (reversedCount >= cards.length * 0.5) {
-        text += ' 牌面逆位较多，建议给自己更多耐心和宽容，不要强求立竿见影的结果，允许事物按照自己的节奏展开。';
+        text += this.t('advice_many_reversed');
       }
 
       html += '<div class="reading-advice">' + text + '</div></div></div>';
@@ -1387,7 +1649,7 @@
           }
 
 
-          document.getElementById('page-title').textContent = this.currentLang === 'en' ? 'Single Card' : '单牌占卜';
+          document.getElementById('page-title').textContent = this.getLocalizedSpreadName('single');
           this.setDeckHint(this.currentLang === 'en' ? 'Tap card to toggle upright/reversed' : '点击卡牌可切换正/逆位解读');
 
           const compSecSingle = document.getElementById('comprehensive-reading');
@@ -1453,7 +1715,7 @@
             compSection.classList.remove('hidden');
             compContent.classList.remove('hidden');
             const tBtn = document.getElementById('toggle-reading-btn');
-            if (tBtn) tBtn.textContent = this.currentLang === 'en' ? 'Collapse' : '收起';
+            if (tBtn) tBtn.textContent = this.t('btn_collapse');
           }
 
           this.showPage('divination-page');
@@ -1760,7 +2022,7 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
           await navigator.clipboard.writeText(text);
-          alert('占卜结果已复制到剪贴板！');
+          alert(this.t('alert_copy_success'));
         } catch (e) {
           this.fallbackCopyToClipboard(text);
         }
@@ -1778,9 +2040,9 @@
       textarea.select();
       try {
         document.execCommand('copy');
-        alert('占卜结果已复制到剪贴板！');
+        alert(this.t('alert_copy_success'));
       } catch (e) {
-        alert('复制失败，请手动复制结果');
+        alert(this.t('alert_copy_fail'));
       }
       document.body.removeChild(textarea);
     }
@@ -2847,14 +3109,15 @@
             advanced: this.t('filter_advanced') || '复杂'
           };
 
+          const hoverDict = I18N[this.currentLang] || I18N.zh;
           preview.innerHTML =
-            '<div class="hover-title">' + spread.name + '</div>' +
+            '<div class="hover-title">' + this.getLocalizedSpreadName(key) + '</div>' +
             '<div class="hover-meta">' +
               '<span class="hover-meta-tag">' + (diffStars[spread.difficulty] || '★☆☆') + '</span>' +
               '<span class="hover-meta-tag">' + (catLabels[spread.category] || spread.category) + '</span>' +
-              '<span class="hover-meta-tag">' + spread.positions.length + '张牌</span>' +
+              '<span class="hover-meta-tag">' + spread.positions.length + ' ' + (hoverDict['cards_count_label'] || '张牌') + '</span>' +
             '</div>' +
-            '<div class="hover-usage">' + (spread.usage || '') + '</div>';
+            '<div class="hover-usage">' + (this.currentLang === 'en' ? (spread.usageEn || spread.usage || '') : (spread.usage || '')) + '</div>';
 
           preview.classList.remove('hidden');
           this.positionHoverPreview(e.target, preview);
@@ -3103,6 +3366,13 @@
         // 初始化 deckManager
         if (typeof deckManager !== 'undefined') {
           deckManager.currentDeckName = this.currentDeck;
+          // 预加载 rider-waite 牌组，用于英文牌意 fallback
+          try {
+            const riderDeck = await deckManager.getDeck('rider');
+            this.riderWaiteMap = new Map(riderDeck.map((c) => [c.id, c]));
+          } catch (e) {
+            console.warn('预加载 rider-waite 牌组失败:', e);
+          }
         }
 
         // 恢复音效开关状态
@@ -3156,7 +3426,7 @@
             }
           } catch (err) {
             console.error('抽牌错误:', err);
-            alert('抽牌出错: ' + err.message);
+            alert(this.t('alert_draw_error') + err.message);
           }
         });
       });
@@ -3377,30 +3647,38 @@
       const catKey = categoryKeyMap[spread.category] || spread.category;
       const catLabel = this.t(catKey) || spread.category;
 
+      const localizedPositions = this.getLocalizedPositions(spreadKey);
+      const dict = I18N[this.currentLang] || I18N.zh;
       let html = '';
       html += '<div class="spread-detail-header">';
-      html += '  <div class="spread-detail-title">' + spread.name + '</div>';
+      html += '  <div class="spread-detail-title">' + this.getLocalizedSpreadName(spreadKey) + '</div>';
       html += '  <div class="spread-detail-tags">';
       html += '    <span class="spread-detail-tag" style="color:' + diffColor + ';border-color:' + diffColor + '">' + diffLabel + '</span>';
       html += '    <span class="spread-detail-tag">' + catLabel + '</span>';
-      html += '    <span class="spread-detail-tag">' + spread.positions.length + '张牌</span>';
+      html += '    <span class="spread-detail-tag">' + spread.positions.length + ' ' + (dict['cards_count_label'] || '张牌') + '</span>';
       html += '  </div>';
       html += '</div>';
 
       // 视觉示意图
       html += this.getSpreadDiagramHtml(spreadKey);
 
+      const usageText = this.currentLang === 'en'
+        ? (spread.usageEn || spread.usage || '')
+        : (spread.usage || '');
       html += '<div class="spread-detail-usage">';
       html += '  <div class="spread-detail-section-title">' + (this.currentLang === 'en' ? 'When to Use' : '适用场景') + '</div>';
-      html += '  <div class="spread-detail-text">' + (spread.usage || '') + '</div>';
+      html += '  <div class="spread-detail-text">' + usageText + '</div>';
       html += '</div>';
 
       html += '<div class="spread-detail-positions">';
       html += '  <div class="spread-detail-section-title">' + (this.currentLang === 'en' ? 'Positions' : '牌位含义') + '</div>';
-      for (let i = 0; i < spread.positions.length; i++) {
+      for (let i = 0; i < localizedPositions.length; i++) {
+        const posMeaning = this.currentLang === 'en'
+          ? (spread.positionMeaningsEn ? (spread.positionMeaningsEn[i] || spread.positionMeanings[i] || '') : (spread.positionMeanings[i] || ''))
+          : (spread.positionMeanings[i] || '');
         html += '<div class="spread-detail-position">';
-        html += '  <div class="spread-detail-pos-name">' + (i + 1) + '. ' + spread.positions[i] + '</div>';
-        html += '  <div class="spread-detail-pos-desc">' + (spread.positionMeanings[i] || '') + '</div>';
+        html += '  <div class="spread-detail-pos-name">' + (i + 1) + '. ' + localizedPositions[i] + '</div>';
+        html += '  <div class="spread-detail-pos-desc">' + posMeaning + '</div>';
         html += '</div>';
       }
       html += '</div>';
