@@ -870,7 +870,7 @@
       crossPositions.forEach((posIdx) => {
         this.currentCards.push({ card: drawn[posIdx].card, isReversed: drawn[posIdx].isReversed, position: positions[posIdx] });
 
-        const wrap = this.createCardEl(drawn[posIdx].card, drawn[posIdx].isReversed, true, 52, 82);
+        const wrap = this.createCardEl(drawn[posIdx].card, drawn[posIdx].isReversed, true, 58, 90);
         wrap.classList.add('cc-card-wrap');
 
         if (posIdx === 1) {
@@ -900,7 +900,7 @@
       for (let i = 5; i < 10; i++) {
         this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
 
-        const wrap2 = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, 52, 82);
+        const wrap2 = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, 58, 90);
         wrap2.classList.add('cc-card-wrap');
 
         const wrapper2 = document.createElement('div');
@@ -1705,6 +1705,32 @@
       });
     }
 
+    // ============ Toast 提示 ============
+    showToast(msg, duration) {
+      duration = duration || 1500;
+      let toast = document.getElementById('toast-msg');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(this._toastTimer);
+      this._toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, duration);
+    }
+
+    // ============ 命运数字：加载/保存常驻结果 ============
+    loadSavedNumgen() {
+      try {
+        return JSON.parse(localStorage.getItem('numgen_current'));
+      } catch (e) { return null; }
+    }
+
+    saveCurrentNumgen(numbers, min, max) {
+      try {
+        localStorage.setItem('numgen_current', JSON.stringify({ numbers: numbers, min: min, max: max }));
+      } catch (e) {}
+    }
+
     // ============ 命运数字生成器 ============
     showNumberGenPage() {
       const minInput = document.getElementById('numgen-min');
@@ -1714,15 +1740,141 @@
       const regenBtn = document.getElementById('numgen-regenerate-btn');
       const numbersContainer = document.getElementById('numgen-numbers');
       const copyBtn = document.getElementById('numgen-copy-btn');
-      if (resultDiv) resultDiv.classList.add('hidden');
-      if (regenBtn) regenBtn.classList.add('hidden');
+      const readingContent = document.getElementById('numgen-reading-content');
+      const errorDiv = document.getElementById('numgen-error');
+      const genBtn = document.getElementById('numgen-generate-btn');
+
       if (minInput) minInput.value = 1;
       if (maxInput) maxInput.value = 100;
       if (qtyInput) qtyInput.value = 1;
-      if (numbersContainer) numbersContainer.innerHTML = '';
       if (copyBtn) copyBtn.textContent = this.t('numgen_copy');
+      if (errorDiv) errorDiv.classList.add('hidden');
+      if (genBtn) {
+        genBtn.classList.remove('loading');
+        const btnText = genBtn.querySelector('.btn-text');
+        const btnLoading = genBtn.querySelector('.btn-loading');
+        if (btnText) btnText.classList.remove('hidden');
+        if (btnLoading) btnLoading.classList.add('hidden');
+      }
+
+      // 添加实时输入验证
+      this.attachNumgenValidation();
+
+      // 恢复常驻结果
+      const saved = this.loadSavedNumgen();
+      if (saved && saved.numbers && saved.numbers.length > 0) {
+        if (minInput) minInput.value = saved.min;
+        if (maxInput) maxInput.value = saved.max;
+        if (qtyInput) qtyInput.value = saved.numbers.length;
+        if (resultDiv) resultDiv.classList.remove('hidden');
+        if (regenBtn) regenBtn.classList.remove('hidden');
+        if (numbersContainer) {
+          const isMulti = saved.numbers.length > 1;
+          numbersContainer.innerHTML = saved.numbers.map(n => {
+            const longClass = String(n).length >= 4 ? ' long-num' : '';
+            const colorClass = this.getNumberColorClass(n);
+            return '<div class="numgen-number-wrap ' + colorClass + (isMulti ? '' : ' auto-size') + '">' +
+              '<span class="numgen-number' + longClass + '">' + n + '</span>' +
+              '</div>';
+          }).join('');
+          numbersContainer.classList.toggle('multi', isMulti);
+        }
+        if (copyBtn) {
+          copyBtn.textContent = this.t(saved.numbers.length > 1 ? 'numgen_copy_all' : 'numgen_copy');
+        }
+        if (readingContent) {
+          const digitalRoot = this.getDigitalRoot(saved.numbers[0]);
+          readingContent.innerHTML = this.getNumberReading(saved.numbers, digitalRoot);
+        }
+      } else {
+        if (resultDiv) resultDiv.classList.add('hidden');
+        if (regenBtn) regenBtn.classList.add('hidden');
+        if (numbersContainer) numbersContainer.innerHTML = '';
+        if (readingContent) readingContent.innerHTML = '';
+      }
+
       this.loadNumgenHistory();
       this.showPage('number-gen-page');
+    }
+
+    // ============ 命运数字输入验证 ============
+    attachNumgenValidation() {
+      const minInput = document.getElementById('numgen-min');
+      const maxInput = document.getElementById('numgen-max');
+      const qtyInput = document.getElementById('numgen-qty');
+      const errorDiv = document.getElementById('numgen-error');
+      const genBtn = document.getElementById('numgen-generate-btn');
+
+      if (!minInput || !maxInput || !qtyInput || !errorDiv) return;
+
+      const validate = () => {
+        const min = parseInt(minInput.value, 10);
+        const max = parseInt(maxInput.value, 10);
+        const qty = parseInt(qtyInput.value, 10);
+        let errorMsg = '';
+        let hasError = false;
+
+        // 清除之前的错误状态
+        minInput.classList.remove('input-error');
+        maxInput.classList.remove('input-error');
+        qtyInput.classList.remove('input-error');
+
+        // 验证最小值
+        if (isNaN(min) || min < 0) {
+          errorMsg = this.currentLang === 'en' ? 'Minimum value must be a valid number ≥ 0' : '最小值必须是 ≥ 0 的有效数字';
+          minInput.classList.add('input-error');
+          hasError = true;
+        }
+
+        // 验证最大值
+        if (!hasError && (isNaN(max) || max <= min)) {
+          errorMsg = this.t('numgen_error_min');
+          maxInput.classList.add('input-error');
+          hasError = true;
+        }
+
+        // 验证生成数量
+        if (!hasError) {
+          const rangeSize = max - min + 1;
+          if (isNaN(qty) || qty < 1) {
+            errorMsg = this.currentLang === 'en' ? 'Quantity must be ≥ 1' : '生成数量必须 ≥ 1';
+            qtyInput.classList.add('input-error');
+            hasError = true;
+          } else if (qty > rangeSize) {
+            errorMsg = this.t('numgen_error_quantity');
+            qtyInput.classList.add('input-error');
+            hasError = true;
+          }
+        }
+
+        // 显示或隐藏错误
+        if (hasError) {
+          errorDiv.textContent = errorMsg;
+          errorDiv.classList.remove('hidden');
+          if (genBtn) genBtn.disabled = true;
+        } else {
+          errorDiv.classList.add('hidden');
+          if (genBtn) genBtn.disabled = false;
+        }
+      };
+
+      // 移除旧的事件监听（如果存在）
+      minInput.removeEventListener('input', minInput._validateHandler);
+      maxInput.removeEventListener('input', maxInput._validateHandler);
+      qtyInput.removeEventListener('input', qtyInput._validateHandler);
+
+      // 保存处理函数引用以便移除
+      minInput._validateHandler = validate;
+      maxInput._validateHandler = validate;
+      qtyInput._validateHandler = validate;
+
+      // 添加事件监听
+      minInput.addEventListener('input', validate);
+      maxInput.addEventListener('input', validate);
+      qtyInput.addEventListener('input', validate);
+
+      // 初始验证
+      validate();
     }
 
     // ============ 选择困难症 ============
@@ -1751,7 +1903,9 @@
       const numbersContainer = document.getElementById('numgen-numbers');
       const readingEl = document.getElementById('numgen-reading-content');
       const copyBtn = document.getElementById('numgen-copy-btn');
+      const genBtn = document.getElementById('numgen-generate-btn');
 
+      // 验证输入
       const min = parseInt(minInput ? minInput.value : '1', 10);
       const max = parseInt(maxInput ? maxInput.value : '100', 10);
       const qty = parseInt(qtyInput ? qtyInput.value : '1', 10);
@@ -1769,6 +1923,16 @@
       if (qty > rangeSize) {
         alert(this.t('numgen_error_quantity'));
         return;
+      }
+
+      // 设置 loading 状态
+      if (genBtn) {
+        genBtn.classList.add('loading');
+        genBtn.disabled = true;
+        const btnText = genBtn.querySelector('.btn-text');
+        const btnLoading = genBtn.querySelector('.btn-loading');
+        if (btnText) btnText.classList.add('hidden');
+        if (btnLoading) btnLoading.classList.remove('hidden');
       }
 
       // 使用 mulberry32 均匀伪随机算法
@@ -1800,15 +1964,71 @@
       // 保存历史记录（存数组）
       this.saveNumgenHistory(numbers, min, max);
 
-      // 显示数字
+      // 显示数字（先展示滚动动画）
       const isMulti = numbers.length > 1;
+
+      // 清除上一次未结束的滚动动画
+      if (this._numgenRollInterval) {
+        clearInterval(this._numgenRollInterval);
+        this._numgenRollInterval = null;
+      }
+
       if (numbersContainer) {
-        numbersContainer.innerHTML = numbers.map(n =>
-          '<div class="numgen-number-wrap">' +
-            '<span class="numgen-number">' + n + '</span>' +
-          '</div>'
-        ).join('');
+        // 构建圆球 DOM，先显示占位符
+        numbersContainer.innerHTML = numbers.map(n => {
+          const longClass = String(n).length >= 4 ? ' long-num' : '';
+          const colorClass = this.getNumberColorClass(n);
+          return '<div class="numgen-number-wrap ' + colorClass + (isMulti ? '' : ' auto-size') + '">' +
+            '<span class="numgen-number numgen-rolling' + longClass + '">?</span>' +
+          '</div>';
+        }).join('');
         numbersContainer.classList.toggle('multi', isMulti);
+
+        // 滚动动画：快速变换数字
+        const wraps = numbersContainer.querySelectorAll('.numgen-number-wrap');
+        let tick = 0;
+        const totalTicks = 18 + Math.floor(Math.random() * 8);
+        const delayPerTick = 50;
+        this._numgenRollInterval = setInterval(() => {
+          tick++;
+          wraps.forEach(wrap => {
+            const span = wrap.querySelector('.numgen-number');
+            if (span) {
+              span.textContent = min + Math.floor(rng() * rangeSize);
+            }
+          });
+          if (tick >= totalTicks) {
+            clearInterval(this._numgenRollInterval);
+            this._numgenRollInterval = null;
+            // 最终展示真实数字，带 3D 翻转动画
+            wraps.forEach((wrap, i) => {
+              const span = wrap.querySelector('.numgen-number');
+              if (span) {
+                span.textContent = numbers[i];
+                span.classList.remove('numgen-rolling');
+              }
+              // 添加 3D 翻转效果
+              wrap.classList.add('flip');
+              wrap.addEventListener('animationend', () => {
+                wrap.classList.remove('flip');
+              }, { once: true });
+            });
+
+            // 保存常驻结果
+            this.saveCurrentNumgen(numbers, min, max);
+
+            // 恢复按钮状态
+            const genBtn = document.getElementById('numgen-generate-btn');
+            if (genBtn) {
+              genBtn.classList.remove('loading');
+              genBtn.disabled = false;
+              const btnText = genBtn.querySelector('.btn-text');
+              const btnLoading = genBtn.querySelector('.btn-loading');
+              if (btnText) btnText.classList.remove('hidden');
+              if (btnLoading) btnLoading.classList.add('hidden');
+            }
+          }
+        }, delayPerTick);
       }
 
       // 更新复制按钮文案
@@ -1822,6 +2042,12 @@
         readingEl.innerHTML = this.getNumberReading(numbers, digitalRoot);
       }
 
+      // 数字含义解读（1-78 范围内显示对应塔罗牌）
+      this.showNumgenTarotMeaning(numbers);
+
+      // 更新统计数据
+      this.updateNumgenStats(numbers);
+
       if (resultDiv) resultDiv.classList.remove('hidden');
       if (regenBtn) regenBtn.classList.remove('hidden');
       this.loadNumgenHistory();
@@ -1832,6 +2058,88 @@
         n = String(n).split('').reduce((s, d) => s + parseInt(d, 10), 0);
       }
       return n;
+    }
+
+    // 根据数字大小返回颜色类名
+    getNumberColorClass(n) {
+      if (n >= 1 && n <= 9) return 'color-green';
+      if (n >= 10 && n <= 99) return 'color-blue';
+      return 'color-purple';
+    }
+
+    // 显示数字对应的塔罗牌含义（1-78）
+    showNumgenTarotMeaning(numbers) {
+      const meaningDiv = document.getElementById('numgen-tarot-meaning');
+      const contentEl = document.getElementById('numgen-tarot-meaning-content');
+      if (!meaningDiv || !contentEl) return;
+
+      // 只取第一个数字，且必须在 0-77 范围内（对应 78 张塔罗牌）
+      const n = numbers[0];
+      if (n < 0 || n > 77) {
+        meaningDiv.classList.add('hidden');
+        return;
+      }
+
+      // tarotCards 全局可用（来自 tarot-cards.js）
+      const card = tarotCards && tarotCards[n];
+      if (!card) {
+        meaningDiv.classList.add('hidden');
+        return;
+      }
+
+      meaningDiv.classList.remove('hidden');
+      const name = this.currentLang === 'en' ? card.originalName : card.name;
+      const brief = card.uprightBrief || '';
+      contentEl.innerHTML =
+        '<div style="margin-bottom:6px;"><span style="color:var(--color-gold);font-weight:700;">' + name + '</span>' +
+        ' <span style="font-size:11px;color:var(--color-text-muted);">（第 ' + (n + 1) + ' 张牌）</span></div>' +
+        '<div style="font-size:12px;line-height:1.7;">' + (card.upright || brief) + '</div>';
+    }
+
+    // 更新统计数据
+    updateNumgenStats(numbers) {
+      const statsDiv = document.getElementById('numgen-stats');
+      const countEl = document.getElementById('numgen-stats-count');
+      const hotEl = document.getElementById('numgen-stats-hot');
+      if (!statsDiv || !countEl || !hotEl) return;
+
+      const today = new Date().toISOString().slice(0, 10);
+      try {
+        // 读取今日统计
+        const stats = JSON.parse(localStorage.getItem('numgen_stats') || '{}');
+        if (!stats[today]) stats[today] = { count: 0, freq: {} };
+
+        // 更新计数和频率
+        stats[today].count += 1;
+        numbers.forEach(n => {
+          stats[today].freq[n] = (stats[today].freq[n] || 0) + 1;
+        });
+
+        // 只保留最近 7 天
+        const keys = Object.keys(stats).sort().reverse().slice(0, 7);
+        const cleaned = {};
+        keys.forEach(k => cleaned[k] = stats[k]);
+
+        localStorage.setItem('numgen_stats', JSON.stringify(cleaned));
+
+        // 显示计数
+        countEl.textContent = (this.currentLang === 'en' ? 'Generated ' : '今日已生成 ') + stats[today].count + (this.currentLang === 'en' ? ' times today' : ' 次');
+
+        // 显示最常出现的数字
+        const freq = stats[today].freq;
+        const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+        if (sorted.length > 0) {
+          const top = sorted[0];
+          hotEl.textContent = (this.currentLang === 'en' ? 'Most frequent: ' : '最常出现：') + top[0] + '（' + top[1] + (this.currentLang === 'en' ? ' times' : '次') + '）';
+          hotEl.classList.remove('hidden');
+        } else {
+          hotEl.classList.add('hidden');
+        }
+
+        statsDiv.classList.remove('hidden');
+      } catch (e) {
+        statsDiv.classList.add('hidden');
+      }
     }
 
     animateNumber(el, target, callback) {
@@ -2097,18 +2405,95 @@
       }
 
       historyEl.classList.remove('hidden');
-      listEl.innerHTML = history.slice(0, 5).map(item => {
+      listEl.innerHTML = history.slice(0, 5).map((item, idx) => {
         const d = new Date(item.time);
         const timeStr = (d.getMonth() + 1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
         // 兼容旧数据（number 为数字）和新数据（numbers 为数组）
         const nums = Array.isArray(item.numbers) ? item.numbers : [item.number];
         const numDisplay = nums.join(this.currentLang === 'en' ? ', ' : '、');
         const numShort = numDisplay.length > 15 ? numDisplay.slice(0, 15) + '…' : numDisplay;
-        return '<div class="numgen-history-item">' +
+        return '<div class="numgen-history-item" data-index="' + idx + '">' +
           '<span class="num" title="' + numDisplay + '">' + numShort + '</span>' +
-          '<span class="meta">区间 ' + item.min + '-' + item.max + ' · ' + timeStr + '</span>' +
+          '<div style="display:flex;align-items:center;gap:8px;">' +
+            '<span class="meta">' + timeStr + '</span>' +
+            '<button class="numgen-history-delete" data-index="' + idx + '" title="' + (this.currentLang === 'en' ? 'Delete' : '删除') + '">✕</button>' +
+          '</div>' +
           '</div>';
       }).join('');
+
+      // 添加点击事件：点击历史记录项查看详情
+      listEl.querySelectorAll('.numgen-history-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          // 如果点击的是删除按钮，不触发
+          if (e.target.classList.contains('numgen-history-delete')) return;
+          const idx = parseInt(item.dataset.index, 10);
+          if (history[idx]) {
+            this.showHistoryDetail(history[idx]);
+          }
+        });
+      });
+
+      // 添加删除按钮事件
+      listEl.querySelectorAll('.numgen-history-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.deleteNumgenHistoryItem(parseInt(btn.dataset.index, 10));
+        });
+      });
+    }
+
+    deleteNumgenHistoryItem(index) {
+      try {
+        let history = JSON.parse(localStorage.getItem('numgen_history') || '[]');
+        if (index >= 0 && index < history.length) {
+          history.splice(index, 1);
+          localStorage.setItem('numgen_history', JSON.stringify(history));
+          this.loadNumgenHistory();
+        }
+      } catch (e) {}
+    }
+
+    showHistoryDetail(item) {
+      const minInput = document.getElementById('numgen-min');
+      const maxInput = document.getElementById('numgen-max');
+      const qtyInput = document.getElementById('numgen-qty');
+      const resultDiv = document.getElementById('numgen-result');
+      const numbersContainer = document.getElementById('numgen-numbers');
+      const readingContent = document.getElementById('numgen-reading-content');
+      const copyBtn = document.getElementById('numgen-copy-btn');
+      const regenBtn = document.getElementById('numgen-regenerate-btn');
+
+      const nums = Array.isArray(item.numbers) ? item.numbers : [item.number];
+      if (minInput) minInput.value = item.min;
+      if (maxInput) maxInput.value = item.max;
+      if (qtyInput) qtyInput.value = nums.length;
+
+      if (resultDiv) resultDiv.classList.remove('hidden');
+      if (regenBtn) regenBtn.classList.remove('hidden');
+
+      if (numbersContainer) {
+        const isMulti = nums.length > 1;
+        numbersContainer.innerHTML = nums.map(n => {
+          const longClass = String(n).length >= 4 ? ' long-num' : '';
+          const colorClass = this.getNumberColorClass(n);
+          return '<div class="numgen-number-wrap ' + colorClass + (isMulti ? '' : ' auto-size') + '">' +
+            '<span class="numgen-number' + longClass + '">' + n + '</span>' +
+            '</div>';
+        }).join('');
+        numbersContainer.classList.toggle('multi', isMulti);
+      }
+
+      if (copyBtn) {
+        copyBtn.textContent = this.t(nums.length > 1 ? 'numgen_copy_all' : 'numgen_copy');
+      }
+
+      if (readingContent) {
+        const digitalRoot = this.getDigitalRoot(nums[0]);
+        readingContent.innerHTML = this.getNumberReading(nums, digitalRoot);
+      }
+
+      // 保存为当前结果
+      this.saveCurrentNumgen(nums, item.min, item.max);
     }
 
     clearNumgenHistory() {
@@ -2128,7 +2513,9 @@
         .map(el => el.textContent.trim())
         .join(this.currentLang === 'en' ? ', ' : '、');
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(nums).catch(() => {});
+        navigator.clipboard.writeText(nums).then(() => {
+          this.showToast(this.currentLang === 'en' ? 'Copied!' : '已复制 ✓');
+        }).catch(() => {});
       }
     }
 

@@ -361,8 +361,8 @@
             </header>
 
             <div class="numgen-body">
-                <!-- 区间设置 -->
-                <div class="numgen-range">
+                <!-- 区间与数量设置（同一行） -->
+                <div class="numgen-inputs-row">
                     <div class="numgen-range-group">
                         <label for="numgen-min" data-i18n-key="numgen_min">最小值</label>
                         <input type="number" id="numgen-min" class="numgen-input" value="1" min="0" max="99999" />
@@ -372,13 +372,14 @@
                         <label for="numgen-max" data-i18n-key="numgen_max">最大值</label>
                         <input type="number" id="numgen-max" class="numgen-input" value="100" min="1" max="99999" />
                     </div>
+                    <div class="numgen-quantity-inline">
+                        <label for="numgen-qty" data-i18n-key="numgen_quantity">生成数量</label>
+                        <input type="number" id="numgen-qty" class="numgen-input numgen-qty-input" value="1" min="1" max="50" />
+                    </div>
                 </div>
+                <!-- 错误提示 -->
+                <div id="numgen-error" class="numgen-error hidden"></div>
 
-                <!-- 生成数量 -->
-                <div class="numgen-quantity">
-                    <label for="numgen-qty" data-i18n-key="numgen_quantity">生成数量</label>
-                    <input type="number" id="numgen-qty" class="numgen-input numgen-qty-input" value="1" min="1" max="50" />
-                </div>
 
                 <!-- 快速预设 -->
                 <div class="numgen-presets">
@@ -386,11 +387,16 @@
                     <button class="numgen-preset-btn" data-min="1" data-max="100" type="button">1-100</button>
                     <button class="numgen-preset-btn" data-min="1" data-max="1000" type="button">1-1000</button>
                     <button class="numgen-preset-btn" data-min="1" data-max="49" type="button" data-i18n-key="numgen_preset_lottery">六合彩(1-49)</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="6" type="button">🎲 骰子</button>
+                    <button class="numgen-preset-btn" data-min="0" data-max="9" data-qty="4" type="button">📱 手机尾号</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="9" type="button">🍀 幸运数字</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="35" data-qty="5" type="button">🎰 大乐透</button>
                 </div>
 
                 <!-- 生成按钮 -->
                 <button id="numgen-generate-btn" type="button" class="numgen-generate-btn">
-                    <span data-i18n-key="numgen_generate">生成命运数字</span>
+                    <span class="btn-text" data-i18n-key="numgen_generate">生成命运数字</span>
+                    <span class="btn-loading hidden">⏳ 生成中...</span>
                 </button>
 
                 <!-- 结果展示 -->
@@ -401,12 +407,27 @@
                     <div class="numgen-number-label" data-i18n-key="numgen_numbers_label">你的命运数字</div>
                     <button id="numgen-copy-btn" class="numgen-copy-btn" type="button" data-i18n-key="numgen_copy">复制数字</button>
 
-                    <!-- 塔罗解读 -->
-                    <div id="numgen-reading" class="numgen-reading">
-                        <div class="numgen-reading-title" data-i18n-key="numgen_reading_title">&#10024; 塔罗命运指引</div>
-                        <div id="numgen-reading-content" class="numgen-reading-content"></div>
-                    </div>
+                <!-- 塔罗解读 -->
+                <div id="numgen-reading" class="numgen-reading">
+                    <div class="numgen-reading-title" data-i18n-key="numgen_reading_title">&#10024; 塔罗命运指引</div>
+                    <div id="numgen-reading-content" class="numgen-reading-content"></div>
                 </div>
+
+                <!-- 数字含义解读（1-78 时显示） -->
+                <div id="numgen-tarot-meaning" class="numgen-tarot-meaning hidden">
+                    <div class="numgen-reading-title">&#127888; 数字对应塔罗牌</div>
+                    <div id="numgen-tarot-meaning-content" class="numgen-reading-content"></div>
+                </div>
+            </div>
+
+            <!-- 统计数据 -->
+            <div id="numgen-stats" class="numgen-stats hidden">
+                <div class="numgen-stats-title">&#128202; 今日统计</div>
+                <div class="numgen-stats-content">
+                    <span id="numgen-stats-count">今日已生成 0 次</span>
+                    <span id="numgen-stats-hot">最常出现：--</span>
+                </div>
+            </div>
 
                 <!-- 历史记录 -->
                 <div id="numgen-history" class="numgen-history hidden">
@@ -540,6 +561,9 @@
                 <div id="spread-detail-body" class="spread-detail-body"></div>
             </div>
         </div>
+
+        <!-- Toast 提示 -->
+        <div id="toast-msg" class="toast-msg"></div>
 
         <!-- 牌阵悬浮预览 -->
         <div id="spread-hover-preview" class="spread-hover-preview hidden"></div>
