@@ -1262,11 +1262,15 @@
     getDailyFortune(forceRefresh = false) {
       const now = new Date();
       const dateStr = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+      const CACHE_VERSION = 2;
 
       if (!forceRefresh) {
         const cached = localStorage.getItem('daily_fortune_' + dateStr);
         if (cached) {
-          try { return JSON.parse(cached); } catch (e) {}
+          try {
+            const data = JSON.parse(cached);
+            if (data && data._v === CACHE_VERSION) return data;
+          } catch (e) {}
         }
       }
 
@@ -1299,6 +1303,45 @@
       }
       const luckyNumRoot = this.getDigitalRoot(luckyNum);
 
+      // ---- 今日指引牌：随机抽取一张大阿尔卡那 ----
+      let guideCard = null;
+      try {
+        const deckData = this.getDeckData();
+        const majorCards = deckData.filter(c => c.suit === 'major' || c.id <= 21);
+        if (majorCards.length > 0) {
+          const ci = Math.floor(rand() * majorCards.length);
+          const card = majorCards[ci];
+          const isRev = rand() < 0.5;
+          guideCard = {
+            id: card.id,
+            name: card.name,
+            originalName: card.originalName || '',
+            imageUrl: card.imageUrl || '',
+            isReversed: isRev,
+            brief: isRev ? (card.reversedBrief || '') : (card.uprightBrief || ''),
+            meaning: isRev ? (card.reversed || card.upright) : (card.upright || ''),
+            icon: (MAJOR_ARCANA_ICONS[card.id] || '🔮')
+          };
+        }
+      } catch (e) { guideCard = null; }
+
+      // ---- 幸运数字映射大阿尔卡那牌 ----
+      let luckyCardName = '';
+      let luckyCardOrig = '';
+      try {
+        const deckData = this.getDeckData();
+        const majorCards = deckData.filter(c => c.suit === 'major' || c.id <= 21);
+        // 数字 1~21 → id 0~20；22 → id 21（世界）
+        let tid = luckyNum;
+        if (tid > 21) tid = ((tid - 1) % 21) + 1; // 循环映射到 1~21
+        const targetId = tid >= 21 ? 20 : (tid - 1);
+        const found = majorCards.find(c => c.id === targetId);
+        if (found) {
+          luckyCardName = found.name;
+          luckyCardOrig = found.originalName || '';
+        }
+      } catch (e) {}
+
       const directions = ['东', '南', '西', '北', '东南', '西南', '东北', '西北'];
       const dirIdx = Math.floor(rand() * directions.length);
       const luckyDir = directions[dirIdx];
@@ -1320,6 +1363,7 @@
       const dailyTip = tips[tipIdx];
 
       const fortune = {
+        _v: CACHE_VERSION,
         date: dateStr,
         level: level,
         dimensions: dimensions,
@@ -1330,7 +1374,10 @@
         suit: suit,
         avoid: avoid,
         dailyTip: dailyTip,
-        timestamp: now.getTime()
+        timestamp: now.getTime(),
+        guideCard: guideCard,
+        luckyCardName: luckyCardName,
+        luckyCardOrig: luckyCardOrig
       };
 
       try {
@@ -1351,6 +1398,9 @@
       const luckyDir = this.getLocalizedDirection(fortune.luckyDirection);
       const advice = this.getLocalizedAdvice(fortune.level.text);
       const dailyTip = this.getLocalizedDailyTip(fortune.dailyTip);
+      const guideCard = fortune.guideCard;
+      const luckyCardName = fortune.luckyCardName || '';
+      const luckyCardOrig = fortune.luckyCardOrig || '';
 
       // 各维度简短解读文案（中英文）
       const DIMENSION_TIPS_ZH = {
@@ -1376,7 +1426,35 @@
         return tipsMap['低'];
       }
 
+      // 解析宜忌标签
+      function parseTags(str) {
+        const m = str.match(/^(宜|忌)[:：](.+)$/);
+        if (!m) return null;
+        return { prefix: m[1], tags: m[2].split(/[、，,]/).map(s => s.trim()).filter(Boolean) };
+      }
+      const suitParsed = parseTags(advice.suit);
+      const avoidParsed = parseTags(advice.avoid);
+
       let html = '';
+
+      // ---- 今日指引牌 ----
+      if (guideCard) {
+        html += '<div class="fortune-section fortune-guide-section">';
+        html += '<div class="fortune-section-title">' + (this.currentLang === 'en' ? '✨ Today\'s Guide Card' : '✨ 今日指引牌') + '</div>';
+        html += '<div class="fortune-guide-card" data-card-id="' + guideCard.id + '" data-card-rev="' + (guideCard.isReversed ? '1' : '0') + '">';
+        html += '<div class="fortune-guide-inner">';
+        html += '<div class="fortune-guide-img-placeholder">';
+        html += '<span class="fortune-guide-img-char">' + (guideCard.icon || '🔮') + '</span>';
+        html += '</div>';
+        html += '<div class="fortune-guide-info">';
+        html += '<div class="fortune-guide-name">' + guideCard.name + (guideCard.originalName ? ' <span class="fortune-guide-orig">(' + guideCard.originalName + ')</span>' : '') + '</div>';
+        html += '<div class="fortune-guide-pos">' + (guideCard.isReversed ? (this.currentLang === 'en' ? 'Reversed' : '逆位') : (this.currentLang === 'en' ? 'Upright' : '正位')) + '</div>';
+        html += '<div class="fortune-guide-brief">' + guideCard.brief + '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="fortune-guide-hint">' + (this.currentLang === 'en' ? 'Click to view details' : '点击查看详情') + '</div>';
+        html += '</div></div>';
+      }
 
       html += '<div class="fortune-section">';
       html += '<div class="fortune-section-title">' + this.t('fortune_overall') + '</div>';
@@ -1416,11 +1494,16 @@
       html += '</div>';
       html += '<div class="fortune-lucky-item">';
       html += '<div class="fortune-lucky-label">' + this.t('fortune_lucky_number') + '</div>';
-      html += '<div class="fortune-lucky-value">' + fortune.luckyNumber;
+      html += '<div class="fortune-lucky-value">';
+      html += '<span class="fortune-lucky-num">' + fortune.luckyNumber + '</span>';
       if (fortune.luckyNumberRoot === 11 || fortune.luckyNumberRoot === 22) {
-        html += ' <span style="color:#FF9800;font-size:9px;">(灵数' + fortune.luckyNumberRoot + ')</span>';
+        html += ' <span class="fortune-lucky-root fortune-root-master">灵数' + fortune.luckyNumberRoot + '</span>';
       } else if (fortune.luckyNumberRoot) {
-        html += ' <span style="color:var(--color-text-muted);font-size:9px;">(数字根' + fortune.luckyNumberRoot + ')</span>';
+        html += ' <span class="fortune-lucky-root">数字根' + fortune.luckyNumberRoot + '</span>';
+      }
+      // 幸运数字对应塔罗牌
+      if (luckyCardName) {
+        html += '<div class="fortune-lucky-tarot">' + luckyCardName + (luckyCardOrig ? ' (' + luckyCardOrig + ')' : '') + '</div>';
       }
       html += '</div>';
       html += '</div>';
@@ -1430,11 +1513,28 @@
       html += '</div>';
       html += '</div></div>';
 
+      // ---- 宜忌标签化 ----
       html += '<div class="fortune-section">';
       html += '<div class="fortune-section-title">' + this.t('fortune_dos_donts') + '</div>';
       html += '<div class="fortune-section-body">';
-      html += '<div style="color:#4CAF50;font-size:11px;margin-bottom:3px;">' + advice.suit + '</div>';
-      html += '<div style="color:#F44336;font-size:11px;">' + advice.avoid + '</div>';
+      html += '<div class="fortune-tags-wrap">';
+      if (suitParsed) {
+        html += '<div class="fortune-tag-row">';
+        html += '<span class="fortune-tag-prefix fortune-tag-suit">' + (this.currentLang === 'en' ? 'Do' : '宜') + '</span>';
+        suitParsed.tags.forEach(t => { html += '<span class="fortune-tag fortune-tag-suit-item">' + t + '</span>'; });
+        html += '</div>';
+      } else {
+        html += '<div class="fortune-tag-row" style="color:#4CAF50;font-size:11px;">' + advice.suit + '</div>';
+      }
+      if (avoidParsed) {
+        html += '<div class="fortune-tag-row">';
+        html += '<span class="fortune-tag-prefix fortune-tag-avoid">' + (this.currentLang === 'en' ? 'Avoid' : '忌') + '</span>';
+        avoidParsed.tags.forEach(t => { html += '<span class="fortune-tag fortune-tag-avoid-item">' + t + '</span>'; });
+        html += '</div>';
+      } else {
+        html += '<div class="fortune-tag-row" style="color:#F44336;font-size:11px;">' + advice.avoid + '</div>';
+      }
+      html += '</div>';
       html += '</div></div>';
 
       html += '<div class="fortune-section">';
@@ -1443,6 +1543,20 @@
       html += '</div>';
 
       container.innerHTML = html;
+
+      // 绑定今日指引牌点击事件
+      const guideEl = container.querySelector('.fortune-guide-card');
+      if (guideEl) {
+        guideEl.addEventListener('click', () => {
+          const cardId = parseInt(guideEl.dataset.cardId, 10);
+          const isRev = guideEl.dataset.cardRev === '1';
+          const deckData = this.getDeckData();
+          const found = deckData.find(c => c.id === cardId);
+          if (found) {
+            this.showCardPreview(found);
+          }
+        });
+      }
 
       setTimeout(() => {
         const fills = container.querySelectorAll('.fortune-score-fill');
