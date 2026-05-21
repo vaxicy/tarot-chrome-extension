@@ -13,6 +13,7 @@
       this.currentMode = 'single';
       this.currentDeck = 'magic';
       this.currentLang = 'zh';
+      this.soundEnabled = true;  // 音效/触觉开关（与 toggleSound 同步）
 
       // 洗牌缓存
       this.shuffledDeckCache = null;
@@ -1196,6 +1197,7 @@
 
     // ============ 翻牌音效 ============
     playFlipSound() {
+      this.triggerHaptic();
       chrome.storage.local.get({ tarot_sound: true }, (result) => {
         if (!result.tarot_sound) return;
         try {
@@ -1215,12 +1217,47 @@
       });
     }
 
+    // ============ 魔法音效（运势结果弹出） ============
+    playMagicSound() {
+      this.triggerHaptic();
+      chrome.storage.local.get({ tarot_sound: true }, (result) => {
+        if (!result.tarot_sound) return;
+        try {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          // 上行和弦：C-E-G 泛音
+          [261.6, 329.6, 392.0].forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.12);
+            gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.12);
+            gain.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + i * 0.12 + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.12 + 0.6);
+            osc.start(audioCtx.currentTime + i * 0.12);
+            osc.stop(audioCtx.currentTime + i * 0.12 + 0.6);
+          });
+        } catch (e) {}
+      });
+    }
+
+    // ============ 触觉反馈（按钮点击震动） ============
+    triggerHaptic() {
+      if (!this.soundEnabled) return;
+      try {
+        if (navigator.vibrate) navigator.vibrate(12);
+      } catch (e) {}
+    }
+
     toggleSound() {
       chrome.storage.local.get({ tarot_sound: true }, (result) => {
         const newVal = !result.tarot_sound;
         chrome.storage.local.set({ tarot_sound: newVal });
+        this.soundEnabled = newVal;
         const btn = document.getElementById('sound-toggle-btn');
         if (btn) btn.classList.toggle('muted', !newVal);
+        this.triggerHaptic();
       });
     }
 
@@ -1490,26 +1527,27 @@
       html += '<div class="fortune-lucky-info">';
       html += '<div class="fortune-lucky-item">';
       html += '<div class="fortune-lucky-label">' + this.t('fortune_lucky_color') + '</div>';
-      html += '<div class="fortune-lucky-value"><span class="fortune-color-swatch" style="background:' + luckyColor.hex + ';"></span>' + luckyColor.name + '</div>';
+      html += '<div class="fortune-lucky-value"><div class="fortune-color-display"><span class="fortune-color-swatch" style="background:' + luckyColor.hex + ';"></span>' + luckyColor.name + '</div></div>';
       html += '</div>';
       html += '<div class="fortune-lucky-item">';
       html += '<div class="fortune-lucky-label">' + this.t('fortune_lucky_number') + '</div>';
       html += '<div class="fortune-lucky-value">';
-      html += '<span class="fortune-lucky-num">' + fortune.luckyNumber + '</span>';
+      html += '<div class="fortune-lucky-num-wrap">';
+      html += '<span class="fortune-lucky-num-main">' + fortune.luckyNumber + '</span>';
       if (fortune.luckyNumberRoot === 11 || fortune.luckyNumberRoot === 22) {
-        html += ' <span class="fortune-lucky-root fortune-root-master">灵数' + fortune.luckyNumberRoot + '</span>';
+        html += '<span class="fortune-lucky-num-badge">灵数 ' + fortune.luckyNumberRoot + '</span>';
       } else if (fortune.luckyNumberRoot) {
-        html += ' <span class="fortune-lucky-root">数字根' + fortune.luckyNumberRoot + '</span>';
+        html += '<span class="fortune-lucky-num-badge">数字根 ' + fortune.luckyNumberRoot + '</span>';
       }
-      // 幸运数字对应塔罗牌
+      html += '</div>';
       if (luckyCardName) {
-        html += '<div class="fortune-lucky-tarot">' + luckyCardName + (luckyCardOrig ? ' (' + luckyCardOrig + ')' : '') + '</div>';
+        html += '<div class="fortune-lucky-num-card">' + luckyCardName + (luckyCardOrig ? ' (' + luckyCardOrig + ')' : '') + '</div>';
       }
       html += '</div>';
       html += '</div>';
       html += '<div class="fortune-lucky-item">';
       html += '<div class="fortune-lucky-label">' + this.t('fortune_lucky_direction') + '</div>';
-      html += '<div class="fortune-lucky-value">' + luckyDir + '</div>';
+      html += '<div class="fortune-lucky-value"><span class="fortune-lucky-dir">' + luckyDir + '</span></div>';
       html += '</div>';
       html += '</div></div>';
 
@@ -1543,6 +1581,9 @@
       html += '</div>';
 
       container.innerHTML = html;
+
+      // 运势结果弹出音效
+      this.playMagicSound();
 
       // 绑定今日指引牌点击事件
       const guideEl = container.querySelector('.fortune-guide-card');
@@ -2995,8 +3036,9 @@
 
         // 恢复音效开关状态
         chrome.storage.local.get({ tarot_sound: true }, (result) => {
+          this.soundEnabled = result.tarot_sound !== false;
           const btn = document.getElementById('sound-toggle-btn');
-          if (btn) btn.classList.toggle('muted', !result.tarot_sound);
+          if (btn) btn.classList.toggle('muted', !this.soundEnabled);
         });
 
         this.showPage('welcome-page');
@@ -3015,6 +3057,14 @@
 
     // ============ 绑定事件（扩展） ============
     bindEvents() {
+      // 触觉反馈：按钮点击震动（捕获阶段触发，卡牌震动由 playFlipSound 处理）
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('button, .spread-btn, .spread-card, .tool-card, .numgen-preset-btn, .dilemma-method-btn, .history-delete-btn');
+        if (target) {
+          this.triggerHaptic();
+        }
+      }, true);
+
       const spreadBtns = document.querySelectorAll('.spread-btn, .spread-card');
       console.log('绑定事件，找到', spreadBtns.length, '个牌阵按钮');
       spreadBtns.forEach((btn) => {
