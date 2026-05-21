@@ -40,6 +40,118 @@
       return texts;
     }
 
+    // ============ 选项历史管理 ============
+    var DILEMMA_HISTORY_KEY = 'dilemma_history';
+    var MAX_HISTORY = 6;
+
+    function saveDilemmaHistory() {
+      var texts = getOptionTexts();
+      if (!texts.a || !texts.b) return;
+      // 跳过默认选项
+      var defA = app.currentLang === 'en' ? 'Option A' : '选项A';
+      var defB = app.currentLang === 'en' ? 'Option B' : '选项B';
+      if (texts.a === defA && texts.b === defB) return;
+
+      try {
+        var stored = JSON.parse(localStorage.getItem(DILEMMA_HISTORY_KEY) || '[]');
+        // 去重：如果已有相同选项对，移到最前
+        stored = stored.filter(function(item) {
+          return !(item.a === texts.a && item.b === texts.b);
+        });
+        stored.unshift({ a: texts.a, b: texts.b, time: Date.now() });
+        if (stored.length > MAX_HISTORY) stored = stored.slice(0, MAX_HISTORY);
+        localStorage.setItem(DILEMMA_HISTORY_KEY, JSON.stringify(stored));
+      } catch (e) {}
+    }
+
+    function loadDilemmaHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(DILEMMA_HISTORY_KEY) || '[]');
+      } catch (e) { return []; }
+    }
+
+    function renderDilemmaHistory() {
+      var bar = document.getElementById('dilemma-history-bar');
+      var tagsContainer = document.getElementById('dilemma-history-tags');
+      if (!bar || !tagsContainer) return;
+      var list = loadDilemmaHistory();
+      if (list.length === 0) {
+        bar.classList.add('hidden');
+        return;
+      }
+      tagsContainer.innerHTML = '';
+      list.forEach(function(item) {
+        var tag = document.createElement('div');
+        tag.className = 'dilemma-history-tag';
+        var label = item.a + ' vs ' + item.b;
+        if (label.length > 14) label = label.substring(0, 13) + '…';
+        tag.textContent = label;
+        tag.title = item.a + ' vs ' + item.b;
+        tag.addEventListener('click', function() {
+          var inputA = document.getElementById('dilemma-input-a');
+          var inputB = document.getElementById('dilemma-input-b');
+          if (inputA) inputA.value = item.a;
+          if (inputB) inputB.value = item.b;
+          // 触发 input 事件让 glow 效果响应
+          if (inputA) inputA.dispatchEvent(new Event('input'));
+          if (inputB) inputB.dispatchEvent(new Event('input'));
+        });
+        tagsContainer.appendChild(tag);
+      });
+      bar.classList.remove('hidden');
+    }
+
+    // ============ Confetti 庆祝动画 ============
+    function triggerConfetti(originEl) {
+      var container = document.createElement('div');
+      container.className = 'dilemma-confetti-container';
+      document.body.appendChild(container);
+
+      var colors = ['#FFD700', '#FF9800', '#E91E63', '#9C27B0', '#00BCD4', '#FF5722'];
+      var rect = originEl ? originEl.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight / 2, width: 0, height: 0 };
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+
+      for (var i = 0; i < 24; i++) {
+        var piece = document.createElement('div');
+        piece.className = 'dilemma-confetti-piece';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.left = cx + 'px';
+        piece.style.top = cy + 'px';
+        var angle = (Math.PI * 2 * i) / 24 + (Math.random() - 0.5) * 0.5;
+        var dist = 40 + Math.random() * 80;
+        var tx = Math.cos(angle) * dist;
+        var ty = Math.sin(angle) * dist + 60 + Math.random() * 40;
+        var rot = Math.random() * 720;
+        piece.style.setProperty('--tx', tx + 'px');
+        piece.style.setProperty('--ty', ty + 'px');
+        piece.style.setProperty('--rot', rot + 'deg');
+        // 覆盖默认动画，使用动态终点
+        piece.style.animation = 'none';
+        piece.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        piece.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
+        piece.style.opacity = '1';
+        container.appendChild(piece);
+        (function(p, x, y, r) {
+          requestAnimationFrame(function() {
+            p.style.transform = 'translate(' + x + ',' + y + ') rotate(' + r + ') scale(0.2)';
+            p.style.opacity = '0';
+          });
+        })(piece, tx + 'px', ty + 'px', rot + 'deg');
+      }
+      setTimeout(function() { if (container.parentNode) container.parentNode.removeChild(container); }, 1100);
+    }
+
+    // ============ 让命运决定（随机方式） ============
+    function playRandomDecision() {
+      var texts = validateInputs();
+      if (!texts) return;
+      var methods = ['rps', 'dice', 'tarot'];
+      var method = methods[Math.floor(Math.random() * methods.length)];
+      // 先显示决定方式，再做决定
+      chooseMethod(method);
+    }
+
     function resetResultArea() {
       var resultDiv = document.getElementById('dilemma-result');
       var readingDiv = document.getElementById('dilemma-reading');
@@ -77,6 +189,12 @@
             if (currentMethod === 'rps') { resetResultArea(); chooseMethod('rps'); }
             else if (currentMethod === 'dice') { resetResultArea(); chooseMethod('dice'); }
           });
+        }
+
+        // 胜出时撒 confetti
+        var winnerEl = resultDiv.querySelector('.dilemma-result-winner');
+        if (winnerEl) {
+          setTimeout(function() { triggerConfetti(winnerEl); }, 200);
         }
       }
       // 塔罗方式：显示解读区右上角的刷新按钮
@@ -283,6 +401,7 @@
             html += '<div class="dilemma-result-row">' + app.t('dilemma_computer_chose') + choices[computerChoice] + '</div>';
 
             var winnerOption = '';
+            saveDilemmaHistory();
             if (isTie) {
               html += '<div class="dilemma-result-winner">' + app.t('decision_tie') + '</div>';
               html += '</div>';
@@ -307,6 +426,24 @@
       }, 500);
     }
 
+    // ============ CSS 骰子组件 ============
+    function makeDiceFace(pips) {
+      var positions = {
+        1: ['c'],
+        2: ['tl', 'br'],
+        3: ['tl', 'c', 'br'],
+        4: ['tl', 'tr', 'bl', 'br'],
+        5: ['tl', 'tr', 'c', 'bl', 'br'],
+        6: ['tl', 'tr', 'cl', 'cr', 'bl', 'br']
+      };
+      var html = '<div class="dice-face">';
+      (positions[pips] || []).forEach(function(pos) {
+        html += '<span class="dice-pip" data-pos="' + pos + '"></span>';
+      });
+      html += '</div>';
+      return html;
+    }
+
     // ============ 摇骰子（带动画） ============
     function playDice(userHighLow) {
       var texts = validateInputs();
@@ -318,26 +455,33 @@
       var diceBtns = document.querySelectorAll('.dilemma-dice-btn');
       diceBtns.forEach(function(b) { b.disabled = true; });
 
-      // 显示动画区域
+      // 显示动画区域，放入滚动骰子
       var animDiv = document.getElementById('dilemma-dice-animation');
-      var rollingEl = animDiv ? animDiv.querySelector('.dilemma-dice-rolling') : null;
-      if (animDiv) animDiv.classList.remove('hidden');
-      if (rollingEl) {
-        rollingEl.textContent = '\u9855';
-        rollingEl.classList.remove('dice-stop');
-        rollingEl.style.animation = 'diceRoll 0.12s linear infinite';
+      if (animDiv) {
+        animDiv.classList.remove('hidden');
+        animDiv.innerHTML = '<div class="dice-face rolling" id="dilemma-rolling-dice"><span class="dice-pip" data-pos="c"></span></div>';
+      }
+
+      // 滚动动画：快速切换点数
+      var rollingDice = document.getElementById('dilemma-rolling-dice');
+      var rollInterval;
+      if (rollingDice) {
+        rollInterval = setInterval(function() {
+          var rnd = Math.floor(Math.random() * 6) + 1;
+          rollingDice.outerHTML = makeDiceFace(rnd).replace('dice-face', 'dice-face rolling');
+          rollingDice = document.getElementById('dilemma-rolling-dice');
+        }, 80);
       }
 
       // 模拟滚动 1.2 秒后停止
       setTimeout(function() {
+        if (rollInterval) clearInterval(rollInterval);
         var userDice = Math.floor(Math.random() * 6) + 1;
         var compDice = Math.floor(Math.random() * 6) + 1;
-        var diceEmojis = ['\u2680', '\u2681', '\u2682', '\u2683', '\u2684', '\u2685'];
 
-        if (rollingEl) {
-          rollingEl.style.animation = 'none';
-          rollingEl.textContent = diceEmojis[userDice - 1];
-          rollingEl.classList.add('dice-stop');
+        // 动画区域显示最终结果（你的骰子）
+        if (animDiv) {
+          animDiv.innerHTML = makeDiceFace(userDice);
         }
 
         // 判断输赢
@@ -355,20 +499,21 @@
         html += '<div class="dilemma-result-game">';
         html += '<div style="margin-bottom:10px;font-size:13px;color:var(--color-gold);font-weight:700;">' + app.t('dilemma_you_bet') + userBetLabel + '</div>';
         html += '<div class="dilemma-result-dice-wrap">';
-        html += '  <div class="dilemma-result-dice">';
-        html += '    <div class="dilemma-result-dice-emoji">' + diceEmojis[userDice - 1] + '</div>';
+        html += '  <div class="dilemma-result-dice-card">';
+        html += makeDiceFace(userDice);
         html += '    <div class="dilemma-result-dice-label">' + (lang === 'en' ? 'You (' + texts.a + ')' : '你（' + texts.a + '）') + '</div>';
         html += '    <div class="dilemma-result-dice-value">' + userDice + '</div>';
         html += '  </div>';
-        html += '  <div style="font-size:20px;color:var(--color-gold);align-self:center;">VS</div>';
-        html += '  <div class="dilemma-result-dice">';
-        html += '    <div class="dilemma-result-dice-emoji">' + diceEmojis[compDice - 1] + '</div>';
+        html += '  <div class="dilemma-result-dice-vs">VS</div>';
+        html += '  <div class="dilemma-result-dice-card">';
+        html += makeDiceFace(compDice);
         html += '    <div class="dilemma-result-dice-label">' + (lang === 'en' ? 'Computer (' + texts.b + ')' : '电脑（' + texts.b + '）') + '</div>';
         html += '    <div class="dilemma-result-dice-value">' + compDice + '</div>';
         html += '  </div>';
         html += '</div>';
 
         var winnerOption = '';
+        saveDilemmaHistory();
         if (isTie) {
           html += '<div class="dilemma-result-winner">' + app.t('decision_tie') + '</div>';
           html += '</div>';
@@ -399,6 +544,7 @@
       var recommended = drawTarotComparison();
 
       // 显示推荐结果
+      saveDilemmaHistory();
       var lang = app.currentLang || 'zh';
       var html = '';
       html += '<div class="dilemma-result-game">';
@@ -505,6 +651,25 @@
         diceLow._bound = true;
       }
 
+      // 让命运决定
+      var fateBtn = document.getElementById('dilemma-fate-btn');
+      if (fateBtn && !fateBtn._bound) {
+        fateBtn.addEventListener('click', function() { playRandomDecision(); });
+        fateBtn._bound = true;
+      }
+
+      // 输入框 blur 时保存历史并渲染
+      var inputA = document.getElementById('dilemma-input-a');
+      var inputB = document.getElementById('dilemma-input-b');
+      if (inputA && !inputA._bound) {
+        inputA.addEventListener('blur', function() { saveDilemmaHistory(); renderDilemmaHistory(); });
+        inputA._bound = true;
+      }
+      if (inputB && !inputB._bound) {
+        inputB.addEventListener('blur', function() { saveDilemmaHistory(); renderDilemmaHistory(); });
+        inputB._bound = true;
+      }
+
       // 再来一次
       var redoBtn = document.getElementById('dilemma-redo-btn');
       if (redoBtn && !redoBtn._bound) {
@@ -532,6 +697,10 @@
       bindDilemmaEvents();
     }
     setTimeout(bindDilemmaEvents, 500);
+
+    // 暴露历史管理函数供 popup.js 调用
+    window.renderDilemmaHistory = renderDilemmaHistory;
+    window.saveDilemmaHistory = saveDilemmaHistory;
   }
 
   if (typeof app !== 'undefined') {

@@ -474,9 +474,22 @@
                     </div>
                 </div>
 
+                <!-- 选项历史快捷栏 -->
+                <div id="dilemma-history-bar" class="dilemma-history-bar hidden">
+                    <div class="dilemma-history-label">&#128336; 历史</div>
+                    <div id="dilemma-history-tags" class="dilemma-history-tags"></div>
+                </div>
+
+                <!-- 让命运决定 -->
+                <button id="dilemma-fate-btn" class="dilemma-fate-btn" type="button">
+                    <span class="dilemma-fate-icon">&#9884;</span>
+                    <span class="dilemma-fate-text">让命运决定</span>
+                    <span class="dilemma-fate-sub">随机用一种方式帮你做决定</span>
+                </button>
+
                 <!-- 决定方式（Tab 切换） -->
                 <div class="dilemma-methods">
-                    <div class="dilemma-method-title" data-i18n-key="dilemma_choose_method">选择决定方式</div>
+                    <div class="dilemma-method-title" data-i18n-key="dilemma_choose_method">或选择具体方式</div>
                     <div class="dilemma-method-buttons">
                         <button id="dilemma-rps-btn" class="dilemma-method-btn" type="button" data-method="rps">
                             <span class="dilemma-method-icon">&#9994;</span>
@@ -521,10 +534,7 @@
                             <button id="dilemma-dice-low" class="dilemma-dice-btn" type="button" data-i18n-key="dilemma_dice_low">小（1-3）</button>
                         </div>
                         <!-- 骰子动画区域 -->
-                        <div id="dilemma-dice-animation" class="dilemma-dice-animation hidden">
-                            <div class="dilemma-dice-rolling">&#985;
-                            </div>
-                        </div>
+                        <div id="dilemma-dice-animation" class="dilemma-dice-animation hidden"></div>
                     </div>
                 </div>
 

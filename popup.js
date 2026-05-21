@@ -2047,6 +2047,7 @@
       if (readingDiv) readingDiv.classList.add('hidden');
       if (redoBtn) redoBtn.classList.add('hidden');
       this.showPage('dilemma-page');
+      if (typeof renderDilemmaHistory === 'function') renderDilemmaHistory();
     }
 
     generateFateNumber() {
