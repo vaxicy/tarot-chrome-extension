@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>哈利波特塔罗牌</title>
+    <title>魔法塔罗牌</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -23,14 +23,14 @@
         <section id="welcome-page" class="page">
             <div class="welcome-content">
                 <div class="welcome-icon">&#9889;</div>
-                <h1 data-i18n-key="welcome_title">哈利波特塔罗牌</h1>
+                <h1 data-i18n-key="welcome_title">魔法塔罗牌</h1>
                 <p class="welcome-subtitle" data-i18n-key="welcome_subtitle">探索魔法世界的命运指引</p>
 
                 <!-- 顶部工具栏 -->
                 <div class="top-toolbar">
                     <div class="toolbar-selects">
                         <select id="deck-select" class="toolbar-select">
-                            <option value="hp" data-i18n-key="deck_hp">哈利波特主题</option>
+                            <option value="magic" data-i18n-key="deck_magic">魔法主题</option>
                             <option value="rider" data-i18n-key="deck_rider">伟特塔罗</option>
                             <option value="marseille" data-i18n-key="deck_marseille">马赛塔罗</option>
                             <option value="thoth" data-i18n-key="deck_thoth">托特塔罗</option>
@@ -545,6 +545,7 @@
         <div id="spread-hover-preview" class="spread-hover-preview hidden"></div>
     </div>
 
+    <script src="constants.js"></script>
     <script src="tarot-cards.js"></script>
     <script src="rider-waite-cards.js"></script>
     <script src="marseille-cards.js"></script>

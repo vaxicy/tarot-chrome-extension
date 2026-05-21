@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "哈利波特塔罗牌",
+  "name": "魔法塔罗牌",
   "version": "1.1",
-  "description": "探索魔法世界的命运指引 - 哈利波特主题塔罗牌占卜扩展",
+  "description": "探索魔法世界的命运指引 - 魔法主题塔罗牌占卜扩展",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

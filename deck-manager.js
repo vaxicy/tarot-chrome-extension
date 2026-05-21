@@ -6,7 +6,7 @@
 class DeckManager {
   constructor() {
     this.decks = {};
-    this.currentDeckName = 'hp';
+    this.currentDeckName = 'magic';
     this.customMeanings = {};
     this.language = 'zh'; // 'zh' | 'en'
     this.cache = {
@@ -203,9 +203,9 @@ class DeckManager {
 var deckManager = new DeckManager();
 
 // 注册默认牌组
-deckManager.registerDeck('hp', function () {
+deckManager.registerDeck('magic', function () {
   return Promise.resolve(typeof tarotCards !== 'undefined' ? tarotCards : []);
-}, { nameZh: '哈利波特主题', nameEn: 'Harry Potter', description: 'HP主题塔罗牌' });
+}, { nameZh: '魔法主题', nameEn: 'Magic Theme', description: '魔法主题塔罗牌' });
 
 deckManager.registerDeck('rider', function () {
   return Promise.resolve(typeof riderWaiteCards !== 'undefined' ? riderWaiteCards : []);

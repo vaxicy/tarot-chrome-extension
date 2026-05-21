@@ -5,7 +5,7 @@
 **Last Updated: 2026-05-21**
 
 ### Overview
-This Chrome Extension ("Harry Potter Tarot", "the Extension") is committed to protecting your privacy. This privacy policy explains how we handle information when you use our extension.
+This Chrome Extension ("Magic Tarot", "the Extension") is committed to protecting your privacy. This privacy policy explains how we handle information when you use our extension.
 
 ### Information Collection
 This Extension **does not collect, transmit, or store** any personal information on external servers. Specifically:
@@ -51,7 +51,7 @@ https://github.com/vaxicy/tarot-chrome-extension/issues
 **最后更新日期：2026年5月21日**
 
 ### 概述
-本 Chrome 扩展程序（"哈利波特塔罗牌"，简称"本扩展"）致力于保护您的隐私。本隐私政策说明了我们在您使用扩展程序时如何处理信息。
+本 Chrome 扩展程序（"魔法塔罗牌"，简称"本扩展"）致力于保护您的隐私。本隐私政策说明了我们在您使用扩展程序时如何处理信息。
 
 ### 信息收集
 本扩展程序**不收集、不传输、也不在外部服务器上存储**任何个人信息。具体包括：

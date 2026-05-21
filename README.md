@@ -1,13 +1,13 @@
-# 🔮 Harry Potter Tarot Chrome Extension / 哈利波特塔罗牌 Chrome 扩展
+# 🔮 Magic Tarot Chrome Extension / 魔法塔罗牌 Chrome 扩展
 
 [English](#english) | [中文](#中文)
 
 ---
 
 <a name="english"></a>
-## 🔮 Harry Potter Tarot Chrome Extension
+## 🔮 Magic Tarot Chrome Extension
 
-A magical Chrome extension that brings tarot divination to your browser with a Harry Potter theme. Explore destiny's guidance through various tarot spreads and decks.
+A magical Chrome extension that brings tarot divination to your browser with a magic theme. Explore destiny's guidance through various tarot spreads and decks.
 
 ### ✨ Features
 
@@ -24,7 +24,7 @@ A magical Chrome extension that brings tarot divination to your browser with a H
 
 | Deck | Description (EN) | Description (ZH) |
 |------|------------------|------------------|
-| Harry Potter | Harry Potter themed tarot cards | 哈利波特主题塔罗牌 |
+| Magic | Magic themed tarot cards | 魔法主题塔罗牌 |
 | Rider-Waite | Classic Rider-Waite tarot deck | 伟特塔罗牌 |
 | Marseille | Traditional Marseille tarot deck | 马赛塔罗牌 |
 | Thoth | Aleister Crowley Thoth tarot deck | 托特塔罗牌 |
@@ -95,7 +95,7 @@ tarot-chrome-extension/
 ├── marseille-cards.js     # Marseille deck
 ├── thoth-cards.js         # Thoth deck
 ├── angel-cards.js         # Angel deck
-├── base-cards.js          # Harry Potter deck
+├── base-cards.js          # Magic theme deck
 ├── dilemma-spread.js      # Dilemma spread logic
 ├── icons/                 # Extension icons
 └── generate-icons.js      # Icon generation script
@@ -118,13 +118,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ### 🙏 Acknowledgments
 
 - Tarot card meanings based on traditional Rider-Waite symbolism
-- Harry Potter theme for entertainment purposes
+- Magic theme for entertainment purposes
 - Icons and design inspired by various tarot traditions
 
 ---
 
 <a name="中文"></a>
-## 🔮 哈利波特塔罗牌 Chrome 扩展
+## 🔮 魔法塔罗牌 Chrome 扩展
 
 一款充满魔法的 Chrome 浏览器扩展，将塔罗占卜带入你的浏览器。通过多种牌阵和牌组探索命运指引。
 
