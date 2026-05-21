@@ -245,7 +245,6 @@ tarot-chrome-extension/
 ### 📧 Contact / 联系方式
 
 - **GitHub Issues**: [Report a bug or suggest a feature](https://github.com/vaxicy/tarot-chrome-extension/issues)
-- **Email**: 13036884004@163.com
 
 ---
 
