@@ -10,6 +10,8 @@
     <div class="popup-wrapper">
         <!-- 牌阵提示浮层 -->
         <div id="spread-tooltip" class="spread-tooltip hidden"></div>
+        <!-- 牌阵布局预览 -->
+        <div id="spread-preview" class="spread-preview hidden"></div>
 
         <!-- 卡牌预览模态框 -->
         <div id="card-preview-modal" class="card-preview-modal hidden">
@@ -67,6 +69,13 @@
                         <span class="tool-card-icon">&#129516;</span>
                         <span class="tool-card-label" data-i18n-key="btn_dilemma">选择困难症</span>
                     </button>
+                </div>
+
+                <!-- 问题输入区域（牌阵智能推荐） -->
+                <div class="question-input-area">
+                    <input type="text" id="spread-question-input" class="spread-question-input"
+                           placeholder="输入你的问题，获取牌阵推荐..." data-i18n-key="spread_question_placeholder" />
+                    <div id="recommended-spreads" class="recommended-spreads hidden"></div>
                 </div>
 
                 <!-- 每日运势面板 -->
@@ -194,6 +203,15 @@
                             <span class="spread-desc" data-i18n-spread="yesno_desc">是/否决策指引</span>
                         </div>
                     </button>
+                    <button id="proscons-draw-btn" class="spread-btn" type="button" data-spread="proscons" data-i18n-tip="proscons_tip">
+                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                        <span class="spread-info-btn" data-spread-key="proscons" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">⚖️</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="proscons_name">利弊分析</span>
+                            <span class="spread-desc" data-i18n-spread="proscons_desc">支持与反对因素分析</span>
+                        </div>
+                    </button>
 
                     <div class="spread-category-title" data-i18n-key="cat_general">&#128302; 通用深入</div>
                     <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
@@ -270,6 +288,15 @@
                         <div class="spread-info">
                             <span class="spread-name" data-i18n-spread="year_name">年运牌阵</span>
                             <span class="spread-desc" data-i18n-spread="year_desc">全年运势指引</span>
+                        </div>
+                    </button>
+                    <button id="lifepurpose-draw-btn" class="spread-btn" type="button" data-spread="lifepurpose" data-i18n-tip="lifepurpose_tip">
+                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                        <span class="spread-info-btn" data-spread-key="lifepurpose" title="查看牌阵说明">i</span>
+                        <span class="spread-icon">🌟</span>
+                        <div class="spread-info">
+                            <span class="spread-name" data-i18n-spread="lifepurpose_name">人生使命</span>
+                            <span class="spread-desc" data-i18n-spread="lifepurpose_desc">探索天命与人生方向</span>
                         </div>
                     </button>
                 </div>

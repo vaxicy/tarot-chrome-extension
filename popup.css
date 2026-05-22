@@ -1238,6 +1238,24 @@ body::before {
   text-align: justify;
 }
 
+/* 位置含义（牌阵优化） */
+.meaning-position {
+  font-size: 11px;
+  color: var(--color-gold-light);
+  background: rgba(255, 215, 0, 0.08);
+  border-left: 3px solid var(--color-gold);
+  padding: 6px 10px;
+  margin: 6px 0 8px;
+  border-radius: 0 6px 6px 0;
+  line-height: 1.6;
+}
+
+.meaning-position-label {
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-right: 4px;
+}
+
 /* ============ 缁煎悎瑙ｈ锟?============ */
 .comprehensive-reading {
   flex: 0 0 auto;
@@ -4925,3 +4943,185 @@ button:active {
 }
 
 
+
+
+/* 问题输入区域（牌阵智能推荐） */
+.question-input-area {
+  padding: 6px 0;
+  margin-bottom: 4px;
+}
+
+.spread-question-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--color-text);
+  background: rgba(26, 15, 64, 0.7);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.spread-question-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
+}
+
+.spread-question-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* 推荐牌阵 */
+.recommended-spreads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 0;
+  margin-top: 4px;
+}
+
+.recommended-title {
+  font-size: 11px;
+  color: var(--color-gold);
+  font-weight: 700;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.recommended-spread-btn {
+  padding: 5px 12px;
+  font-size: 11px;
+  color: var(--color-gold-light);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.recommended-spread-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--color-gold);
+  transform: translateY(-1px);
+}
+
+.recommended-spread-name {
+  font-weight: 700;
+}
+
+.recommended-spread-desc {
+  font-size: 9px;
+  color: var(--color-text-muted);
+}
+
+/* 牌阵布局预览（hover 时显示） */
+.spread-preview {
+  position: fixed;
+  z-index: 1001;
+  background: linear-gradient(135deg, #1a0f40 0%, #2d1b69 100%);
+  border: 1px solid var(--color-gold);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.2);
+  max-width: 280px;
+  pointer-events: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.spread-preview.hidden {
+  display: none !important;
+}
+
+.preview-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-gold);
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.preview-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+
+.preview-pos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  background: rgba(26, 15, 64, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 6px;
+  min-width: 60px;
+}
+
+.preview-pos-num {
+  font-size: 9px;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.preview-pos-name {
+  font-size: 9px;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-more {
+  font-size: 10px;
+  color: var(--color-gold);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+/* Hover 预览：位置列表 */
+.hover-positions {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+.hover-pos {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.hover-pos-num {
+  color: var(--color-gold);
+  font-weight: 700;
+  margin-right: 3px;
+}
+
+.hover-more {
+  font-size: 10px;
+  color: var(--color-gold);
+  font-weight: 700;
+  text-align: center;
+  padding: 2px;
+}

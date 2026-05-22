@@ -429,6 +429,60 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Yearly spread...',
     usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     usageEn: 'Suitable for drawing at New Year or birthday to understand the fortune trend and development in various fields for the whole year.'
+  },
+  // ============ 新增决策分析牌阵 ============
+  proscons: {
+    name: '利弊分析',
+    nameEn: 'Pros & Cons Spread',
+    positions: ['利（支持的理由）', '弊（反对的理由）', '隐藏的因素', '建议'],
+    positionsEn: ['Pros (Supporting Reasons)', 'Cons (Opposing Reasons)', 'Hidden Factor', 'Advice'],
+    positionMeanings: [
+      '利（支持的理由）：支持你做这件事的理由和有利条件。',
+      '弊（反对的理由）：反对你做这件事的理由和需要注意的风险。',
+      '隐藏的因素：未被考虑的隐藏因素或潜在影响。',
+      '建议：综合各方面因素后，塔罗给出的建议（正位偏向支持，逆位偏向谨慎）。'
+    ],
+    positionMeaningsEn: [
+      'Pros: Reasons and favorable conditions that support you doing this.',
+      'Cons: Reasons against doing this and risks that need attention.',
+      'Hidden Factor: Hidden factors or potential influences not yet considered.',
+      'Advice: The Tarot\'s advice after integrating all factors (upright leans toward support, reversed leans toward caution).'
+    ],
+    category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在分析利弊...',
+    loadingTextEn: 'Analyzing pros and cons...',
+    usage: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致，比二选一牌阵更聚焦单一问题。',
+    usageEn: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread, more focused on a single issue than the Choice spread.'
+  },
+  // ============ 新增自我成长牌阵 ============
+  lifepurpose: {
+    name: '人生使命牌阵',
+    nameEn: 'Life Purpose Spread',
+    positions: ['你的核心天赋', '你的人生课题', '过去的制约/限制', '当前的机会', '需要释放的信念', '你的使命方向', '可能的阻碍', '建议'],
+    positionsEn: ['Your Core Talent', 'Your Life Lesson', 'Past Conditioning', 'Current Opportunity', 'Beliefs to Release', 'Your Mission Direction', 'Possible Obstacles', 'Advice'],
+    positionMeanings: [
+      '你的核心天赋：你天生具备的天赋、才能或独特优势。',
+      '你的人生课题：你此生需要学习的核心课题或需要克服的挑战。',
+      '过去的制约/限制：来自过去（童年、成长环境、过往经历）的限制性信念或模式。',
+      '当前的机会：此刻出现的、与你的使命相关的机会或召唤。',
+      '需要释放的信念：阻碍你走向使命的旧有信念、恐惧或执念。',
+      '你的使命方向：你的人生方向和使命所在，塔罗给出的指引。',
+      '可能的阻碍：在实现使命道路上可能遇到的内在或外在阻碍。',
+      '建议：塔罗对你如何走向人生使命、活出真实自我的建议。'
+    ],
+    positionMeaningsEn: [
+      'Your Core Talent: The natural talents, abilities, or unique advantages you possess.',
+      'Your Life Lesson: The core lesson you need to learn in this life or the challenge you need to overcome.',
+      'Past Conditioning: Limiting beliefs or patterns from the past (childhood, upbringing, past experiences).',
+      'Current Opportunity: Opportunities or calls appearing now that are related to your mission.',
+      'Beliefs to Release: Old beliefs, fears, or obsessions that hinder you from moving toward your mission.',
+      'Your Mission Direction: Your life direction and mission, the guidance given by the Tarot.',
+      'Possible Obstacles: Inner or outer obstacles you may encounter on the path to fulfilling your mission.',
+      'Advice: The Tarot\'s advice on how to move toward your life purpose and live as your true self.'
+    ],
+    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开人生使命牌阵...',
+    loadingTextEn: 'Unfolding the Life Purpose spread...',
+    usage: '适合在人生转折点、迷茫期或想要寻找人生意义和方向时使用，帮助探索天命与使命。',
+    usageEn: 'Suitable for use at life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.'
   }
 };
 
@@ -637,6 +691,12 @@ const I18N = {
     jobchange_tip: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。',
     shadow_tip: '适合想要深入了解自己、进行心理成长或整合阴影面的人。',
     year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
+    spread_proscons_name: '利弊分析',
+    spread_proscons_desc: '4张牌 · 支持与反对因素分析',
+    spread_lifepurpose_name: '人生使命',
+    spread_lifepurpose_desc: '8张牌 · 探索天命与人生方向',
+    proscons_tip: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致。',
+    lifepurpose_tip: '适合在人生转折点、迷茫期或想要寻找人生意义和方向时使用，帮助探索天命与使命。',
     // 牌意
     btn_custom_meaning: '自定义牌意',
     cards_count_label: '张牌',
@@ -667,7 +727,7 @@ const I18N = {
     relation_diff: '你们的牌位状态不同，可能存在认知差异或不同步的情况，需要更多沟通。',
     relation_choice: '选项A（{0} {1}）与选项B（{2} {3}）呈现出不同的能量走向。建议牌（{4} {5}）为你的决策提供了重要指引，请仔细体悟这张牌的启示。',
     relation_celtic: '十字中心的两张牌——当前情况（{0}）与挑战（{1}）——构成了问题的核心张力。过去的能量（{2}）仍在影响着现在，而最终结果牌（{3}）指明了这段旅程可能的归宿。',
-    relation_suite_continue: '「{0}」与「{1}」同为{2} suite，能量有延续性；',
+    relation_suite_continue: '「{0}」与「{1}」同为{2}牌组，能量有延续性；',
     relation_rev_to_up: '从「{0}」的逆位转向「{1}」的正位，说明局势正在好转；',
     relation_up_to_rev: '从「{0}」的正位走向「{1}」的逆位，需要警惕潜在风险；',
     relation_smooth: '各张牌位之间的能量流转较为平稳，没有明显的冲突或突变，整体呈现出渐进式的发展轨迹。',
@@ -844,6 +904,12 @@ const I18N = {
     jobchange_tip: 'For those considering job change, career switch, or job hopping, helps make wiser career decisions.',
     shadow_tip: 'For those who want to understand themselves deeply, do psychological growth or integrate shadow self.',
     year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.',
+    spread_proscons_name: 'Pros & Cons',
+    spread_proscons_desc: '4 cards · Analyze pros and cons',
+    spread_lifepurpose_name: 'Life Purpose',
+    spread_lifepurpose_desc: '8 cards · Explore destiny & life direction',
+    proscons_tip: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread.',
+    lifepurpose_tip: 'For life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.',
     // Card meaning
     btn_custom_meaning: 'Custom Meaning',
     cards_count_label: 'cards',

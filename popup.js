@@ -415,12 +415,30 @@
       const posLabel = position ? (this.currentLang === 'en' ? ' (' + position + ')' : '（' + position + '）') : '';
       const displayName = deckManager.getCardName(card);
 
-      container.innerHTML =
-        '<div class="card-meaning">' +
-          '<div class="meaning-header">' + displayName + posLabel + ' - ' + posText + '</div>' +
-          '<div class="meaning-text">' + meaning + '</div>' +
-          '<button class="custom-meaning-btn" data-card-id="' + card.id + '" data-type="' + (isReversed ? 'reversed' : 'upright') + '">' + this.t('btn_custom_meaning') + '</button>' +
-        '</div>';
+      // 获取位置含义
+      let positionMeaning = '';
+      const spread = SPREADS[this.currentMode];
+      if (spread && position) {
+        const positions = this.currentLang === 'en' ? (spread.positionsEn || spread.positions) : spread.positions;
+        const positionMeanings = this.currentLang === 'en'
+          ? (spread.positionMeaningsEn || spread.positionMeanings || [])
+          : (spread.positionMeanings || []);
+        const idx = positions.indexOf(position);
+        if (idx >= 0 && positionMeanings && positionMeanings[idx]) {
+          positionMeaning = positionMeanings[idx];
+        }
+      }
+
+      let html = '<div class="card-meaning">';
+      html += '<div class="meaning-header">' + displayName + posLabel + ' - ' + posText + '</div>';
+      if (positionMeaning) {
+        html += '<div class="meaning-position"><span class="meaning-position-label">' + (this.currentLang === 'en' ? 'Position: ' : '位置含义：') + '</span>' + positionMeaning + '</div>';
+      }
+      html += '<div class="meaning-text">' + meaning + '</div>';
+      html += '<button class="custom-meaning-btn" data-card-id="' + card.id + '" data-type="' + (isReversed ? 'reversed' : 'upright') + '">' + this.t('btn_custom_meaning') + '</button>';
+      html += '</div>';
+
+      container.innerHTML = html;
 
       // 绑定自定义牌意按钮
       const btn = container.querySelector('.custom-meaning-btn');
@@ -540,7 +558,9 @@
         for (let i = 0; i < cards.length - 1; i++) {
           const c1 = cards[i], c2 = cards[i + 1];
           if (c1.card.suit === c2.card.suit) {
-            text += this.t('relation_suite_continue', positions[i], positions[i + 1], c1.card.suit);
+            const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币', major: '大阿卡那' };
+            const suitName = suitNames[c1.card.suit] || c1.card.suit;
+            text += this.t('relation_suite_continue', positions[i], positions[i + 1], suitName);
           }
           if (c1.isReversed && !c2.isReversed) {
             text += this.t('relation_rev_to_up', positions[i], positions[i + 1]);
@@ -1016,6 +1036,18 @@
       this.drawStandardSpread('year', 60, 96);
     }
 
+    // ============ 新增决策分析牌阵 ============
+    // ============ 利弊分析牌阵 ============
+    drawProscons() {
+      this.drawStandardSpread('proscons', 70, 110);
+    }
+
+    // ============ 新增自我成长牌阵 ============
+    // ============ 人生使命牌阵 ============
+    drawLifepurpose() {
+      this.drawStandardSpread('lifepurpose', 55, 90);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -1037,6 +1069,9 @@
         case 'jobchange': this.drawJobchange(); break;
         case 'shadow':    this.drawShadow(); break;
         case 'year':      this.drawYear(); break;
+        // 新增：利弊分析、人生使命
+        case 'proscons':   this.drawProscons(); break;
+        case 'lifepurpose': this.drawLifepurpose(); break;
       }
     }
 
@@ -2770,14 +2805,27 @@
           };
 
           const hoverDict = I18N[this.currentLang] || I18N.zh;
-          preview.innerHTML =
+          // 生成位置列表 HTML
+      const localizedPositions = this.getLocalizedPositions(key);
+      let positionsHtml = '<div class="hover-positions">';
+      const showCount = Math.min(localizedPositions.length, 5);
+      for (let i = 0; i < showCount; i++) {
+        positionsHtml += '<div class="hover-pos"><span class="hover-pos-num">' + (i + 1) + '.</span> ' + localizedPositions[i] + '</div>';
+      }
+      if (localizedPositions.length > showCount) {
+        positionsHtml += '<div class="hover-more">+' + (localizedPositions.length - showCount) + '...</div>';
+      }
+      positionsHtml += '</div>';
+
+      preview.innerHTML =
             '<div class="hover-title">' + this.getLocalizedSpreadName(key) + '</div>' +
             '<div class="hover-meta">' +
               '<span class="hover-meta-tag">' + (diffStars[spread.difficulty] || '★☆☆') + '</span>' +
               '<span class="hover-meta-tag">' + (catLabels[spread.category] || spread.category) + '</span>' +
               '<span class="hover-meta-tag">' + spread.positions.length + ' ' + (hoverDict['cards_count_label'] || '张牌') + '</span>' +
             '</div>' +
-            '<div class="hover-usage">' + (this.currentLang === 'en' ? (spread.usageEn || spread.usage || '') : (spread.usage || '')) + '</div>';
+            '<div class="hover-usage">' + (this.currentLang === 'en' ? (spread.usageEn || spread.usage || '') : (spread.usage || '')) + '</div>' +
+            positionsHtml;
 
           preview.classList.remove('hidden');
           this.positionHoverPreview(e.target, preview);
@@ -3092,6 +3140,9 @@
               case 'jobchange': this.drawJobchange(); break;
               case 'shadow':    this.drawShadow(); break;
               case 'year':      this.drawYear(); break;
+              // 新增：利弊分析、人生使命
+              case 'proscons':   this.drawProscons(); break;
+              case 'lifepurpose': this.drawLifepurpose(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -3177,6 +3228,32 @@
       }
       if (compHeader) {
         compHeader.addEventListener('click', () => this.toggleComprehensiveReading());
+      }
+
+      // 问题输入 → 牌阵智能推荐
+      const questionInput = document.getElementById('spread-question-input');
+      if (questionInput) {
+        let debounceTimer = null;
+        questionInput.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            const q = questionInput.value.trim();
+            if (q.length >= 2) {
+              this.showRecommendedSpreads(q);
+            } else {
+              const recContainer = document.getElementById('recommended-spreads');
+              if (recContainer) recContainer.classList.add('hidden');
+            }
+          }, 300);
+        });
+        // 点击推荐牌阵时清空输入
+        const recContainer = document.getElementById('recommended-spreads');
+        if (recContainer) {
+          recContainer.addEventListener('click', () => {
+            questionInput.value = '';
+            recContainer.classList.add('hidden');
+          });
+        }
       }
 
       // 牌阵按钮 tooltip
@@ -3361,6 +3438,92 @@
       };
     }
 
+
+
+    // ============ 牌阵智能推荐 ============
+    getRecommendedSpreads(question) {
+      if (!question) return [];
+      const q = question.toLowerCase();
+      const keywords = {
+        'single': ['每日', '今天', '指引', '快速', '简单', 'daily', 'today', 'guide', 'quick', 'simple'],
+        'three': ['过去', '现在', '未来', '时间', 'past', 'present', 'future', 'timeline'],
+        'celtic': ['深入', '全面', '复杂', '重要', 'deep', 'comprehensive', 'complex', 'important'],
+        'relation': ['感情', '关系', '对方', '恋爱', '婚姻', 'love', 'relationship', 'partner', 'marriage'],
+        'love': ['恋爱', '喜欢', '约会', '感情状况', 'dating', 'crush', 'love status'],
+        'broken': ['分手', '复合', '分开', '断联', 'breakup', 'reunion', 'no contact'],
+        'choice': ['选择', '二选一', '决定', '犹豫', 'choose', 'decision', 'hesitate', 'option'],
+        'yesno': ['是否', '能不能', '可不可以', 'yes', 'no', 'can', 'should'],
+        'five': ['深入', '分析', '问题', '核心', 'analyze', 'problem', 'core', 'deep'],
+        'career': ['工作', '事业', '职场', '薪水或', 'job', 'career', 'work', 'office', 'promotion'],
+        'jobchange': ['跳槽', '换工作', '转行', '离职', 'job change', 'resign', 'switch career'],
+        'horseshoe': ['全面', '生活', '各方面', 'comprehensive', 'life', 'aspects'],
+        'timeflow': ['时间', '发展', '趋势', 'time', 'development', 'trend'],
+        'action': ['行动', '怎么做', '建议', 'action', 'how', 'advice', 'what to do'],
+        'mind': ['内心', '想法', '自我', '成长', 'inner', 'self', 'growth', 'mind'],
+        'shadow': ['阴影', '恐惧', '潜意识', 'shadow', 'fear', 'subconscious'],
+        'year': ['年运', '今年', '明年', '年度', 'year', 'annual', 'yearly']
+      };
+
+      const scores = {};
+      for (const [spreadKey, kws] of Object.entries(keywords)) {
+        scores[spreadKey] = 0;
+        for (const kw of kws) {
+          if (q.includes(kw)) {
+            scores[spreadKey] += 1;
+          }
+        }
+      }
+
+      // 按分数排序，返回前3个
+      const recommended = Object.entries(scores)
+        .filter(([_, score]) => score > 0)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([key]) => key);
+
+      // 如果没有匹配，返回推荐牌阵
+      if (recommended.length === 0) {
+        return ['single', 'three', 'action'];
+      }
+      return recommended;
+    }
+
+    // 显示推荐牌阵
+    showRecommendedSpreads(question) {
+      const recommended = this.getRecommendedSpreads(question);
+      if (recommended.length === 0) return;
+
+      const container = document.getElementById('recommended-spreads');
+      if (!container) return;
+
+      container.innerHTML = '';
+      container.classList.remove('hidden');
+
+      const title = document.createElement('div');
+      title.className = 'recommended-title';
+      title.textContent = this.currentLang === 'en' ? 'Recommended Spreads:' : '推荐牌阵：';
+      container.appendChild(title);
+
+      recommended.forEach(key => {
+        const spread = SPREADS[key];
+        if (!spread) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'recommended-spread-btn';
+        btn.dataset.spread = key;
+        btn.innerHTML = '<span class="recommended-spread-name">' + (this.currentLang === 'en' ? spread.nameEn : spread.name) + '</span>' +
+          '<span class="recommended-spread-desc">' + spread.positions.length + ' ' + (this.currentLang === 'en' ? 'cards' : '张牌') + '</span>';
+        btn.addEventListener('click', (e) => {
+          const spreadKey = e.currentTarget.dataset.spread;
+          if (spreadKey) {
+            // 触发对应的牌阵按钮点击
+            const spreadBtn = document.querySelector('[data-spread="' + spreadKey + '"]');
+            if (spreadBtn) spreadBtn.click();
+          }
+        });
+        container.appendChild(btn);
+      });
+    }
     // ============ 牌阵视觉示意图 ============
     getSpreadDiagramHtml(spreadKey) {
       const spread = SPREADS[spreadKey];
