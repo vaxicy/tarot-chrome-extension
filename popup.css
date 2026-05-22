@@ -1060,12 +1060,24 @@ body::before {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .tarot-card.flipped .card-inner {
   transform: rotateY(180deg);
+}
+
+/* 翻牌时的悬停效果 */
+.tarot-card:not(.flipped):hover .card-inner {
+  transform: rotateY(-15deg);
+  box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+}
+
+.tarot-card.flipped:hover .card-inner {
+  transform: rotateY(165deg);
+  box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
 }
 
 /* ============ 翻牌缩放动效 ============ */
@@ -1137,6 +1149,25 @@ body::before {
   padding: 10px 4px 14px;
   text-align: center;
   overflow: hidden;
+  position: relative;
+}
+
+/* 牌面图片样式 */
+.card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  z-index: 0;
+}
+
+/* 确保内容在图片上方 */
+.card-content {
+  position: relative;
+  z-index: 1;
 }
 
 .card-content {

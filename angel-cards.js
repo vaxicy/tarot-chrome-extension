@@ -7,7 +7,7 @@ const angelCards = [
     id: 0, name: "愚者", originalName: "The Fool", suit: "major", element: "风",
     keywords: ["新的开始", "信仰", "天使的守护", "自由", "信任"],
     uprightBrief: "天使守护下的全新开始", reversedBrief: "缺乏信任或盲目跳跃",
-    imageUrl: "icons/angel-major-00.png",
+    imageUrl: "icons/major/tarot-major-00.png",
     upright: "在天使的守护下，你正踏上全新的灵性旅程。宇宙和你的守护天使正支持着你，请带着信心和喜悦踏入未知。这是充满祝福的新开始。",
     reversed: "可能需要更多的信任和准备。你的守护天使提醒你：在跳跃之前，先建立内在的稳固。不要害怕，但也要明智地行动。",
     translations: {
@@ -21,7 +21,7 @@ const angelCards = [
     id: 1, name: "魔术师", originalName: "The Magician", suit: "major", element: "风",
     keywords: ["显化", "天使的协助", "创造力", "力量", "专注"],
     uprightBrief: "天使协助你显化梦想", reversedBrief: "才能被隐藏或自我怀疑",
-    imageUrl: "icons/angel-major-01.png",
+    imageUrl: "icons/major/tarot-major-01.png",
     upright: "你的守护天使正在帮助你将梦想变为现实。你拥有所需的一切工具和天赋。专注于你的意图，宇宙会协同你创造奇迹。这是显化的强大时刻。",
     reversed: "你的天使看到你隐藏的才能。不要自我怀疑，你是被祝福的。重新连接你的内在力量，你的天使正等待帮助你。",
     translations: {
@@ -35,7 +35,7 @@ const angelCards = [
     id: 2, name: "女祭司", originalName: "The High Priestess", suit: "major", element: "水",
     keywords: ["直觉", "天使的低语", "内在智慧", "神秘", "静心"],
     uprightBrief: "倾听天使的低语与直觉", reversedBrief: "忽视直觉或过度理性",
-    imageUrl: "icons/angel-major-02.png",
+    imageUrl: "icons/major/tarot-major-02.png",
     upright: "你的天使正通过直觉与你沟通。静下心来，在沉默中聆听。你内在的智慧是来自最高源头的指引。信任那些温柔的、反复出现的感觉。",
     reversed: "你的天使温柔地提醒你：不要只依赖理性。你的直觉是天使的声音。重新连接内在的宁静，答案就在你心中。",
     translations: {
@@ -49,7 +49,7 @@ const angelCards = [
     id: 3, name: "女皇", originalName: "The Empress", suit: "major", element: "土",
     keywords: ["天使的滋养", "丰盛", "美", "创造力", "自我关爱"],
     uprightBrief: "天使般的滋养与丰盛", reversedBrief: "需要更多自我关爱",
-    imageUrl: "icons/angel-major-03.png",
+    imageUrl: "icons/major/tarot-major-03.png",
     upright: "你正被天使的爱深深滋养着。宇宙以丰盛回应你的振动。享受生活中的美，善待自己。你值得所有的美好，你的天使正为你编织祝福。",
     reversed: "你的天使邀请你更多地关爱自己。你无法从空杯中倾倒。先滋养自己，然后你才能分享爱。你是值得被爱的。",
     translations: {
@@ -63,7 +63,7 @@ const angelCards = [
     id: 4, name: "皇帝", originalName: "The Emperor", suit: "major", element: "火",
     keywords: ["神圣的秩序", "保护", "领导力", "稳定", "结构"],
     uprightBrief: "建立神圣的秩序与稳定", reversedBrief: "需要更灵活的结构",
-    imageUrl: "icons/angel-major-04.png",
+    imageUrl: "icons/major/tarot-major-04.png",
     upright: "你的天使正在帮助你建立稳固的基础。以爱与智慧领导自己和他人。真正的力量来自于服务和保护。在你的生活中创造神圣的秩序。",
     reversed: "你的天使提醒你：真正的力量是柔韧的。不需要严格控制一切。以信任和灵活性来领导，你的天使会支持你的每一步。",
     translations: {
@@ -77,7 +77,7 @@ const angelCards = [
     id: 5, name: "教皇", originalName: "The Hierophant", suit: "major", element: "土",
     keywords: ["天使的教导", "灵性指引", "传统智慧", "内在导师", "信仰"],
     uprightBrief: "接收天使的教导与指引", reversedBrief: "寻找内在的声音",
-    imageUrl: "icons/angel-major-05.png",
+    imageUrl: "icons/major/tarot-major-05.png",
     upright: "你的天使正通过导师、书籍或同步性事件向你传递神圣的教导。保持开放，接收来自高我的指引。你并不孤单，天使们正陪伴着你。",
     reversed: "你的天使鼓励你信任自己的内在导师。外在的权威可以提供帮助，但最终，你的答案来自与神圣的连接。你是被引导的。",
     translations: {
@@ -91,7 +91,7 @@ const angelCards = [
     id: 6, name: "恋人", originalName: "The Lovers", suit: "major", element: "风",
     keywords: ["神圣的爱", "和谐", "选择", "灵魂连接", "价值观"],
     uprightBrief: "天使祝福的爱与和谐选择", reversedBrief: "需要做出符合灵魂的选择",
-    imageUrl: "icons/angel-major-06.png",
+    imageUrl: "icons/major/tarot-major-06.png",
     upright: "天使正在祝福你的关系和选择。这是关于爱与和谐的美好时刻。在做出决定时，倾听你灵魂的声音。真正的爱始于自爱，然后流向他人。",
     reversed: "你的天使邀请你做出符合你最高利益的选择。不要在恐惧中做决定。以爱和清晰来审视你的关系和价值。你值得被爱。",
     translations: {
@@ -106,7 +106,7 @@ const angelCards = [
     keywords: ["神圣的推进", "胜利", "意志力", "专注", "克服"],
     uprightBrief: "在天使支持下前进",
     reversedBrief: "需要重新调整方向",
-    imageUrl: "icons/angel-major-07.png",
+    imageUrl: "icons/major/tarot-major-07.png",
     upright: "你的天使正为你清除道路上的障碍。以坚定的意志和信心前进。你正在胜利的路上，你的天使战车正带你走向应许之地。相信过程。",
     reversed: "你的天使温柔地建议你重新调整方向。你可能在对抗而不是流动。放下对结果的控制，让你的天使为你导航。",
     translations: {
@@ -120,7 +120,7 @@ const angelCards = [
     id: 8, name: "力量", originalName: "Strength", suit: "major", element: "火",
     keywords: ["天使的勇气", "温柔的力量", "耐心", "慈悲", "内在力量"],
     uprightBrief: "天使赋予的温柔力量", reversedBrief: "需要更多的自我慈悲",
-    imageUrl: "icons/angel-major-08.png",
+    imageUrl: "icons/major/tarot-major-08.png",
     upright: "你的天使正赋予你温柔而强大的力量。真正的力量不是控制，而是以爱和慈悲驯服内在的野兽。你比想象中更强大，你的天使与你同在。",
     reversed: "你的天使提醒你：对自己温柔一点。你不需要完美才能被爱。你的温柔本身就是一种力量。让天使的爱治愈你的自我怀疑。",
     translations: {
@@ -134,7 +134,7 @@ const angelCards = [
     id: 9, name: "隐士", originalName: "The Hermit", suit: "major", element: "火",
     keywords: ["天使的指引", "内省", "灵性觉醒", "独处", "光"],
     uprightBrief: "在天使的光中内省", reversedBrief: "从孤独中走出来",
-    imageUrl: "icons/angel-major-09.png",
+    imageUrl: "icons/major/tarot-major-09.png",
     upright: "你的天使正引领你进入内在的圣殿。在静默中，你会找到所有的答案。这不是孤独，而是与神圣的约会。你的内在之光正等待着被发现。",
     reversed: "你的天使看到你准备好重新与世界分享你的光了。你内在的旅程已经给了你智慧。现在，以爱与他人连接，分享你的光芒。",
     translations: {
@@ -148,7 +148,7 @@ const angelCards = [
     id: 10, name: "命运之轮", originalName: "Wheel of Fortune", suit: "major", element: "火",
     keywords: ["天使的祝福", "转折点", "好运", "命运", "同步性"],
     uprightBrief: "天使转动的命运之轮", reversedBrief: "耐心等待轮子的转动",
-    imageUrl: "icons/angel-major-10.png",
+    imageUrl: "icons/major/tarot-major-10.png",
     upright: "你的天使正在为你转动命运之轮。好运、机遇和祝福正在向你涌来。对同步性保持警觉——你的天使正通过它们与你沟通。感恩是加速好运的秘诀。",
     reversed: "你的天使提醒你：即使看起来什么都没有发生，轮子仍在转动。耐心等待，继续感恩和祈祷。你的时刻即将到来，天使正在为你工作。",
     translations: {
@@ -162,7 +162,7 @@ const angelCards = [
     id: 11, name: "正义", originalName: "Justice", suit: "major", element: "风",
     keywords: ["天使的正义", "因果", "真相", "平衡", "诚实"],
     uprightBrief: "天使带来的正义与平衡", reversedBrief: "需要对自己诚实",
-    imageUrl: "icons/angel-major-11.png",
+    imageUrl: "icons/major/tarot-major-11.png",
     upright: "你的天使正在为你带来正义和平衡。因果法则正在运作，你的善行正在回到你身上。保持诚实和高振动，宇宙是公平的，你的天使确保一切都好。",
     reversed: "你的天使邀请你对自己完全诚实。你是否在逃避某些真相？正义可能会延迟，但永远不会缺席。以爱和真理来面对你的处境。",
     translations: {
@@ -177,7 +177,7 @@ const angelCards = [
     keywords: ["神圣的暂停", " surrender", "新视角", "信任", "牺牲"],
     uprightBrief: "在神圣暂停中信任",
     reversedBrief: "抗拒导致更多的挣扎",
-    imageUrl: "icons/angel-major-12.png",
+    imageUrl: "icons/major/tarot-major-12.png",
     upright: "你的天使邀请你放下的控制，进入神圣的暂停。这不是惩罚，而是礼物。从新的角度看待你的处境，信任神圣的时机。在等待中，祝福正在酝酿。",
     reversed: "你的天使看到你的挣扎。放下抗拒， surrendering 不是放弃，而是信任更高的计划。你的天使正在为你工作，即使在看似的停滞中。",
     translations: {
@@ -191,7 +191,7 @@ const angelCards = [
     id: 13, name: "死亡", originalName: "Death", suit: "major", element: "水",
     keywords: ["天使的转化", "重生", "释放", "蜕变", "新的开始"],
     uprightBrief: "天使引导的美丽转化", reversedBrief: "抗拒必要的改变",
-    imageUrl: "icons/angel-major-13.png",
+    imageUrl: "icons/major/tarot-major-13.png",
     upright: "你的天使正在帮助你释放旧的模式，为新的成长腾出空间。这不是真正的结束，而是美丽的转化和重生。信任这个过程，你的天使正牵着你的手走过转变。",
     reversed: "你的天使温柔地鼓励你放下抗拒。你紧紧抓住的东西可能不再服务于你。允许自己蜕变，就像蝴蝶从茧中出来一样美丽。",
     translations: {
@@ -205,7 +205,7 @@ const angelCards = [
     id: 14, name: "节制", originalName: "Temperance", suit: "major", element: "火",
     keywords: ["天使的治愈", "平衡", "耐心", "融合", "和谐"],
     uprightBrief: "天使带来的平衡与治愈", reversedBrief: "需要找到内在的平衡",
-    imageUrl: "icons/angel-major-14.png",
+    imageUrl: "icons/major/tarot-major-14.png",
     upright: "你的天使正在为你带来深层的治愈和平衡。你生活中的各个部分正在美丽地融合。耐心等待，信任神圣的时机。你的天使正在调和你的处境。",
     reversed: "你的天使提醒你：你可能在生活的某个领域失去了平衡。回到中心，你的天使会帮助你重新调整。你不需要急于求成，慢慢来。",
     translations: {
@@ -219,7 +219,7 @@ const angelCards = [
     id: 15, name: "恶魔", originalName: "The Devil", suit: "major", element: "土",
     keywords: ["释放束缚", "光之天使", "自由", "觉醒", "幻象"],
     uprightBrief: "天使帮助你打破束缚", reversedBrief: "正在从幻象中觉醒",
-    imageUrl: "icons/angel-major-15.png",
+    imageUrl: "icons/major/tarot-major-15.png",
     upright: "光之天使正在帮助你看到：你身上的锁链其实是松开的。你所相信的束缚往往是幻象。你是自由的，你是光，你的天使正帮助你记起你的真实身份。",
     reversed: "你的天使庆祝你正在从旧的束缚中觉醒。你正在打破限制性的信念。继续前进，你的天使为你欢呼。你是自由的！",
     translations: {
@@ -234,7 +234,7 @@ const angelCards = [
     keywords: ["天使的重建", "觉醒", "释放", "真相", "新的基础"],
     uprightBrief: "天使在废墟上重建",
     reversedBrief: "恐惧变化或抗拒真相",
-    imageUrl: "icons/angel-major-16.png",
+    imageUrl: "icons/major/tarot-major-16.png",
     upright: "你的天使正在拆除不再服务于你的最高的旧结构，以便在更真实的基础上重建。虽然这可能感觉具有挑战性，但这是来自爱的干预。信任你的天使，新的、更美的事物正在出现。",
     reversed: "你的天使看到你对变化的恐惧。你不需要紧紧抓住摇摇欲坠的东西。释放，让你的天使为你建造更美好的事物。你被爱和保护的。",
     translations: {
@@ -248,7 +248,7 @@ const angelCards = [
     id: 17, name: "星星", originalName: "The Star", suit: "major", element: "风",
     keywords: ["天使的希望", "治愈", "灵感", "宁静", "祝福"],
     uprightBrief: "天使灌注的希望与治愈", reversedBrief: "重新连接希望",
-    imageUrl: "icons/angel-major-17.png",
+    imageUrl: "icons/major/tarot-major-17.png",
     upright: "你的天使正在用希望和治愈的能量灌注你。你是被祝福的，你的愿望正在被听到。保持希望和信心，你的星星正在照耀。这是一个深刻治愈和灵感激发的时刻。",
     reversed: "你的天使温柔地提醒你：即使在最黑暗的夜晚，星星仍在照耀。重新连接希望，你的天使从未离开。你被爱，你是光。",
     translations: {
@@ -262,7 +262,7 @@ const angelCards = [
     id: 18, name: "月亮", originalName: "The Moon", suit: "major", element: "水",
     keywords: ["穿越幻象", "信任直觉", "释放恐惧", "灵性成长", "月亮天使"],
     uprightBrief: "月亮天使帮助你穿越幻象", reversedBrief: "恐惧正在消散",
-    imageUrl: "icons/angel-major-18.png",
+    imageUrl: "icons/major/tarot-major-18.png",
     upright: "月亮天使正在帮助你穿越幻象，到达清晰的彼岸。你可能在面对恐惧或不安全感，但请知道：这些是基于过去的幻象。你的天使正牵着你的手走过这片月光。",
     reversed: "你的天使庆祝你正在从恐惧和幻象中走出来。真相正在显现，你正在进入更清晰的状态。继续信任，你的天使与你同在。",
     translations: {
@@ -277,7 +277,7 @@ const angelCards = [
     keywords: ["天使的喜悦", "成功", "活力", "真相", "纯真"],
     uprightBrief: "天使沐浴在阳光下",
     reversedBrief: "暂时的云层，太阳仍在",
-    imageUrl: "icons/angel-major-19.png",
+    imageUrl: "icons/major/tarot-major-19.png",
     upright: "你的天使正在用纯粹的喜悦和成功沐浴你。这是你生命中最光明的时刻之一。真相大白，一切都清晰明亮。让你的内在孩子在阳光下跳舞，你是被深深爱的。",
     reversed: "你的天使提醒你：暂时的云层无法遮蔽太阳。你可能感到沮丧，但光明仍在。很快，太阳会再次照耀，继续相信美好。",
     translations: {
@@ -291,7 +291,7 @@ const angelCards = [
     id: 20, name: "审判", originalName: "Judgment", suit: "major", element: "风",
     keywords: ["天使的召唤", "觉醒", "重生", "使命", "宽恕"],
     uprightBrief: "天使召唤你觉醒与重生", reversedBrief: "需要宽恕和释放过去",
-    imageUrl: "icons/angel-major-20.png",
+    imageUrl: "icons/major/tarot-major-20.png",
     upright: "你的天使正在召唤你觉醒到你真正的使命和身份。这是重生和复活的时候。倾听你灵魂的召唤，你的天使正等待帮助你踏上更高的道路。宽恕自己和他人。",
     reversed: "你的天使鼓励你释放过去，以便你可以完全地重生。你是否在评判自己或他人？宽恕是自由的关键，你的天使正为你打开新生之门。",
     translations: {
@@ -306,7 +306,7 @@ const angelCards = [
     keywords: ["天使的完成", "圆满", "整合", "成就", "新周期"],
     uprightBrief: "天使祝福的圆满完成",
     reversedBrief: "整合剩余的碎片",
-    imageUrl: "icons/angel-major-21.png",
+    imageUrl: "icons/major/tarot-major-21.png",
     upright: "你的天使正在祝福你生命中一个周期的圆满完成。你已经学到了你需要学习的一切，现在准备好进入新的层次。庆祝你的成就，你的天使为你鼓掌。你是完整的。",
     reversed: "你的天使看到你正在整合最后的碎片。你几乎完成了这个周期，只需要再一点耐心。信任你的旅程，你的天使正帮助你完美地收尾。",
     translations: {
@@ -322,7 +322,7 @@ const angelCards = [
     id: "W1", name: "权杖王牌", originalName: "Ace of Wands", suit: "wands", element: "火",
     keywords: ["创造的火花", "灵感", "新开始", "潜能", "热情"],
     uprightBrief: "天使点燃创造火花", reversedBrief: "创造力需要被重新点燃",
-    imageUrl: "icons/angel-wands-01.png",
+    imageUrl: "icons/wands/tarot-wands-01.png",
     upright: "你的创造天使正在为你点燃新的火花。这是灵感、热情和新开始的时刻。跟随你的兴奋，你的天使正引导你走向你的使命。行动吧，宇宙支持你！",
     reversed: "你的天使提醒你：你的创造力只是暂时休眠，而非消失。重新连接你的喜悦和热情。做让你兴奋的事情，火花会重新点燃。",
     translations: {
@@ -336,7 +336,7 @@ const angelCards = [
     id: "W2", name: "权杖二", originalName: "Two of Wands", suit: "wands", element: "火",
     keywords: ["远见", "规划", "合作", "扩张", "决定"],
     uprightBrief: "天使支持你的远见", reversedBrief: "需要做出决定",
-    imageUrl: "icons/angel-wands-02.png",
+    imageUrl: "icons/wands/tarot-wands-02.png",
     upright: "你的天使正在支持你的远见和计划。你已经在心中看到了更大的画面。这是与天使合作、将你的愿景变为现实的时候。信任你的直觉，迈出步伐。",
     reversed: "你的天使鼓励你做出决定。你可能在两个选择之间犹豫。倾听你的心，你的天使会引导你到正确的方向。你被支持。",
     translations: {
@@ -350,7 +350,7 @@ const angelCards = [
     id: "W3", name: "权杖三", originalName: "Three of Wands", suit: "wands", element: "火",
     keywords: ["扩展", "等待", "合作", "进展", "庆祝"],
     uprightBrief: "天使带来扩展与进展", reversedBrief: "需要更多的耐心",
-    imageUrl: "icons/angel-wands-03.png",
+    imageUrl: "icons/wands/tarot-wands-03.png",
     upright: "你的天使正在为你带来扩展和进展。你的努力开始开花结果。继续保持信心和耐心，你的天使正为你安排最佳的时机和结果。庆祝每一个小胜利。",
     reversed: "你的天使提醒你：进展可能比预期慢，但仍在发生。保持耐心和信心。你的天使正在幕后工作，为你准备更好的事物。",
     translations: {
@@ -364,7 +364,7 @@ const angelCards = [
     id: "W4", name: "权杖四", originalName: "Four of Wands", suit: "wands", element: "火",
     keywords: ["庆祝", "和谐", "家庭", "完成", "喜悦"],
     uprightBrief: "天使祝福的庆祝时刻", reversedBrief: "需要建立更稳定的基础",
-    imageUrl: "icons/angel-wands-04.png",
+    imageUrl: "icons/wands/tarot-wands-04.png",
     upright: "你的天使正在祝福你生命中的庆祝时刻。和谐、喜悦和稳定的基础正在建立。与你所爱的人一起庆祝，你的天使正与你同在，享受这个美好的时刻。",
     reversed: "你的天使看到你需要更稳定的基础。可能庆祝被延迟，但不要担心。你的天使正在为你建立更牢固的基础。耐心等待，美好即将到来。",
     translations: {
@@ -378,7 +378,7 @@ const angelCards = [
     id: "W5", name: "权杖五", originalName: "Five of Wands", suit: "wands", element: "火",
     keywords: ["友好的竞争", "活力", "成长", "观点", "动力"],
     uprightBrief: "天使帮助你在挑战中成长", reversedBrief: "需要避免不必要的冲突",
-    imageUrl: "icons/angel-wands-05.png",
+    imageUrl: "icons/wands/tarot-wands-05.png",
     upright: "你的天使正在帮助你通过友好的挑战和竞争来成长。不同的观点可以带来进步。保持开放的心态，你的天使正将挑战转化为祝福。",
     reversed: "你的天使提醒你：不是所有的战斗都值得参与。避免不必要的冲突，选择你的战场。你的天使正保护你的和平。",
     translations: {
@@ -392,7 +392,7 @@ const angelCards = [
     id: "W6", name: "权杖六", originalName: "Six of Wands", suit: "wands", element: "火",
     keywords: ["胜利", "认可", "成功", "进展", "自信"],
     uprightBrief: "天使庆祝你的胜利", reversedBrief: "需要更多的自我认可",
-    imageUrl: "icons/angel-wands-06.png",
+    imageUrl: "icons/wands/tarot-wands-06.png",
     upright: "你的天使正在庆祝你的胜利！你的努力得到了认可和成功。继续自信地前进，你的天使正为你鼓掌。你是成功的，你是被祝福的。",
     reversed: "你的天使提醒你：即使他人可能没有注意到，你的胜利仍然是真实的。给自己更多的认可。你的天使看到你的努力，继续前进。",
     translations: {
@@ -406,7 +406,7 @@ const angelCards = [
     id: "W7", name: "权杖七", originalName: "Seven of Wands", suit: "wands", element: "火",
     keywords: ["坚持", "勇气", "防御", "信念", "韧性"],
     uprightBrief: "天使赋予你坚持的勇气", reversedBrief: "需要评估是否值得坚持",
-    imageUrl: "icons/angel-wands-07.png",
+    imageUrl: "icons/wands/tarot-wands-07.png",
     upright: "你的天使正在赋予你坚持和勇气的力量。你可能感到挑战，但你有能力捍卫你的信念。你的天使正站在你身边，继续前进！",
     reversed: "你的天使邀请你评估：这场战斗是否仍然符合你的最高利益？有时候，放下比坚持更需要勇气。你的天使会引导你。",
     translations: {
@@ -420,7 +420,7 @@ const angelCards = [
     id: "W8", name: "权杖八", originalName: "Eight of Wands", suit: "wands", element: "火",
     keywords: ["快速", "进展", "消息", "行动", "同步"],
     uprightBrief: "天使加速你的进展", reversedBrief: "需要耐心等待时机",
-    imageUrl: "icons/angel-wands-08.png",
+    imageUrl: "icons/wands/tarot-wands-08.png",
     upright: "你的天使正在加速你的进展！快速的消息、行动和同步性正在到来。顺应这股能量，你的天使正为你清除道路。这是快速移动的时刻！",
     reversed: "你的天使提醒你：有时候，等待是神圣的。不要急于求成。你的天使正在为你安排完美的时机。耐心等待，一切会在最佳时刻发生。",
     translations: {
@@ -434,7 +434,7 @@ const angelCards = [
     id: "W9", name: "权杖九", originalName: "Nine of Wands", suit: "wands", element: "火",
     keywords: ["韧性", "治愈", "准备", "边界", "坚持"],
     uprightBrief: "天使治愈并赋予你韧性", reversedBrief: "需要休息和释放",
-    imageUrl: "icons/angel-wands-09.png",
+    imageUrl: "icons/wands/tarot-wands-09.png",
     upright: "你的天使正在治愈你并赋予你韧性。你可能感到疲惫，但你比想象中更强大。设定健康的边界，你的天使正为你注入持续的力量。你几乎到达终点了！",
     reversed: "你的天使邀请你休息和释放。你不需要一直保持警惕。放下一些负担，你的天使会接手。你值得休息和治愈。",
     translations: {
@@ -448,7 +448,7 @@ const angelCards = [
     id: "W10", name: "权杖十", originalName: "Ten of Wands", suit: "wands", element: "火",
     keywords: ["释放负担", "委托", "休息", "完成", "轻松"],
     uprightBrief: "天使帮助你释放重担", reversedBrief: "正在学习委托和放下",
-    imageUrl: "icons/angel-wands-10.png",
+    imageUrl: "icons/wands/tarot-wands-10.png",
     upright: "你的天使正在帮助你释放沉重的负担。你不需要独自承担一切。委托给他人，或放下不再服务于你的事物。你的天使正邀请你进入更轻松的存在方式。",
     reversed: "你的天使看到你正在学习放下和委托。这是成长的过程！继续释放，你的天使正帮助你找到更轻松的方式来完成你的使命。",
     translations: {
@@ -522,7 +522,7 @@ const angelCards = [
     keywords: ["爱的礼物", "情感", "直觉", "滋养", "慈悲"],
     uprightBrief: "天使赠予爱的礼物",
     reversedBrief: "需要打开心扉接收爱",
-    imageUrl: "icons/angel-cups-01.png",
+    imageUrl: "icons/cups/tarot-cups-01.png",
     upright: "你的天使正在赠予你爱的礼物！这是情感治愈、新关系和深层滋养的时刻。打开你的心，接收来自宇宙和你的天使的爱。你是被深深爱的。",
     reversed: "你的天使温柔地鼓励你打开你的心。你可能一直在保护自己，但现在是时候接收爱了。你的天使正等待用爱填满你的杯。",
     translations: {
@@ -537,7 +537,7 @@ const angelCards = [
     keywords: ["伙伴关系", "相互的爱", "和谐", "吸引", "结合"],
     uprightBrief: "天使祝福的伙伴关系",
     reversedBrief: "需要恢复关系的平衡",
-    imageUrl: "icons/angel-cups-02.png",
+    imageUrl: "icons/cups/tarot-cups-02.png",
     upright: "你的天使正在祝福一段和谐、相互滋养的伙伴关系。这可能是爱情、友谊或业务合作。爱在流动，你的天使正为你带来或加强美好的关系。",
     reversed: "你的天使邀请你恢复关系中的平衡。可能给予和接收不平衡。以爱和诚实沟通，你的天使会帮助你修复和恢复和谐。",
     translations: {
@@ -552,7 +552,7 @@ const angelCards = [
     keywords: ["友谊", "庆祝", "社群", "欢乐", "支持"],
     uprightBrief: "天使祝福的友谊与庆祝",
     reversedBrief: "需要更健康的社交",
-    imageUrl: "icons/angel-cups-03.png",
+    imageUrl: "icons/cups/tarot-cups-03.png",
     upright: "你的天使正在祝福你与朋友和社群的欢乐庆祝。这是与你所爱的人相聚、分享喜悦的时刻。你的天使正将支持你、提升你的人带入你的生命。",
     reversed: "你的天使提醒你：审视你的社交圈。是否有些人不再服务于你的最高利益？以爱设定边界，你的天使会为你带来更健康的友谊。",
     translations: {
@@ -567,7 +567,7 @@ const angelCards = [
     keywords: ["重新开始", "感恩", "觉知", "选择", "平静"],
     uprightBrief: "天使邀请你重新评估",
     reversedBrief: "正在接受新的机会",
-    imageUrl: "icons/angel-cups-04.png",
+    imageUrl: "icons/cups/tarot-cups-04.png",
     upright: "你的天使邀请你重新评估和重新连接对你的祝福的感恩。你可能忽视了正在被提供的东西。抬头看，你的天使正为你呈现新的可能性。",
     reversed: "你的天使庆祝你正在从冷漠中走出来，接受新的机会。你的心正在重新打开，你的天使正为你带来令人兴奋的新情感体验。",
     translations: {
@@ -582,7 +582,7 @@ const angelCards = [
     keywords: ["治愈", "希望", "释放悲伤", "宽恕", "向前看"],
     uprightBrief: "天使帮助你治愈悲伤",
     reversedBrief: "正在从悲伤中恢复",
-    imageUrl: "icons/angel-cups-05.png",
+    imageUrl: "icons/cups/tarot-cups-05.png",
     upright: "你的天使正在帮助你治愈情感的失落和悲伤。允许自己感受，然后让天使的爱带走你的痛苦。不要忘记，仍然有完整的杯子在你身边。希望仍在。",
     reversed: "你的天使庆祝你正在从悲伤中恢复。你正在找到希望和向前看的力量。你的天使正牵着你的手，带你走向更光明的日子。",
     translations: {
@@ -597,7 +597,7 @@ const angelCards = [
     keywords: ["怀旧", "善良", "纯真", "礼物", "治愈 inner child"],
     uprightBrief: "天使治愈你的内在小孩",
     reversedBrief: "需要释放过去的模式",
-    imageUrl: "icons/angel-cups-06.png",
+    imageUrl: "icons/cups/tarot-cups-06.png",
     upright: "你的天使正在通过怀旧和善良的举动治愈你的内在小孩。这是分享爱和礼物的美好时刻。你的天使正帮助你释放过去的伤口，重新连接纯真。",
     reversed: "你的天使鼓励你释放不再服务于你的过去的模式。你可能在怀旧中停滞。你的天使正帮助你以爱放下过去，拥抱更自由的未来。",
     translations: {
@@ -612,7 +612,7 @@ const angelCards = [
     keywords: ["清晰的梦想", "选择", "直觉", "幻想", "专注"],
     uprightBrief: "天使帮助你澄清梦想",
     reversedBrief: "正在将梦想变为现实",
-    imageUrl: "icons/angel-cups-07.png",
+    imageUrl: "icons/cups/tarot-cups-07.png",
     upright: "你的天使正在帮助你澄清你的梦想和选择。不是所有的选项都是平等的。与你的天使连接，获得清晰。选择那些与你的灵魂共鸣的道路。",
     reversed: "你的天使庆祝你正在将你的梦想变为现实！你已经从幻想中走出来，采取了实际行动。你的天使正支持你将愿景落地。",
     translations: {
@@ -627,7 +627,7 @@ const angelCards = [
     keywords: ["寻求更多", "勇气", "内在指引", "成长", "信任"],
     uprightBrief: "天使支持你寻求更多",
     reversedBrief: "需要更多的时间反思",
-    imageUrl: "icons/angel-cups-08.png",
+    imageUrl: "icons/cups/tarot-cups-08.png",
     upright: "你的天使正在支持你寻求更深的意义和满足。你有勇气离开舒适但不再成长的情况。信任你的内在指引，你的天使正引领你到更真实的地方。",
     reversed: "你的天使提醒你：在离开之前，可能需要更多的时间来反思和整合。不要急于行动。你的天使正帮助你获得清晰。",
     translations: {
@@ -642,7 +642,7 @@ const angelCards = [
     keywords: ["愿望成真", "满足", "感恩", "庆祝", "丰盛"],
     uprightBrief: "天使实现你的愿望",
     reversedBrief: "需要更深的满足感",
-    imageUrl: "icons/angel-cups-09.png",
+    imageUrl: "icons/cups/tarot-cups-09.png",
     upright: "你的天使正在实现你的愿望！这是满足、感恩和庆祝的时刻。你的心正在被填满，你的天使正祝福你以情感上的丰盛。享受这份美好！",
     reversed: "你的天使提醒你：真正的满足来自内在。你可能在外在寻求充实，但你的天使正邀请你连接内在的丰盛。你已经被爱充满了。",
     translations: {
@@ -657,7 +657,7 @@ const angelCards = [
     keywords: ["家庭的幸福", "圆满", "和谐", "祝福", "情感完成"],
     uprightBrief: "天使祝福家庭的幸福",
     reversedBrief: "需要修复家庭关系",
-    imageUrl: "icons/angel-cups-10.png",
+    imageUrl: "icons/cups/tarot-cups-10.png",
     upright: "你的天使正在祝福你和你的家庭的幸福与和谐。这是情感圆满和家庭支持的时刻。你的天使正将爱与和平充满你的家。珍惜这些美好的连接。",
     reversed: "你的天使看到家庭关系可能需要修复。以爱和宽恕来接近你的家人。你的天使正帮助你治愈家庭纽带，恢复和谐。",
     translations: {
@@ -735,7 +735,7 @@ const angelCards = [
     keywords: ["清晰的真理", "突破", "真相", "智慧", "新生"],
     uprightBrief: "天使带来清晰的真理",
     reversedBrief: "需要更清晰的思维",
-    imageUrl: "icons/angel-swords-01.png",
+    imageUrl: "icons/swords/tarot-swords-01.png",
     upright: "你的天使正在带来清晰的真理和突破！这是以全新的、清晰的方式看待情况的时刻。真相正在显现，你的天使正赋予你以智慧和诚实沟通的力量。",
     reversed: "你的天使提醒你：在行动之前，需要更清晰的思维。你可能感到困惑，但你的天使正帮助你清理思维的迷雾。耐心等待清晰。",
     translations: {
@@ -750,7 +750,7 @@ const angelCards = [
     keywords: ["和平的决定", "信任", "平衡", "直觉", "暂停"],
     uprightBrief: "天使帮助你做出和平的决定",
     reversedBrief: "需要面对被回避的真相",
-    imageUrl: "icons/angel-swords-02.png",
+    imageUrl: "icons/swords/tarot-swords-02.png",
     upright: "你的天使正在帮助你做出困难但必要的决定。在做出选择之前，先找到内在的和平。你的天使正为你照亮两条道路，信任你的直觉。",
     reversed: "你的天使鼓励你面对你一直在回避的真相。做出决定可能不舒服，但是必要的。你的天使会支持你，无论你选择什么。",
     translations: {
@@ -765,7 +765,7 @@ const angelCards = [
     keywords: ["治愈的眼泪", "释放", "宽恕", "成长", "希望"],
     uprightBrief: "天使的眼泪带来治愈",
     reversedBrief: "正在从心碎中恢复",
-    imageUrl: "icons/angel-swords-03.png",
+    imageUrl: "icons/swords/tarot-swords-03.png",
     upright: "你的天使正在以最温柔的方式陪伴你度过情感的痛苦。这些眼泪正在清洗旧伤口，为新的爱腾出空间。你并不孤单，你的天使正抱着你。",
     reversed: "你的天使庆祝你正在从心碎中恢复。治愈正在发生，你的心正在重新打开。你的天使正为你带来新的希望和爱的机会。",
     translations: {
@@ -780,7 +780,7 @@ const angelCards = [
     keywords: ["神圣的休息", "治愈", "宁静", "反思", "恢复"],
     uprightBrief: "天使邀请你休息和治愈",
     reversedBrief: "需要慢慢地重新参与",
-    imageUrl: "icons/angel-swords-04.png",
+    imageUrl: "icons/swords/tarot-swords-04.png",
     upright: "你的天使正在邀请你进入神圣的休息和治愈。你的身体、心灵和精神需要充电。在沉默中与你的天使连接，你会以更大的清晰度回来。",
     reversed: "你的天使看到你准备好慢慢地重新参与生活了。以温和的方式回来，你的天使正支持你的每一步。你恢复了，准备好继续前进。",
     translations: {
@@ -795,7 +795,7 @@ const angelCards = [
     keywords: ["和平的解决", "宽恕", "释怀", "更高的视角", "爱"],
     uprightBrief: "天使帮助你找到和平的解决",
     reversedBrief: "正在释放对冲突的需要",
-    imageUrl: "icons/angel-swords-05.png",
+    imageUrl: "icons/swords/tarot-swords-05.png",
     upright: "你的天使正在帮助你找到和平解决冲突的方式。不是所有的战斗都值得。以爱和宽恕来应对，你的天使正将你从不必要的戏剧中解放出来。",
     reversed: "你的天使庆祝你正在释放对冲突的需要。你正在选择和平而不是正确。你的天使正祝福你以成熟和优雅处理困难的情况。",
     translations: {
@@ -810,7 +810,7 @@ const angelCards = [
     keywords: ["温和的过渡", "治愈之旅", "希望", "支持", "向前"],
     uprightBrief: "天使支持你的温和过渡",
     reversedBrief: "需要释放对过去的执着",
-    imageUrl: "icons/angel-swords-06.png",
+    imageUrl: "icons/swords/tarot-swords-06.png",
     upright: "你的天使正在支持你从困难中过渡到更平静的水域。这可能具有挑战性，但你的天使正牵着你的手。你正在前往更好的地方，不要回头。",
     reversed: "你的天使邀请你释放对过去的执着。你可能在过渡中挣扎，但你的天使正提醒你：更好的事物正在前方。信任旅程。",
     translations: {
@@ -825,7 +825,7 @@ const angelCards = [
     keywords: ["诚实", "策略", "光明", "正直", "勇气"],
     uprightBrief: "天使鼓励你以诚实应对",
     reversedBrief: "正在走向更多的诚实",
-    imageUrl: "icons/angel-swords-07.png",
+    imageUrl: "icons/swords/tarot-swords-07.png",
     upright: "你的天使鼓励你以完全的诚实和正直来应对情况。如果有任何不诚实，现在是澄清的时候。你的天使正支持你走在光中，以勇气和诚实面对一切。",
     reversed: "你的天使庆祝你正在走向更多的诚实和正直。你正在释放不诚实的策略。你的天使正祝福你以勇气和真理生活。",
     translations: {
@@ -840,7 +840,7 @@ const angelCards = [
     keywords: ["自由", "释放恐惧", "新视角", "力量", "希望"],
     uprightBrief: "天使帮助你看到你是自由的",
     reversedBrief: "正在从限制中解放",
-    imageUrl: "icons/angel-swords-08.png",
+    imageUrl: "icons/swords/tarot-swords-08.png",
     upright: "你的天使正在帮助你看到：你身上的束缚其实是你可以松开的。你是自由的！释放基于恐惧的限制性信念，你的天使正为你打开监狱的门。",
     reversed: "你的天使庆祝你正在从自我施加的限制中解放出来。你正在看到新的视角和可能性。你的天使正为你打开新的自由和希望之门。",
     translations: {
@@ -855,7 +855,7 @@ const angelCards = [
     keywords: ["平安", "释放焦虑", "天使的安慰", "希望", "治愈"],
     uprightBrief: "天使安慰你的焦虑",
     reversedBrief: "正在从担忧中恢复",
-    imageUrl: "icons/angel-swords-09.png",
+    imageUrl: "icons/swords/tarot-swords-09.png",
     upright: "你的天使正在用和平和安慰包围你。你一直在担忧，但你的天使正提醒你：你被保护、被爱、被照顾。将你的焦虑交给你的天使，接收平安。",
     reversed: "你的天使庆祝你正在从焦虑和过度担忧中恢复。你的心正在找到和平。你的天使正持续为你带来安慰和希望。",
     translations: {
@@ -870,7 +870,7 @@ const angelCards = [
     keywords: ["新的黎明", "重生", "希望", "释放", "光"],
     uprightBrief: "天使带来新的黎明",
     reversedBrief: "正在从最黑暗中恢复",
-    imageUrl: "icons/angel-swords-10.png",
+    imageUrl: "icons/swords/tarot-swords-10.png",
     upright: "你的天使正在为你带来新的黎明！最黑暗的时刻已经过去，光明正在回来。这是结束和新的开始。你的天使正将你从痛苦中举起，带入新的希望。",
     reversed: "你的天使庆祝你正在从最困难的处境中恢复。你正在看到希望和光明。你的天使正牵着你的手，带你走向更光明的日子。",
     translations: {

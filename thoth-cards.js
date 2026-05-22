@@ -7,7 +7,7 @@ const thothCards = [
     id: 0, name: "愚者", originalName: "The Fool", suit: "major", element: "风",
     keywords: ["精髓", "纯真", "狂喜", "自由精神", "新开始"],
     uprightBrief: "零点的精髓，无限可能", reversedBrief: "盲目或精神涣散",
-    imageUrl: "icons/thoth-major-00.png",
+    imageUrl: "icons/major/tarot-major-00.png",
     upright: "零点的精髓。代表无限的可能性与狂喜的自由。你是纯粹的意识，准备好踏上灵性进化的新旅程。拥抱未知，信任生命的流动。",
     reversed: "盲目的冲动或精神涣散。可能忽视危险，或灵性逃避。需要重新连接内在的纯真，但要以更觉知的方式。",
     translations: {
@@ -21,7 +21,7 @@ const thothCards = [
     id: 1, name: "魔法师", originalName: "The Magus", suit: "major", element: "风",
     keywords: ["意志", "技巧", "魔法", "沟通", "显化"],
     uprightBrief: "纯粹意志的显化力量", reversedBrief: "意志被扭曲或操纵",
-    imageUrl: "icons/thoth-major-01.png",
+    imageUrl: "icons/major/tarot-major-01.png",
     upright: "纯粹意志的显化力量。魔法师是意识的代理人，将精神转化为物质。你的意志清晰有力，能够驾驭四元素，将想法变为现实。",
     reversed: "意志被扭曲或用于操纵。可能滥用力量，或缺乏真正的意图。需要重新审视你的动机。",
     translations: {
@@ -35,7 +35,7 @@ const thothCards = [
     id: 2, name: "女祭司", originalName: "The Priestess", suit: "major", element: "水",
     keywords: ["直觉", "潜意识", "月亮智慧", "神秘", "内在知晓"],
     uprightBrief: "月亮的智慧与直觉", reversedBrief: "直觉被阻塞或幻觉",
-    imageUrl: "icons/thoth-major-02.png",
+    imageUrl: "icons/major/tarot-major-02.png",
     upright: "月亮的智慧。女祭司代表潜意识的深处，连接直觉与内在知晓。这是接收神秘知识和灵性启示的时刻。信任你的直觉。",
     reversed: "直觉被阻塞，或被情绪幻觉蒙蔽。可能与内在智慧失去联系。需要清理情绪体，重新连接潜意识的智慧。",
     translations: {
@@ -49,7 +49,7 @@ const thothCards = [
     id: 3, name: "女皇", originalName: "The Empress", suit: "major", element: "土",
     keywords: ["丰饶", "美", "感官愉悦", "自然", "创造力"],
     uprightBrief: "美的丰饶与感官愉悦", reversedBrief: "创造力枯竭或过度放纵",
-    imageUrl: "icons/thoth-major-03.png",
+    imageUrl: "icons/major/tarot-major-03.png",
     upright: "美的丰饶。女皇是自然的创造力量，带来感官的愉悦与物质的丰盛。享受生命的美好，在大自然中找到滋养与灵感。",
     reversed: "创造力枯竭，或过度放纵于感官。可能与身体或自然失去联系。需要重新找回对生命之美的欣赏。",
     translations: {
@@ -63,7 +63,7 @@ const thothCards = [
     id: 4, name: "皇帝", originalName: "The Emperor", suit: "major", element: "火",
     keywords: ["意志", "稳定", "父亲能量", "结构", "统治"],
     uprightBrief: "意志的稳定与父亲能量", reversedBrief: "专制或缺乏自律",
-    imageUrl: "icons/thoth-major-04.png",
+    imageUrl: "icons/major/tarot-major-04.png",
     upright: "意志的稳定。皇帝代表有结构的力量和父亲能量。通过纪律和决心建立秩序。你是自己王国的主人，以智慧和力量统治。",
     reversed: "专制固执，或缺乏自律和方向。可能过度控制，或无法建立边界。需要平衡力量与慈悲。",
     translations: {
@@ -77,7 +77,7 @@ const thothCards = [
     id: 5, name: "教皇", originalName: "The Hierophant", suit: "major", element: "土",
     keywords: ["启示", "内在声音", "导师", "传统", "灵性教导"],
     uprightBrief: "启示与内在声音的指引", reversedBrief: "教条主义或虚假导师",
-    imageUrl: "icons/thoth-major-05.png",
+    imageUrl: "icons/major/tarot-major-05.png",
     upright: "启示。教皇代表内在声音和更高知识的传授。这不是外在的宗教权威，而是内在的灵性导师。倾听内在的智慧，接受启示。",
     reversed: "教条主义，或跟随虚假导师。可能过度依赖外在权威而忽视内在声音。需要打破陈旧信念。",
     translations: {
@@ -91,7 +91,7 @@ const thothCards = [
     id: 6, name: "恋人", originalName: "The Lovers", suit: "major", element: "风",
     keywords: ["选择", "爱", "和谐", "结合", "价值"],
     uprightBrief: "爱与选择的和谐", reversedBrief: "不和谐或错误的选择",
-    imageUrl: "icons/thoth-major-06.png",
+    imageUrl: "icons/major/tarot-major-06.png",
     upright: "爱与选择的和谐。恋人代表灵魂层面的连接与重要选择。在爱与自由意志中找到平衡，做出符合更高自我的决定。",
     reversed: "不和谐或做出错误选择。可能在关系中犹豫不决，或价值观冲突。需要诚实面对内心的真实渴望。",
     translations: {
@@ -105,7 +105,7 @@ const thothCards = [
     id: 7, name: "战车", originalName: "The Chariot", suit: "major", element: "水",
     keywords: ["胜利", "意志", "控制", "前进", "决心"],
     uprightBrief: "意志的胜利与控制", reversedBrief: "失控或侵略性过强",
-    imageUrl: "icons/thoth-major-07.png",
+    imageUrl: "icons/major/tarot-major-07.png",
     upright: "意志的胜利。战车代表通过意志和决心克服困难。你拥有前进的动力和方向，能够驾驭对立的力量，走向胜利。",
     reversed: "失控或侵略性过强。可能缺乏方向，或被情绪驱使。需要重新获得控制，以更平衡的方式前进。",
     translations: {
@@ -119,7 +119,7 @@ const thothCards = [
     id: 8, name: "调整", originalName: "Adjustment", suit: "major", element: "风",
     keywords: ["正义", "平衡", "真相", "因果", "公平"],
     uprightBrief: "精确的调整与平衡", reversedBrief: "不平衡或不公正",
-    imageUrl: "icons/thoth-major-08.png",
+    imageUrl: "icons/major/tarot-major-08.png",
     upright: "调整（对应伟特的「正义」）。代表精确的平衡与因果律。真相会显现，你需要为自己的行为负责。以公正和客观的态度行事。",
     reversed: "不平衡或不公正。可能逃避责任，或遭受不公平的对待。需要重新调整生活的各个方面，恢复平衡。",
     translations: {
@@ -133,7 +133,7 @@ const thothCards = [
     id: 9, name: "隐士", originalName: "The Hermit", suit: "major", element: "火",
     keywords: ["内省", "智慧", "独处", "寻找真理", "灵性指引"],
     uprightBrief: "内省的智慧与独处", reversedBrief: "孤立或拒绝帮助",
-    imageUrl: "icons/thoth-major-09.png",
+    imageUrl: "icons/major/tarot-major-09.png",
     upright: "内省的智慧。隐士代表在独处中寻找内在真理。退隐不是逃避，而是为了更深的领悟。倾听内在的声音，找到真正的智慧。",
     reversed: "过度孤立或拒绝帮助。可能在孤独中迷失，或逃避与世界的连接。需要平衡独处与参与，分享你的智慧。",
     translations: {
@@ -147,7 +147,7 @@ const thothCards = [
     id: 10, name: "命运之轮", originalName: "Fortune", suit: "major", element: "火",
     keywords: ["命运", "轮回", "机遇", "变化", "转折点"],
     uprightBrief: "命运的转折与机遇", reversedBrief: "命运的低谷或抗拒变化",
-    imageUrl: "icons/thoth-major-10.png",
+    imageUrl: "icons/major/tarot-major-10.png",
     upright: "命运（对应伟特的「命运之轮」）。代表命运的转折点和生命的轮回。机遇正在到来，接受变化，理解万物皆在流动中。",
     reversed: "命运的低谷或抗拒变化。可能感到被困在不利的处境中。记住，轮子会继续转动，黑暗之后必有光明。",
     translations: {
@@ -161,7 +161,7 @@ const thothCards = [
     id: 11, name: "欲望", originalName: "Lust", suit: "major", element: "火",
     keywords: ["激情", "生命力", "意志", "融合", "能量"],
     uprightBrief: "生命力的激情与融合", reversedBrief: "欲望失控或能量阻塞",
-    imageUrl: "icons/thoth-major-11.png",
+    imageUrl: "icons/major/tarot-major-11.png",
     upright: "欲望（对应伟特的「力量」）。代表生命力的激情与意志的力量。不是盲目的欲望，而是有意识的能量融合。以热情和决心追求你的目标。",
     reversed: "欲望失控或能量阻塞。可能过度放纵，或缺乏生命力。需要平衡激情与节制，引导能量向更高目标。",
     translations: {
@@ -175,7 +175,7 @@ const thothCards = [
     id: 12, name: "倒吊人", originalName: "The Hanged Man", suit: "major", element: "水",
     keywords: ["牺牲", "放下", "新视角", "等待", "灵性觉醒"],
     uprightBrief: "牺牲与新的视角", reversedBrief: "拖延或拒绝牺牲",
-    imageUrl: "icons/thoth-major-12.png",
+    imageUrl: "icons/major/tarot-major-12.png",
     upright: "牺牲与新的视角。倒吊人代表自愿的牺牲和视角的转变。放下旧的模式，从不同的角度看待问题。在静默中找到智慧。",
     reversed: "拖延或拒绝必要的牺牲。可能固执于旧方式，或无法放下。需要接受暂时的停滞，为了更大的成长。",
     translations: {
@@ -189,7 +189,7 @@ const thothCards = [
     id: 13, name: "死亡", originalName: "Death", suit: "major", element: "水",
     keywords: ["转化", "结束", "重生", "释放", "深层变化"],
     uprightBrief: "深层的转化与重生", reversedBrief: "抗拒变化或无法放下",
-    imageUrl: "icons/thoth-major-13.png",
+    imageUrl: "icons/major/tarot-major-13.png",
     upright: "深层的转化。死亡不代表真正的终结，而是旧形式的瓦解和新生的准备。放下不再服务你的事物，迎接深层的转变。",
     reversed: "抗拒变化或无法放下。可能停留在过去，或恐惧未知。需要接受结束是新开始的前提，释放执念。",
     translations: {
@@ -203,7 +203,7 @@ const thothCards = [
     id: 14, name: "艺术", originalName: "Art", suit: "major", element: "火",
     keywords: ["融合", "炼金术", "平衡", "耐心", "创造"],
     uprightBrief: "炼金术般的融合与创造", reversedBrief: "不平衡或缺乏耐心",
-    imageUrl: "icons/thoth-major-14.png",
+    imageUrl: "icons/major/tarot-major-14.png",
     upright: "艺术（对应伟特的「节制」）。代表炼金术般的融合与创造。将对立的力量融合，以耐心和技巧创造新的现实。这是真正平衡的所在。",
     reversed: "不平衡或缺乏耐心。可能急于求成，或无法融合对立面。需要放慢脚步，以更艺术的方式处理生活。",
     translations: {
@@ -217,7 +217,7 @@ const thothCards = [
     id: 15, name: "恶魔", originalName: "The Devil", suit: "major", element: "土",
     keywords: ["束缚", "物质主义", "欲望", "幻象", "解放"],
     uprightBrief: "物质束缚与幻象", reversedBrief: "从束缚中解放",
-    imageUrl: "icons/thoth-major-15.png",
+    imageUrl: "icons/major/tarot-major-15.png",
     upright: "物质束缚与幻象。恶魔代表对物质和欲望的执着。审视是什么束缚了你——往往是你自己的信念。认识到这一点，你就能获得自由。",
     reversed: "从束缚中解放。正在打破旧的模式和限制。你已经意识到真正的自由在于内在，不再被外在的欲望所控制。",
     translations: {
@@ -231,7 +231,7 @@ const thothCards = [
     id: 16, name: "塔", originalName: "The Tower", suit: "major", element: "火",
     keywords: ["突变", "崩塌", "觉醒", "释放", "重建"],
     uprightBrief: "突然的崩塌与觉醒", reversedBrief: "延迟的崩塌或恐惧变化",
-    imageUrl: "icons/thoth-major-16.png",
+    imageUrl: "icons/major/tarot-major-16.png",
     upright: "突变与觉醒。塔代表突然的崩塌，打破陈旧不实的结构。虽然痛苦，但这是必要的解放。真相会摧毁幻象，为重建腾出空间。",
     reversed: "延迟的崩塌或恐惧变化。可能勉强维持摇摇欲坠的结构。需要主动面对真相，而不是等待被迫的崩塌。",
     translations: {
@@ -245,7 +245,7 @@ const thothCards = [
     id: 17, name: "星星", originalName: "The Star", suit: "major", element: "风",
     keywords: ["希望", "灵感", "治愈", "宁静", "灵性"],
     uprightBrief: "希望与灵感的治愈", reversedBrief: "绝望或失去希望",
-    imageUrl: "icons/thoth-major-17.png",
+    imageUrl: "icons/major/tarot-major-17.png",
     upright: "希望与灵感。星星代表在黑暗之后的希望与治愈。与宇宙的流动重新连接，找到内在的平静与灵感。相信宇宙的善意。",
     reversed: "绝望或失去希望。可能与内在的光芒失去联系。需要重新连接希望，相信即使在最黑暗的时刻，星星也在照耀。",
     translations: {
@@ -259,7 +259,7 @@ const thothCards = [
     id: 18, name: "月亮", originalName: "The Moon", suit: "major", element: "水",
     keywords: ["幻觉", "恐惧", "潜意识", "直觉", "不确定"],
     uprightBrief: "潜意识的幻觉与恐惧", reversedBrief: "释放恐惧或真相显现",
-    imageUrl: "icons/thoth-major-18.png",
+    imageUrl: "icons/major/tarot-major-18.png",
     upright: "潜意识的幻觉。月亮代表恐惧、幻觉和潜意识的阴影。不是所有的都是它看起来的样子。面对你的恐惧，它们会在光中消散。",
     reversed: "释放恐惧或真相开始显现。幻觉正在散去，你能够更清楚地看见。这是从混乱中找出秩序的时候。",
     translations: {
@@ -273,7 +273,7 @@ const thothCards = [
     id: 19, name: "太阳", originalName: "The Sun", suit: "major", element: "火",
     keywords: ["快乐", "成功", "活力", "真相", "光明"],
     uprightBrief: "快乐的成功与光明", reversedBrief: "暂时的阴云或过度乐观",
-    imageUrl: "icons/thoth-major-19.png",
+    imageUrl: "icons/major/tarot-major-19.png",
     upright: "快乐的成功。太阳代表生命的喜悦、成功和活力的绽放。真相大白，一切都清晰明亮。享受生命的礼物，分享你的光明。",
     reversed: "暂时的阴云或过度乐观。可能成功被延迟，或现实检查需要。记住太阳仍在云端之上，光明会回来。",
     translations: {
@@ -287,7 +287,7 @@ const thothCards = [
     id: 20, name: "永恒", originalName: "The Aeon", suit: "major", element: "风",
     keywords: ["审判", "进化", "新纪元", "觉醒", "因果"],
     uprightBrief: "新纪元的觉醒与进化", reversedBrief: "抗拒进化或停留在过去",
-    imageUrl: "icons/thoth-major-20.png",
+    imageUrl: "icons/major/tarot-major-20.png",
     upright: "永恒/新纪元（对应伟特的「审判」）。代表新纪元的觉醒和灵性进化。这是意识扩展的时刻，过去的因果带来必然的结果。拥抱新的你。",
     reversed: "抗拒进化或停留在过去。可能不愿放下旧身份，或恐惧未来。需要接受进化的必然性，迈向更高的意识。",
     translations: {
@@ -301,7 +301,7 @@ const thothCards = [
     id: 21, name: "宇宙", originalName: "The Universe", suit: "major", element: "土",
     keywords: ["完成", "整合", "成功", "旅行", "圆满"],
     uprightBrief: "圆满的完成与整合", reversedBrief: "未完成或延迟的成功",
-    imageUrl: "icons/thoth-major-21.png",
+    imageUrl: "icons/major/tarot-major-21.png",
     upright: "宇宙（对应伟特的「世界」）。代表圆满的完成和整合。你已经经历了完整的循环，准备好进入新的层次。这是成功、旅行和成就的时刻。",
     reversed: "未完成或延迟的成功。可能感到循环尚未结束，或缺乏完成的力量。需要整合剩余的碎片，然后才能圆满。",
     translations: {

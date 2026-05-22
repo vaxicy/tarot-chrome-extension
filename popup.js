@@ -391,15 +391,23 @@
       const localizedName = deckManager.getCardName(card);
       const displayName = isReversed ? localizedName + (this.currentLang === 'en' ? ' (Reversed)' : '（逆位）') : localizedName;
 
+      // 构建图片HTML（如果有imageUrl）
+      let imgHtml = '';
+      if (card.imageUrl) {
+        // 统一图片路径：将旧格式 icons/major-00.png 映射到 icons/major/tarot-major-00.png
+        let imgUrl = card.imageUrl;
+        const match = imgUrl.match(/^icons\/(major|wands|cups|swords|pentacles)-(\d{2})\.png$/);
+        if (match) {
+          imgUrl = 'icons/' + match[1] + '/tarot-' + match[1] + '-' + match[2] + '.png';
+        }
+        imgHtml = '<img class="card-image" src="' + imgUrl + '" alt="' + localizedName + '" />';
+      }
+
       el.innerHTML =
         '<div class="card-inner">' +
           '<div class="card-back-face"></div>' +
           '<div class="card-front">' +
-            '<div class="card-content">' +
-              '<span class="card-symbol">&#9733;</span>' +
-              '<span class="card-number">' + card.id + '</span>' +
-              '<span class="card-name">' + displayName + '</span>' +
-            '</div>' +
+            imgHtml +
           '</div>' +
         '</div>';
 
