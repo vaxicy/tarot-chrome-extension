@@ -394,18 +394,49 @@
       // 构建图片HTML（如果有imageUrl）
       let imgHtml = '';
       if (card.imageUrl) {
-        // 统一图片路径：将旧格式 icons/major-00.png 映射到 icons/major/tarot-major-00.png
         let imgUrl = card.imageUrl;
-        const match = imgUrl.match(/^icons\/(major|wands|cups|swords|pentacles)-(\d{2})\.png$/);
-        if (match) {
-          imgUrl = 'icons/' + match[1] + '/tarot-' + match[1] + '-' + match[2] + '.png';
+
+        // 如果已经是正确格式，直接使用
+        if (!imgUrl.match(/^icons\/(major|wands|cups|swords|pentacles)\/tarot-/)) {
+          // 统一图片路径：将各种旧格式映射到 icons/[suit]/tarot-[suit]-[number].png
+          // 支持格式：icons/major-00.png、icons/wands-06.png、icons/thoth-wands-06.png、icons/thoth-wands-p.png
+          const match = imgUrl.match(/^icons\/(?:(\w+)-)?(major|wands|cups|swords|pentacles)-(.+?)\.png$/);
+          if (match) {
+            let suit = match[2];
+            let num = match[3];
+
+            // 托特塔罗宫廷牌映射：p(公主/侍从)→11, kn(王子/骑士)→12, q(王后)→13, k(国王)→14
+            const courtMap = { 'p': '11', 'kn': '12', 'q': '13', 'k': '14' };
+            if (courtMap[num]) {
+              num = courtMap[num];
+            }
+
+            // 大阿卡纳补零（如果是一位数）
+            if (suit === 'major' && num.length === 1) {
+              num = '0' + num;
+            }
+
+            imgUrl = 'icons/' + suit + '/tarot-' + suit + '-' + num + '.png';
+          }
         }
-        imgHtml = '<img class="card-image" src="' + imgUrl + '" alt="' + localizedName + '" />';
+
+        imgHtml = '<img class="card-image" src="' + imgUrl + '" alt="' + localizedName + '" onerror="this.style.display=\'none\'" />';
+      }
+
+      // 根据当前牌组设置牌背样式
+      let backClass = 'card-back-face';
+      let backImg = '';
+      if (this.currentDeck) {
+        backClass += ' card-back-' + this.currentDeck;
+        // 检查是否有牌背图片（magic 牌组对应 hp 文件名）
+        const backImgId = this.currentDeck === 'magic' ? 'hp' : this.currentDeck;
+        const backImgPath = 'icons/card-backs/card-back-' + backImgId + '.png';
+        backImg = '<img class="card-back-img" src="' + backImgPath + '" alt="Card Back" onerror="this.style.display=\'none\'" />';
       }
 
       el.innerHTML =
         '<div class="card-inner">' +
-          '<div class="card-back-face"></div>' +
+          '<div class="' + backClass + '">' + backImg + '</div>' +
           '<div class="card-front">' +
             imgHtml +
           '</div>' +
