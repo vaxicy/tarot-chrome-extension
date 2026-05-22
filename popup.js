@@ -147,7 +147,8 @@
         { text: 'Slight Bad', desc: 'Be cautious today. Avoid important decisions and large expenses.' },
         { text: 'Bad', desc: 'Today\'s fortune is low. Stay calm and still. Pay attention to safety and health.' }
       ];
-      const idx = FORTUNE_LEVELS.indexOf(level);
+      // 按 text 匹配索引，而不是对象引用
+      const idx = FORTUNE_LEVELS.findIndex(l => l.text === level.text);
       if (idx >= 0 && idx < enLevels.length) {
         return { text: enLevels[idx].text, score: level.score, color: level.color, desc: enLevels[idx].desc };
       }
@@ -237,6 +238,13 @@
       document.querySelectorAll('[data-i18n-spread]').forEach((el) => {
         const key = 'spread_' + el.dataset.i18nSpread;
         el.textContent = this.t(key);
+      });
+
+      // data-i18n-placeholder 元素（input placeholder）
+      document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const key = el.dataset.i18nPlaceholder;
+        if (!key) return;
+        el.placeholder = this.t(key);
       });
 
       // 更新 html lang 和 title
@@ -1613,9 +1621,23 @@
         html += '<span class="fortune-guide-img-char">' + (guideCard.icon || '🔮') + '</span>';
         html += '</div>';
         html += '<div class="fortune-guide-info">';
-        html += '<div class="fortune-guide-name">' + guideCard.name + (guideCard.originalName ? ' <span class="fortune-guide-orig">(' + guideCard.originalName + ')</span>' : '') + '</div>';
+        // 英文模式下优先显示 originalName
+        const guideName = this.currentLang === 'en' && guideCard.originalName ? guideCard.originalName : guideCard.name;
+        const guideNameOrig = this.currentLang === 'en' && guideCard.originalName ? guideCard.name : (guideCard.originalName || '');
+        html += '<div class="fortune-guide-name">' + guideName + (guideNameOrig ? ' <span class="fortune-guide-orig">(' + guideNameOrig + ')</span>' : '') + '</div>';
         html += '<div class="fortune-guide-pos">' + (guideCard.isReversed ? (this.currentLang === 'en' ? 'Reversed' : '逆位') : (this.currentLang === 'en' ? 'Upright' : '正位')) + '</div>';
-        html += '<div class="fortune-guide-brief">' + guideCard.brief + '</div>';
+        // 英文模式下重新获取英文牌意（缓存的 brief 只有中文）
+        let guideBrief = guideCard.brief;
+        if (this.currentLang === 'en') {
+          try {
+            const deckData = this.getDeckData();
+            const foundCard = deckData.find(c => c.id === guideCard.id);
+            if (foundCard) {
+              guideBrief = this.getMeaningText(foundCard, guideCard.isReversed);
+            }
+          } catch (e) {}
+        }
+        html += '<div class="fortune-guide-brief">' + guideBrief + '</div>';
         html += '</div>';
         html += '</div>';
         html += '<div class="fortune-guide-hint">' + (this.currentLang === 'en' ? 'Click to view details' : '点击查看详情') + '</div>';
@@ -1664,13 +1686,16 @@
       html += '<div class="fortune-lucky-num-wrap">';
       html += '<span class="fortune-lucky-num-main">' + fortune.luckyNumber + '</span>';
       if (fortune.luckyNumberRoot === 11 || fortune.luckyNumberRoot === 22) {
-        html += '<span class="fortune-lucky-num-badge">灵数 ' + fortune.luckyNumberRoot + '</span>';
+        html += '<span class="fortune-lucky-num-badge">' + (this.currentLang === 'en' ? 'Master ' : '灵数 ') + fortune.luckyNumberRoot + '</span>';
       } else if (fortune.luckyNumberRoot) {
-        html += '<span class="fortune-lucky-num-badge">数字根 ' + fortune.luckyNumberRoot + '</span>';
+        html += '<span class="fortune-lucky-num-badge">' + (this.currentLang === 'en' ? 'Digit Root ' : '数字根 ') + fortune.luckyNumberRoot + '</span>';
       }
       html += '</div>';
       if (luckyCardName) {
-        html += '<div class="fortune-lucky-num-card">' + luckyCardName + (luckyCardOrig ? ' (' + luckyCardOrig + ')' : '') + '</div>';
+        // 英文模式下优先显示英文名
+        const displayLuckyName = this.currentLang === 'en' && luckyCardOrig ? luckyCardOrig : luckyCardName;
+        const displayLuckyOrig = this.currentLang === 'en' && luckyCardOrig ? luckyCardName : luckyCardOrig;
+        html += '<div class="fortune-lucky-num-card">' + displayLuckyName + (displayLuckyOrig ? ' (' + displayLuckyOrig + ')' : '') + '</div>';
       }
       html += '</div>';
       html += '</div>';

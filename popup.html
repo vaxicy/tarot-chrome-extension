@@ -415,16 +415,16 @@
                     <button class="numgen-preset-btn" data-min="1" data-max="100" type="button">1-100</button>
                     <button class="numgen-preset-btn" data-min="1" data-max="1000" type="button">1-1000</button>
                     <button class="numgen-preset-btn" data-min="1" data-max="49" type="button" data-i18n-key="numgen_preset_lottery">六合彩(1-49)</button>
-                    <button class="numgen-preset-btn" data-min="1" data-max="6" type="button">🎲 骰子</button>
-                    <button class="numgen-preset-btn" data-min="0" data-max="9" data-qty="4" type="button">📱 手机尾号</button>
-                    <button class="numgen-preset-btn" data-min="1" data-max="9" type="button">🍀 幸运数字</button>
-                    <button class="numgen-preset-btn" data-min="1" data-max="35" data-qty="5" type="button">🎰 大乐透</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="6" type="button" data-i18n-key="numgen_preset_dice">🎲 骰子</button>
+                    <button class="numgen-preset-btn" data-min="0" data-max="9" data-qty="4" type="button" data-i18n-key="numgen_preset_phone">📱 手机尾号</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="9" type="button" data-i18n-key="numgen_preset_lucky">🍀 幸运数字</button>
+                    <button class="numgen-preset-btn" data-min="1" data-max="35" data-qty="5" type="button" data-i18n-key="numgen_preset_lottery2">🎰 大乐透</button>
                 </div>
 
                 <!-- 生成按钮 -->
                 <button id="numgen-generate-btn" type="button" class="numgen-generate-btn">
                     <span class="btn-text" data-i18n-key="numgen_generate">生成命运数字</span>
-                    <span class="btn-loading hidden">⏳ 生成中...</span>
+                    <span class="btn-loading hidden" data-i18n-key="numgen_generating">⏳ 生成中...</span>
                 </button>
 
                 <!-- 结果展示 -->
@@ -488,7 +488,7 @@
                 <div class="dilemma-inputs">
                     <div class="dilemma-input-group dilemma-input-a-group">
                         <label for="dilemma-input-a" data-i18n-key="dilemma_label_a">🅰️ 选项 A</label>
-                        <input type="text" id="dilemma-input-a" class="dilemma-input" placeholder="输入第一个选项..." />
+                        <input type="text" id="dilemma-input-a" class="dilemma-input" placeholder="输入第一个选项..." data-i18n-placeholder="dilemma_placeholder_a" />
                         <div class="dilemma-input-glow"></div>
                     </div>
                     <div class="dilemma-vs-wrap">
@@ -497,22 +497,22 @@
                     </div>
                     <div class="dilemma-input-group dilemma-input-b-group">
                         <label for="dilemma-input-b" data-i18n-key="dilemma_label_b">🅱️ 选项 B</label>
-                        <input type="text" id="dilemma-input-b" class="dilemma-input" placeholder="输入第二个选项..." />
+                        <input type="text" id="dilemma-input-b" class="dilemma-input" placeholder="输入第二个选项..." data-i18n-placeholder="dilemma_placeholder_b" />
                         <div class="dilemma-input-glow"></div>
                     </div>
                 </div>
 
                 <!-- 选项历史快捷栏 -->
                 <div id="dilemma-history-bar" class="dilemma-history-bar hidden">
-                    <div class="dilemma-history-label">&#128336; 历史</div>
+                    <div class="dilemma-history-label">&#128336; <span data-i18n-key="dilemma_history_label">历史</span></div>
                     <div id="dilemma-history-tags" class="dilemma-history-tags"></div>
                 </div>
 
                 <!-- 让命运决定 -->
                 <button id="dilemma-fate-btn" class="dilemma-fate-btn" type="button">
                     <span class="dilemma-fate-icon">&#9884;</span>
-                    <span class="dilemma-fate-text">让命运决定</span>
-                    <span class="dilemma-fate-sub">随机用一种方式帮你做决定</span>
+                    <span class="dilemma-fate-text" data-i18n-key="dilemma_fate_btn">让命运决定</span>
+                    <span class="dilemma-fate-sub" data-i18n-key="dilemma_fate_sub">随机用一种方式帮你做决定</span>
                 </button>
 
                 <!-- 决定方式（Tab 切换） -->
