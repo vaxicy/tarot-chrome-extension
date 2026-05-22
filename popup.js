@@ -369,7 +369,7 @@
     }
 
     // ============ 创建卡牌 DOM ============
-    createCardEl(card, isReversed, startFlipped, cardWidth, cardHeight) {
+    createCardEl(card, isReversed, startFlipped, cardWidth, cardHeight, index) {
       cardWidth = cardWidth || 80;
       cardHeight = cardHeight || 126;
 
@@ -378,6 +378,7 @@
       wrap.style.width = cardWidth + 'px';
       wrap.style.height = cardHeight + 'px';
       wrap.style.perspective = '1000px';
+      if (index !== undefined) wrap.dataset.index = index;
 
       const el = document.createElement('div');
       el.className = 'tarot-card' + (startFlipped ? ' flipped' : '');
@@ -385,6 +386,7 @@
       el.style.height = cardHeight + 'px';
       el.dataset.cardId = card.id;
       el.dataset.reversed = isReversed ? '1' : '0';
+      if (index !== undefined) el.dataset.index = index;
 
       const localizedName = deckManager.getCardName(card);
       const displayName = isReversed ? localizedName + (this.currentLang === 'en' ? ' (Reversed)' : '（逆位）') : localizedName;
@@ -431,6 +433,16 @@
 
       let html = '<div class="card-meaning">';
       html += '<div class="meaning-header">' + displayName + posLabel + ' - ' + posText + '</div>';
+
+      // 添加关键词标签
+      if (card.keywords && card.keywords.length > 0) {
+        html += '<div class="meaning-keywords">';
+        card.keywords.forEach(keyword => {
+          html += '<span class="keyword-tag">' + keyword + '</span>';
+        });
+        html += '</div>';
+      }
+
       if (positionMeaning) {
         html += '<div class="meaning-position"><span class="meaning-position-label">' + (this.currentLang === 'en' ? 'Position: ' : '位置含义：') + '</span>' + positionMeaning + '</div>';
       }
@@ -482,8 +494,8 @@
         if (elements[el] > maxCount) { maxCount = elements[el]; dominantElement = el; }
       }
       const elementNames = this.currentLang === 'en'
-        ? { wands: 'Wands (Fire)', cups: 'Cups (Water)', swords: 'Swords (Air)', pentacles: 'Pentacles (Earth)' }
-        : { wands: '权杖（火）', cups: '圣杯（水）', swords: '宝剑（风）', pentacles: '星币（土）' };
+        ? { wands: '<span class="element-fire">Wands (Fire)</span>', cups: '<span class="element-water">Cups (Water)</span>', swords: '<span class="element-air">Swords (Air)</span>', pentacles: '<span class="element-earth">Pentacles (Earth)</span>' }
+        : { wands: '<span class="element-fire">权杖（火）</span>', cups: '<span class="element-water">圣杯（水）</span>', swords: '<span class="element-air">宝剑（风）</span>', pentacles: '<span class="element-earth">星币（土）</span>' };
 
       let html = '<div class="reading-section">';
       html += '<div class="reading-section-title">' + this.t('theme_title') + '</div>';
@@ -699,13 +711,14 @@
       if (!container) return;
       container.innerHTML = '';
       container.classList.remove('hidden');
+      container.classList.add('diagram-' + spreadType);
 
       const spread = SPREADS[spreadType];
       if (!spread) return;
 
       positions.forEach((pos, idx) => {
         const card = document.createElement('div');
-        card.className = 'result-diagram-card';
+        card.className = 'result-diagram-card diag-pos-' + (idx + 1);
         card.dataset.index = idx;
 
         // 添加序号
@@ -726,9 +739,27 @@
 
           const cards = document.querySelectorAll('.tarot-card');
           if (cards[idx]) {
-            cards[idx].style.transition = 'box-shadow 0.2s';
+            // 滚动到对应大卡片
+            cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // 高亮效果
+            cards[idx].style.transition = 'box-shadow 0.3s';
             cards[idx].style.boxShadow = '0 0 20px var(--color-gold)';
-            setTimeout(() => { cards[idx].style.boxShadow = ''; }, 500);
+            setTimeout(() => { cards[idx].style.boxShadow = ''; }, 800);
+          }
+        });
+
+        // 鼠标悬停效果
+        card.addEventListener('mouseenter', () => {
+          const cards = document.querySelectorAll('.tarot-card');
+          if (cards[idx]) {
+            cards[idx].style.transition = 'box-shadow 0.2s';
+            cards[idx].style.boxShadow = '0 0 10px rgba(212, 175, 55, 0.5)';
+          }
+        });
+        card.addEventListener('mouseleave', () => {
+          const cards = document.querySelectorAll('.tarot-card');
+          if (cards[idx] && !cards[idx].classList.contains('active')) {
+            cards[idx].style.boxShadow = '';
           }
         });
 
@@ -767,7 +798,7 @@
           if (resultCards) {
             resultCards.innerHTML = '';
             resultCards.className = 'result-cards';
-            const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126);
+            const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126, 0);
             const innerCard = wrap.querySelector('.tarot-card');
 
             wrap.addEventListener('click', (e) => {
@@ -776,6 +807,11 @@
               this.playFlipSound();
               const rev = innerCard.classList.contains('flipped') ? !item.isReversed : item.isReversed;
               this.showMeaning(item.card, rev, singlePos);
+
+              // 高亮对应的示意图小卡
+              const diagCards = document.querySelectorAll('.result-diagram-card');
+              diagCards.forEach(c => c.classList.remove('active'));
+              if (diagCards[0]) diagCards[0].classList.add('active');
             });
 
             setTimeout(() => {
@@ -818,13 +854,20 @@
             resultCards.className = 'result-cards ' + spreadType + '-spread-layout';
           }
 
+          // 牌数自适应：牌越多卡片越小
+          const totalCards = drawn.length;
+          let baseW = cardW, baseH = cardH;
+          if (totalCards >= 10)      { baseW = Math.max(46, Math.round(cardW * 0.6)); baseH = Math.round(baseW * 1.55); }
+          else if (totalCards >= 8) { baseW = Math.max(50, Math.round(cardW * 0.75)); baseH = Math.round(baseW * 1.55); }
+          else if (totalCards >= 6) { baseW = Math.max(58, Math.round(cardW * 0.9)); baseH = Math.round(baseW * 1.55); }
+
           for (let i = 0; i < drawn.length; i++) {
             this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
 
-            let cW = cardW, cH = cardH;
-            if (spreadType === 'horseshoe' && i === 3) { cW = 70; cH = Math.round(cW * 1.5); }
+            let cW = baseW, cH = baseH;
+            if (spreadType === 'horseshoe' && i === 3) { cW = Math.round(baseW * 1.2); cH = Math.round(cW * 1.5); }
 
-            const wrap = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, cW, cH);
+            const wrap = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, cW, cH, i);
             wrap.classList.add(spreadType + '-card-wrap');
 
             if (spreadType === 'horseshoe' && i === 3) wrap.classList.add('horseshoe-center');
@@ -834,6 +877,11 @@
                 e.stopPropagation();
                 this.playFlipSound();
                 this.showMeaning(c, rev, pos);
+
+                // 高亮对应的示意图小卡
+                const diagCards = document.querySelectorAll('.result-diagram-card');
+                diagCards.forEach(card => card.classList.remove('active'));
+                if (diagCards[idx]) diagCards[idx].classList.add('active');
               });
             })(drawn[i].card, drawn[i].isReversed, positions[i], i);
 
@@ -891,13 +939,9 @@
       crossPositions.forEach((posIdx) => {
         this.currentCards.push({ card: drawn[posIdx].card, isReversed: drawn[posIdx].isReversed, position: positions[posIdx] });
 
-        const wrap = this.createCardEl(drawn[posIdx].card, drawn[posIdx].isReversed, true, 58, 90);
+        // 10张牌统一缩小
+        const wrap = this.createCardEl(drawn[posIdx].card, drawn[posIdx].isReversed, true, 50, 78, posIdx);
         wrap.classList.add('cc-card-wrap');
-
-        if (posIdx === 1) {
-          wrap.style.transform = 'rotate(90deg)';
-          wrap.style.zIndex = '2';
-        }
 
         const wrapper = document.createElement('div');
         wrapper.className = 'cc-pos-' + (posIdx + 1);
@@ -907,6 +951,11 @@
           wrap.addEventListener('click', (e) => {
             e.stopPropagation();
             this.showMeaning(c, rev, pos);
+
+            // 高亮对应的示意图小卡
+            const diagCards = document.querySelectorAll('.result-diagram-card');
+            diagCards.forEach(card => card.classList.remove('active'));
+            if (diagCards[idx]) diagCards[idx].classList.add('active');
           });
         })(drawn[posIdx].card, drawn[posIdx].isReversed, positions[posIdx], posIdx);
 
@@ -921,7 +970,8 @@
       for (let i = 5; i < 10; i++) {
         this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
 
-        const wrap2 = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, 58, 90);
+        // 10张牌权杖列统一缩小
+        const wrap2 = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, 44, 68, i);
         wrap2.classList.add('cc-card-wrap');
 
         const wrapper2 = document.createElement('div');
@@ -932,6 +982,11 @@
           wrap2.addEventListener('click', (e) => {
             e.stopPropagation();
             this.showMeaning(c, rev, pos);
+
+            // 高亮对应的示意图小卡
+            const diagCards = document.querySelectorAll('.result-diagram-card');
+            diagCards.forEach(card => card.classList.remove('active'));
+            if (diagCards[idx]) diagCards[idx].classList.add('active');
           });
         })(drawn[i].card, drawn[i].isReversed, positions[i], i);
 
@@ -3178,6 +3233,7 @@
       const buttonHandlers = {
         'back-btn': () => this.goBack(),
         'reshuffle-btn': () => this.reshuffle(),
+        'reinterpret-btn': () => this.reshuffle(),
         'share-btn': () => this.shareResult(),
         'history-btn': () => this.showHistoryPage(),
         'history-back-btn': () => this.showPage('welcome-page'),

@@ -1552,14 +1552,19 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 9px;
+  line-height: 1.1;
+  text-align: center;
   color: var(--color-gold);
   font-weight: 700;
   position: relative;
   transition: all 0.2s;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+  padding: 1px;
+  overflow: hidden;
+  word-break: break-all;
 }
 
 .result-diagram-card:hover {
@@ -1579,17 +1584,27 @@ button:active {
 .result-diagram-card-label {
   display: block;
   position: absolute;
-  bottom: -16px;
+  bottom: -13px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 8px;
+  font-size: 7px;
   color: var(--color-text-muted);
   white-space: nowrap;
   font-weight: 400;
-  letter-spacing: 0.3px;
-  max-width: 80px;
+  letter-spacing: 0.2px;
+  max-width: 56px;
   overflow: hidden;
   text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* 五牌十字等紧凑布局：label 更小 */
+.diagram-five .result-diagram-card-label,
+.diagram-horseshoe .result-diagram-card-label,
+.diagram-year .result-diagram-card-label {
+  font-size: 6px;
+  max-width: 48px;
+  bottom: -11px;
 }
 
 /* ============ 鍑皵鐗瑰崄瀛楃墝闃靛竷灞€ ============ */
@@ -1597,43 +1612,72 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 10px 0;
+  gap: 24px;
+  padding: 20px 0;
 }
 
 .celtic-cross-center {
   display: flex;
-  gap: 16px;
-  align-items: center;
+  gap: 24px;
+  align-items: flex-start;
 }
 
+/* 十字部分：使用Grid布局，每张牌独立显示，不重叠 */
 .celtic-cross-cross {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: auto auto auto;
   grid-template-rows: auto auto auto;
-  gap: 18px;
-  align-items: start;
+  gap: 20px;
+  align-items: center;
   justify-items: center;
+  padding: 20px;
 }
 
 .celtic-cross-cross [class^="cc-pos-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
 
-.celtic-cross-cross .cc-pos-1 { grid-column: 2; grid-row: 2; }
-.celtic-cross-cross .cc-pos-2 { grid-column: 2; grid-row: 1; }
-.celtic-cross-cross .cc-pos-3 { grid-column: 1; grid-row: 2; }
-.celtic-cross-cross .cc-pos-4 { grid-column: 2; grid-row: 3; }
-.celtic-cross-cross .cc-pos-5 { grid-column: 3; grid-row: 2; }
+/* 位置1（当前情况）- 中心 */
+.celtic-cross-cross .cc-pos-1 {
+  grid-column: 2;
+  grid-row: 2;
+}
 
+/* 位置2（挑战）- 位置1上方，不旋转不重叠 */
+.celtic-cross-cross .cc-pos-2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+/* 位置3（过去基础）- 左侧 */
+.celtic-cross-cross .cc-pos-3 {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* 位置4（近期过去）- 位置1下方 */
+.celtic-cross-cross .cc-pos-4 {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* 位置5（可能未来）- 右侧 */
+.celtic-cross-cross .cc-pos-5 {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+/* 权杖列（位置6-10）- 右侧竖排 */
 .celtic-cross-staff {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-left: 16px;
+  gap: 12px;
+  margin-left: 24px;
+  padding-left: 20px;
+  border-left: 2px solid rgba(212, 175, 55, 0.2);
 }
 
 .result-cards .cc-staff-pos {
@@ -5125,3 +5169,305 @@ button:active {
   text-align: center;
   padding: 2px;
 }
+
+/* ============ 牌阵示意图：按牌阵形状排列 ============ */
+
+/* 凯尔特十字：4列×4行网格 */
+.diagram-celtic {
+  display: grid;
+  grid-template-columns: 36px 36px 36px 36px;
+  grid-template-rows: auto auto auto auto;
+  gap: 3px 6px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+.diagram-celtic .result-diagram-card:nth-child(1) { grid-column: 2; grid-row: 2; }
+.diagram-celtic .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.diagram-celtic .result-diagram-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+.diagram-celtic .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 3; }
+.diagram-celtic .result-diagram-card:nth-child(5) { grid-column: 3; grid-row: 2; }
+.diagram-celtic .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 4; }
+.diagram-celtic .result-diagram-card:nth-child(7) { grid-column: 4; grid-row: 1; }
+.diagram-celtic .result-diagram-card:nth-child(8) { grid-column: 4; grid-row: 2; }
+.diagram-celtic .result-diagram-card:nth-child(9) { grid-column: 4; grid-row: 3; }
+.diagram-celtic .result-diagram-card:nth-child(10) { grid-column: 4; grid-row: 4; }
+
+/* 五牌十字：3列×3行网格 */
+.diagram-five {
+  display: grid;
+  grid-template-columns: 52px 52px 52px;
+  grid-template-rows: auto auto auto;
+  gap: 18px 10px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 6px 0;
+}
+.diagram-five .result-diagram-card:nth-child(1) { grid-column: 2; grid-row: 1; }
+.diagram-five .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 3; }
+.diagram-five .result-diagram-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+.diagram-five .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+.diagram-five .result-diagram-card:nth-child(5) { grid-column: 3; grid-row: 2; }
+
+/* 关系牌阵：2列×3行网格 */
+.diagram-relation {
+  display: grid;
+  grid-template-columns: 48px 48px;
+  grid-template-rows: auto auto auto;
+  gap: 16px 12px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-relation .result-diagram-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.diagram-relation .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.diagram-relation .result-diagram-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+.diagram-relation .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+.diagram-relation .result-diagram-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.diagram-relation .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+
+/* 马蹄铁：3列×3行网格（中间大）*/
+.diagram-horseshoe {
+  display: grid;
+  grid-template-columns: 48px 52px 48px;
+  grid-template-rows: auto auto auto;
+  gap: 16px 10px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-horseshoe .result-diagram-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.diagram-horseshoe .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.diagram-horseshoe .result-diagram-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+.diagram-horseshoe .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+.diagram-horseshoe .result-diagram-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.diagram-horseshoe .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+.diagram-horseshoe .result-diagram-card:nth-child(7) { grid-column: 3; grid-row: 3; }
+
+/* 年运牌阵：3列×3行网格 */
+.diagram-year {
+  display: grid;
+  grid-template-columns: 48px 48px 48px;
+  grid-template-rows: auto auto auto;
+  gap: 16px 10px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-year .result-diagram-card:nth-child(1) { grid-column: 2; grid-row: 1; }
+.diagram-year .result-diagram-card:nth-child(2) { grid-column: 1; grid-row: 2; }
+.diagram-year .result-diagram-card:nth-child(3) { grid-column: 2; grid-row: 2; }
+.diagram-year .result-diagram-card:nth-child(4) { grid-column: 3; grid-row: 2; }
+.diagram-year .result-diagram-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.diagram-year .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+.diagram-year .result-diagram-card:nth-child(7) { grid-column: 3; grid-row: 3; }
+
+/* 三牌：保持横排（默认flex即可）*/
+.diagram-three {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* 二选一：横排 */
+.diagram-choice {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* 是否牌阵：横排 */
+.diagram-yesno {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* 时间之流：横排 */
+.diagram-timeflow {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 心灵牌阵：横排 */
+.diagram-mind {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 阴影牌阵：横排 */
+.diagram-shadow {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 恋人牌阵：3×3网格 */
+.diagram-love {
+  display: grid;
+  grid-template-columns: 48px 48px 48px;
+  grid-template-rows: auto auto auto;
+  gap: 16px 10px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-love .result-diagram-card:nth-child(1) { grid-column: 2; grid-row: 1; }
+.diagram-love .result-diagram-card:nth-child(2) { grid-column: 1; grid-row: 2; }
+.diagram-love .result-diagram-card:nth-child(3) { grid-column: 2; grid-row: 2; }
+.diagram-love .result-diagram-card:nth-child(4) { grid-column: 3; grid-row: 2; }
+.diagram-love .result-diagram-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.diagram-love .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+.diagram-love .result-diagram-card:nth-child(7) { grid-column: 3; grid-row: 3; }
+
+/* 复合牌阵：2×3网格 */
+.diagram-broken {
+  display: grid;
+  grid-template-columns: 48px 48px;
+  grid-template-rows: auto auto auto;
+  gap: 16px 12px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-broken .result-diagram-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.diagram-broken .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.diagram-broken .result-diagram-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+.diagram-broken .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+.diagram-broken .result-diagram-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.diagram-broken .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+
+/* 换工作牌阵：横排 */
+.diagram-jobchange {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 利弊分析：2×2网格 */
+.diagram-proscons {
+  display: grid;
+  grid-template-columns: 48px 48px;
+  grid-template-rows: auto auto;
+  gap: 16px 12px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-proscons .result-diagram-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.diagram-proscons .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.diagram-proscons .result-diagram-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+.diagram-proscons .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+
+/* 人生使命：2×4网格 */
+.diagram-lifepurpose {
+  display: grid;
+  grid-template-columns: 48px 48px;
+  grid-template-rows: auto auto auto auto;
+  gap: 16px 12px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 4px 0;
+}
+.diagram-lifepurpose .result-diagram-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.diagram-lifepurpose .result-diagram-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.diagram-lifepurpose .result-diagram-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+.diagram-lifepurpose .result-diagram-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+.diagram-lifepurpose .result-diagram-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.diagram-lifepurpose .result-diagram-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+.diagram-lifepurpose .result-diagram-card:nth-child(7) { grid-column: 1; grid-row: 4; }
+.diagram-lifepurpose .result-diagram-card:nth-child(8) { grid-column: 2; grid-row: 4; }
+
+/* ============ 元素颜色标识 ============ */
+.element-fire {
+  color: #EF4444;
+  font-weight: 600;
+}
+.element-water {
+  color: #3B82F6;
+  font-weight: 600;
+}
+.element-air {
+  color: #F59E0B;
+  font-weight: 600;
+}
+.element-earth {
+  color: #10B981;
+  font-weight: 600;
+}
+
+/* ============ 重新解读按钮 ============ */
+.reinterpret-btn {
+  margin-left: auto;
+  padding: 4px 12px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  color: #D4AF37;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reinterpret-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: scale(1.05);
+}
+
+/* ============ 示意图小卡联动高亮 ============ */
+.result-diagram-card {
+  transition: all 0.3s ease;
+}
+
+.result-diagram-card.active {
+  background: rgba(212, 175, 55, 0.3) !important;
+  border-color: #D4AF37 !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.5) !important;
+  transform: scale(1.1);
+}
+
+.result-diagram-card:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* ============ 关键词标签 ============ */
+.meaning-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 12px 0;
+  padding: 0;
+}
+
+.keyword-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  color: #D4AF37;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.keyword-tag:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: scale(1.05);
+}
+
+
