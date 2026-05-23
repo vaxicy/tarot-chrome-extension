@@ -1151,6 +1151,11 @@
       this.drawStandardSpread('lifepurpose', 55, 90);
     }
 
+    // ============ 新增学业考试牌阵 ============
+    drawExam() {
+      this.drawStandardSpread('exam', 60, 96);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -1175,6 +1180,8 @@
         // 新增：利弊分析、人生使命
         case 'proscons':   this.drawProscons(); break;
         case 'lifepurpose': this.drawLifepurpose(); break;
+        // 新增：考试牌阵
+        case 'exam':      this.drawExam(); break;
       }
     }
 
@@ -3263,6 +3270,8 @@
               // 新增：利弊分析、人生使命
               case 'proscons':   this.drawProscons(); break;
               case 'lifepurpose': this.drawLifepurpose(); break;
+              // 新增：考试牌阵
+              case 'exam':      this.drawExam(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);

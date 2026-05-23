@@ -483,6 +483,31 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Life Purpose spread...',
     usage: '适合在人生转折点、迷茫期或想要寻找人生意义和方向时使用，帮助探索天命与使命。',
     usageEn: 'Suitable for use at life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.'
+  },
+  // ============ 新增学业考试牌阵 ============
+  exam: {
+    name: '考试牌阵',
+    nameEn: 'Exam Spread',
+    positions: ['考试/面试结果', '准备方向', '需要注意的地方', '潜在障碍', '建议'],
+    positionsEn: ['Exam/Interview Result', 'Preparation Direction', 'Points to Note', 'Potential Obstacles', 'Advice'],
+    positionMeanings: [
+      '考试/面试结果：这次考试或面试最可能的结果和表现。',
+      '准备方向：你应该重点复习或准备的方向和内容。',
+      '需要注意的地方：考试中容易出错或忽略的关键点。',
+      '潜在障碍：可能影响发挥的隐藏因素，如紧张、身体状态等。',
+      '建议：塔罗对你备考策略、心态调整或面试准备的具体建议。'
+    ],
+    positionMeaningsEn: [
+      'Exam/Interview Result: The most likely result and performance of this exam or interview.',
+      'Preparation Direction: The direction and content you should focus on reviewing or preparing.',
+      'Points to Note: Key points that are easily overlooked or mistaken in the exam.',
+      'Potential Obstacles: Hidden factors that may affect your performance, such as nervousness, physical condition, etc.',
+      'Advice: The Tarot\'s specific advice for your preparation strategy, mindset adjustment, or interview preparation.'
+    ],
+    category: 'career', difficulty: 'medium', recommended: true, loadingText: '正在展开考试牌阵...',
+    loadingTextEn: 'Unfolding the Exam spread...',
+    usage: '适合考前占卜，了解考试结果、复习重点和需要注意的事项。也适用于面试、资格考试等场景。',
+    usageEn: 'Suitable for divination before exams. Understand exam results, key review points, and things to note. Also applicable to interviews, qualification exams, etc.'
   }
 };
 
@@ -692,6 +717,9 @@ const I18N = {
     spread_yesno_desc: '3张牌 · 是/否决策指引',
     spread_jobchange_name: '换工作牌阵',
     spread_jobchange_desc: '5张牌 · 跳槽/转行决策',
+    spread_exam_name: '考试牌阵',
+    spread_exam_desc: '5张牌 · 考试/面试结果预测',
+    exam_tip: '适合考前或面试前占卜，了解结果、复习重点和注意事项。',
     spread_shadow_name: '阴影牌阵',
     spread_shadow_desc: '5张牌 · 自我整合与成长',
     spread_year_name: '年运牌阵',
@@ -919,6 +947,9 @@ const I18N = {
     spread_yesno_desc: '3 cards · Yes/No decision guidance',
     spread_jobchange_name: 'Job Change Spread',
     spread_jobchange_desc: '5 cards · Job hopping / Career change',
+    spread_exam_name: 'Exam Spread',
+    spread_exam_desc: '5 cards · Exam/interview result prediction',
+    exam_tip: 'Suitable for divination before exams or interviews. Understand results, key review points, and things to note.',
     spread_shadow_name: 'Shadow Spread',
     spread_shadow_desc: '5 cards · Self-integration & growth',
     spread_year_name: 'Yearly Spread',
