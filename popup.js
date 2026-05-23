@@ -440,6 +440,7 @@
         const backImgId = this.currentDeck === 'magic' ? 'hp' : this.currentDeck;
         const backImgPath = 'icons/card-backs/card-back-' + backImgId + '.png';
         backImg = '<img class="card-back-img" src="' + backImgPath + '" alt="Card Back" onerror="this.style.display=\'none\'" />';
+        backClass += ' has-back-img';
       }
 
       el.innerHTML =
