@@ -307,7 +307,7 @@ const tarotCards = [
     uprightBrief: "完成与圆满",
     reversedBrief: "未完成或延迟成功",
     imageUrl: "icons/major-21.png",
-    upright: "完成与圆满。一个周期的完美结束，成就与 fulfillment。你已经准备好迎接更大的冒险。",
+    upright: "完成与圆满。一个周期的完美结束，成就与满足。你已经准备好迎接更大的冒险。",
     reversed: "未完成或延迟成功。可能急于求成，需要完善细节才能真正完成旅程。"
   },
 
@@ -390,7 +390,7 @@ const tarotCards = [
     keywords:["新情感","爱","喜悦","直觉","灵感"], uprightBrief:"新的情感开始", reversedBrief:"情感受阻内在空虚",
     imageUrl:"icons/cups-01.png",
     upright:"新的情感开始。爱、喜悦和直觉的涌现。打开你的心，接受情感的馈赠。",
-    reversed:"情感受阻或内在空虚。可能需要 healing 过去的情感创伤，重新连接内心的感受。"},
+    reversed:"情感受阻或内在空虚。可能需要疗愈过去的情感创伤，重新连接内心的感受。"},
   { id:"C2", name:"圣杯二", themeName:"友谊的纽带", originalName:"Two of Cups", suit:"cups", element:"水",
     keywords:["和谐","吸引","合作","关系","平等"], uprightBrief:"和谐的关系和相互吸引", reversedBrief:"关系失衡或误解",
     imageUrl:"icons/cups-02.png",
@@ -480,7 +480,7 @@ const tarotCards = [
     upright:"休息和反思的时期。从混乱中退隐，恢复精力和清晰度。静心思考后再行动。",
     reversed:"不安或急于行动。可能休息不足就匆忙返回，需要更多时间恢复。"},
   { id:"S5", name:"宝剑五", themeName:"无谓的胜利", originalName:"Five of Swords", suit:"swords", element:"风",
-    keywords:["冲突","胜利","空虚"," ego","和解"], uprightBrief:"冲突和空虚的胜利", reversedBrief:"和解或接受失败",
+    keywords:["冲突","胜利","空虚","自我","和解"], uprightBrief:"冲突和空虚的胜利", reversedBrief:"和解或接受失败",
     imageUrl:"icons/swords-05.png",
     upright:"冲突和空虚的胜利。赢得战斗但失去关系。反思什么才是真正重要的。",
     reversed:"和解或接受失败。从冲突中学习和成长。放下 ego，寻求和平。"},

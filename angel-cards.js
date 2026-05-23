@@ -174,12 +174,12 @@ const angelCards = [
   },
   {
     id: 12, name: "倒吊人", originalName: "The Hanged Man", suit: "major", element: "水",
-    keywords: ["神圣的暂停", " surrender", "新视角", "信任", "牺牲"],
+    keywords: ["神圣的暂停", "放下", "新视角", "信任", "牺牲"],
     uprightBrief: "在神圣暂停中信任",
     reversedBrief: "抗拒导致更多的挣扎",
     imageUrl: "icons/major/tarot-major-12.png",
     upright: "你的天使邀请你放下的控制，进入神圣的暂停。这不是惩罚，而是礼物。从新的角度看待你的处境，信任神圣的时机。在等待中，祝福正在酝酿。",
-    reversed: "你的天使看到你的挣扎。放下抗拒， surrendering 不是放弃，而是信任更高的计划。你的天使正在为你工作，即使在看似的停滞中。",
+    reversed: "你的天使看到你的挣扎。放下抗拒，臣服不是放弃，而是信任更高的计划。你的天使正在为你工作，即使在看似的停滞中。",
     translations: {
       en: {
         upright: "Your angel invites you to release control and enter a sacred pause. This is not punishment, but a gift. See your situation from a new angle. Trust divine timing. Blessings are brewing in the waiting.",
@@ -594,7 +594,7 @@ const angelCards = [
   },
   {
     id: "C6", name: "圣杯六", originalName: "Six of Cups", suit: "cups", element: "水",
-    keywords: ["怀旧", "善良", "纯真", "礼物", "治愈 inner child"],
+    keywords: ["怀旧", "善良", "纯真", "礼物", "治愈内在小孩"],
     uprightBrief: "天使治愈你的内在小孩",
     reversedBrief: "需要释放过去的模式",
     imageUrl: "icons/cups/tarot-cups-06.png",

@@ -761,7 +761,7 @@ const thothCards = [
     keywords: ["休息", "恢复", "沉思", "安静", "充电"],
     uprightBrief: "休息与恢复的能量", reversedBrief: "不安或拒绝休息",
     imageUrl: "icons/thoth-swords-04.png",
-    upright: "休息与恢复。宝剑四代表需要从 mental 活动中退隐，休息和充电。这不是放弃，而是为了更清晰的思维而进行的必要休整。",
+    upright: "休息与恢复。宝剑四代表需要从心智活动中退隐，休息和充电。这不是放弃，而是为了更清晰的思维而进行的必要休整。",
     reversed: "不安或拒绝休息。可能感到内疚而休息，或无法安静下来。需要优先照顾自己的心理健康。",
     translations: {
       en: {
@@ -915,7 +915,7 @@ const thothCards = [
   // ---------- 星币/土元素 (Pentacles/Disks) ----------
   {
     id: "P1", name: "星币王牌", originalName: "Ace of Pentacles", suit: "pentacles", element: "土",
-    keywords: ["机会", "丰盛", "物质", "新开始", " manifest"],
+    keywords: ["机会", "丰盛", "物质", "新开始", "显化"],
     uprightBrief: "物质机会的种子", reversedBrief: "错失机会或延迟",
     imageUrl: "icons/thoth-pents-01.png",
     upright: "物质机会的种子。星币王牌代表土元素的纯粹丰盛，带来物质成功、财务机会和实用的新开始。这是播种物质收获的时刻。",
@@ -1016,7 +1016,7 @@ const thothCards = [
     keywords: ["工艺", "努力", "学习", "专注", "精进"],
     uprightBrief: "专注的工艺与精进", reversedBrief: "缺乏动力或低质量工作",
     imageUrl: "icons/thoth-pents-08.png",
-    upright: "工艺与精进。星币八代表专注的努力、学习和技能的精进。你致力于 mastering 你的工艺，通过持续的努力达到卓越。",
+    upright: "工艺与精进。星币八代表专注的努力、学习和技能的精进。你致力于精通你的工艺，通过持续的努力达到卓越。",
     reversed: "缺乏动力或低质量工作。可能对工作失去兴趣，或无法专注于任务。需要重新找到工作的意义和动力。",
     translations: {
       en: {
