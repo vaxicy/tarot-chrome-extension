@@ -1156,6 +1156,21 @@
       this.drawStandardSpread('exam', 60, 96);
     }
 
+    // ============ 新增命运之轮牌阵 ============
+    drawFatewheel() {
+      this.drawStandardSpread('fatewheel', 60, 96);
+    }
+
+    // ============ 新增月运牌阵 ============
+    drawMonthly() {
+      this.drawStandardSpread('monthly', 60, 96);
+    }
+
+    // ============ 新增灵魂旅程牌阵 ============
+    drawSouljourney() {
+      this.drawStandardSpread('souljourney', 50, 80);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -1182,6 +1197,12 @@
         case 'lifepurpose': this.drawLifepurpose(); break;
         // 新增：考试牌阵
         case 'exam':      this.drawExam(); break;
+        // 新增：命运之轮
+        case 'fatewheel': this.drawFatewheel(); break;
+        // 新增：月运牌阵
+        case 'monthly':   this.drawMonthly(); break;
+        // 新增：灵魂旅程牌阵
+        case 'souljourney': this.drawSouljourney(); break;
       }
     }
 
@@ -3272,6 +3293,12 @@
               case 'lifepurpose': this.drawLifepurpose(); break;
               // 新增：考试牌阵
               case 'exam':      this.drawExam(); break;
+              // 新增：命运之轮
+              case 'fatewheel': this.drawFatewheel(); break;
+              // 新增：月运牌阵
+              case 'monthly':   this.drawMonthly(); break;
+              // 新增：灵魂旅程牌阵
+              case 'souljourney': this.drawSouljourney(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -3836,11 +3863,44 @@
           html += '</div>';
           break;
 
+        case 'fatewheel':
+          // 命运之轮：圆形布局
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += this.diagramCard(1, positions[0], '28px');
+          html += '<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">';
+          html += this.diagramCard(2, positions[1], '26px');
+          html += this.diagramCard(5, positions[4], '26px');
+          html += '</div>';
+          html += '<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">';
+          html += this.diagramCard(3, positions[2], '26px');
+          html += this.diagramCard(4, positions[3], '26px');
+          html += '</div>';
+          html += '</div>';
+          break;
+
         case 'year':
           // 年运牌阵：纵向一列
           html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
           for (let i = 0; i < positions.length; i++) {
             html += this.diagramCard(i + 1, positions[i], i === 6 ? '32px' : '26px');
+          }
+          html += '</div>';
+          break;
+
+        case 'monthly':
+          // 月运牌阵：横向一排
+          html += '<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '26px');
+          }
+          html += '</div>';
+          break;
+
+        case 'souljourney':
+          // 灵魂旅程：3×3 网格
+          html += '<div style="display:grid;grid-template-columns:repeat(3,auto);gap:3px;justify-content:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], '24px');
           }
           html += '</div>';
           break;

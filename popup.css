@@ -1923,6 +1923,58 @@ button:active {
   gap: 22px;
 }
 
+/* ============ 命运之轮牌阵布局（5张横向排列） ============ */
+.fatewheel-spread-layout {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.result-cards .fatewheel-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+/* ============ 月运牌阵布局（5张横向排列，可换行） ============ */
+.monthly-spread-layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.result-cards .monthly-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+/* ============ 灵魂旅程牌阵布局（3×3 网格） ============ */
+.souljourney-spread-layout {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 6px;
+  justify-content: center;
+  padding: 8px 0;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.result-cards .souljourney-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
 /* ============ 椹箘閾佺墝闃靛竷灞€锛堝姬褰㈡帓鍒楋級 ============ */
 .horseshoe-spread-layout {
   display: flex;

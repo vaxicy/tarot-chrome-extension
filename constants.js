@@ -508,6 +508,89 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Exam spread...',
     usage: '适合考前占卜，了解考试结果、复习重点和需要注意的事项。也适用于面试、资格考试等场景。',
     usageEn: 'Suitable for divination before exams. Understand exam results, key review points, and things to note. Also applicable to interviews, qualification exams, etc.'
+  },
+  // ============ 新增命运走向牌阵 ============
+  fatewheel: {
+    name: '命运之轮',
+    nameEn: 'Wheel of Fortune Spread',
+    positions: ['当前命运状态', '命运的转变点', '隐藏的机遇', '需要警惕的陷阱', '最终的命运走向'],
+    positionsEn: ['Current Fate Status', 'Turning Point of Fate', 'Hidden Opportunities', 'Traps to Watch Out', 'Final Fate Outcome'],
+    positionMeanings: [
+      '当前命运状态：这件事目前的命运能量和发展阶段，当前处于顺境还是逆境。',
+      '命运的转变点：即将到来的关键转折点，命运之轮即将转动的方向，何时会发生转变。',
+      '隐藏的机遇：命运中隐藏的机遇和可能性，容易被忽视但能改变命运走向的关键因素。',
+      '需要警惕的陷阱：命运路上需要注意的障碍和陷阱，可能因疏忽而错失良机或遭遇挫折。',
+      '最终的命运走向：这件事最终的命运归宿，综合所有因素后最可能的结果，命运之轮最终停下的位置。'
+    ],
+    positionMeaningsEn: [
+      'Current Fate Status: The current fate energy and development stage of this matter, whether you are currently in good times or bad times.',
+      'Turning Point of Fate: The upcoming key turning point, the direction the Wheel of Fortune is about to turn, when the change will happen.',
+      'Hidden Opportunities: Hidden opportunities and possibilities in fate, key factors that are easily overlooked but can change the direction of fate.',
+      'Traps to Watch Out: Obstacles and traps to watch out for on the road of fate, may miss good opportunities or encounter setbacks due to negligence.',
+      'Final Fate Outcome: The final fate outcome of this matter, the most likely result after integrating all factors, where the Wheel of Fortune finally stops.'
+    ],
+    category: 'general', difficulty: 'medium', recommended: true, loadingText: '正在转动命运之轮...',
+    loadingTextEn: 'Turning the Wheel of Fortune...',
+    usage: '适合询问某件事的命运走向，了解命运的转变点和隐藏机遇，帮助把握命运的方向。',
+    usageEn: 'Suitable for asking about the fate trend of something, understanding the turning points and hidden opportunities of fate, helping to grasp the direction of fate.'
+  },
+  // ============ 新增月运牌阵 ============
+  monthly: {
+    name: '月运牌阵',
+    nameEn: 'Monthly Fortune Spread',
+    positions: ['本月主题', '事业/学业运势', '感情/人际运势', '健康/财富运势', '本月注意事项'],
+    positionsEn: ['Monthly Theme', 'Career/Study', 'Love/Social', 'Health/Wealth', 'Things to Note'],
+    positionMeanings: [
+      '本月主题：本月的核心能量和整体运势主题，指引本月的主旋律。',
+      '事业/学业运势：本月在工作、学习方面的发展状况和机遇挑战。',
+      '感情/人际运势：本月感情关系、人际交往方面的运势和需要注意的地方。',
+      '健康/财富运势：本月身体健康状态和财务方面的运势。',
+      '本月注意事项：本月需要特别留意的人、事、物，以及塔罗的提醒和建议。'
+    ],
+    positionMeaningsEn: [
+      'Monthly Theme: The core energy and overall fortune theme of this month.',
+      'Career/Study: Development status and opportunities/challenges in work and study this month.',
+      'Love/Social: Fortune in romantic relationships and interpersonal interactions this month.',
+      'Health/Wealth: Physical health status and financial fortune this month.',
+      'Things to Note: People/events/things to pay special attention to, and the Tarot\'s advice.'
+    ],
+    category: 'general', difficulty: 'easy', recommended: true, loadingText: '正在展开月运牌阵...',
+    loadingTextEn: 'Unfolding the Monthly Fortune spread...',
+    usage: '适合月初或任意时间抽取，了解未来一个月各方面的运势走向和需要注意的事项。',
+    usageEn: 'Suitable for drawing at the beginning of the month or anytime to understand the fortune trends for the coming month.'
+  },
+  // ============ 新增灵魂旅程牌阵 ============
+  souljourney: {
+    name: '灵魂旅程',
+    nameEn: 'Soul Journey Spread',
+    positions: ['当下的灵魂状态', '需要学习的课题', '正在释放的旧模式', '当前的精神挑战', '宇宙的指引', '内在的阴影面', '高我/直觉声音', '接下来的成长方向', '综合建议'],
+    positionsEn: ['Current Soul State', 'Lesson to Learn', 'Old Patterns Releasing', 'Spiritual Challenge', 'Universe Guidance', 'Inner Shadow', 'Higher Self/Intuition', 'Growth Direction', 'Comprehensive Advice'],
+    positionMeanings: [
+      '当下的灵魂状态：你灵魂此刻所处的阶段和能量状态，你正在经历怎样的灵魂成长。',
+      '需要学习的课题：你此生或此阶段最需要学习的核心灵魂课题。',
+      '正在释放的旧模式：你目前正在放下、疗愈或转化的旧有模式、信念或创伤。',
+      '当前的精神挑战：你在灵性成长道路上当前面临的最大挑战。',
+      '宇宙的指引：宇宙/源头/高维能量想通过这个情况传达给你的讯息。',
+      '内在的阴影面：你灵魂深处尚未整合、需要看见和接纳的阴影部分。',
+      '高我/直觉声音：你的高我或内在智慧想让你听见的声音和指引。',
+      '接下来的成长方向：基于当前状态，你灵魂接下来最适宜的成长方向。',
+      '综合建议：塔罗对你灵魂旅程的整体建议，以及当下最需要做的事。'
+    ],
+    positionMeaningsEn: [
+      'Current Soul State: The stage and energy state your soul is currently in, and what soul growth you are experiencing.',
+      'Lesson to Learn: The core soul lesson you need to learn most in this lifetime or this phase.',
+      'Old Patterns Releasing: The old patterns, beliefs, or traumas you are currently letting go of, healing, or transforming.',
+      'Spiritual Challenge: The biggest challenge you are currently facing on your spiritual growth path.',
+      'Universe Guidance: The message the Universe/Source/higher dimensional energy wants to convey to you through this situation.',
+      'Inner Shadow: The shadow aspects deep in your soul that have not yet been integrated and need to be seen and accepted.',
+      'Higher Self/Intuition: The voice and guidance your higher self or inner wisdom wants you to hear.',
+      'Growth Direction: Based on your current state, the most suitable direction for your soul\'s next growth.',
+      'Comprehensive Advice: The Tarot\'s overall advice for your soul journey and what you most need to do right now.'
+    ],
+    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开灵魂旅程...',
+    loadingTextEn: 'Unfolding the Soul Journey spread...',
+    usage: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
+    usageEn: 'Suitable for use during spiritual growth, inner exploration, or life turning points. Helps connect with higher self and clarify soul lessons and growth direction.'
   }
 };
 
@@ -602,6 +685,12 @@ const I18N = {
     spread_action_desc: '3张牌 · 快速决策与行动指引',
     spread_mind_name: '心灵牌阵',
     spread_mind_desc: '5张牌 · 自我探索与内心成长',
+    spread_fatewheel_name: '命运之轮',
+    spread_fatewheel_desc: '5张牌 · 命运走向与转变',
+    spread_monthly_name: '月运牌阵',
+    spread_monthly_desc: '5张牌 · 本月运势指南',
+    spread_souljourney_name: '灵魂旅程',
+    spread_souljourney_desc: '9张牌 · 灵性成长与灵魂课题',
     placeholder_click_card: '点击上方卡牌查看详细解读',
     comprehensive_reading: '综合解读',
     btn_expand: '展开',
@@ -635,6 +724,9 @@ const I18N = {
     timeflow_tip: '从时间维度全面分析问题，看清事情的来龙去脉与可能走向。',
     action_tip: '简洁明了的三位牌阵，快速明确问题核心与最佳行动方向。',
     mind_tip: '适合自我探索与内心成长，帮助看清意识与潜意识、理想与现实。',
+    fatewheel_tip: '适合询问某件事的命运走向，了解命运的转变点和隐藏机遇，帮助把握命运的方向。',
+    monthly_tip: '适合月初或任意时间抽取，了解未来一个月各方面的运势走向和需要注意的事项。',
+    souljourney_tip: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
     fortune_overall: '★ 综合运势',
     fortune_dimensions: '➡ 各维度评分',
     fortune_lucky_info: '💫 幸运信息',
