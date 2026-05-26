@@ -357,8 +357,9 @@ body::before {
 .spread-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 50px 12px 44px;
+  gap: 0;
+  width: 100%;
+  padding: 10px 50px 10px 44px;
   font-size: 13px;
   color: var(--color-gold);
   background: rgba(30, 20, 70, 0.7);
@@ -369,6 +370,7 @@ body::before {
   position: relative;
   text-align: left;
   min-height: 56px;
+  box-sizing: border-box;
 }
 
 .spread-btn::before {
@@ -391,26 +393,31 @@ body::before {
   left: 100%;
 }
 
-/* 鐗岄樀鍥炬爣锛堝垪琛ㄥ乏渚э級 */
+/* 牌阵图标（列表左侧，绝对定位脱离 flex 对齐问题） */
 .spread-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 20px;
-  line-height: 1;
-  flex-shrink: 0;
   width: 28px;
-  text-align: center;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
-/* 鐗岄樀鏂囧瓧淇℃伅锛堝垪琛ㄥ彸渚э級 */
+/* 牌阵文字信息（列表右侧） */
 .spread-info {
   display: flex;
   flex-direction: column;
   gap: 4px;
   flex: 1;
   min-width: 0;
+  text-align: left;
 }
 
 .spread-name {
@@ -420,6 +427,9 @@ body::before {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 .spread-desc {
@@ -429,6 +439,9 @@ body::before {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 /* ============ 鎺ㄨ崘瑙掓爣 ============ */
@@ -539,9 +552,10 @@ body::before {
 
 /* spread-btn（列表项）中的收藏按钮 */
 .spread-btn .spread-fav-btn {
-  top: 28px;
+  top: 50%;
   right: 6px;
   z-index: 4;
+  transform: translateY(calc(-50% + 11px));
 }
 
 /* spread-btn 中的推荐徽章 */
@@ -556,11 +570,12 @@ body::before {
   display: none;
 }
 
-/* 列表项中的 i 按钮移到右侧操作区 */
+/* 列表项中的 i 按钮移到右侧操作区并垂直居中 */
 .spread-btn .spread-info-btn {
-  top: 6px;
+  top: 50%;
   left: auto;
   right: 6px;
+  transform: translateY(calc(-50% - 11px));
 }
 
 /* ============ 推荐角标（已统一隐藏） ============ */
@@ -765,15 +780,74 @@ body::before {
   font-weight: 400;
 }
 
-/* ============ 鐗岄樀鍒嗙被鏍囬 ============ */
-.spread-category-title {
+/* ============ 牌阵分类折叠 ============ */
+.spread-category {
+  margin-bottom: 2px;
+}
+
+.spread-category-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
   font-size: 12px;
   font-weight: 700;
   color: var(--color-gold);
   letter-spacing: 1px;
-  padding: 8px 0 4px;
+  padding: 8px 4px;
   margin-top: 14px;
   border-top: 1px solid rgba(255, 215, 0, 0.08);
+  transition: color 0.2s ease;
+}
+
+.spread-category-header:hover {
+  color: var(--color-gold-light);
+}
+
+.spread-category-header .category-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.spread-category.collapsed .spread-category-header .category-arrow {
+  transform: rotate(-90deg);
+}
+
+.spread-category-header .category-title {
+  pointer-events: none;
+}
+
+.spread-category-header .category-count {
+  font-size: 10px;
+  background: rgba(255, 215, 0, 0.15);
+  border-radius: 8px;
+  padding: 0 6px;
+  color: var(--color-gold-light);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.spread-category-header .category-emoji {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* 分类主体（可折叠） */
+.spread-category-body {
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.spread-category.collapsed .spread-category-body {
+  max-height: 0;
+  opacity: 0;
 }
 
 /* ============ 鐗岄樀绛涢€夋爮 ============ */
@@ -843,12 +917,13 @@ body::before {
   transform: scale(1.1);
 }
 
-/* 行内星级（由 JS 插入到名称/描述中） */
+/* 行内星级（由 JS 插入到名称末尾） */
 .difficulty-inline {
   font-size: 9px;
   letter-spacing: 1px;
   opacity: 0.85;
-  margin-left: 4px;
+  margin-left: 2px;
+  vertical-align: middle;
 }
 
 /* ============ 鐗岄樀璇︽儏寮圭獥 ============ */

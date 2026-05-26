@@ -262,36 +262,30 @@
     injectDifficultyStars() {
       const diffStars = { easy: '★☆☆', medium: '★★☆', hard: '★★★' };
 
-      // 卡片：在名称后插入星级
-      document.querySelectorAll('.spread-card').forEach(btn => {
+      // 所有牌阵按钮：统一在名称末尾插入星级，描述行保持纯文字
+      document.querySelectorAll('.spread-card, .spread-btn').forEach(btn => {
         const key = btn.dataset.spread;
         const spread = SPREADS[key];
         if (!spread) return;
-        const nameEl = btn.querySelector('.spread-card-name');
-        if (!nameEl) return;
-        let inline = nameEl.querySelector('.difficulty-inline');
-        if (!inline) {
-          inline = document.createElement('span');
-          inline.className = 'difficulty-inline';
-          nameEl.appendChild(inline);
-        }
-        inline.textContent = diffStars[spread.difficulty] || '★☆☆';
-      });
 
-      // 列表项：在描述前插入星级
-      document.querySelectorAll('.spread-btn, .spread-card').forEach(btn => {
-        const key = btn.dataset.spread;
-        const spread = SPREADS[key];
-        if (!spread) return;
-        const descEl = btn.querySelector('.spread-desc');
-        if (!descEl) return;
-        let inline = descEl.querySelector('.difficulty-inline');
-        if (!inline) {
-          inline = document.createElement('span');
-          inline.className = 'difficulty-inline';
-          descEl.insertBefore(inline, descEl.firstChild);
+        // 名称行末尾插入星级
+        const nameEl = btn.querySelector('.spread-card-name, .spread-name');
+        if (nameEl) {
+          let inline = nameEl.querySelector('.difficulty-inline');
+          if (!inline) {
+            inline = document.createElement('span');
+            inline.className = 'difficulty-inline';
+            nameEl.appendChild(inline);
+          }
+          inline.textContent = ' ' + (diffStars[spread.difficulty] || '★☆☆');
         }
-        inline.textContent = (diffStars[spread.difficulty] || '★☆☆') + '  ';
+
+        // 描述行：移除可能已存在的星级，保持纯文字
+        const descEl = btn.querySelector('.spread-desc');
+        if (descEl) {
+          const existing = descEl.querySelector('.difficulty-inline');
+          if (existing) existing.remove();
+        }
       });
     }
 
@@ -3244,11 +3238,59 @@
         this.initSpreadFilter();
         this.initSpreadHoverPreview();
         this.initSpreadFavorites();
+        this.initCategoryCollapse();
         this.updateFortuneDate();
 
         console.log('Tarot App 初始化完成');
       } catch (err) {
         console.error('初始化错误:', err);
+      }
+    }
+
+    // ============ 牌阵分类折叠 ============
+    initCategoryCollapse() {
+      const categories = document.querySelectorAll('.spread-category');
+
+      // 恢复折叠状态
+      categories.forEach(cat => {
+        const header = cat.querySelector('.spread-category-header');
+        if (!header) return;
+        const key = header.querySelector('.category-title')?.dataset?.i18nKey;
+        if (!key) return;
+
+        // 从 localStorage 恢复状态（默认展开）
+        const collapsed = localStorage.getItem('tarot_cat_' + key) === 'true';
+        if (collapsed) {
+          cat.classList.add('collapsed');
+        }
+
+        // 点击事件
+        header.addEventListener('click', () => {
+          cat.classList.toggle('collapsed');
+          const isCollapsed = cat.classList.contains('collapsed');
+          localStorage.setItem('tarot_cat_' + key, isCollapsed);
+        });
+      });
+
+      // 搜索时自动展开所有分类
+      const searchInput = document.getElementById('spread-search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const keyword = searchInput.value.trim();
+          if (keyword) {
+            // 搜索时展开所有
+            categories.forEach(cat => cat.classList.remove('collapsed'));
+          } else {
+            // 搜索清空时恢复状态
+            categories.forEach(cat => {
+              const header = cat.querySelector('.spread-category-header');
+              const key = header?.querySelector('.category-title')?.dataset?.i18nKey;
+              if (key && localStorage.getItem('tarot_cat_' + key) === 'true') {
+                cat.classList.add('collapsed');
+              }
+            });
+          }
+        });
       }
     }
 

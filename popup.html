@@ -110,234 +110,293 @@
 
                 <!-- 牌阵选择 -->
                 <div class="spread-selection">
-                    <div class="spread-category-title" data-i18n-key="cat_beginner">&#127775; 新手推荐</div>
-                    <!-- 简单牌阵：横向卡片布局 -->
-                    <div class="spread-simple-grid">
-                        <button id="single-draw-btn" class="spread-card" type="button" data-spread="single" data-i18n-tip="single_tip">
-                            <span class="spread-card-difficulty" title="简单">&#11088;&#11088;&#11088;</span>
-                            <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
-                            <span class="spread-info-btn" data-spread-key="single" title="查看牌阵说明">i</span>
-                            <span class="spread-card-icon">&#128302;</span>
-                            <div class="spread-card-info">
-                                <span class="spread-card-name" data-i18n-spread="single_name">单牌阵</span>
-                                <span class="spread-card-desc" data-i18n-spread="single_desc">每日指引 / 快速决策</span>
-                            </div>
+                    <!-- 新手推荐 -->
+                    <div class="spread-category">
+                        <button class="spread-category-header" type="button">
+                            <span class="category-arrow">&#9660;</span>
+                            <span class="category-emoji">&#127775;</span>
+                            <span class="category-title" data-i18n-key="cat_beginner">新手推荐</span>
+                            <span class="category-count">2</span>
                         </button>
-                        <button id="three-draw-btn" class="spread-card" type="button" data-spread="three" data-i18n-tip="three_tip">
-                            <span class="spread-card-difficulty" title="简单">&#11088;&#11088;&#11088;</span>
-                            <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
-                            <span class="spread-info-btn" data-spread-key="three" title="查看牌阵说明">i</span>
-                            <span class="spread-card-icon">&#9203;</span>
-                            <div class="spread-card-info">
-                                <span class="spread-card-name" data-i18n-spread="three_name">三牌阵</span>
-                                <span class="spread-card-desc" data-i18n-spread="three_desc">过去・现在・未来</span>
+                        <div class="spread-category-body">
+                            <!-- 简单牌阵：横向卡片布局 -->
+                            <div class="spread-simple-grid">
+                                <button id="single-draw-btn" class="spread-card" type="button" data-spread="single" data-i18n-tip="single_tip">
+                                    <span class="spread-card-difficulty" title="简单">&#11088;&#11088;&#11088;</span>
+                                    <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                                    <span class="spread-info-btn" data-spread-key="single" title="查看牌阵说明">i</span>
+                                    <span class="spread-card-icon">&#128302;</span>
+                                    <div class="spread-card-info">
+                                        <span class="spread-card-name" data-i18n-spread="single_name">单牌阵</span>
+                                        <span class="spread-card-desc" data-i18n-spread="single_desc">每日指引 / 快速决策</span>
+                                    </div>
+                                </button>
+                                <button id="three-draw-btn" class="spread-card" type="button" data-spread="three" data-i18n-tip="three_tip">
+                                    <span class="spread-card-difficulty" title="简单">&#11088;&#11088;&#11088;</span>
+                                    <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                                    <span class="spread-info-btn" data-spread-key="three" title="查看牌阵说明">i</span>
+                                    <span class="spread-card-icon">&#9203;</span>
+                                    <div class="spread-card-info">
+                                        <span class="spread-card-name" data-i18n-spread="three_name">三牌阵</span>
+                                        <span class="spread-card-desc" data-i18n-spread="three_desc">过去・现在・未来</span>
+                                    </div>
+                                </button>
                             </div>
-                        </button>
+                        </div>
                     </div>
-                    <!-- 其他牌阵：纵向列表 -->
 
-                    <div class="spread-category-title" data-i18n-key="cat_relationship">&#128149; 情感关系</div>
-                    <button id="celtic-draw-btn" class="spread-btn" type="button" data-spread="celtic" data-i18n-tip="celtic_tip">
-                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
-                        <span class="spread-info-btn" data-spread-key="celtic" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">✨</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="celtic_name">凯尔特十字</span>
-                            <span class="spread-desc" data-i18n-spread="celtic_desc">全面深入解读</span>
+                    <!-- 情感关系 -->
+                    <div class="spread-category">
+                        <button class="spread-category-header" type="button">
+                            <span class="category-arrow">&#9660;</span>
+                            <span class="category-emoji">&#128149;</span>
+                            <span class="category-title" data-i18n-key="cat_relationship">情感关系</span>
+                            <span class="category-count">4</span>
+                        </button>
+                        <div class="spread-category-body">
+                            <button id="celtic-draw-btn" class="spread-btn" type="button" data-spread="celtic" data-i18n-tip="celtic_tip">
+                                <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                                <span class="spread-info-btn" data-spread-key="celtic" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">✨</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="celtic_name">凯尔特十字</span>
+                                    <span class="spread-desc" data-i18n-spread="celtic_desc">全面深入解读</span>
+                                </div>
+                            </button>
+                            <button id="relation-draw-btn" class="spread-btn" type="button" data-spread="relation" data-i18n-tip="relation_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="relation" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">💖</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="relation_name">关系牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="relation_desc">人际关系 / 感情</span>
+                                </div>
+                            </button>
+                            <button id="love-draw-btn" class="spread-btn" type="button" data-spread="love" data-i18n-tip="love_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="love" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">💕</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="love_name">恋人牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="love_desc">恋爱关系全面分析</span>
+                                </div>
+                            </button>
+                            <button id="broken-draw-btn" class="spread-btn" type="button" data-spread="broken" data-i18n-tip="broken_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="broken" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">💔</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="broken_name">复合牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="broken_desc">分手原因与复合可能</span>
+                                </div>
+                            </button>
                         </div>
-                    </button>
-                    <button id="relation-draw-btn" class="spread-btn" type="button" data-spread="relation" data-i18n-tip="relation_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="relation" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">💖</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="relation_name">关系牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="relation_desc">人际关系 / 感情</span>
-                        </div>
-                    </button>
-                    <button id="love-draw-btn" class="spread-btn" type="button" data-spread="love" data-i18n-tip="love_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="love" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">💕</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="love_name">恋人牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="love_desc">恋爱关系全面分析</span>
-                        </div>
-                    </button>
-                    <button id="broken-draw-btn" class="spread-btn" type="button" data-spread="broken" data-i18n-tip="broken_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="broken" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">💔</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="broken_name">复合牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="broken_desc">分手原因与复合可能</span>
-                        </div>
-                    </button>
+                    </div>
 
-                    <div class="spread-category-title" data-i18n-key="cat_decision">&#128161; 决策分析</div>
-                    <button id="choice-draw-btn" class="spread-btn" type="button" data-spread="choice" data-i18n-tip="choice_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="choice" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">⚖️</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="choice_name">二选一牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="choice_desc">面临两个选择时</span>
+                    <!-- 决策分析 -->
+                    <div class="spread-category">
+                        <button class="spread-category-header" type="button">
+                            <span class="category-arrow">&#9660;</span>
+                            <span class="category-emoji">&#128161;</span>
+                            <span class="category-title" data-i18n-key="cat_decision">决策分析</span>
+                            <span class="category-count">4</span>
+                        </button>
+                        <div class="spread-category-body">
+                            <button id="choice-draw-btn" class="spread-btn" type="button" data-spread="choice" data-i18n-tip="choice_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="choice" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">⚖️</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="choice_name">二选一牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="choice_desc">面临两个选择时</span>
+                                </div>
+                            </button>
+                            <button id="action-draw-btn" class="spread-btn" type="button" data-spread="action" data-i18n-tip="action_tip">
+                                <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                                <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
+                                <span class="spread-info-btn" data-spread-key="action" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">&#9889;</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="action_name">问题行动结果</span>
+                                    <span class="spread-desc" data-i18n-spread="action_desc">快速决策与行动指引</span>
+                                </div>
+                            </button>
+                            <button id="yesno-draw-btn" class="spread-btn" type="button" data-spread="yesno" data-i18n-tip="yesno_tip">
+                                <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                                <span class="spread-info-btn" data-spread-key="yesno" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">❓</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="yesno_name">是否牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="yesno_desc">是/否决策指引</span>
+                                </div>
+                            </button>
+                            <button id="proscons-draw-btn" class="spread-btn" type="button" data-spread="proscons" data-i18n-tip="proscons_tip">
+                                <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                                <span class="spread-info-btn" data-spread-key="proscons" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">⚖️</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="proscons_name">利弊分析</span>
+                                    <span class="spread-desc" data-i18n-spread="proscons_desc">支持与反对因素分析</span>
+                                </div>
+                            </button>
                         </div>
-                    </button>
-                    <button id="action-draw-btn" class="spread-btn" type="button" data-spread="action" data-i18n-tip="action_tip">
-                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">&#9733; 推荐</span>
-                        <span class="spread-info-btn" data-spread-key="action" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">&#9889;</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="action_name">问题行动结果</span>
-                            <span class="spread-desc" data-i18n-spread="action_desc">快速决策与行动指引</span>
-                        </div>
-                    </button>
-                    <button id="yesno-draw-btn" class="spread-btn" type="button" data-spread="yesno" data-i18n-tip="yesno_tip">
-                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
-                        <span class="spread-info-btn" data-spread-key="yesno" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">❓</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="yesno_name">是否牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="yesno_desc">是/否决策指引</span>
-                        </div>
-                    </button>
-                    <button id="proscons-draw-btn" class="spread-btn" type="button" data-spread="proscons" data-i18n-tip="proscons_tip">
-                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
-                        <span class="spread-info-btn" data-spread-key="proscons" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">⚖️</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="proscons_name">利弊分析</span>
-                            <span class="spread-desc" data-i18n-spread="proscons_desc">支持与反对因素分析</span>
-                        </div>
-                    </button>
+                    </div>
 
-                    <div class="spread-category-title" data-i18n-key="cat_general">&#128302; 通用深入</div>
-                    <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="five" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">📜</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="five_name">五张牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="five_desc">通用问题深入分析</span>
+                    <!-- 通用深入 -->
+                    <div class="spread-category">
+                        <button class="spread-category-header" type="button">
+                            <span class="category-arrow">&#9660;</span>
+                            <span class="category-emoji">&#128302;</span>
+                            <span class="category-title" data-i18n-key="cat_general">通用深入</span>
+                            <span class="category-count">6</span>
+                        </button>
+                        <div class="spread-category-body">
+                            <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="five" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">📜</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="five_name">五张牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="five_desc">通用问题深入分析</span>
+                                </div>
+                            </button>
+                            <button id="horseshoe-draw-btn" class="spread-btn" type="button" data-spread="horseshoe" data-i18n-tip="horseshoe_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="horseshoe" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">🍀</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="horseshoe_name">马蹄铁牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="horseshoe_desc">全面生活指引</span>
+                                </div>
+                            </button>
+                            <button id="timeflow-draw-btn" class="spread-btn" type="button" data-spread="timeflow" data-i18n-tip="timeflow_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="timeflow" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">⏱️</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="timeflow_name">时间之流</span>
+                                    <span class="spread-desc" data-i18n-spread="timeflow_desc">时间维度全面分析</span>
+                                </div>
+                            </button>
+                            <button id="mind-draw-btn" class="spread-btn" type="button" data-spread="mind" data-i18n-tip="mind_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="mind" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">🧠</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="mind_name">心灵牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="mind_desc">自我探索与内心成长</span>
+                                </div>
+                            </button>
+                            <button id="fatewheel-draw-btn" class="spread-btn" type="button" data-spread="fatewheel" data-i18n-tip="fatewheel_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="recommended-badge" data-i18n-key="badge_recommended">★ 推荐</span>
+                                <span class="spread-info-btn" data-spread-key="fatewheel" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">🎡</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="fatewheel_name">命运之轮</span>
+                                    <span class="spread-desc" data-i18n-spread="fatewheel_desc">命运走向与转变</span>
+                                </div>
+                            </button>
+                            <button id="monthly-draw-btn" class="spread-btn" type="button" data-spread="monthly" data-i18n-tip="monthly_tip">
+                                <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
+                                <span class="recommended-badge" data-i18n-key="badge_recommended">★ 推荐</span>
+                                <span class="spread-info-btn" data-spread-key="monthly" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">🌙</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="monthly_name">月运牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="monthly_desc">本月运势指南</span>
+                                </div>
+                            </button>
                         </div>
-                    </button>
-                    <button id="horseshoe-draw-btn" class="spread-btn" type="button" data-spread="horseshoe" data-i18n-tip="horseshoe_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="horseshoe" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🍀</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="horseshoe_name">马蹄铁牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="horseshoe_desc">全面生活指引</span>
-                        </div>
-                    </button>
-                    <button id="timeflow-draw-btn" class="spread-btn" type="button" data-spread="timeflow" data-i18n-tip="timeflow_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="timeflow" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">⏱️</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="timeflow_name">时间之流</span>
-                            <span class="spread-desc" data-i18n-spread="timeflow_desc">时间维度全面分析</span>
-                        </div>
-                    </button>
-                    <button id="mind-draw-btn" class="spread-btn" type="button" data-spread="mind" data-i18n-tip="mind_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="mind" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🧠</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="mind_name">心灵牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="mind_desc">自我探索与内心成长</span>
-                        </div>
-                    </button>
-                    <button id="fatewheel-draw-btn" class="spread-btn" type="button" data-spread="fatewheel" data-i18n-tip="fatewheel_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">★ 推荐</span>
-                        <span class="spread-info-btn" data-spread-key="fatewheel" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🎡</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="fatewheel_name">命运之轮</span>
-                            <span class="spread-desc" data-i18n-spread="fatewheel_desc">命运走向与转变</span>
-                        </div>
-                    </button>
-                    <button id="monthly-draw-btn" class="spread-btn" type="button" data-spread="monthly" data-i18n-tip="monthly_tip">
-                        <span class="difficulty-tag difficulty-easy" data-i18n-key="difficulty_easy">简单</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">★ 推荐</span>
-                        <span class="spread-info-btn" data-spread-key="monthly" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🌙</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="monthly_name">月运牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="monthly_desc">本月运势指南</span>
-                        </div>
-                    </button>
+                    </div>
 
-                    <div class="spread-category-title" data-i18n-key="cat_career">&#128188; 事业学业</div>
-                    <button id="career-draw-btn" class="spread-btn" type="button" data-spread="career" data-i18n-tip="career_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="career" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">📈</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="career_name">事业牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="career_desc">工作/学业决策</span>
+                    <!-- 事业学业 -->
+                    <div class="spread-category">
+                        <button class="spread-category-header" type="button">
+                            <span class="category-arrow">&#9660;</span>
+                            <span class="category-emoji">&#128188;</span>
+                            <span class="category-title" data-i18n-key="cat_career">事业学业</span>
+                            <span class="category-count">3</span>
+                        </button>
+                        <div class="spread-category-body">
+                            <button id="career-draw-btn" class="spread-btn" type="button" data-spread="career" data-i18n-tip="career_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="career" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">📈</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="career_name">事业牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="career_desc">工作/学业决策</span>
+                                </div>
+                            </button>
+                            <button id="jobchange-draw-btn" class="spread-btn" type="button" data-spread="jobchange" data-i18n-tip="jobchange_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="jobchange" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">💼</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="jobchange_name">换工作牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="jobchange_desc">跳槽/转行决策</span>
+                                </div>
+                            </button>
+                            <button id="exam-draw-btn" class="spread-btn" type="button" data-spread="exam" data-i18n-tip="exam_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="recommended-badge" data-i18n-key="badge_recommended">★ 推荐</span>
+                                <span class="spread-info-btn" data-spread-key="exam" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">&#128218;</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="exam_name">考试牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="exam_desc">考试/面试结果预测</span>
+                                </div>
+                            </button>
                         </div>
-                    </button>
-                    <button id="jobchange-draw-btn" class="spread-btn" type="button" data-spread="jobchange" data-i18n-tip="jobchange_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="jobchange" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">💼</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="jobchange_name">换工作牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="jobchange_desc">跳槽/转行决策</span>
-                        </div>
-                    </button>
-                    <button id="exam-draw-btn" class="spread-btn" type="button" data-spread="exam" data-i18n-tip="exam_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="recommended-badge" data-i18n-key="badge_recommended">★ 推荐</span>
-                        <span class="spread-info-btn" data-spread-key="exam" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">&#128218;</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="exam_name">考试牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="exam_desc">考试/面试结果预测</span>
-                        </div>
-                    </button>
+                    </div>
 
-                    <div class="spread-category-title" data-i18n-key="cat_self">&#127793; 自我成长</div>
-                    <button id="shadow-draw-btn" class="spread-btn" type="button" data-spread="shadow" data-i18n-tip="shadow_tip">
-                        <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                        <span class="spread-info-btn" data-spread-key="shadow" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🖤</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="shadow_name">阴影牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="shadow_desc">自我整合与成长</span>
+                    <!-- 自我成长 -->
+                    <div class="spread-category">
+                        <button class="spread-category-header" type="button">
+                            <span class="category-arrow">&#9660;</span>
+                            <span class="category-emoji">&#127793;</span>
+                            <span class="category-title" data-i18n-key="cat_self">自我成长</span>
+                            <span class="category-count">4</span>
+                        </button>
+                        <div class="spread-category-body">
+                            <button id="shadow-draw-btn" class="spread-btn" type="button" data-spread="shadow" data-i18n-tip="shadow_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="shadow" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">🖤</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="shadow_name">阴影牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="shadow_desc">自我整合与成长</span>
+                                </div>
+                            </button>
+                            <button id="year-draw-btn" class="spread-btn" type="button" data-spread="year" data-i18n-tip="year_tip">
+                                <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                                <span class="spread-info-btn" data-spread-key="year" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">📅</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="year_name">年运牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="year_desc">全年运势指引</span>
+                                </div>
+                            </button>
+                            <button id="lifepurpose-draw-btn" class="spread-btn" type="button" data-spread="lifepurpose" data-i18n-tip="lifepurpose_tip">
+                                <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                                <span class="spread-info-btn" data-spread-key="lifepurpose" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">🌟</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="lifepurpose_name">人生使命</span>
+                                    <span class="spread-desc" data-i18n-spread="lifepurpose_desc">探索天命与人生方向</span>
+                                </div>
+                            </button>
+                            <button id="souljourney-draw-btn" class="spread-btn" type="button" data-spread="souljourney" data-i18n-tip="souljourney_tip">
+                                <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
+                                <span class="spread-info-btn" data-spread-key="souljourney" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">✨</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="souljourney_name">灵魂旅程</span>
+                                    <span class="spread-desc" data-i18n-spread="souljourney_desc">灵性成长与灵魂课题</span>
+                                </div>
+                            </button>
                         </div>
-                    </button>
-                    <button id="year-draw-btn" class="spread-btn" type="button" data-spread="year" data-i18n-tip="year_tip">
-                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
-                        <span class="spread-info-btn" data-spread-key="year" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">📅</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="year_name">年运牌阵</span>
-                            <span class="spread-desc" data-i18n-spread="year_desc">全年运势指引</span>
-                        </div>
-                    </button>
-                    <button id="lifepurpose-draw-btn" class="spread-btn" type="button" data-spread="lifepurpose" data-i18n-tip="lifepurpose_tip">
-                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
-                        <span class="spread-info-btn" data-spread-key="lifepurpose" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">🌟</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="lifepurpose_name">人生使命</span>
-                            <span class="spread-desc" data-i18n-spread="lifepurpose_desc">探索天命与人生方向</span>
-                        </div>
-                    </button>
-                    <button id="souljourney-draw-btn" class="spread-btn" type="button" data-spread="souljourney" data-i18n-tip="souljourney_tip">
-                        <span class="difficulty-tag difficulty-hard" data-i18n-key="difficulty_hard">复杂</span>
-                        <span class="spread-info-btn" data-spread-key="souljourney" title="查看牌阵说明">i</span>
-                        <span class="spread-icon">✨</span>
-                        <div class="spread-info">
-                            <span class="spread-name" data-i18n-spread="souljourney_name">灵魂旅程</span>
-                            <span class="spread-desc" data-i18n-spread="souljourney_desc">灵性成长与灵魂课题</span>
-                        </div>
-                    </button>
+                    </div>
                 </div>
             </div>
         </section>
