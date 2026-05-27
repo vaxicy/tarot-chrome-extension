@@ -151,7 +151,7 @@ const SPREADS = {
       'Suggested Action: The action direction the Tarot suggests you take.',
       'Possible Outcome: The possible result if you act on the suggestion.'
     ],
-    category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开五张牌阵...',
+    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开五张牌阵...',
     loadingTextEn: 'Unfolding the five-card spread...',
     usage: '适合分析任何类型的问题，从问题核心到解决方案，层层递进。',
     usageEn: 'Suitable for analyzing any type of problem, from the core issue to the solution, layer by layer.'
@@ -179,7 +179,7 @@ const SPREADS = {
       'Hopes/Fears: Deep expectations and worries that may affect decision-making.',
       'Outcome: The most likely result after integrating all factors.'
     ],
-    category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开马蹄铁牌阵...',
+    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开马蹄铁牌阵...',
     loadingTextEn: 'Unfolding the Horseshoe spread...',
     usage: '适合全面了解一个情况的各个层面，时间跨度从过去到未来。',
     usageEn: 'Suitable for comprehensively understanding all aspects of a situation, spanning from past to future.'
@@ -227,7 +227,7 @@ const SPREADS = {
       'Root Cause: The root cause hidden behind the problem.',
       'Possible Outcome: The state that may eventually appear after integrating all factors.'
     ],
-    category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
+    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
     loadingTextEn: 'Unfolding the Time Flow spread...',
     usage: '在时间维度上全面分析问题，适合想要看清事情来龙去脉的情况。',
     usageEn: 'Comprehensively analyze problems across the time dimension. Suitable for situations where you want to see the whole story.'
@@ -247,7 +247,7 @@ const SPREADS = {
       'Suggested Action: The specific action direction the Tarot suggests you take.',
       'Possible Outcome: The most likely result if you act on the suggestion.'
     ],
-    category: 'decision', difficulty: 'easy', recommended: true, loadingText: '正在展开问题行动结果...',
+    category: 'simple', difficulty: 'easy', recommended: true, loadingText: '正在展开问题行动结果...',
     loadingTextEn: 'Analyzing Problem-Action-Result...',
     usage: '简洁明了的三位牌阵，适合快速决策和明确行动方向。',
     usageEn: 'A concise three-card spread, suitable for quick decision-making and clarifying action directions.'
@@ -271,7 +271,7 @@ const SPREADS = {
       'Reality: Objective reality and actual limiting conditions.',
       'Advice: The best advice after integrating conscious and subconscious, ideal and reality.'
     ],
-    category: 'general', difficulty: 'medium', recommended: false, loadingText: '正在展开心灵牌阵...',
+    category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在展开心灵牌阵...',
     loadingTextEn: 'Exploring the Mind spread...',
     usage: '适合自我探索和内心成长类问题，帮助看清内心真实想法。',
     usageEn: 'Suitable for self-exploration and inner growth questions. Helps clarify your true inner thoughts.'
@@ -347,7 +347,7 @@ const SPREADS = {
       'Opposing Factors: Reasons against doing this and risks that need attention.',
       'Comprehensive Advice: The Tarot\'s advice after integrating both factors (upright leans toward "yes", reversed leans toward "no").'
     ],
-    category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在解读是否牌阵...',
+    category: 'simple', difficulty: 'easy', recommended: false, loadingText: '正在解读是否牌阵...',
     loadingTextEn: 'Analyzing Yes/No spread...',
     usage: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。',
     usageEn: 'Use when you are hesitating about a decision and just want a "yes" or "no" guidance.'
@@ -425,7 +425,7 @@ const SPREADS = {
       'Things to Note: People, events, or things that need special attention this year.',
       'Annual Advice: The Tarot\'s advice for overall actions this year.'
     ],
-    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
+    category: 'advanced', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
     loadingTextEn: 'Unfolding the Yearly spread...',
     usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     usageEn: 'Suitable for drawing at New Year or birthday to understand the fortune trend and development in various fields for the whole year.'
@@ -529,7 +529,7 @@ const SPREADS = {
       'Traps to Watch Out: Obstacles and traps to watch out for on the road of fate, may miss good opportunities or encounter setbacks due to negligence.',
       'Final Fate Outcome: The final fate outcome of this matter, the most likely result after integrating all factors, where the Wheel of Fortune finally stops.'
     ],
-    category: 'general', difficulty: 'medium', recommended: true, loadingText: '正在转动命运之轮...',
+    category: 'advanced', difficulty: 'medium', recommended: true, loadingText: '正在转动命运之轮...',
     loadingTextEn: 'Turning the Wheel of Fortune...',
     usage: '适合询问某件事的命运走向，了解命运的转变点和隐藏机遇，帮助把握命运的方向。',
     usageEn: 'Suitable for asking about the fate trend of something, understanding the turning points and hidden opportunities of fate, helping to grasp the direction of fate.'
@@ -554,7 +554,7 @@ const SPREADS = {
       'Health/Wealth: Physical health status and financial fortune this month.',
       'Things to Note: People/events/things to pay special attention to, and the Tarot\'s advice.'
     ],
-    category: 'general', difficulty: 'easy', recommended: true, loadingText: '正在展开月运牌阵...',
+    category: 'advanced', difficulty: 'easy', recommended: true, loadingText: '正在展开月运牌阵...',
     loadingTextEn: 'Unfolding the Monthly Fortune spread...',
     usage: '适合月初或任意时间抽取，了解未来一个月各方面的运势走向和需要注意的事项。',
     usageEn: 'Suitable for drawing at the beginning of the month or anytime to understand the fortune trends for the coming month.'
@@ -591,6 +591,120 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Soul Journey spread...',
     usage: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
     usageEn: 'Suitable for use during spiritual growth, inner exploration, or life turning points. Helps connect with higher self and clarify soul lessons and growth direction.'
+  },
+  // ============ 新增星座牌阵（12宫位）============
+  zodiac: {
+    name: '星座牌阵',
+    nameEn: 'Zodiac Spread',
+    positions: ['第1宫：自我形象', '第2宫：财富资源', '第3宫：沟通学习', '第4宫：家庭根基', '第5宫：创造力', '第6宫：健康服务', '第7宫：伴侣关系', '第8宫：转化重生', '第9宫：人生哲学', '第10宫：事业声望', '第11宫：社交愿景', '第12宫：潜意识'],
+    positionsEn: ['1st House: Self Image', '2nd House: Wealth & Resources', '3rd House: Communication & Learning', '4th House: Home & Foundation', '5th House: Creativity', '6th House: Health & Service', '7th House: Partnership', '8th House: Transformation', '9th House: Life Philosophy', '10th House: Career & Reputation', '11th House: Social & Vision', '12th House: Subconscious'],
+    positionMeanings: [
+      '第1宫：自我形象。你给外界的第一印象、外貌特征、性格特质和人生的基本态度。',
+      '第2宫：财富资源。你的收入来源、赚钱能力、物质价值观和拥有的资源。',
+      '第3宫：沟通学习。你的沟通方式、学习能力、兄弟姐妹关系、短途旅行和邻里关系。',
+      '第4宫：家庭根基。你的家庭背景、成长环境、内心安全感来源和家族根基。',
+      '第5宫：创造力。你的创造力、恋爱运势、子女缘分、娱乐方式和自我表达。',
+      '第6宫：健康服务。你的健康状况、工作态度、服务精神和日常生活的秩序。',
+      '第7宫：伴侣关系。你的婚姻状况、合作伙伴、一对一关系的模式和质量。',
+      '第8宫：转化重生。你的性关系、他人资源、危机转化能力和深层心理课题。',
+      '第9宫：人生哲学。你的宗教信仰、高等教育、长途旅行和人生哲学观。',
+      '第10宫：事业声望。你的事业发展、社会声望、公众形象和人生目标。',
+      '第11宫：社交愿景。你的朋友圈、社团活动、未来愿景和社会理想。',
+      '第12宫：潜意识。你的潜意识模式、灵性修行、隐藏的恐惧和因果业力。'
+    ],
+    positionMeaningsEn: [
+      '1st House: Self Image. The first impression you give to the outside world, physical appearance, personality traits, and basic attitude toward life.',
+      '2nd House: Wealth & Resources. Your income source, money-making ability, material values, and resources you possess.',
+      '3rd House: Communication & Learning. Your communication style, learning ability, relationship with siblings, short trips, and neighborhood relations.',
+      '4th House: Home & Foundation. Your family background, growing environment, source of inner security, and family roots.',
+      '5th House: Creativity. Your creativity, love fortune, affinity with children, entertainment style, and self-expression.',
+      '6th House: Health & Service. Your health condition, work attitude, service spirit, and order in daily life.',
+      '7th House: Partnership. Your marriage status, cooperative partners, patterns and quality of one-on-one relationships.',
+      '8th House: Transformation. Your sexual relationships, other people\'s resources, crisis transformation ability, and deep psychological issues.',
+      '9th House: Life Philosophy. Your religious beliefs, higher education, long-distance travel, and philosophy of life.',
+      '10th House: Career & Reputation. Your career development, social reputation, public image, and life goals.',
+      '11th House: Social & Vision. Your circle of friends, community activities, future vision, and social ideals.',
+      '12th House: Subconscious. Your subconscious patterns, spiritual practice, hidden fears, and karmic lessons.'
+    ],
+    category: 'advanced', difficulty: 'hard', recommended: false, loadingText: '正在展开星座牌阵...',
+    loadingTextEn: 'Unfolding the Zodiac spread...',
+    usage: '对应黄道12宫位，全面分析生活各个领域。适合年度运势解读、全面了解自己或某人。需要一定塔罗基础。',
+    usageEn: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading, comprehensive self-understanding. Requires some Tarot foundation.'
+  },
+  // ============ 新增前世今生牌阵 ============
+  pastlife: {
+    name: '前世今生',
+    nameEn: 'Past Life Spread',
+    positions: ['前世身份', '未完成课题', '今生挑战', '灵魂成长方向', '建议'],
+    positionsEn: ['Past Life Identity', 'Unfinished Lesson', 'Current Life Challenge', 'Soul Growth Direction', 'Advice'],
+    positionMeanings: [
+      '前世身份：你在前世的角色、身份或主要经历，影响今生的性格和偏好。',
+      '未完成课题：前世未完成的灵魂课题，今生需要继续学习和体验。',
+      '今生挑战：今生面临的主要挑战和困难，与前世因果密切相关。',
+      '灵魂成长方向：你的灵魂此生想要成长和体验的方向。',
+      '建议：塔罗对你灵魂成长和化解前世业力的建议。'
+    ],
+    positionMeaningsEn: [
+      'Past Life Identity: Your role, identity, or main experience in past life, which influences your personality and preferences in this life.',
+      'Unfinished Lesson: The soul lesson unfinished in past life, which needs to be continued and experienced in this life.',
+      'Current Life Challenge: The main challenges and difficulties you face in this life, closely related to past life karma.',
+      'Soul Growth Direction: The direction your soul wants to grow and experience in this life.',
+      'Advice: The Tarot\'s advice for your soul growth and resolving past life karma.'
+    ],
+    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在连接前世记忆...',
+    loadingTextEn: 'Connecting to past life memories...',
+    usage: '适合探索灵魂成长、理解今生的重复模式、寻找生命课题。需要一定灵性基础。',
+    usageEn: 'Suitable for exploring soul growth, understanding recurring patterns in this life, and finding life lessons. Requires some spiritual foundation.'
+  },
+  // ============ 新增健康牌阵 ============
+  health: {
+    name: '健康牌阵',
+    nameEn: 'Health Spread',
+    positions: ['身体状态', '心理情绪', '根本原因', '疗愈方向', '注意事项'],
+    positionsEn: ['Physical Condition', 'Mental & Emotional', 'Root Cause', 'Healing Direction', 'Precautions'],
+    positionMeanings: [
+      '身体状态：当前身体的整体状况，需要关注的部位或症状。',
+      '心理情绪：心理状态对身体健康的影响，情绪层面的根源。',
+      '根本原因：导致健康问题的深层次原因，可能是生活方式、情绪积压或环境因素。',
+      '疗愈方向：改善健康状态的建议方向，包括生活习惯、心态调整等。',
+      '注意事项：需要特别留意的症状、行为或健康风险，提醒及时就医。'
+    ],
+    positionMeaningsEn: [
+      'Physical Condition: Current overall physical condition, areas or symptoms that need attention.',
+      'Mental & Emotional: The impact of psychological state on physical health, emotional root causes.',
+      'Root Cause: The deep-seated reason for health problems, may be lifestyle, emotional backlog, or environmental factors.',
+      'Healing Direction: Suggested directions for improving health, including lifestyle habits, mindset adjustment, etc.',
+      'Precautions: Symptoms, behaviors, or health risks that need special attention. Reminder to seek medical advice promptly.'
+    ],
+    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开健康牌阵...',
+    loadingTextEn: 'Unfolding the Health spread...',
+    usage: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
+    usageEn: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.'
+  },
+  // ============ 新增家庭关系牌阵 ============
+  family: {
+    name: '家庭关系',
+    nameEn: 'Family Spread',
+    positions: ['你', '父亲', '母亲', '家庭氛围', '改善建议'],
+    positionsEn: ['You', 'Father', 'Mother', 'Family Atmosphere', 'Improvement Advice'],
+    positionMeanings: [
+      '你：你在这个家庭中的状态、角色和感受。',
+      '父亲：父亲的状态、对你的影响，以及父子/父女关系的质量。',
+      '母亲：母亲的状态、对你的影响，以及母子/母女关系的质量。',
+      '家庭氛围：整个家庭的能量氛围、沟通模式和潜在问题。',
+      '改善建议：塔罗对改善家庭关系和氛围的具体建议。'
+    ],
+    positionMeaningsEn: [
+      'You: Your state, role, and feelings in this family.',
+      'Father: Father\'s state, his influence on you, and the quality of father-child relationship.',
+      'Mother: Mother\'s state, her influence on you, and the quality of mother-child relationship.',
+      'Family Atmosphere: The energy atmosphere of the whole family, communication patterns, and potential problems.',
+      'Improvement Advice: The Tarot\'s specific advice for improving family relationships and atmosphere.'
+    ],
+    category: 'relationship', difficulty: 'medium', recommended: false, loadingText: '正在展开家庭关系牌阵...',
+    loadingTextEn: 'Unfolding the Family spread...',
+    usage: '适合分析家庭关系、亲子关系、家庭氛围等问题，帮助改善家庭和谐。',
+    usageEn: 'Suitable for analyzing family relationships, parent-child relationships, family atmosphere, etc. Helps improve family harmony.'
   }
 };
 
@@ -657,10 +771,10 @@ const I18N = {
     btn_daily_fortune: '今日运势',
     fortune_panel_title: '✨ 今日运势',
     fortune_loading: '正在解读今日运势...',
-    cat_beginner: '新手推荐',
+    cat_simple: '入门经典',
     cat_relationship: '情感关系',
     cat_decision: '决策分析',
-    cat_general: '通用深入',
+    cat_advanced: '深度专题',
     cat_career: '事业学业',
     badge_recommended: '★ 推荐',
     spread_single_name: '单牌阵',
@@ -691,6 +805,14 @@ const I18N = {
     spread_monthly_desc: '5张牌 · 本月运势指南',
     spread_souljourney_name: '灵魂旅程',
     spread_souljourney_desc: '9张牌 · 灵性成长与灵魂课题',
+    spread_zodiac_name: '星座牌阵',
+    spread_zodiac_desc: '12张牌 · 12宫位全面分析',
+    spread_pastlife_name: '前世今生',
+    spread_pastlife_desc: '5张牌 · 灵魂因果探索',
+    spread_health_name: '健康牌阵',
+    spread_health_desc: '5张牌 · 身心疗愈指引',
+    spread_family_name: '家庭关系',
+    spread_family_desc: '5张牌 · 家庭和谐分析',
     placeholder_click_card: '点击上方卡牌查看详细解读',
     comprehensive_reading: '综合解读',
     btn_expand: '展开',
@@ -727,6 +849,10 @@ const I18N = {
     fatewheel_tip: '适合询问某件事的命运走向，了解命运的转变点和隐藏机遇，帮助把握命运的方向。',
     monthly_tip: '适合月初或任意时间抽取，了解未来一个月各方面的运势走向和需要注意的事项。',
     souljourney_tip: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
+    zodiac_tip: '对应黄道12宫位，全面分析生活各个领域。适合年度运势解读、全面了解自己或某人。',
+    pastlife_tip: '探索前世对今生的影响，理解灵魂课题与成长方向。适合灵性探索。',
+    health_tip: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
+    family_tip: '适合分析家庭关系、亲子关系、家庭氛围，帮助改善家庭和谐。',
     fortune_overall: '★ 综合运势',
     fortune_dimensions: '➡ 各维度评分',
     fortune_lucky_info: '💫 幸运信息',
@@ -896,10 +1022,10 @@ const I18N = {
     btn_daily_fortune: 'Daily Fortune',
     fortune_panel_title: '✨ Daily Fortune',
     fortune_loading: 'Reading today\'s fortune...',
-    cat_beginner: 'Beginner Recommended',
+    cat_simple: 'Beginner Classic',
     cat_relationship: 'Love & Relationship',
     cat_decision: 'Decision Analysis',
-    cat_general: 'General In-depth',
+    cat_advanced: 'Advanced Topics',
     cat_career: 'Career & Study',
     badge_recommended: '★ Recommended',
     spread_single_name: 'Single Card',
@@ -1058,6 +1184,18 @@ const I18N = {
     spread_lifepurpose_desc: '8 cards · Explore destiny & life direction',
     proscons_tip: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread.',
     lifepurpose_tip: 'For life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.',
+    spread_zodiac_name: 'Zodiac Spread',
+    spread_zodiac_desc: '12 cards · Comprehensive life analysis',
+    spread_pastlife_name: 'Past Life',
+    spread_pastlife_desc: '5 cards · Soul karma exploration',
+    spread_health_name: 'Health Spread',
+    spread_health_desc: '5 cards · Body & mind healing guide',
+    spread_family_name: 'Family Spread',
+    spread_family_desc: '5 cards · Family harmony analysis',
+    zodiac_tip: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading.',
+    pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',
+    health_tip: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.',
+    family_tip: 'Suitable for analyzing family relationships, parent-child relationships, family atmosphere. Helps improve family harmony.',
     // Card meaning
     btn_custom_meaning: 'Custom Meaning',
     cards_count_label: 'cards',

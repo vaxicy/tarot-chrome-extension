@@ -1195,9 +1195,37 @@
         case 'fatewheel': this.drawFatewheel(); break;
         // 新增：月运牌阵
         case 'monthly':   this.drawMonthly(); break;
-        // 新增：灵魂旅程牌阵
-        case 'souljourney': this.drawSouljourney(); break;
+    // 新增：灵魂旅程牌阵
+    case 'souljourney': this.drawSouljourney(); break;
+    // 新增：星座牌阵
+    case 'zodiac':    this.drawZodiac(); break;
+        // 新增：前世今生牌阵
+        case 'pastlife': this.drawPastlife(); break;
+        // 新增：健康牌阵
+        case 'health':    this.drawHealth(); break;
+        // 新增：家庭关系牌阵
+        case 'family':    this.drawFamily(); break;
       }
+    }
+
+    // ============ 新增星座牌阵（12宫位）============
+    drawZodiac() {
+      this.drawStandardSpread('zodiac', 42, 67);
+    }
+
+    // ============ 新增前世今生牌阵 ============
+    drawPastlife() {
+      this.drawStandardSpread('pastlife', 60, 96);
+    }
+
+    // ============ 新增健康牌阵 ============
+    drawHealth() {
+      this.drawStandardSpread('health', 60, 96);
+    }
+
+    // ============ 新增家庭关系牌阵 ============
+    drawFamily() {
+      this.drawStandardSpread('family', 60, 96);
     }
 
     // ============ 返回欢迎页 ============
@@ -2890,7 +2918,7 @@
           const category = (spread.category || '').toLowerCase();
           const difficulty = (spread.difficulty || '').toLowerCase();
 
-              const categoryKeyMap = { simple: 'cat_beginner', relationship: 'cat_relationship', decision: 'cat_decision', general: 'cat_general', career: 'cat_career', advanced: 'filter_advanced' };
+              const categoryKeyMap = { simple: 'cat_simple', relationship: 'cat_relationship', decision: 'cat_decision', advanced: 'cat_advanced', career: 'cat_career', self: 'cat_self' };
           const catKey = categoryKeyMap[spread.category] || '';
           const catName = (this.t(catKey) || '') + (spread.category || '');
           const matches = nameZh.includes(query) || nameEn.includes(query)
@@ -2937,13 +2965,12 @@
 
           const diffStars = { easy: '★☆☆', medium: '★★☆', hard: '★★★' };
           const catLabels = {
-            simple: this.t('cat_beginner') || '新手',
+            simple: this.t('cat_simple') || '入门经典',
             relationship: this.t('cat_relationship') || '情感',
             decision: this.t('cat_decision') || '决策',
-            general: this.t('cat_general') || '通用',
+            advanced: this.t('cat_advanced') || '深度专题',
             career: this.t('cat_career') || '事业',
-            self: this.t('cat_self') || '自我成长',
-            advanced: this.t('filter_advanced') || '复杂'
+            self: this.t('cat_self') || '自我成长'
           };
 
           const hoverDict = I18N[this.currentLang] || I18N.zh;
@@ -3339,8 +3366,16 @@
               case 'fatewheel': this.drawFatewheel(); break;
               // 新增：月运牌阵
               case 'monthly':   this.drawMonthly(); break;
-              // 新增：灵魂旅程牌阵
-              case 'souljourney': this.drawSouljourney(); break;
+    // 新增：灵魂旅程牌阵
+    case 'souljourney': this.drawSouljourney(); break;
+              // 新增：星座牌阵
+              case 'zodiac':    this.drawZodiac(); break;
+              // 新增：前世今生牌阵
+              case 'pastlife':  this.drawPastlife(); break;
+              // 新增：健康牌阵
+              case 'health':     this.drawHealth(); break;
+              // 新增：家庭关系牌阵
+              case 'family':    this.drawFamily(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -3585,8 +3620,8 @@
       const diffColor = diffColors[spread.difficulty] || '#999';
 
       const categoryKeyMap = {
-        simple: 'cat_beginner', relationship: 'cat_relationship', decision: 'cat_decision',
-        general: 'cat_general', career: 'cat_career', advanced: 'filter_advanced',
+        simple: 'cat_simple', relationship: 'cat_relationship', decision: 'cat_decision',
+        advanced: 'cat_advanced', career: 'cat_career',
         self: 'cat_self'
       };
       const catKey = categoryKeyMap[spread.category] || spread.category;
