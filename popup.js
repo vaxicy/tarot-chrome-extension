@@ -1205,6 +1205,8 @@
         case 'health':    this.drawHealth(); break;
         // 新增：家庭关系牌阵
         case 'family':    this.drawFamily(); break;
+        // 新增：一周运势牌阵
+        case 'weekly':    this.drawWeekly(); break;
       }
     }
 
@@ -1226,6 +1228,11 @@
     // ============ 新增家庭关系牌阵 ============
     drawFamily() {
       this.drawStandardSpread('family', 60, 96);
+    }
+
+    // ============ 新增一周运势牌阵 ============
+    drawWeekly() {
+      this.drawStandardSpread('weekly', 55, 88);
     }
 
     // ============ 返回欢迎页 ============
@@ -3376,6 +3383,8 @@
               case 'health':     this.drawHealth(); break;
               // 新增：家庭关系牌阵
               case 'family':    this.drawFamily(); break;
+              // 新增：一周运势牌阵
+              case 'weekly':    this.drawWeekly(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);

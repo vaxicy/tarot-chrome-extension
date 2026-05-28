@@ -705,6 +705,35 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Family spread...',
     usage: '适合分析家庭关系、亲子关系、家庭氛围等问题，帮助改善家庭和谐。',
     usageEn: 'Suitable for analyzing family relationships, parent-child relationships, family atmosphere, etc. Helps improve family harmony.'
+  },
+  // ============ 新增一周运势牌阵 ============
+  weekly: {
+    name: '一周运势',
+    nameEn: 'Weekly Fortune Spread',
+    positions: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+    positionsEn: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    positionMeanings: [
+      '周一：本周开始时的能量状态，工作/学业的起始运势，需要注意的事项。',
+      '周二：周中前期的能量变化，可能遇到的机遇或挑战，情绪状态。',
+      '周三：一周的中点，能量转折的关键日，需要特别关注的人和事。',
+      '周四：周中后期的能量走向，工作/学业进展，人际互动状况。',
+      '周五：临近周末的能量状态，心情与社交运势，适合安排的活动。',
+      '周六：周末第一天的能量，休息与娱乐运势，家庭与社交活动。',
+      '周日：周末收尾与下周准备，能量总结与调整，下周运势的预兆。'
+    ],
+    positionMeaningsEn: [
+      'Mon: Energy state at the start of the week, work/study fortune at the beginning, things to note.',
+      'Tue: Energy changes in the early mid-week, possible opportunities or challenges, emotional state.',
+      'Wed: The midpoint of the week, a key day for energy shifts, people and things to pay special attention to.',
+      'Thu: Energy trend in the late mid-week, work/study progress, interpersonal interaction status.',
+      'Fri: Energy state approaching the weekend, mood and social fortune, suitable activities to arrange.',
+      'Sat: Energy on the first day of the weekend, rest and entertainment fortune, family and social activities.',
+      'Sun: Weekend wrap-up and next week preparation, energy summary and adjustment, omens for next week\'s fortune.'
+    ],
+    category: 'advanced', difficulty: 'medium', recommended: true, loadingText: '正在展开一周运势...',
+    loadingTextEn: 'Unfolding the Weekly Fortune spread...',
+    usage: '适合周日或周一抽取，了解未来一周每天的运势走向，提前做好规划与准备。',
+    usageEn: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week, and plan ahead.'
   }
 };
 
@@ -813,6 +842,8 @@ const I18N = {
     spread_health_desc: '5张牌 · 身心疗愈指引',
     spread_family_name: '家庭关系',
     spread_family_desc: '5张牌 · 家庭和谐分析',
+    spread_weekly_name: '一周运势',
+    spread_weekly_desc: '7张牌 · 本周每日运势指南',
     placeholder_click_card: '点击上方卡牌查看详细解读',
     comprehensive_reading: '综合解读',
     btn_expand: '展开',
@@ -853,6 +884,7 @@ const I18N = {
     pastlife_tip: '探索前世对今生的影响，理解灵魂课题与成长方向。适合灵性探索。',
     health_tip: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
     family_tip: '适合分析家庭关系、亲子关系、家庭氛围，帮助改善家庭和谐。',
+    weekly_tip: '适合周日或周一抽取，了解未来一周每天的运势走向，提前做好规划与准备。',
     fortune_overall: '★ 综合运势',
     fortune_dimensions: '➡ 各维度评分',
     fortune_lucky_info: '💫 幸运信息',
@@ -1192,6 +1224,9 @@ const I18N = {
     spread_health_desc: '5 cards · Body & mind healing guide',
     spread_family_name: 'Family Spread',
     spread_family_desc: '5 cards · Family harmony analysis',
+    spread_weekly_name: 'Weekly Fortune',
+    spread_weekly_desc: '7 cards · Daily fortune guide for the week',
+    weekly_tip: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week.',
     zodiac_tip: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading.',
     pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',
     health_tip: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.',

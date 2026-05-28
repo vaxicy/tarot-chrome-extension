@@ -5217,6 +5217,18 @@ button:active {
 .diagram-lifepurpose .result-diagram-card:nth-child(7) { grid-column: 1; grid-row: 4; }
 .diagram-lifepurpose .result-diagram-card:nth-child(8) { grid-column: 2; grid-row: 4; }
 
+/* 一周运势：7张横向排列 */
+.diagram-weekly {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+.diagram-weekly .result-diagram-card {
+  width: 48px;
+}
+
 /* ============ 元素颜色标识 ============ */
 .element-fire {
   color: #EF4444;
