@@ -1293,13 +1293,23 @@ body::before {
 /* ============ 牌背图片样式 ============ */
 .card-back-img {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -1.5px;
+  left: -1.5px;
+  width: calc(100% + 3px);
+  height: calc(100% + 3px);
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 11px;
   z-index: 0;
+}
+
+/* 使用图片牌背时，隐藏默认 CSS 装饰（避免伪元素叠加在图片上造成视觉错位） */
+.card-back-face.has-back-img {
+  background: none;
+  border: none;
+}
+.card-back-face.has-back-img::before,
+.card-back-face.has-back-img::after {
+  display: none;
 }
 
 /* ============ 卡牌正反面共享样式 ============ */
@@ -1335,22 +1345,27 @@ body::before {
   position: relative;
 }
 
-/* 牌面图片：contain + 深色背景，避免裁剪 */
+/* 牌面图片：cover 完全填满卡片（包括覆盖 border 区域，消除边缘间隙） */
 .card-image {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  top: -1.5px;
+  left: -1.5px;
+  width: calc(100% + 3px);
+  height: calc(100% + 3px);
+  object-fit: cover;
   opacity: 1;
   z-index: 0;
   background: linear-gradient(135deg, #0d1b2a 0%, #1b2a4a 50%, #0d1b2a 100%);
+  /* 隐藏alt文本，防止图片加载失败时显示文字 */
+  color: transparent;
+  text-indent: -9999px;
+  overflow: hidden;
 }
 
 /* 图片加载失败时隐藏 */
 .card-image:not([src]),
-.card-image[src=""] {
+.card-image[src=""],
+.card-image.img-error {
   display: none;
 }
 

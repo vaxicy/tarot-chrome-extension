@@ -99,7 +99,7 @@
 
     getLocalizedDeckName(deckKey) {
       if (this.currentLang === 'en') {
-        const enNames = { hp: 'Magic Theme', rider: 'Rider-Waite', marseille: 'Marseille', thoth: 'Thoth', angel: 'Angel', healing: 'Healing' };
+        const enNames = { hp: 'Magic Theme', rider: 'Rider-Waite', marseille: 'Marseille', thoth: 'Thoth', angel: 'Angel', healing: 'Healing', osho: 'Osho Zen' };
         return enNames[deckKey] || 'Tarot';
       }
       return DECK_NAMES[deckKey] || '塔罗牌';
@@ -346,6 +346,9 @@
       if (this.currentDeck === 'angel' && typeof angelCards !== 'undefined') {
         return angelCards;
       }
+      if (this.currentDeck === 'osho' && typeof oshoZenCards !== 'undefined') {
+        return oshoZenCards;
+      }
       return tarotCards;
     }
 
@@ -422,7 +425,7 @@
           }
         }
 
-        imgHtml = '<img class="card-image" src="' + imgUrl + '" alt="' + localizedName + '" onerror="this.style.display=\'none\'" />';
+        imgHtml = '<img class="card-image" src="' + imgUrl + '" alt="' + localizedName + '" data-img-src="' + imgUrl + '" />';
       }
 
       // 根据当前牌组设置牌背样式
@@ -433,7 +436,7 @@
         // 检查是否有牌背图片（magic 牌组对应 hp 文件名）
         const backImgId = this.currentDeck === 'magic' ? 'hp' : this.currentDeck;
         const backImgPath = 'icons/card-backs/card-back-' + backImgId + '.png';
-        backImg = '<img class="card-back-img" src="' + backImgPath + '" alt="Card Back" onerror="this.style.display=\'none\'" />';
+        backImg = '<img class="card-back-img" src="' + backImgPath + '" alt="Card Back" />';
         backClass += ' has-back-img';
       }
 
@@ -444,6 +447,21 @@
             imgHtml +
           '</div>' +
         '</div>';
+
+      // 使用事件监听器处理图片加载错误（替代内联 onerror，避免CSP限制）
+      const imgEl = el.querySelector('.card-image');
+      if (imgEl) {
+        imgEl.addEventListener('error', function() {
+          this.classList.add('img-error');
+          this.style.display = 'none';
+        });
+      }
+      const backImgEl = el.querySelector('.card-back-img');
+      if (backImgEl) {
+        backImgEl.addEventListener('error', function() {
+          this.style.display = 'none';
+        });
+      }
 
       wrap.appendChild(el);
       return wrap;
@@ -525,10 +543,11 @@
 
       const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
       cards.forEach((item) => {
-        if (item.card.suit === 'wands') elements.wands++;
-        else if (item.card.suit === 'cups') elements.cups++;
-        else if (item.card.suit === 'swords') elements.swords++;
-        else if (item.card.suit === 'pentacles') elements.pentacles++;
+        const suit = item.card.suit;
+        if (suit === 'wands' || suit === 'fire') elements.wands++;
+        else if (suit === 'cups' || suit === 'water') elements.cups++;
+        else if (suit === 'swords' || suit === 'clouds') elements.swords++;
+        else if (suit === 'pentacles' || suit === 'rainbow') elements.pentacles++;
       });
 
       let dominantElement = 'none';
@@ -750,7 +769,7 @@
       else if (c1.suit === c2.suit && c1.suit !== 'major') {
         strength = 7;
         relationType = 'synergy';
-        const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+        const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币', fire: '火', water: '水', clouds: '云', rainbow: '彩虹' };
         const suitName = this.currentLang === 'en' ? c1.suit : (suitNames[c1.suit] || c1.suit);
         description = this.currentLang === 'en' 
           ? `Cards of the same suit (${suitName}) enhance each other's energy.`
@@ -878,10 +897,30 @@
         pentacles: {
           zh: { meaning: '星币牌组代表土元素，象征物质、财富和实际成果。多张星币牌同时出现，说明你需要关注实际层面，制定具体计划，稳步积累成果。', advice: isRev1 || isRev2 ? '注意物质层面是否有损失或延迟。检查财务和健康状况，做好风险管理。' : '专注于实际目标和物质成果。这是适合投资、工作和健康管理的时期。' },
           en: { meaning: 'Pentacles suit represents earth element, symbolizing material, wealth, and practical results. Multiple Pentacles cards appearing together indicate you need to focus on the practical level, make concrete plans, and accumulate results steadily.', advice: isRev1 || isRev2 ? 'Pay attention to whether there are losses or delays in the material level. Check financial and health status, do risk management.' : 'Focus on practical goals and material results. This is a good period for investment, work, and health management.' }
+        },
+        // 奥修禅卡花色
+        fire: {
+          zh: { meaning: '火牌组象征热情、行动力和创造力。多张火牌同时出现，说明你需要将想法转化为行动，充满激情地去追求目标。', advice: isRev1 || isRev2 ? '注意行动力是否被延迟或受阻。检查是否有恐惧在阻碍你前进。' : '保持热情和动力，抓住机会采取行动。这是充满能量和创造力的时期。' },
+          en: { meaning: 'Fire suit symbolizes passion, action, and creativity. Multiple Fire cards appearing together indicate you need to turn ideas into action and pursue goals with passion.', advice: isRev1 || isRev2 ? 'Pay attention to whether action is delayed or blocked. Check if fear is hindering your progress.' : 'Maintain enthusiasm and motivation, seize opportunities to take action. This is a period full of energy and creativity.' }
+        },
+        water: {
+          zh: { meaning: '水牌组象征情感、直觉和流动。多张水牌同时出现，说明你需要关注情感层面，倾听内心的声音，允许自己流动。', advice: isRev1 || isRev2 ? '注意情感是否被压抑或过度情绪化。给自己时间和空间去感受和疗愈。' : '敞开心扉，表达情感，与他人建立深层连接。这是情感丰富和直觉敏锐的时期。' },
+          en: { meaning: 'Water suit symbolizes emotions, intuition, and flow. Multiple Water cards appearing together indicate you need to pay attention to the emotional level and listen to your inner voice.', advice: isRev1 || isRev2 ? 'Pay attention to whether emotions are suppressed or overly emotional. Give yourself time and space to feel and heal.' : 'Open your heart, express emotions, build deep connections with others. This is a period of emotional richness and keen intuition.' }
+        },
+        clouds: {
+          zh: { meaning: '云牌组象征思维、观察和不清晰。多张云牌同时出现，说明你需要理清思绪，透过表象看本质，找到清晰度。', advice: isRev1 || isRev2 ? '注意思维是否过于混乱或困惑。尝试冥想或写下来理清思路。' : '运用观察和理性分析。这是适合澄清困惑、看清真相的时期。' },
+          en: { meaning: 'Clouds suit symbolizes thoughts, observation, and confusion. Multiple Clouds cards appearing together indicate you need to clarify your thoughts and see through appearances to find clarity.', advice: isRev1 || isRev2 ? 'Pay attention to whether thoughts are too chaotic or confusing. Try meditation or writing to clarify thoughts.' : 'Use observation and rational analysis. This is a good period for clarifying confusion and seeing the truth.' }
+        },
+        rainbow: {
+          zh: { meaning: '彩虹牌组象征完整、多彩和可能性。多张彩虹牌同时出现，说明你需要整合各个层面，拥抱生命的多彩。', advice: isRev1 || isRev2 ? '注意是否有某个层面的能量被忽视。尝试整合身心灵各个层面。' : '拥抱生命的多样性和完整性。这是适合整合、包容和庆祝的时期。' },
+          en: { meaning: 'Rainbow suit symbolizes wholeness, diversity, and possibilities. Multiple Rainbow cards appearing together indicate you need to integrate all levels and embrace the colors of life.', advice: isRev1 || isRev2 ? 'Pay attention to whether any level of energy is being neglected. Try integrating body, mind, and spirit.' : 'Embrace the diversity and wholeness of life. This is a good period for integration, inclusion, and celebration.' }
         }
       };
       
       const explanation = explanations[suit];
+      if (!explanation) {
+        return { meaning: '', advice: '' };
+      }
       return this.currentLang === 'en' ? explanation.en : explanation.zh;
     }
 
@@ -959,10 +998,11 @@
     // ============ 检测元素冲突 ============
     isElementConflict(suit1, suit2) {
       const conflicts = [
-        ['wands', 'cups'],  // 火 vs 水
-        ['cups', 'wands'],
-        ['swords', 'pentacles'], // 风 vs 土
-        ['pentacles', 'swords']
+        ['wands', 'cups'], ['cups', 'wands'],
+        ['swords', 'pentacles'], ['pentacles', 'swords'],
+        // 奥修禅卡映射
+        ['fire', 'water'], ['water', 'fire'],
+        ['clouds', 'rainbow'], ['rainbow', 'clouds']
       ];
       return conflicts.some(([a, b]) => (suit1 === a && suit2 === b) || (suit1 === b && suit2 === a));
     }
@@ -970,13 +1010,15 @@
     // ============ 检测元素互补 ============
     isElementComplementary(suit1, suit2) {
       const complementary = [
-        ['wands', 'swords'], // 火 + 风 = 创意与行动
-        ['swords', 'wands'],
-        ['cups', 'pentacles'], // 水 + 土 = 情感与务实
-        ['pentacles', 'cups'],
-        ['wands', 'pentacles'], // 火 + 土 = 热情与稳定
-        ['pentacles', 'wands'],
-        ['cups', 'swords'] // 水 + 风 = 情感与理智
+        ['wands', 'swords'], ['swords', 'wands'],
+        ['cups', 'pentacles'], ['pentacles', 'cups'],
+        ['wands', 'pentacles'], ['pentacles', 'wands'],
+        ['cups', 'swords'], ['swords', 'cups'],
+        // 奥修禅卡映射
+        ['fire', 'clouds'], ['clouds', 'fire'],
+        ['water', 'rainbow'], ['rainbow', 'water'],
+        ['fire', 'rainbow'], ['rainbow', 'fire'],
+        ['water', 'clouds'], ['clouds', 'water']
       ];
       return complementary.some(([a, b]) => (suit1 === a && suit2 === b) || (suit1 === b && suit2 === a));
     }
@@ -1293,7 +1335,7 @@
       const suits = cards.map(c => c.card.suit);
       const uniqueSuits = [...new Set(suits)];
       if (uniqueSuits.length === 1 && uniqueSuits[0] !== 'major') {
-        const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+        const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币', fire: '火', water: '水', clouds: '云', rainbow: '彩虹' };
         const suitName = suitNames[uniqueSuits[0]] || uniqueSuits[0];
         text += this.currentLang === 'en'
           ? ' All cards are from the ' + uniqueSuits[0] + ' suit, suggesting you should focus entirely on this area of life.'
@@ -1622,14 +1664,14 @@
       html += '<div class="reading-section-body">';
       html += '<p class="element-balance-intro">' + this.t('element_balance_intro') + '</p>';
 
-      // 统计四元素
+      // 统计四元素（支持传统塔罗 + 奥修禅卡花色）
       const elements = { fire: 0, water: 0, air: 0, earth: 0 };
       cards.forEach((item) => {
         const suit = item.card.suit;
-        if (suit === 'wands') elements.fire++;
-        else if (suit === 'cups') elements.water++;
-        else if (suit === 'swords') elements.air++;
-        else if (suit === 'pentacles') elements.earth++;
+        if (suit === 'wands' || suit === 'fire') elements.fire++;
+        else if (suit === 'cups' || suit === 'water') elements.water++;
+        else if (suit === 'swords' || suit === 'clouds') elements.air++;
+        else if (suit === 'pentacles' || suit === 'rainbow') elements.earth++;
         // 大阿卡那不计元素，或视为全能元素
       });
 
@@ -2433,42 +2475,53 @@
         return this.generateStandardReading(cards, mode, positions);
       }
 
-      // 深度模式：保留现有完整逻辑
-      let html = this.analyzeTheme(cards, spreadName);
-      html += this.analyzeCardRelations(mode, cards, positions);
-      html += this.analyzeTrend(cards);
-      // 牌阵专属解读段落（新增）
-      html += this.generateSpreadSpecificReading(mode, cards, positions);
-      html += this.generateAdvice(mode, cards);
+      // 深度模式：保留现有完整逻辑（带错误保护）
+      let html = '';
+      try {
+        html += this.analyzeTheme(cards, spreadName);
+        html += this.analyzeCardRelations(mode, cards, positions);
+        html += this.analyzeTrend(cards);
+        // 牌阵专属解读段落（新增）
+        html += this.generateSpreadSpecificReading(mode, cards, positions);
+        html += this.generateAdvice(mode, cards);
 
-      // Level 2 优化：添加牌意组合解读
-      html += this.analyzeCardCombinations(cards);
+        // Level 2 优化：添加牌意组合解读
+        html += this.analyzeCardCombinations(cards);
 
-      // Level 3 优化：添加能量强度分析
-      html += this.analyzeEnergyIntensity(cards);
+        // Level 3 优化：添加能量强度分析
+        html += this.analyzeEnergyIntensity(cards);
 
-      // ============ 新增功能：综合解读摘要 ============
-      html += this.generateSummary(cards, mode);
+        // ============ 新增功能：综合解读摘要 ============
+        html += this.generateSummary(cards, mode);
 
-      // ============ 新增功能：关键词标签 ============
-      html += this.generateKeywordTags(cards);
+        // ============ 新增功能：关键词标签 ============
+        html += this.generateKeywordTags(cards);
 
-      // ============ 新增功能：行动步骤清单 ============
-      html += this.generateActionSteps(cards, mode);
+        // ============ 新增功能：行动步骤清单 ============
+        html += this.generateActionSteps(cards, mode);
 
-      // ============ 新增功能：元素平衡分析 ============
-      html += this.analyzeElementBalance(cards);
+        // ============ 新增功能：元素平衡分析 ============
+        html += this.analyzeElementBalance(cards);
 
-      // 扩展功能：检查开关状态，添加历史分析、时间维度、性格分析
-      const extendedToggle = document.getElementById('extended-reading-toggle');
-      const enableExtended = extendedToggle ? extendedToggle.checked : true;
+        // 扩展功能：检查开关状态，添加历史分析、时间维度、性格分析
+        const extendedToggle = document.getElementById('extended-reading-toggle');
+        const enableExtended = extendedToggle ? extendedToggle.checked : true;
 
-      if (enableExtended) {
-        const extendedReading = await this.generateExtendedReading();
-        if (extendedReading) {
-          html += '<hr style="margin:20px 0;border-color:var(--color-gold);opacity:0.3;"/>';
-          html += '<div style="margin-top:20px;">' + extendedReading + '</div>';
+        if (enableExtended) {
+          try {
+            const extendedReading = await this.generateExtendedReading();
+            if (extendedReading) {
+              html += '<hr style="margin:20px 0;border-color:var(--color-gold);opacity:0.3;"/>';
+              html += '<div style="margin-top:20px;">' + extendedReading + '</div>';
+            }
+          } catch (extErr) {
+            console.warn('扩展解读生成失败，跳过:', extErr);
+          }
         }
+      } catch (deepErr) {
+        console.warn('深度解读生成失败，回退到标准模式:', deepErr);
+        // 回退到标准模式
+        return this.generateStandardReading(cards, mode, positions);
       }
 
       return html;
@@ -2708,7 +2761,11 @@
       const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
       
       cards.forEach(c => {
-        if (c.card.suit in elements) elements[c.card.suit]++;
+        const suit = c.card.suit;
+        if (suit === 'wands' || suit === 'fire') elements.wands++;
+        else if (suit === 'cups' || suit === 'water') elements.cups++;
+        else if (suit === 'swords' || suit === 'clouds') elements.swords++;
+        else if (suit === 'pentacles' || suit === 'rainbow') elements.pentacles++;
       });
 
       // 1. 检测大阿卡那牌对组合
@@ -3150,10 +3207,11 @@
       const majors = cards.filter((item) => item.card.suit === 'major');
       const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
       cards.forEach((item) => {
-        if (item.card.suit === 'wands') elements.wands++;
-        else if (item.card.suit === 'cups') elements.cups++;
-        else if (item.card.suit === 'swords') elements.swords++;
-        else if (item.card.suit === 'pentacles') elements.pentacles++;
+        const suit = item.card.suit;
+        if (suit === 'wands' || suit === 'fire') elements.wands++;
+        else if (suit === 'cups' || suit === 'water') elements.cups++;
+        else if (suit === 'swords' || suit === 'clouds') elements.swords++;
+        else if (suit === 'pentacles' || suit === 'rainbow') elements.pentacles++;
       });
 
       // 检测多张大阿卡那牌
@@ -6825,7 +6883,11 @@
         'cups': { element: '水', trait: '情感丰富、直觉敏锐', suit: '圣杯' },
         'swords': { element: '风', trait: '理性、善于分析、追求真理', suit: '宝剑' },
         'pentacles': { element: '土', trait: '务实、稳定、重视物质', suit: '星币' },
-        'major': { element: '灵性', trait: '重视精神成长和人生课题', suit: '大阿卡纳' }
+        'major': { element: '灵性', trait: '重视精神成长和人生课题', suit: '大阿卡纳' },
+        'fire': { element: '火', trait: '热情、主动、充满活力', suit: '火' },
+        'water': { element: '水', trait: '情感丰富、直觉敏锐、善于流动', suit: '水' },
+        'clouds': { element: '风', trait: '思维活跃、善于观察、追求清晰', suit: '云' },
+        'rainbow': { element: '土', trait: '务实、包容、重视整体', suit: '彩虹' }
       };
 
       return elementMap[maxSuit] || elementMap['wands'];

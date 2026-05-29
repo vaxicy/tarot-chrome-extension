@@ -227,3 +227,10 @@ deckManager.registerDeck('healing', function () {
   return Promise.resolve(typeof healingCards !== 'undefined' ? healingCards : []);
 }, { nameZh: '治愈塔罗', nameEn: 'Healing', description: '心理疗愈与内在成长塔罗牌' });
 
+deckManager.registerDeck('osho', function () {
+  return Promise.resolve(typeof oshoZenCards !== 'undefined' ? oshoZenCards : []);
+}, { nameZh: '奥修禅卡', nameEn: 'Osho Zen', description: '奥修禅卡 - 79张牌，侧重当下、觉知、接受' });
+
+
+
+
