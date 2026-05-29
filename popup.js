@@ -477,9 +477,10 @@
       html += '<div class="meaning-header">' + displayName + posLabel + ' - ' + posText + '</div>';
 
       // 添加关键词标签
-      if (card.keywords && card.keywords.length > 0) {
+      const keywords = this.currentLang === 'en' ? this.getCardKeywords(card, isReversed) : (card.keywords || []);
+      if (keywords && keywords.length > 0) {
         html += '<div class="meaning-keywords">';
-        card.keywords.forEach(keyword => {
+        keywords.forEach(keyword => {
           html += '<span class="keyword-tag">' + keyword + '</span>';
         });
         html += '</div>';
