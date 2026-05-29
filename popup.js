@@ -622,14 +622,15 @@
       return text;
     }
 
-    // ============ 综合解读 - 分析牌面关系 ============
+    // ============ 综合解读 - 分析牌面关系（智能增强版）============
     analyzeCardRelations(mode, cards, positions) {
       let html = '<div class="reading-section">';
-      html += '<div class="reading-section-title">' + this.t('relation_title') + '</div>';
+      html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '🃏 Smart Card Relations' : '🃏 智能牌面关系分析') + '</div>';
       html += '<div class="reading-section-body">';
 
       let text = '';
 
+      // 特殊处理特定牌阵
       if (mode === 'three') {
         const past = cards[0], now = cards[1], future = cards[2];
         text += this.t('relation_three_past',
@@ -659,46 +660,372 @@
           deckManager.getCardName(cards[1].card),
           deckManager.getCardName(cards[2].card),
           deckManager.getCardName(cards[9].card));
-      } else {
-        // 通用牌面关系分析（增强版）
-        for (let i = 0; i < cards.length - 1; i++) {
-          const c1 = cards[i], c2 = cards[i + 1];
+      }
 
-          // 检测大阿卡那牌对
-          if (c1.card.suit === 'major' && c2.card.suit === 'major') {
-            text += this.t('relation_major_pair',
-              deckManager.getCardName(c1.card) + ' ' + this.getPosText(c1.isReversed),
-              deckManager.getCardName(c2.card) + ' ' + this.getPosText(c2.isReversed));
-          }
-
-          // 检测同牌组延续
-          if (c1.card.suit === c2.card.suit && c1.card.suit !== 'major') {
-            const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
-            const suitName = suitNames[c1.card.suit] || c1.card.suit;
-            text += this.t('relation_suite_continue', positions[i], positions[i + 1], suitName);
-          }
-
-          // 检测正逆位转换
-          if (c1.isReversed && !c2.isReversed) {
-            text += this.t('relation_rev_to_up', positions[i], positions[i + 1]);
-          }
-          if (!c1.isReversed && c2.isReversed) {
-            text += this.t('relation_up_to_rev', positions[i], positions[i + 1]);
-          }
-
-          // 检测能量冲突（火vs水，风vs土）
-          if (c1.card.suit === 'wands' && c2.card.suit === 'cups') {
-            text += this.t('relation_conflict', positions[i], positions[i + 1]);
-          }
-          if (c1.card.suit === 'swords' && c2.card.suit === 'pentacles') {
-            text += this.t('relation_conflict', positions[i], positions[i + 1]);
+      // ===== 智能牌面关系分析（通用增强）=====
+      
+      // 1. 分析所有牌对的关系（不仅仅是相邻牌）
+      const relations = [];
+      for (let i = 0; i < cards.length; i++) {
+        for (let j = i + 1; j < cards.length; j++) {
+          const relation = this.analyzeCardPairRelation(cards[i], cards[j], positions[i], positions[j]);
+          if (relation) {
+            relations.push(relation);
           }
         }
-        if (text === '') text = this.t('relation_smooth');
+      }
+
+      // 2. 按关系强度排序并去重
+      relations.sort((a, b) => b.strength - a.strength);
+      const uniqueRelations = [];
+      const seenPairs = new Set();
+      for (const rel of relations) {
+        const pairKey = [rel.card1Id, rel.card2Id].sort().join('-');
+        if (!seenPairs.has(pairKey)) {
+          seenPairs.add(pairKey);
+          uniqueRelations.push(rel);
+        }
+      }
+
+      // 3. 添加最强的关系分析（带详细解释）
+      if (uniqueRelations.length > 0) {
+        text += '<div style="margin-top:10px;"><strong>' + (this.currentLang === 'en' ? 'Key Card Relations:' : '关键牌面关系：') + '</strong><br/>';
+        uniqueRelations.slice(0, 5).forEach(rel => {
+          text += '<div style="margin-bottom:12px; padding:8px; background:rgba(255,215,0,0.05); border-left:3px solid var(--color-gold);">';
+          text += '<div style="font-weight:bold; margin-bottom:5px;">• ' + rel.description + '</div>';
+          if (rel.detailedExplanation) {
+            text += '<div style="font-size:0.9em; color:var(--color-text-muted); line-height:1.4;">' + rel.detailedExplanation + '</div>';
+          }
+          text += '</div>';
+        });
+        text += '</div>';
+      }
+
+      // 4. 能量流动分析
+      if (cards.length >= 3) {
+        text += '<div style="margin-top:10px;"><strong>' + (this.currentLang === 'en' ? 'Energy Flow:' : '能量流动分析：') + '</strong><br/>';
+        const flow = this.analyzeEnergyFlow(cards, positions);
+        text += '• ' + flow + '<br/></div>';
+      }
+
+      // 5. 如果没找到特殊关系，显示默认文本
+      if (text === '') {
+        text = this.t('relation_smooth');
       }
 
       html += text + '</div></div>';
       return html;
+    }
+
+    // ============ 分析两张牌的关系（带详细解释）============
+    analyzeCardPairRelation(card1, card2, pos1, pos2) {
+      const c1 = card1.card;
+      const c2 = card2.card;
+      const isRev1 = card1.isReversed;
+      const isRev2 = card2.isReversed;
+      
+      let strength = 0;
+      let description = '';
+      let detailedExplanation = '';
+      let relationType = ''; // synergy, conflict, complementary, tension
+
+      // 1. 大阿卡那牌对（最强关系）
+      if (c1.suit === 'major' && c2.suit === 'major') {
+        strength = 10;
+        relationType = 'synergy';
+        const name1 = deckManager.getCardName(c1) + ' ' + this.getPosText(isRev1);
+        const name2 = deckManager.getCardName(c2) + ' ' + this.getPosText(isRev2);
+        description = this.t('relation_synergy', name1, name2);
+        
+        // 详细解释
+        const explanation = this.getMajorPairExplanation(c1.id, c2.id, isRev1, isRev2);
+        detailedExplanation = this.t('relation_explain_synergy', 
+          name1, name2, 
+          explanation.meaning, 
+          explanation.advice);
+      }
+      
+      // 2. 同元素牌（相生关系）
+      else if (c1.suit === c2.suit && c1.suit !== 'major') {
+        strength = 7;
+        relationType = 'synergy';
+        const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+        const suitName = this.currentLang === 'en' ? c1.suit : (suitNames[c1.suit] || c1.suit);
+        description = this.currentLang === 'en' 
+          ? `Cards of the same suit (${suitName}) enhance each other's energy.`
+          : `同牌组（${suitName}）的牌相互增强能量。`;
+        
+        // 详细解释
+        const explanation = this.getSameSuitExplanation(c1.suit, isRev1, isRev2);
+        detailedExplanation = this.t('relation_explain_synergy', 
+          deckManager.getCardName(c1) + ' ' + this.getPosText(isRev1), 
+          deckManager.getCardName(c2) + ' ' + this.getPosText(isRev2), 
+          explanation.meaning, 
+          explanation.advice);
+      }
+      
+      // 3. 元素相克关系（火vs水，风vs土）
+      else if (this.isElementConflict(c1.suit, c2.suit)) {
+        strength = 8;
+        relationType = 'conflict';
+        const name1 = deckManager.getCardName(c1) + ' ' + this.getPosText(isRev1);
+        const name2 = deckManager.getCardName(c2) + ' ' + this.getPosText(isRev2);
+        description = this.t('relation_conflict', name1, name2);
+        
+        // 详细解释
+        const explanation = this.getElementConflictExplanation(c1.suit, c2.suit, isRev1, isRev2);
+        detailedExplanation = this.t('relation_explain_conflict', 
+          name1, name2, 
+          explanation.meaning, 
+          explanation.advice);
+      }
+      
+      // 4. 元素互补关系（火+风，水+土，等）
+      else if (this.isElementComplementary(c1.suit, c2.suit)) {
+        strength = 6;
+        relationType = 'complementary';
+        const name1 = deckManager.getCardName(c1) + ' ' + this.getPosText(isRev1);
+        const name2 = deckManager.getCardName(c2) + ' ' + this.getPosText(isRev2);
+        description = this.t('relation_complementary', name1, name2);
+        
+        // 详细解释
+        const explanation = this.getElementComplementaryExplanation(c1.suit, c2.suit, isRev1, isRev2);
+        detailedExplanation = this.t('relation_explain_complementary', 
+          name1, name2, 
+          explanation.meaning, 
+          explanation.advice);
+      }
+      
+      // 5. 正逆位对比（张力关系）
+      else if (isRev1 !== isRev2) {
+        strength = 5;
+        relationType = 'tension';
+        const name1 = deckManager.getCardName(c1) + ' ' + this.getPosText(isRev1);
+        const name2 = deckManager.getCardName(c2) + ' ' + this.getPosText(isRev2);
+        description = this.t('relation_tension', name1, name2);
+        
+        // 详细解释
+        const explanation = this.getTensionExplanation(c1, c2, isRev1, isRev2);
+        detailedExplanation = this.t('relation_explain_tension', 
+          name1, name2, 
+          explanation.meaning, 
+          explanation.advice);
+      }
+
+      if (description) {
+        return {
+          card1Id: c1.id,
+          card2Id: c2.id,
+          strength,
+          description,
+          detailedExplanation,
+          relationType
+        };
+      }
+      return null;
+    }
+
+    // ============ 大阿卡那牌对解释 ============
+    getMajorPairExplanation(id1, id2, isRev1, isRev2) {
+      // 常见大阿卡那牌对组合解释
+      const pairs = {
+        'major-00_major-01': {
+          zh: { meaning: '愚者与魔术师同时出现，代表全新的开始和无限可能。宇宙正在给你一个"重启按钮"，鼓励你从零开始，勇敢追求梦想。', advice: '抓住这个能量强大的时刻，大胆迈出第一步。不要被过去的经验限制，相信自己的创造力。' },
+          en: { meaning: 'The Fool and The Magician together represent a powerful new beginning and infinite possibilities. The universe is giving you a "reset button", encouraging you to start anew and pursue your dreams bravely.', advice: 'Seize this moment of powerful energy, take the first step boldly. Do not be limited by past experiences, trust your creativity.' }
+        },
+        'major-13_major-20': {
+          zh: { meaning: '死神与审判同时出现，预示着彻底的转化与重生。你正在经历灵魂层面的深刻改变，旧的自我的正在瓦解，新的自我即将诞生。', advice: '接受这个转化的过程，不要抗拒改变。这是成长必经的阶段，熬过去后你会变得更强大。' },
+          en: { meaning: 'Death and Judgement together indicate complete transformation and rebirth. You are going through a deep soul-level change. The old self is disintegrating, and a new self is about to be born.', advice: 'Accept this transformation process, do not resist change. This is a necessary stage of growth. You will become stronger after getting through this.' }
+        },
+        'major-19_major-06': {
+          zh: { meaning: '太阳与恋人同时出现，预示着跟随内心会走向光明的结果。爱与喜悦正在支持你的道路，这是做出重要选择的好时机。', advice: '相信自己的直觉和内心感受。当你出于爱而非恐惧做决定时，结果往往会很好。' },
+          en: { meaning: 'The Sun and The Lovers together indicate that following your heart will lead to bright outcomes. Love and joy are supporting your path. This is a good time to make important choices.', advice: 'Trust your intuition and inner feelings. When you make decisions out of love rather than fear, the outcome tends to be good.' }
+        }
+      };
+
+      const key = [id1, id2].sort().join('_');
+      const pair = pairs[key];
+      
+      if (pair) {
+        return this.currentLang === 'en' ? pair.en : pair.zh;
+      }
+      
+      // 默认解释
+      const defaultExplanation = {
+        zh: { meaning: '这两张大阿卡那牌形成强烈的能量共振，提示你关注灵魂层面的课题。', advice: '深入反思这两张牌的寓意，它们共同指向你当前最重要的成长主题。' },
+        en: { meaning: 'These two Major Arcana cards create strong energy resonance, reminding you to pay attention to soul-level themes.', advice: 'Reflect deeply on the meanings of these two cards. Together they point to the most important growth theme in your current phase.' }
+      };
+      
+      return this.currentLang === 'en' ? defaultExplanation.en : defaultExplanation.zh;
+    }
+
+    // ============ 同元素牌解释 ============
+    getSameSuitExplanation(suit, isRev1, isRev2) {
+      const explanations = {
+        wands: {
+          zh: { meaning: '权杖牌组代表火元素，象征热情、行动力和创造力。多张权杖牌同时出现，说明你需要将想法转化为行动，充满激情地去追求目标。', advice: isRev1 || isRev2 ? '注意行动力是否被延迟或受阻。检查是否有恐惧或自我怀疑在阻碍你前进。' : '保持热情和动力，抓住机会采取行动。这是充满能量和创造力的时期。' },
+          en: { meaning: 'Wands suit represents fire element, symbolizing passion, action, and creativity. Multiple Wands cards appearing together indicate you need to turn ideas into action and pursue goals with passion.', advice: isRev1 || isRev2 ? 'Pay attention to whether action is delayed or blocked. Check if fear or self-doubt is hindering your progress.' : 'Maintain enthusiasm and motivation, seize opportunities to take action. This is a period full of energy and creativity.' }
+        },
+        cups: {
+          zh: { meaning: '圣杯牌组代表水元素，象征情感、直觉和人际关系。多张圣杯牌同时出现，说明你需要关注情感层面，倾听内心的声音，培养人际关系。', advice: isRev1 || isRev2 ? '注意情感是否被压抑或过度情绪化。给自己时间和空间去感受和疗愈。' : '敞开心扉，表达情感，与他人建立深层连接。这是情感丰富和直觉敏锐的时期。' },
+          en: { meaning: 'Cups suit represents water element, symbolizing emotions, intuition, and relationships. Multiple Cups cards appearing together indicate you need to pay attention to the emotional level, listen to your inner voice, and nurture relationships.', advice: isRev1 || isRev2 ? 'Pay attention to whether emotions are suppressed or overly emotional. Give yourself time and space to feel and heal.' : 'Open your heart, express emotions, build deep connections with others. This is a period of emotional richness and keen intuition.' }
+        },
+        swords: {
+          zh: { meaning: '宝剑牌组代表风元素，象征理智、思考和沟通。多张宝剑牌同时出现，说明你需要理性分析问题，清晰思考，有效沟通。', advice: isRev1 || isRev2 ? '注意思维是否过于混乱或决策困难。尝试冥想或写下来理清思路。' : '运用逻辑和理性分析问题。这是适合做计划、沟通和解决冲突的时期。' },
+          en: { meaning: 'Swords suit represents air element, symbolizing intellect, thinking, and communication. Multiple Swords cards appearing together indicate you need to analyze problems rationally, think clearly, and communicate effectively.', advice: isRev1 || isRev2 ? 'Pay attention to whether thoughts are too chaotic or decision-making is difficult. Try meditation or writing to clarify thoughts.' : 'Use logic and reason to analyze problems. This is a good period for planning, communication, and resolving conflicts.' }
+        },
+        pentacles: {
+          zh: { meaning: '星币牌组代表土元素，象征物质、财富和实际成果。多张星币牌同时出现，说明你需要关注实际层面，制定具体计划，稳步积累成果。', advice: isRev1 || isRev2 ? '注意物质层面是否有损失或延迟。检查财务和健康状况，做好风险管理。' : '专注于实际目标和物质成果。这是适合投资、工作和健康管理的时期。' },
+          en: { meaning: 'Pentacles suit represents earth element, symbolizing material, wealth, and practical results. Multiple Pentacles cards appearing together indicate you need to focus on the practical level, make concrete plans, and accumulate results steadily.', advice: isRev1 || isRev2 ? 'Pay attention to whether there are losses or delays in the material level. Check financial and health status, do risk management.' : 'Focus on practical goals and material results. This is a good period for investment, work, and health management.' }
+        }
+      };
+      
+      const explanation = explanations[suit];
+      return this.currentLang === 'en' ? explanation.en : explanation.zh;
+    }
+
+    // ============ 元素冲突解释 ============
+    getElementConflictExplanation(suit1, suit2, isRev1, isRev2) {
+      const conflicts = {
+        'wands_cups': {
+          zh: { meaning: '火元素（权杖）与水元素（圣杯）冲突，代表热情与情感之间的张力。你可能感到理性与情感在拉扯，需要找到平衡点。', advice: '不要完全被情绪左右，也不要完全压抑情感。找到行动与感受之间的平衡，让热情与情感相互滋养而非相互消耗。' },
+          en: { meaning: 'Fire element (Wands) conflicts with Water element (Cups), representing tension between passion and emotions. You may feel rational and emotional pulling in different directions, need to find a balance.', advice: 'Do not be completely led by emotions, nor completely suppress emotions. Find a balance between action and feeling, let passion and emotions nourish each other rather than consume each other.' }
+        },
+        'swords_pentacles': {
+          zh: { meaning: '风元素（宝剑）与土元素（星币）冲突，代表理智与现实之间的张力。你可能想得很多但行动不足，或者过于务实而缺乏灵感。', advice: '将想法落地，制定具体可行的计划。同时也要保持开放的心态，不要过于固执于既定方案，适时调整策略。' },
+          en: { meaning: 'Air element (Swords) conflicts with Earth element (Pentacles), representing tension between intellect and reality. You may think a lot but lack action, or be too pragmatic and lack inspiration.', advice: 'Ground your ideas, make concrete and feasible plans. At the same time, maintain an open mind, do not be too attached to established plans, adjust strategies when appropriate.' }
+        }
+      };
+      
+      const key = [suit1, suit2].sort().join('_');
+      const conflict = conflicts[key];
+      
+      if (conflict) {
+        return this.currentLang === 'en' ? conflict.en : conflict.zh;
+      }
+      
+      // 默认解释
+      const defaultExplanation = {
+        zh: { meaning: '这两种元素存在能量冲突，提示你需要关注内在的矛盾和张力。', advice: '识别冲突的根源，寻找整合而非对抗的方式。有时候，冲突正是成长的契机。' },
+        en: { meaning: 'These two elements have energy conflict, reminding you to pay attention to inner contradictions and tension.', advice: 'Identify the root of the conflict, look for ways to integrate rather than confront. Sometimes, conflict is exactly the opportunity for growth.' }
+      };
+      
+      return this.currentLang === 'en' ? defaultExplanation.en : defaultExplanation.zh;
+    }
+
+    // ============ 元素互补解释 ============
+    getElementComplementaryExplanation(suit1, suit2, isRev1, isRev2) {
+      const complementaries = {
+        'wands_swords': {
+          zh: { meaning: '火元素（权杖）与风元素（宝剑）互补，代表热情与理智的结合。你有创意也有执行力，能将想法转化为实际行动。', advice: '运用你的创造力和逻辑思维能力。这是启动新项目、制定战略和有效沟通的好时机。' },
+          en: { meaning: 'Fire element (Wands) and Air element (Swords) are complementary, representing the combination of passion and intellect. You have creativity and execution ability, can turn ideas into practical actions.', advice: 'Use your creativity and logical thinking ability. This is a good time to launch new projects, formulate strategies, and communicate effectively.' }
+        },
+        'cups_pentacles': {
+          zh: { meaning: '水元素（圣杯）与土元素（星币）互补，代表情感与物质的结合。你能在追求物质成功的同时，保持情感的满足和人际关系的和谐。', advice: '在追求实际目标的同时，不要忽略情感和人际关系。找到工作与生活、物质与精神的平衡点。' },
+          en: { meaning: 'Water element (Cups) and Earth element (Pentacles) are complementary, representing the combination of emotions and material. You can pursue material success while maintaining emotional satisfaction and harmonious relationships.', advice: 'While pursuing practical goals, do not ignore emotions and relationships. Find the balance point between work and life, material and spirit.' }
+        }
+      };
+      
+      const key = [suit1, suit2].sort().join('_');
+      const complementary = complementaries[key];
+      
+      if (complementary) {
+        return this.currentLang === 'en' ? complementary.en : complementary.zh;
+      }
+      
+      // 默认解释
+      const defaultExplanation = {
+        zh: { meaning: '这两种元素相互补充，提供全面的视角和平衡的能量。', advice: '善用这两种元素的优势，它们可以相互增强，帮助你更全面地应对当前情况。' },
+        en: { meaning: 'These two elements complement each other, providing a comprehensive perspective and balanced energy.', advice: 'Make good use of the advantages of these two elements. They can enhance each other and help you cope with the current situation more comprehensively.' }
+      };
+      
+      return this.currentLang === 'en' ? defaultExplanation.en : defaultExplanation.zh;
+    }
+
+    // ============ 张力关系解释 ============
+    getTensionExplanation(card1, card2, isRev1, isRev2) {
+      const name1 = deckManager.getCardName(card1);
+      const name2 = deckManager.getCardName(card2);
+      
+      const explanation = {
+        zh: { meaning: `「${name1}」与「${name2}」呈现正逆位对比，形成张力关系。这提示你内在可能存在矛盾：一部分你倾向于{isRev1 ? '保守/内省' : '开放/行动'}，而另一部分你倾向于{isRev2 ? '保守/内省' : '开放/行动'}。`, advice: '接受这种内在的矛盾，它正是你成长的机会。试着理解这两方面的需求，寻找整合而非排斥的方式。' },
+        en: { meaning: `"${name1}" and "${name2}" show upright-reversed contrast, forming a tense relationship. This suggests there may be inner contradiction: part of you tends to be {isRev1 ? 'conservative/introspective' : 'open/action-oriented'}, while another part of you tends to be {isRev2 ? 'conservative/introspective' : 'open/action-oriented'}.`, advice: 'Accept this inner contradiction, it is exactly an opportunity for your growth. Try to understand the needs of both aspects, look for ways to integrate rather than exclude.' }
+      };
+      
+      return this.currentLang === 'en' ? explanation.en : explanation.zh;
+    }
+
+    // ============ 检测元素冲突 ============
+    isElementConflict(suit1, suit2) {
+      const conflicts = [
+        ['wands', 'cups'],  // 火 vs 水
+        ['cups', 'wands'],
+        ['swords', 'pentacles'], // 风 vs 土
+        ['pentacles', 'swords']
+      ];
+      return conflicts.some(([a, b]) => (suit1 === a && suit2 === b) || (suit1 === b && suit2 === a));
+    }
+
+    // ============ 检测元素互补 ============
+    isElementComplementary(suit1, suit2) {
+      const complementary = [
+        ['wands', 'swords'], // 火 + 风 = 创意与行动
+        ['swords', 'wands'],
+        ['cups', 'pentacles'], // 水 + 土 = 情感与务实
+        ['pentacles', 'cups'],
+        ['wands', 'pentacles'], // 火 + 土 = 热情与稳定
+        ['pentacles', 'wands'],
+        ['cups', 'swords'] // 水 + 风 = 情感与理智
+      ];
+      return complementary.some(([a, b]) => (suit1 === a && suit2 === b) || (suit1 === b && suit2 === a));
+    }
+
+    // ============ 分析能量流动 ============
+    analyzeEnergyFlow(cards, positions) {
+      // 简单能量流动分析：检查正位/逆位的变化趋势
+      let flowType = '';
+      let flowDescription = '';
+      
+      const reversedPositions = cards.map((item, idx) => ({
+        position: positions[idx] || `位置${idx + 1}`,
+        isReversed: item.isReversed,
+        name: deckManager.getCardName(item.card)
+      }));
+
+      // 检测能量流动模式
+      const firstHalf = reversedPositions.slice(0, Math.ceil(reversedPositions.length / 2));
+      const secondHalf = reversedPositions.slice(Math.ceil(reversedPositions.length / 2));
+      
+      const firstRevCount = firstHalf.filter(p => p.isReversed).length;
+      const secondRevCount = secondHalf.filter(p => p.isReversed).length;
+      
+      if (secondRevCount < firstRevCount) {
+        flowType = 'improving';
+        flowDescription = this.currentLang === 'en' 
+          ? 'Energy is improving from challenge to smoothness.'
+          : '能量从挑战流向顺畅，情况正在好转。';
+      } else if (secondRevCount > firstRevCount) {
+        flowType = 'declining';
+        flowDescription = this.currentLang === 'en'
+          ? 'Energy is declining from smoothness to challenge. Need to be cautious.'
+          : '能量从顺畅流向挑战，需要谨慎应对。';
+      } else {
+        flowType = 'stable';
+        flowDescription = this.currentLang === 'en'
+          ? 'Energy flow is stable. Current situation may continue for some time.'
+          : '能量流动稳定，当前情况可能会持续一段时间。';
+      }
+
+      // 添加具体牌面描述
+      if (reversedPositions.length >= 2) {
+        const start = reversedPositions[0];
+        const end = reversedPositions[reversedPositions.length - 1];
+        flowDescription += this.currentLang === 'en'
+          ? ` From "${start.name}" to "${end.name}", energy shows a ${flowType} trend.`
+          : `从「${start.name}」到「${end.name}」，能量呈现${flowType === 'improving' ? '改善' : flowType === 'declining' ? '下降' : '稳定'}的趋势。`;
+      }
+
+      return flowDescription;
     }
 
     // ============ 综合解读 - 分析运势走向 ============
@@ -789,35 +1116,173 @@
 
       let text = '';
       let adviceCard = null;
-      if (mode === 'five' && cards[3]) adviceCard = cards[3];
-      else if (mode === 'career' && cards[3]) adviceCard = cards[3];
-      else if (mode === 'choice' && cards[4]) adviceCard = cards[4];
-      else adviceCard = cards[cards.length - 1];
 
+      // ===== 牌阵差异化：建议牌位置 =====
+      switch (mode) {
+        case 'five':
+        case 'career':
+          adviceCard = cards[3] || null;
+          break;
+        case 'choice':
+          adviceCard = cards[4] || null;
+          break;
+        case 'love':
+        case 'broken':
+        case 'exam':
+        case 'jobchange':
+        case 'travel':
+        case 'shadow':
+        case 'proscons':
+        case 'year':
+          adviceCard = cards[4] || null;
+          break;
+        case 'horseshoe':
+        case 'timeflow':
+        case 'fatewheel':
+        case 'monthly':
+          adviceCard = cards[6] || null;
+          break;
+        case 'souljourney':
+          adviceCard = cards[8] || null;
+          break;
+        case 'zodiac':
+          adviceCard = cards[11] || null;
+          break;
+        case 'pastlife':
+        case 'health':
+        case 'family':
+        case 'weekly':
+          adviceCard = cards[4] || null;
+          break;
+        case 'lifepurpose':
+          adviceCard = cards[7] || null;
+          break;
+        default:
+          adviceCard = cards[cards.length - 1] || null;
+          break;
+      }
+
+      // ===== 牌阵差异化：建议内容 =====
       if (adviceCard) {
         text += this.t('advice_intro');
         if (!adviceCard.isReversed) {
           text += this.t('advice_upright', deckManager.getCardName(adviceCard.card), this.getMeaningText(adviceCard.card, false));
-          if (adviceCard.card.suit === 'wands') text += this.t('advice_wands');
-          else if (adviceCard.card.suit === 'cups') text += this.t('advice_cups');
-          else if (adviceCard.card.suit === 'swords') text += this.t('advice_swords');
-          else if (adviceCard.card.suit === 'pentacles') text += this.t('advice_pentacles');
-          else text += this.t('advice_major');
+          // 牌组差异化建议
+          if (adviceCard.card.suit === 'wands') {
+            text += this.t('advice_wands');
+          } else if (adviceCard.card.suit === 'cups') {
+            text += this.t('advice_cups');
+          } else if (adviceCard.card.suit === 'swords') {
+            text += this.t('advice_swords');
+          } else if (adviceCard.card.suit === 'pentacles') {
+            text += this.t('advice_pentacles');
+          } else {
+            text += this.t('advice_major');
+          }
         } else {
           text += this.t('advice_reversed', deckManager.getCardName(adviceCard.card), this.getMeaningText(adviceCard.card, true));
         }
       }
 
-      // 检测当前位置是否有大阿卡那牌
-      const currentIdx = (mode === 'five' || mode === 'career') ? 1 :
-                        (mode === 'choice') ? 0 :
-                        (mode === 'celtic') ? 0 :
-                        (cards.length > 1 ? 1 : -1);
+      // ===== 牌阵差异化：当前/核心位置大阿卡那检测 =====
+      const currentIdxMap = {
+        'five': 1, 'career': 1, 'choice': 0, 'celtic': 0,
+        'three': 1, 'single': 0, 'love': 0, 'broken': 2,
+        'exam': 0, 'jobchange': 0, 'shadow': 0, 'lifepurpose': 0,
+        'horseshoe': 1, 'timeflow': 1, 'fatewheel': 0, 'monthly': 0,
+        'souljourney': 0, 'zodiac': 0, 'pastlife': 0, 'health': 0,
+        'family': 0, 'weekly': 0, 'proscons': 0, 'travel': 0, 'yesno': 0
+      };
+      const currentIdx = currentIdxMap[mode] !== undefined ? currentIdxMap[mode] : (cards.length > 1 ? 1 : -1);
       if (currentIdx >= 0 && cards[currentIdx] && cards[currentIdx].card.suit === 'major') {
         text += this.t('advice_major_present', deckManager.getCardName(cards[currentIdx].card));
       }
 
-      // 根据逆位数量给出建议
+      // ===== 牌阵差异化：专属建议追加 =====
+      const isEn = this.currentLang === 'en';
+      switch (mode) {
+        case 'love':
+          if (!isEn) {
+            text += ' 恋人牌阵建议：不要只关注"我们是否会在一起"，更要关注"这段关系是否让我成长为更好的自己"。';
+          } else {
+            text += ' Love spread advice: Do not just focus on "will we be together", but more on "does this relationship help me grow into a better version of myself?"';
+          }
+          break;
+        case 'broken':
+          if (!isEn) {
+            text += ' 复合牌阵建议：复合的本质不是"回到过去"，而是"以新的方式重新相遇"。如果双方都没有成长，复合只是重复旧的模式。';
+          } else {
+            text += ' Reunion spread advice: The essence of getting back together is not "going back to the past", but "meeting again in a new way". If both have not grown, reunion only repeats old patterns.';
+          }
+          break;
+        case 'exam':
+          if (!isEn) {
+            text += ' 考试牌阵建议：塔罗可以预示能量倾向，但考试结果最终取决于你的准备程度。把牌面指引转化为具体的复习行动，才是真正的"改命"。';
+          } else {
+            text += ' Exam spread advice: Tarot can indicate energy tendencies, but exam results ultimately depend on your preparation. Transform the card guidance into concrete review actions — that is the real way to "change fate".';
+          }
+          break;
+        case 'jobchange':
+          if (!isEn) {
+            text += ' 换工作牌阵建议：不要因为"逃避现状"而跳槽，要因为"向往新可能"而换工作。牌面指引的是方向，具体时机需要你结合现实判断。';
+          } else {
+            text += ' Job Change spread advice: Do not change jobs just to "escape the status quo", but to "embrace new possibilities". The cards show direction; specific timing requires your own real-world judgment.';
+          }
+          break;
+        case 'shadow':
+          if (!isEn) {
+            text += ' 阴影牌阵建议：你排斥的他人特质，往往正是你拒绝承认的自己。下次当你对某人感到强烈反感时，问问自己："这是我吗？"';
+          } else {
+            text += ' Shadow spread advice: The traits you dislike in others are often exactly what you refuse to acknowledge in yourself. Next time you feel strong dislike toward someone, ask yourself: "Is this me?"';
+          }
+          break;
+        case 'lifepurpose':
+          if (!isEn) {
+            text += ' 人生使命牌阵建议：你的使命不是"找到"的，而是"活出来"的。当你做某件事时感到"这就是我"而不是"这能带来什么"，你就在使命之中了。';
+          } else {
+            text += ' Life Purpose spread advice: Your purpose is not something you "find", but something you "live out". When you do something and feel "this is me" rather than "what can this bring me", you are already in your purpose.';
+          }
+          break;
+        case 'health':
+          if (!isEn) {
+            text += ' 健康牌阵建议：身体是灵魂的日记本。每一个症状都可能在诉说一个未被倾听的情绪。疗愈需要身心同步进行，必要时请寻求专业医疗帮助。';
+          } else {
+            text += ' Health spread advice: The body is the soul\'s diary. Every symptom may be telling an unheard emotion. Healing requires working on both body and mind. Please seek professional medical help when necessary.';
+          }
+          break;
+        case 'family':
+          if (!isEn) {
+            text += ' 家庭关系牌阵建议：我们无法选择家人，但可以选择与家人相处的方式。改变从自己开始——当你变了，家庭的能量场也会随之改变。';
+          } else {
+            text += ' Family spread advice: We cannot choose our family, but we can choose how to get along with them. Change starts with yourself — when you change, the family energy field changes too.';
+          }
+          break;
+        case 'yesno':
+          if (!isEn) {
+            text += ' 是否牌阵建议：塔罗给出的是"能量倾向"而非"定论"。即使结果倾向"否"，也不代表永远不行——只是现在不是最佳时机。';
+          } else {
+            text += ' Yes/No spread advice: Tarot gives an "energy tendency", not a "final verdict". Even if the result leans toward "No", it does not mean never — just that now is not the best timing.';
+          }
+          break;
+        case 'proscons':
+          if (!isEn) {
+            text += ' 利弊分析建议：最困难的决策往往不是"利大于弊"那么简单。真正的答案通常在"即使有弊，我也愿意"的那个选项里。';
+          } else {
+            text += ' Pros & Cons advice: The hardest decisions are rarely as simple as "more pros than cons". The real answer is usually in the option where you think "I am willing even with the cons".';
+          }
+          break;
+        case 'travel':
+          if (!isEn) {
+            text += ' 旅行牌阵建议：最好的旅行不是"完美按计划执行"，而是"带着开放的心迎接意外"。逆位牌出现时，恰恰是旅程中可能最难忘的时刻。';
+          } else {
+            text += ' Travel spread advice: The best travel is not "perfectly executing the plan", but "greeting surprises with an open heart". When reversed cards appear, those may be the most unforgettable moments of the journey.';
+          }
+          break;
+        default:
+          break;
+      }
+
+      // 根据逆位数量给出通用建议
       const reversedCount = cards.filter((item) => item.isReversed).length;
       if (reversedCount >= cards.length * 0.5) {
         text += this.t('advice_many_reversed');
@@ -827,14 +1292,12 @@
       const suits = cards.map(c => c.card.suit);
       const uniqueSuits = [...new Set(suits)];
       if (uniqueSuits.length === 1 && uniqueSuits[0] !== 'major') {
-        // 全是同一牌组
         const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
         const suitName = suitNames[uniqueSuits[0]] || uniqueSuits[0];
         text += this.currentLang === 'en'
           ? ' All cards are from the ' + uniqueSuits[0] + ' suit, suggesting you should focus entirely on this area of life.'
           : ' 本次牌面全部为' + suitName + '牌组，建议你将注意力完全集中在这个生活领域。';
       } else if (uniqueSuits.length >= 3) {
-        // 牌组分散，需要整合
         text += this.currentLang === 'en'
           ? ' The cards span multiple suits, indicating that your situation involves multiple aspects. Try to prioritize and focus on the most important one.'
           : ' 牌面涉及多个牌组，说明你的处境涉及多个面向。尝试分清优先级，聚焦在最有影响力的那个方面。';
@@ -844,7 +1307,1110 @@
       return html;
     }
 
-    // ============ 综合解读生成 ============
+    // ============ 新增功能1：综合解读摘要 ============
+    generateSummary(cards, mode) {
+      let html = '<div class="reading-section reading-summary">';
+      html += '<div class="reading-section-title">' + this.t('summary_title') + '</div>';
+      html += '<div class="reading-section-body">';
+
+      let text = '';
+      const majorCount = cards.filter(c => c.card.suit === 'major').length;
+      const reversedCount = cards.filter(c => c.isReversed).length;
+      const uprightCount = cards.length - reversedCount;
+      const spreadName = this.getLocalizedSpreadName(mode);
+
+      // 基本摘要
+      text += this.t('summary_intro', spreadName);
+      
+      // 大阿卡那分析
+      if (majorCount > 0) {
+        const majorNames = cards
+          .filter(c => c.card.suit === 'major')
+          .map(c => deckManager.getCardName(c.card) + ' ' + this.getPosText(c.isReversed))
+          .join(this.currentLang === 'en' ? ', ' : '、');
+        text += this.t('summary_major', majorCount, majorNames);
+      }
+
+      // 正逆位分析
+      if (reversedCount > uprightCount) {
+        text += this.t('summary_mostly_reversed');
+      } else if (uprightCount > reversedCount) {
+        text += this.t('summary_mostly_upright');
+      } else {
+        text += this.t('summary_balanced');
+      }
+
+      html += '<p>' + text + '</p></div></div>';
+      return html;
+    }
+
+    // ============ 新增功能2：关键词标签 ============
+    generateKeywordTags(cards) {
+      let html = '<div class="reading-section keyword-tags-container">';
+      html += '<div class="reading-section-title">' + this.t('keyword_tags_title') + '</div>';
+      html += '<div class="reading-section-body">';
+      html += '<p class="keyword-tags-intro">' + this.t('keyword_tags_intro') + '</p>';
+      html += '<div class="keyword-tags-list">';
+
+      cards.forEach((item) => {
+        const keywords = this.getCardKeywords(item.card, item.isReversed);
+        const cardName = deckManager.getCardName(item.card);
+        const posText = this.getPosText(item.isReversed);
+        
+        html += '<div class="keyword-tag-item">';
+        html += '<div class="keyword-tag-card-name">' + cardName + ' ' + posText + '</div>';
+        html += '<div class="keyword-tag-list">';
+        keywords.forEach((kw) => {
+          html += '<span class="keyword-tag">' + kw + '</span>';
+        });
+        html += '</div></div>';
+      });
+
+      html += '</div></div></div>';
+      return html;
+    }
+
+    // 获取单张牌的关键词
+    getCardKeywords(card, isReversed) {
+      // 大阿卡那关键词库
+      const majorKeywords = {
+        'major-00': { 
+          upright: ['新的开始', '冒险', '纯真', '自由'], 
+          reversed: ['鲁莽', '风险', '犹豫', '拖延'],
+          en: { upright: ['New Beginning', 'Adventure', 'Innocence', 'Freedom'], reversed: ['Reckless', 'Risk', 'Hesitation', 'Delay'] }
+        },
+        'major-01': { 
+          upright: ['意志力', '创造力', '技能', '行动力'], 
+          reversed: ['拖延', '缺乏自信', '技能不足', '计划落空'],
+          en: { upright: ['Willpower', 'Creativity', 'Skill', 'Action'], reversed: ['Delay', 'Lack Confidence', 'Lack Skill', 'Plan Fails'] }
+        },
+        'major-02': { 
+          upright: ['直觉', '潜意识', '内在智慧', '神秘'], 
+          reversed: ['压抑直觉', '恐惧', '表面化', '逃避'],
+          en: { upright: ['Intuition', 'Subconscious', 'Inner Wisdom', 'Mystery'], reversed: ['Repressed Intuition', 'Fear', 'Superficial', 'Avoidance'] }
+        },
+        'major-03': { 
+          upright: ['丰收', '成果', '团队合作', '创造力'], 
+          reversed: ['缺乏成果', '团队合作失败', '延迟', '浪费'],
+          en: { upright: ['Abundance', 'Result', 'Teamwork', 'Creativity'], reversed: ['Lack Result', 'Team Fail', 'Delay', 'Waste'] }
+        },
+        'major-04': { 
+          upright: ['传统', '结构', '规则', '稳定'], 
+          reversed: ['打破传统', '混乱', '缺乏结构', '反叛'],
+          en: { upright: ['Tradition', 'Structure', 'Rules', 'Stability'], reversed: ['Break Tradition', 'Chaos', 'Lack Structure', 'Rebellion'] }
+        },
+        'major-05': { 
+          upright: ['冲突', '分歧', '竞争', '挑战'], 
+          reversed: ['避免冲突', '和解', '内在冲突', '压抑'],
+          en: { upright: ['Conflict', 'Disagreement', 'Competition', 'Challenge'], reversed: ['Avoid Conflict', 'Reconciliation', 'Inner Conflict', 'Repression'] }
+        },
+        'major-06': { 
+          upright: ['爱情', '选择', '和谐', '价值观'], 
+          reversed: ['关系不和', '错误选择', '价值观冲突', '不和谐'],
+          en: { upright: ['Love', 'Choice', 'Harmony', 'Values'], reversed: ['Relationship Disharmony', 'Wrong Choice', 'Value Conflict', 'Disharmony'] }
+        },
+        'major-07': { 
+          upright: ['胜利', '勇气', '意志', '自信'], 
+          reversed: ['自卑', '犹豫', '恐惧失败', '缺乏勇气'],
+          en: { upright: ['Victory', 'Courage', 'Will', 'Confidence'], reversed: ['Inferiority', 'Hesitation', 'Fear Failure', 'Lack Courage'] }
+        },
+        'major-08': { 
+          upright: ['力量', '勇气', '耐心', '柔能克刚'], 
+          reversed: ['软弱', '自我怀疑', '缺乏勇气', '不耐心'],
+          en: { upright: ['Strength', 'Courage', 'Patience', 'Gentle Power'], reversed: ['Weakness', 'Self-Doubt', 'Lack Courage', 'Impatience'] }
+        },
+        'major-09': { 
+          upright: ['智慧', '内省', '寻求真理', '孤独'], 
+          reversed: ['教条主义', '缺乏内省', '孤立', '错误判断'],
+          en: { upright: ['Wisdom', 'Introspection', 'Seeking Truth', 'Solitude'], reversed: ['Dogmatism', 'Lack Introspection', 'Isolation', 'Misjudgment'] }
+        },
+        'major-10': { 
+          upright: ['命运', '转折点', '机遇', '轮回'], 
+          reversed: ['抵抗命运', '延迟', '错过机会', '缺乏控制'],
+          en: { upright: ['Fate', 'Turning Point', 'Opportunity', 'Cycle'], reversed: ['Resist Fate', 'Delay', 'Miss Opportunity', 'Lack Control'] }
+        },
+        'major-11': { 
+          upright: ['正义', '真相', '因果', '平衡'], 
+          reversed: ['不公正', '不诚实', '逃避责任', '失衡'],
+          en: { upright: ['Justice', 'Truth', 'Karma', 'Balance'], reversed: ['Injustice', 'Dishonesty', 'Avoid Responsibility', 'Imbalance'] }
+        },
+        'major-12': { 
+          upright: ['牺牲', '奉献', '精神指引', '信仰'], 
+          reversed: ['自我牺牲', '受害者心态', '缺乏信仰', '浪费'],
+          en: { upright: ['Sacrifice', 'Devotion', 'Spiritual Guidance', 'Faith'], reversed: ['Self-Sacrifice', 'Victim Mentality', 'Lack Faith', 'Waste'] }
+        },
+        'major-13': { 
+          upright: ['结束', '转变', '释放', '新生'], 
+          reversed: ['抗拒改变', '无法释怀', '停滞', '恐惧'],
+          en: { upright: ['End', 'Transformation', 'Release', 'Rebirth'], reversed: ['Resist Change', 'Unable to Let Go', 'Stagnation', 'Fear'] }
+        },
+        'major-14': { 
+          upright: ['平衡', '调和', '耐心', '适度'], 
+          reversed: ['不平衡', '过度', '缺乏调和', '不耐烦'],
+          en: { upright: ['Balance', 'Harmony', 'Patience', 'Moderation'], reversed: ['Imbalance', 'Excess', 'Lack Harmony', 'Impatience'] }
+        },
+        'major-15': { 
+          upright: ['诱惑', '束缚', '物质主义', '欲望'], 
+          reversed: ['解放', '克服诱惑', '觉醒', '自由'],
+          en: { upright: ['Temptation', 'Bondage', 'Materialism', 'Desire'], reversed: ['Liberation', 'Overcome Temptation', 'Awakening', 'Freedom'] }
+        },
+        'major-16': { 
+          upright: ['突变', '解放', '打破旧有', '觉醒'], 
+          reversed: ['避免灾难', '抵抗改变', '延迟崩溃', '恐惧'],
+          en: { upright: ['Sudden Change', 'Liberation', 'Break Old', 'Awakening'], reversed: ['Avoid Disaster', 'Resist Change', 'Delay Collapse', 'Fear'] }
+        },
+        'major-17': { 
+          upright: ['希望', '灵感', '平静', '治愈'], 
+          reversed: ['绝望', '失望', '缺乏灵感', '悲观'],
+          en: { upright: ['Hope', 'Inspiration', 'Calm', 'Healing'], reversed: ['Despair', 'Disappointment', 'Lack Inspiration', 'Pessimism'] }
+        },
+        'major-18': { 
+          upright: ['幻觉', '恐惧', '潜意识', '不安'], 
+          reversed: ['释放恐惧', '真相大白', '克服幻觉', '内在平静'],
+          en: { upright: ['Illusion', 'Fear', 'Subconscious', 'Unease'], reversed: ['Release Fear', 'Truth Revealed', 'Overcome Illusion', 'Inner Peace'] }
+        },
+        'major-19': { 
+          upright: ['快乐', '活力', '成功', '阳光'], 
+          reversed: ['过度乐观', '延迟', '缺乏成功', '内在小孩受伤'],
+          en: { upright: ['Joy', 'Vitality', 'Success', 'Sunshine'], reversed: ['Over-Optimism', 'Delay', 'Lack Success', 'Inner Child Wounded'] }
+        },
+        'major-20': { 
+          upright: ['觉醒', '复活', '呼唤', '重生'], 
+          reversed: ['逃避呼唤', '延迟', '内在审判', '抗拒觉醒'],
+          en: { upright: ['Awakening', 'Resurrection', 'Call', 'Rebirth'], reversed: ['Avoid Call', 'Delay', 'Inner Judgment', 'Resist Awakening'] }
+        },
+        'major-21': { 
+          upright: ['完成', '成就', '整合', '圆满'], 
+          reversed: ['未完成', '缺乏成就', '延迟', '不完整'],
+          en: { upright: ['Completion', 'Achievement', 'Integration', 'Fulfillment'], reversed: ['Incomplete', 'Lack Achievement', 'Delay', 'Lack Closure'] }
+        }
+      };
+
+      // 小阿卡那默认关键词
+      const defaultKeywords = {
+        upright: ['能量', '行动', '成长'],
+        reversed: ['阻碍', '反思', '调整'],
+        en: { upright: ['Energy', 'Action', 'Growth'], reversed: ['Obstacle', 'Reflection', 'Adjustment'] }
+      };
+
+      // 获取关键词
+      let keywordsData;
+      if (card.suit === 'major' && majorKeywords[card.id]) {
+        keywordsData = majorKeywords[card.id];
+      } else {
+        keywordsData = defaultKeywords;
+      }
+
+      const lang = this.currentLang === 'en' ? 'en' : 'default';
+      if (lang === 'en') {
+        return keywordsData.en[isReversed ? 'reversed' : 'upright'] || keywordsData.en.upright;
+      } else {
+        return keywordsData[isReversed ? 'reversed' : 'upright'] || keywordsData.upright;
+      }
+    }
+
+    // ============ 新增功能3：行动步骤清单 ============
+    generateActionSteps(cards, mode) {
+      let html = '<div class="reading-section action-steps-container">';
+      html += '<div class="reading-section-title">' + this.t('action_steps_title') + '</div>';
+      html += '<div class="reading-section-body">';
+      html += '<p class="action-steps-intro">' + this.t('action_steps_intro') + '</p>';
+
+      // 根据牌面类型生成行动步骤
+      const steps = this.generateStepsByCards(cards, mode);
+      
+      html += '<div class="action-steps-list">';
+      steps.forEach((step) => {
+        html += '<div class="action-step-item">';
+        html += '<div class="action-step-time">' + step.time + '</div>';
+        html += '<div class="action-step-content">';
+        html += '<div class="action-step-title">' + step.title + '</div>';
+        html += '<div class="action-step-desc">' + step.desc + '</div>';
+        html += '</div></div>';
+      });
+      html += '</div></div></div>';
+      return html;
+    }
+
+    // 根据牌面生成行动步骤
+    generateStepsByCards(cards, mode) {
+      const steps = [];
+      const hasMajor = cards.some(c => c.card.suit === 'major');
+      const reversedCount = cards.filter(c => c.isReversed).length;
+      const dominantSuit = this.getDominantSuit(cards);
+
+      // 立即行动
+      let immediateAction = '';
+      if (dominantSuit === 'wands') {
+        immediateAction = this.currentLang === 'en' ? 'Take the first step today — do not wait for perfect conditions.' : '今天迈出第一步——不要等待完美条件。';
+      } else if (dominantSuit === 'cups') {
+        immediateAction = this.currentLang === 'en' ? 'Listen to your heart and express your true feelings.' : '倾听内心，表达真实感受。';
+      } else if (dominantSuit === 'swords') {
+        immediateAction = this.currentLang === 'en' ? 'Write down your thoughts to clarify confusion.' : '写下想法，理清困惑。';
+      } else if (dominantSuit === 'pentacles') {
+        immediateAction = this.currentLang === 'en' ? 'Check your finances and make a practical plan.' : '检查财务状况，制定实际计划。';
+      } else {
+        immediateAction = this.currentLang === 'en' ? 'Meditate or journal to connect with your inner guidance.' : '冥想或写日记，连接内在指引。';
+      }
+      steps.push({
+        time: this.t('action_step_immediate'),
+        title: this.currentLang === 'en' ? 'First Step' : '第一步',
+        desc: immediateAction
+      });
+
+      // 短期行动
+      let shortTermAction = '';
+      if (reversedCount >= cards.length * 0.5) {
+        shortTermAction = this.currentLang === 'en' ? 'Review what needs to be released or adjusted. Make space for new energy.' : '检视需要释放或调整的部分，为新能量腾出空间。';
+      } else {
+        shortTermAction = this.currentLang === 'en' ? 'Build on current momentum and take concrete actions toward your goal.' : '借助当前动能，朝着目标采取具体行动。';
+      }
+      steps.push({
+        time: this.t('action_step_short_term'),
+        title: this.currentLang === 'en' ? 'Consolidate Foundation' : '巩固基础',
+        desc: shortTermAction
+      });
+
+      // 中期行动
+      let mediumTermAction = '';
+      if (hasMajor) {
+        mediumTermAction = this.currentLang === 'en' ? 'Reflect on the life lessons the Major Arcana cards are bringing. These are not small matters.' : '反思大阿卡那牌带来的生命课题，这些不是小事。';
+      } else {
+        mediumTermAction = this.currentLang === 'en' ? 'Establish stable routines and habits that support your goal.' : '建立支持目标的稳定 routines 和习惯。';
+      }
+      steps.push({
+        time: this.t('action_step_medium_term'),
+        title: this.currentLang === 'en' ? 'Deepen Practice' : '深化实践',
+        desc: mediumTermAction
+      });
+
+      // 长期行动
+      let longTermAction = this.currentLang === 'en' 
+        ? 'Review your progress after three months and adjust your direction accordingly.' 
+        : '三个月后回顾进展，并相应调整方向。';
+      steps.push({
+        time: this.t('action_step_long_term'),
+        title: this.currentLang === 'en' ? 'Long-term Vision' : '长期愿景',
+        desc: longTermAction
+      });
+
+      return steps;
+    }
+
+    // 获取主导牌组
+    getDominantSuit(cards) {
+      const suitCounts = { wands: 0, cups: 0, swords: 0, pentacles: 0, major: 0 };
+      cards.forEach((c) => {
+        suitCounts[c.card.suit] = (suitCounts[c.card.suit] || 0) + 1;
+      });
+      let maxSuit = 'major';
+      let maxCount = 0;
+      for (const suit in suitCounts) {
+        if (suitCounts[suit] > maxCount) {
+          maxCount = suitCounts[suit];
+          maxSuit = suit;
+        }
+      }
+      return maxSuit;
+    }
+
+    // ============ 新增功能4：元素平衡分析 ============
+    analyzeElementBalance(cards) {
+      let html = '<div class="reading-section element-balance-container">';
+      html += '<div class="reading-section-title">' + this.t('element_balance_title') + '</div>';
+      html += '<div class="reading-section-body">';
+      html += '<p class="element-balance-intro">' + this.t('element_balance_intro') + '</p>';
+
+      // 统计四元素
+      const elements = { fire: 0, water: 0, air: 0, earth: 0 };
+      cards.forEach((item) => {
+        const suit = item.card.suit;
+        if (suit === 'wands') elements.fire++;
+        else if (suit === 'cups') elements.water++;
+        else if (suit === 'swords') elements.air++;
+        else if (suit === 'pentacles') elements.earth++;
+        // 大阿卡那不计元素，或视为全能元素
+      });
+
+      const total = elements.fire + elements.water + elements.air + elements.earth;
+      const hasCards = total > 0;
+
+      // 显示元素分布
+      html += '<div class="element-balance-bars">';
+      const elementKeys = [
+        { key: 'fire', nameKey: 'element_fire', color: '#FF6B6B' },
+        { key: 'water', nameKey: 'element_water', color: '#4ECDC4' },
+        { key: 'air', nameKey: 'element_air', color: '#45B7D1' },
+        { key: 'earth', nameKey: 'element_earth', color: '#96CEB4' }
+      ];
+
+      elementKeys.forEach((elem) => {
+        const count = elements[elem.key];
+        const percent = hasCards ? Math.round((count / total) * 100) : 0;
+        const name = this.t(elem.nameKey);
+        html += '<div class="element-balance-row">';
+        html += '<div class="element-balance-label">' + name + '</div>';
+        html += '<div class="element-balance-bar-bg">';
+        html += '<div class="element-balance-bar-fill" style="width:' + percent + '%;background:' + elem.color + ';"></div>';
+        html += '</div>';
+        html += '<div class="element-balance-count">' + count + '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+
+      // 分析主导元素和缺失元素
+      let dominantElement = '';
+      let missingElements = [];
+      let maxCount = 0;
+      
+      for (const key in elements) {
+        if (elements[key] > maxCount) {
+          maxCount = elements[key];
+          dominantElement = key;
+        }
+        if (elements[key] === 0) {
+          missingElements.push(key);
+        }
+      }
+
+      // 输出分析建议
+      if (hasCards) {
+        if (missingElements.length === 0) {
+          html += '<div class="element-balance-analysis">' + this.t('element_balanced') + '</div>';
+        } else {
+          const missingNames = missingElements.map((e) => {
+            const nameKey = 'element_' + e;
+            return this.t(nameKey);
+          }).join(this.currentLang === 'en' ? ', ' : '、');
+          html += '<div class="element-balance-analysis"><strong>' + this.t('element_missing') + ':</strong> ' + missingNames + '</div>';
+          
+          // 给出补充建议
+          missingElements.forEach((elem) => {
+            let advice = '';
+            if (elem === 'fire') {
+              advice = this.currentLang === 'en' ? 'Exercise, start new projects, express passion.' : '运动、启动新项目、表达热情。';
+            } else if (elem === 'water') {
+              advice = this.currentLang === 'en' ? 'Connect with emotions, nurture relationships, practice empathy.' : '连接情感、滋养关系、练习同理心。';
+            } else if (elem === 'air') {
+              advice = this.currentLang === 'en' ? 'Read, communicate, analyze problems, meditate.' : '阅读、沟通、分析问题、冥想。';
+            } else if (elem === 'earth') {
+              advice = this.currentLang === 'en' ? 'Manage finances, build routines, spend time in nature.' : '管理财务、建立常规、花时间在大自然中。';
+            }
+            html += '<div class="element-balance-advice">' + this.t('element_advice_missing', this.t('element_' + elem), advice) + '</div>';
+          });
+        }
+
+        // 主导元素建议
+        if (dominantElement && maxCount > 0) {
+          let advice = '';
+          if (dominantElement === 'fire') {
+            advice = this.currentLang === 'en' ? 'Use your passion and initiative to drive things forward, but be careful not to be too impulsive.' : '利用你的热情和主动性推动事情前进，但要注意不要过于冲动。';
+          } else if (dominantElement === 'water') {
+            advice = this.currentLang === 'en' ? 'Trust your intuition and emotions, but be careful not to be overly sentimental.' : '相信你的直觉和情感，但要注意不要过于情绪化。';
+          } else if (dominantElement === 'air') {
+            advice = this.currentLang === 'en' ? 'Use rational analysis and communication skills, but be careful not to be too cold and rational.' : '运用理性分析和沟通能力，但要注意不要过于冷酷理性。';
+          } else if (dominantElement === 'earth') {
+            advice = this.currentLang === 'en' ? 'Focus on practical results and long-term planning, but be careful not to be too stubborn.' : '专注于实际成果和长期规划，但要注意不要过于固执。';
+          }
+          const dominantName = this.t('element_' + dominantElement);
+          html += '<div class="element-balance-advice"><strong>' + this.t('element_dominant') + ':</strong> ' + this.t('element_advice_dominant', dominantName, advice) + '</div>';
+        }
+      }
+
+      html += '</div></div>';
+      return html;
+    }
+
+    // ============ 牌阵专属解读段落（新增） ============
+    generateSpreadSpecificReading(mode, cards, positions) {
+      let html = '<div class="reading-section spread-specific">';
+      html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '★ Spread-Specific Reading' : '★ 牌阵专属解读') + '</div>';
+      html += '<div class="reading-section-body">';
+
+      let text = '';
+      const isEn = this.currentLang === 'en';
+
+      switch (mode) {
+        // ---- 单牌占卜 ----
+        case 'single':
+          if (!isEn) {
+            text += '单牌占卜是一天方向的浓缩指引。';
+            if (cards[0].isReversed) {
+              text += '逆位出现，提醒你今日需要特别留意内在状态——可能有隐藏的阻力或未处理的情绪。正位则预示今日能量通畅，适合推进计划。';
+            } else {
+              text += '正位出现，预示今日能量通畅，是行动的好日子。跟随这张牌的指引，让它成为你今日的主题。';
+            }
+          } else {
+            text += 'A single card is a condensed guidance for the day. ';
+            if (cards[0].isReversed) {
+              text += 'The reversed card suggests paying attention to your inner state today — there may be hidden resistance or unprocessed emotions.';
+            } else {
+              text += 'The upright card indicates smooth energy today. It is a good day to take action. Let this card be your theme for the day.';
+            }
+          }
+          break;
+
+        // ---- 三牌阵 ----
+        case 'three': {
+          const past = cards[0], now = cards[1], future = cards[2];
+          if (!isEn) {
+            text += '三牌阵呈现出清晰的时间线。';
+            if (!past.isReversed && !now.isReversed && !future.isReversed) {
+              text += '三张正位连成一条顺畅的能量流，说明过去、现在与未来都在良性循环中，顺势而为即可。';
+            } else if (past.isReversed && !future.isReversed) {
+              text += '过去逆位、未来正位，说明你正在从旧有模式中走出来，未来的光明已经隐约可见。这是疗愈与转化的过程。';
+            } else if (!past.isReversed && future.isReversed) {
+              text += '过去正位、未来逆位，提醒你不要因为过去的顺利而掉以轻心，未来可能有需要调整的之处。提前准备是明智的。';
+            } else {
+              text += '三张牌呈现复杂的能量交织。过去的影响仍在，但现在的选择可以改写未来的走向。你不是命运的囚徒，而是自己故事的作者。';
+            }
+          } else {
+            text += 'The three-card spread shows a clear timeline. ';
+            if (!past.isReversed && !now.isReversed && !future.isReversed) {
+              text += 'Three upright cards form a smooth energy flow, indicating a positive cycle across past, present, and future. Simply go with the flow.';
+            } else if (past.isReversed && !future.isReversed) {
+              text += 'Past reversed, future upright — you are walking out of old patterns, and the light of the future is already visible. This is a process of healing and transformation.';
+            } else if (!past.isReversed && future.isReversed) {
+              text += 'Past upright, future reversed — do not be complacent because of past success. The future may require adjustments. Preparing in advance is wise.';
+            } else {
+              text += 'The three cards show complex energy interweaving. The influence of the past remains, but choices now can rewrite the future. You are not a prisoner of fate, but the author of your own story.';
+            }
+          }
+          break;
+        }
+
+        // ---- 凯尔特十字 ----
+        case 'celtic': {
+          const current = cards[0], challenge = cards[1], outcome = cards[9];
+          if (!isEn) {
+            text += '凯尔特十字覆盖了问题的全部层面。核心牌「' + deckManager.getCardName(current.card) + ' ' + this.getPosText(current.isReversed) + '」揭示了你当前最关注的能量；';
+            text += '「挑战」位置的「' + deckManager.getCardName(challenge.card) + ' ' + this.getPosText(challenge.isReversed) + '」指出了需要克服的障碍；';
+            text += '而「最终结果」位置的「' + deckManager.getCardName(outcome.card) + ' ' + this.getPosText(outcome.isReversed) + '」则预示了综合所有因素后最可能的归宿。';
+            if (current.card.suit === 'major' || challenge.card.suit === 'major' || outcome.card.suit === 'major') {
+              text += ' 大阿卡那牌出现在关键位置，说明这个问题触及你灵魂层面的课题，值得深度反思而非浅层应对。';
+            }
+          } else {
+            text += 'The Celtic Cross covers all aspects of the question. The core card "' + deckManager.getCardName(current.card) + ' ' + this.getPosText(current.isReversed) + '" reveals the energy you are most concerned about; ';
+            text += '"Challenge" position "' + deckManager.getCardName(challenge.card) + ' ' + this.getPosText(challenge.isReversed) + '" points to the obstacle to overcome; ';
+            text += 'and "Outcome" position "' + deckManager.getCardName(outcome.card) + ' ' + this.getPosText(outcome.isReversed) + '" indicates the most likely destination after integrating all factors.';
+            if (current.card.suit === 'major' || challenge.card.suit === 'major' || outcome.card.suit === 'major') {
+              text += ' Major Arcana cards appear in key positions, indicating this question touches soul-level lessons, deserving deep reflection rather than superficial response.';
+            }
+          }
+          break;
+        }
+
+        // ---- 关系牌阵 ----
+        case 'relation': {
+          const you = cards[0], partner = cards[1], yourAtt = cards[2], theirAtt = cards[3];
+          if (!isEn) {
+            text += '关系牌阵揭示了人际互动的全貌。';
+            if (you.card.suit === partner.card.suit) {
+              text += '你与对方同属「' + this.suitName(you.card.suit, false) + '」能量，说明你们有深层的共鸣或相似的处事方式——这可以是优势，也可能导致视角过于相似而缺乏互补。';
+            }
+            if (yourAtt.isReversed !== theirAtt.isReversed) {
+              text += ' 你们对这段关系的态度不同步：一方可能比另一方更投入或更犹豫。沟通彼此的真实感受是改善关系的关键。';
+            }
+            if (cards[4].card.suit === 'major') {
+              text += ' 「当前关系」位置出现大阿卡那牌，说明这段关系对你有着超越普通交往的意义，可能是你灵魂成长的重要一环。';
+            }
+          } else {
+            text += 'The Relationship spread reveals the full picture of interpersonal interaction. ';
+            if (you.card.suit === partner.card.suit) {
+              text += 'You and the other person share the same "' + this.suitName(you.card.suit, true) + '" energy, indicating deep resonance or similar ways of handling things.';
+            }
+            if (yourAtt.isReversed !== theirAtt.isReversed) {
+              text += ' Your attitudes toward this relationship are out of sync. Communicating true feelings is key to improving the relationship.';
+            }
+          }
+          break;
+        }
+
+        // ---- 二选一牌阵 ----
+        case 'choice': {
+          const optA = cards[0], optB = cards[1], outA = cards[2], outB = cards[3];
+          if (!isEn) {
+            text += '二选一牌阵帮助你从结果倒推选择。';
+            const aScore = (!outA.isReversed ? 1 : 0) + (outA.card.suit === 'major' ? 1 : 0);
+            const bScore = (!outB.isReversed ? 1 : 0) + (outB.card.suit === 'major' ? 1 : 0);
+            if (aScore > bScore) {
+              text += '从结果牌来看，选项A（' + deckManager.getCardName(optA.card) + '）的能量更积极，更可能带来你期望的结果。';
+            } else if (bScore > aScore) {
+              text += '从结果牌来看，选项B（' + deckManager.getCardName(optB.card) + '）的能量更积极，更可能带来你期望的结果。';
+            } else {
+              text += '两个选项的结果牌能量相当，说明选择哪个都可能面临类似的挑战。此时应跟随内心最真实的渴望，而非仅仅权衡利弊。';
+            }
+            if (cards[4].card.suit === 'pentacles') {
+              text += ' 建议牌是星币组，提醒你做决定时要考虑实际条件和资源限制。';
+            } else if (cards[4].card.suit === 'cups') {
+              text += ' 建议牌是圣杯组，提醒你做决定时要倾听内心的声音和情感需求。';
+            }
+          } else {
+            text += 'The Choice spread helps you reason backward from outcomes. ';
+            const aScore = (!outA.isReversed ? 1 : 0) + (outA.card.suit === 'major' ? 1 : 0);
+            const bScore = (!outB.isReversed ? 1 : 0) + (outB.card.suit === 'major' ? 1 : 0);
+            if (aScore > bScore) {
+              text += 'From the outcome cards, Option A (' + deckManager.getCardName(optA.card) + ') has more positive energy.';
+            } else if (bScore > aScore) {
+              text += 'From the outcome cards, Option B (' + deckManager.getCardName(optB.card) + ') has more positive energy.';
+            } else {
+              text += 'Both options have similar outcome energy. Follow your truest desire rather than just weighing pros and cons.';
+            }
+          }
+          break;
+        }
+
+        // ---- 五张牌阵 ----
+        case 'five':
+          if (!isEn) {
+            text += '五张牌阵从问题核心到解决方案层层递进。';
+            if (cards[1].isReversed) {
+              text += '「面临的障碍」逆位，说明阻碍可能来自内在——自我怀疑、恐惧或旧有模式，而非外在环境。向内探索比向外突围更有效。';
+            } else {
+              text += '「面临的障碍」正位，说明阻碍是具体而真实的，需要有策略地应对，而非逃避或否认。';
+            }
+            if (cards[2].card.suit === 'swords') {
+              text += ' 「潜意识/隐藏因素」是宝剑牌，提示你的理性思维可能在掩盖真实的情感需求。试着问自己：如果不考虑逻辑，我真正想要的是什么？';
+            } else if (cards[2].card.suit === 'cups') {
+              text += ' 「潜意识/隐藏因素」是圣杯牌，提示情感需求是推动你行动的核心动力，也许你自己还没有完全意识到。';
+            }
+          } else {
+            text += 'The Five Card spread progresses layer by layer from problem core to solution. ';
+            if (cards[1].isReversed) {
+              text += 'The "Obstacle" card is reversed, suggesting the blockage may come from within — self-doubt, fear, or old patterns. Inner exploration is more effective than outward breakthrough.';
+            }
+          }
+          break;
+
+        // ---- 马蹄铁牌阵 ----
+        case 'horseshoe':
+          if (!isEn) {
+            text += '马蹄铁牌阵覆盖了从过去到未来的完整弧线。';
+            if (cards[2].card.suit === 'major') {
+              text += '「隐藏的因素」是大阿卡那牌，说明有一股深层的命运力量在暗中运作，可能不是表面上看到的那样。保持开放，接受意外。';
+            }
+            if (cards[5].card.suit === 'cups' || cards[5].card.suit === 'pentacles') {
+              text += ' 「希望与恐惧」位置出现温和的牌，说明你的内心对这个结果其实是有期待的，恐惧可能大于实际风险。';
+            } else if (cards[5].isReversed) {
+              text += ' 「希望与恐惧」逆位，说明你可能对结果感到迷茫或不敢奢望，需要重新连接内心的渴望。';
+            }
+          } else {
+            text += 'The Horseshoe spread covers the complete arc from past to future. ';
+            if (cards[2].card.suit === 'major') {
+              text += 'The "Hidden Factor" is a Major Arcana card, indicating a deep fate force is operating in the dark.';
+            }
+          }
+          break;
+
+        // ---- 事业牌阵 ----
+        case 'career':
+          if (!isEn) {
+            text += '事业牌阵聚焦你的职业与学业发展。';
+            if (cards[2].card.suit === 'wands' || cards[2].card.suit === 'fire') {
+              text += '「你的优势」属于火元素，说明你的核心竞争力在于行动力、创造力或领导能力。在事业上，主动出击比等待机会更有效。';
+            } else if (cards[2].card.suit === 'pentacles') {
+              text += '「你的优势」属于土元素，说明你的核心竞争力在于务实、可靠和执行力。在事业上，稳扎稳打比冒险跃进更能积累成果。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「面临的挑战」逆位，说明职场上的困难可能源于内在的自我设限，而非外在环境。突破点在于重新认识自己的价值。';
+            }
+          } else {
+            text += 'The Career spread focuses on your professional and academic development. ';
+            if (cards[2].card.suit === 'wands') {
+              text += 'Your "Strengths" are in Fire element — your core competitiveness lies in action, creativity, or leadership.';
+            } else if (cards[2].card.suit === 'pentacles') {
+              text += 'Your "Strengths" are in Earth element — your core competitiveness lies in being practical, reliable, and execution-oriented.';
+            }
+          }
+          break;
+
+        // ---- 时间之流 ----
+        case 'timeflow':
+          if (!isEn) {
+            text += '时间之流牌阵在时间维度上深入剖析问题。';
+            if (cards[3].card.suit === 'major') {
+              text += '「深层原因」是大阿卡那牌，说明问题的根源可以追溯到灵魂层面的课题，不是靠表面调整就能解决的。';
+            }
+            if (cards[0].isReversed && cards[2].isReversed) {
+              text += ' 过去与未来都出现逆位，说明这个问题可能是一个反复出现的模式，需要更深层的觉察才能打破循环。';
+            } else if (!cards[0].isReversed && !cards[2].isReversed) {
+              text += ' 过去与未来都正位，说明这个问题正在朝着积极的方向演化，你的努力已经有了成效。';
+            }
+          } else {
+            text += 'The Time Flow spread deeply analyzes the question across the time dimension. ';
+            if (cards[3].card.suit === 'major') {
+              text += 'The "Root Cause" is a Major Arcana card, indicating the root of the problem traces back to a soul-level lesson.';
+            }
+          }
+          break;
+
+        // ---- 问题行动结果 ----
+        case 'action':
+          if (!isEn) {
+            text += '问题行动结果牌阵是最简洁的决策指引。';
+            if (cards[1].card.suit === 'wands' || cards[1].card.suit === 'swords') {
+              text += '「建议行动」是主动型牌（权杖或宝剑），说明你需要立即采取行动，等待只会让情况更复杂。';
+            } else if (cards[1].card.suit === 'cups' || cards[1].card.suit === 'pentacles') {
+              text += '「建议行动」是沉淀型牌（圣杯或星币），说明你需要更多耐心和内省，贸然行动可能适得其反。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「可能结果」逆位，提醒你即使按照建议行动，也可能遇到预期之外的变化。保持弹性比执着于特定结果更重要。';
+            }
+          } else {
+            text += 'The Problem-Action-Result spread is the most concise decision guidance. ';
+            if (cards[1].card.suit === 'wands' || cards[1].card.suit === 'swords') {
+              text += 'The "Suggested Action" is an active card (Wands or Swords), indicating you need to take action immediately.';
+            }
+          }
+          break;
+
+        // ---- 心灵牌阵 ----
+        case 'mind':
+          if (!isEn) {
+            text += '心灵牌阵帮助你整合意识与潜意识。';
+            if (cards[0].card.suit !== cards[1].card.suit) {
+              text += '「意识」与「潜意识」属于不同元素，说明你的意识认知与内在真实感受之间存在gap。你可能在对自己说谎，或者还没有完全觉察自己的真实需求。';
+            }
+            if (cards[2].card.suit === 'major' || cards[3].card.suit === 'major') {
+              text += ' 「理想」或「现实」位置出现大阿卡那牌，说明你内心深处对这个议题有着超越日常的期待，可能需要重新定义什么是"现实"。';
+            }
+            if (cards[4].isReversed) {
+              text += ' 「建议」逆位，说明你可能需要先放下固有的思维框架，才能接收到真正的指引。';
+            }
+          } else {
+            text += 'The Mind spread helps you integrate consciousness and subconscious. ';
+            if (cards[0].card.suit !== cards[1].card.suit) {
+              text += 'Your "Conscious" and "Subconscious" cards belong to different elements, indicating a gap between your conscious awareness and inner truth.';
+            }
+          }
+          break;
+
+        // ---- 恋人牌阵 ----
+        case 'love':
+          if (!isEn) {
+            text += '恋人牌阵深入解读两人关系的各个层面。';
+            if (cards[0].card.suit === 'cups' && cards[1].card.suit === 'cups') {
+              text += '你与对方都受到水元素（圣杯）的影响，说明这是一段情感浓度很高的关系，直觉和感受主导着互动。';
+            } else if (cards[0].isReversed || cards[1].isReversed) {
+              text += '你或对方的状态出现逆位，说明这段关系中至少有一方感到不确定、困惑或有所保留。开诚布公的沟通是破局关键。';
+            }
+            if (cards[3].isReversed) {
+              text += ' 「面临的挑战」逆位，说明挑战可能来自逃避或不敢面对问题，而非问题本身无法解决。';
+            }
+            if (cards[6].card.suit === 'pentacles' || cards[6].card.suit === 'wands') {
+              text += ' 「建议」是务实或行动导向的牌，说明改善这段关系需要具体的行动，而非仅仅停留在情感表达上。';
+            }
+          } else {
+            text += 'The Love spread deeply interprets all levels of a two-person relationship. ';
+            if (cards[0].card.suit === 'cups' && cards[1].card.suit === 'cups') {
+              text += 'Both you and your partner are influenced by Water element (Cups), indicating a relationship with high emotional intensity.';
+            } else if (cards[0].isReversed || cards[1].isReversed) {
+              text += 'Either you or your partner has a reversed card, suggesting at least one party feels uncertain or hesitant.';
+            }
+          }
+          break;
+
+        // ---- 复合牌阵 ----
+        case 'broken':
+          if (!isEn) {
+            text += '复合牌阵帮助你理性看待分手与复合的可能。';
+            if (cards[0].card.suit === 'major') {
+              text += '「问题根源」是大阿卡那牌，说明分手的原因触及深层的灵魂课题，可能不是简单的性格不合，而是成长节奏的不同步。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「对方的想法」逆位，说明对方可能还在情感上处于防御状态，或者还没有理清自己的感受。此时推进复合可能操之过急。';
+            } else {
+              text += ' 「对方的想法」正位，说明对方对这段关系仍有清晰的感受，复合的可能性相对较高。';
+            }
+            if (cards[4].isReversed) {
+              text += ' 「复合的可能性」逆位，不代表完全没有可能，而是提示复合的过程可能比预期更曲折，需要更多耐心和自我成长。';
+            }
+          } else {
+            text += 'The Reunion spread helps you rationally view the breakup and possibility of getting back together. ';
+            if (cards[1].isReversed) {
+              text += 'The other person\'s thoughts are reversed — they may still be in emotional defense mode. Pushing for reunion now may be too hasty.';
+            }
+          }
+          break;
+
+        // ---- 是否牌阵 ----
+        case 'yesno':
+          if (!isEn) {
+            text += '是否牌阵给出支持与反对因素的平衡视角。';
+            const supportRev = cards[0].isReversed ? 1 : 0;
+            const opposeRev = cards[1].isReversed ? 1 : 0;
+            if (supportRev < opposeRev) {
+              text += '支持因素比反对因素更积极，整体倾向「是」。但即使如此，逆位牌提醒你仍需注意潜在的风险。';
+            } else if (opposeRev < supportRev) {
+              text += '反对因素比支持因素更积极（即支持因素逆位、反对因素正位），整体倾向「否」。但这并不意味着失败，而是提醒你需要换一个方向。';
+            } else {
+              text += '支持与反对因素能量相当，说明这件事的成败很大程度上取决于你的行动和态度。塔罗给出的不是定论，而是当下的能量快照。';
+            }
+          } else {
+            text += 'The Yes/No spread gives a balanced view of supporting and opposing factors. ';
+            const supportRevEn = cards[0].isReversed ? 1 : 0;
+            const opposeRevEn = cards[1].isReversed ? 1 : 0;
+            if (supportRevEn < opposeRevEn) {
+              text += 'Supporting factors are more positive than opposing factors — the tendency leans toward "Yes".';
+            } else if (opposeRevEn < supportRevEn) {
+              text += 'Opposing factors are more positive — the tendency leans toward "No". But this does not mean failure, only that you may need a different direction.';
+            }
+          }
+          break;
+
+        // ---- 换工作牌阵 ----
+        case 'jobchange':
+          if (!isEn) {
+            text += '换工作牌阵帮助你在职业转折点上做出明智选择。';
+            if (cards[0].card.suit === 'pentacles' && cards[0].isReversed) {
+              text += '「现状」是星币逆位，说明当前工作可能在物质回报或安全感上无法满足你，这是促使你想离开的核心动因。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「新机会的本质」逆位，提醒你不要理想化新工作，它可能有你看不到的挑战。建议多做调研，而不仅仅凭感觉做决定。';
+            } else {
+              text += ' 「新机会的本质」正位，说明新机会确实是真实而有益的，但仍需评估自己是否准备好了迎接变化。';
+            }
+          } else {
+            text += 'The Job Change spread helps you make wise choices at career turning points. ';
+            if (cards[2].isReversed) {
+              text += 'The "Nature of New Opportunity" is reversed — do not idealize the new job. It may have challenges you cannot see yet.';
+            }
+          }
+          break;
+
+        // ---- 阴影牌阵 ----
+        case 'shadow':
+          if (!isEn) {
+            text += '阴影牌阵引导你遇见被自己否认或压抑的那部分自我。';
+            if (cards[1].card.suit === 'major') {
+              text += '「阴影自我」是大阿卡那牌，说明你的阴影面承载着重要的灵魂课题。否认它只会让它以更强烈的方式反弹。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「需要释放的」逆位，说明你可能还没有准备好放下某些旧模式，或者你以为已经放下了但实则还在执着。温柔地对待自己，整合是一个过程。';
+            }
+            if (cards[4].card.suit === 'wands' || cards[4].card.suit === 'swords') {
+              text += ' 「建议」是主动型牌，说明自我整合需要你主动面对，而非等待阴影自己浮现。';
+            }
+          } else {
+            text += 'The Shadow spread guides you to meet the part of yourself that is denied or suppressed. ';
+            if (cards[1].card.suit === 'major') {
+              text += 'Your "Shadow Self" is a Major Arcana card, indicating your shadow carries important soul lessons.';
+            }
+          }
+          break;
+
+        // ---- 年运牌阵 ----
+        case 'year':
+          if (!isEn) {
+            text += '年运牌阵勾勒出一整年的能量地图。';
+            if (cards[0].card.suit === 'major') {
+              text += '「整体运势」是大阿卡那牌，说明这一年将是一个重要的转折年，可能有重大事件或深层转变发生。';
+            }
+            const yearSuits = cards.map(c => c.card.suit);
+            if (yearSuits.filter(s => s === 'pentacles').length >= 2) {
+              text += ' 星币牌在年运中占据重要位置，说明这一年物质层面（财务、工作、健康）将是重点关注的领域。';
+            } else if (yearSuits.filter(s => s === 'cups').length >= 2) {
+              text += ' 圣杯牌在年运中占据重要位置，说明这一年情感与人际关系将是主旋律。';
+            }
+          } else {
+            text += 'The Yearly spread outlines the energy map for the entire year. ';
+            if (cards[0].card.suit === 'major') {
+              text += 'The "Overall Fortune" is a Major Arcana card, indicating this year will be an important turning point year.';
+            }
+          }
+          break;
+
+            // ---- 利弊分析 ----
+        case 'proscons':
+          if (!isEn) {
+            text += '利弊分析牌阵帮助你理性权衡决策的各个方面。';
+            if (cards[0].isReversed) {
+              text += '「利」逆位，说明支持你做这件事的理由可能没有你想象的那么充分，或者有利条件中隐藏着代价。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「弊」逆位，说明反对理由可能被夸大了——你担心的风险实际发生的概率比你认为的要低。';
+            }
+            if (cards[3].card.suit === 'pentacles') {
+              text += ' 「建议」是星币牌，说明最终决策应该基于实际条件和长期规划，而非一时冲动或情绪。';
+            }
+          } else {
+            text += 'The Pros & Cons spread helps you rationally weigh all aspects of a decision. ';
+            if (cards[0].isReversed) {
+              text += 'The "Pros" card is reversed — the reasons supporting this action may not be as sufficient as you think.';
+            }
+          }
+          break;
+
+        // ---- 旅行牌阵 ----
+        case 'travel':
+          if (!isEn) {
+            text += '旅行牌阵为你的出行提供全方位的指引。';
+            if (cards[0].isReversed) {
+              text += '「旅行整体能量」逆位，说明这次旅行可能不会完全按照计划进行，可能会有意外状况。但逆位也意味着惊喜——最美好的时刻往往在不经意间发生。';
+            } else {
+              text += '「旅行整体能量」正位，预示这次旅行整体顺利，是放松和充电的好时机。';
+            }
+            if (cards[2].card.suit === 'swords' || cards[2].card.suit === 'pentacles') {
+              text += ' 「需要注意的事项」是宝剑或星币牌，提醒你在行程安排和财物安全上需要格外留意。';
+            }
+          } else {
+            text += 'The Travel spread provides all-around guidance for your trip. ';
+            if (cards[0].isReversed) {
+              text += 'The "Overall Travel Energy" is reversed — the trip may not go exactly as planned, but surprises may also appear.';
+            }
+          }
+          break;
+
+        // ---- 人生使命牌阵 ----
+        case 'lifepurpose':
+          if (!isEn) {
+            text += '人生使命牌阵帮助你连接内在的天命召唤。';
+            if (cards[0].card.suit === 'major') {
+              text += '「你的核心天赋」是大阿卡那牌，说明你的天赋不仅仅是技能，而是一种灵魂层面的特质，可能与你此生的使命直接相关。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「你的人生课题」逆位，说明你可能在重复逃避这个课题，但它会不断以不同形式出现在你的生活中，直到你真正面对它。';
+            }
+            if (cards[5].isReversed) {
+              text += ' 「需要释放的信念」逆位，说明有些旧有信念你已经意识到了，但还没有完全放下。释放是一个层层递进的过程。';
+            }
+          } else {
+            text += 'The Life Purpose spread helps you connect with your inner calling. ';
+            if (cards[0].card.suit === 'major') {
+              text += 'Your "Core Talent" is a Major Arcana card, indicating your talent is not just a skill but a soul-level trait.';
+            }
+          }
+          break;
+
+        // ---- 考试牌阵 ----
+        case 'exam':
+          if (!isEn) {
+            text += '考试牌阵为你的备考和应试提供精准指引。';
+            if (cards[0].isReversed) {
+              text += '「考试/面试结果」逆位，不代表一定会失败，而是提醒你结果可能不如预期，需要更加努力或者调整期望值。';
+            } else {
+              text += '「考试/面试结果」正位，预示考试或面试结果偏向积极，但正位不代表可以掉以轻心——充分准备仍然是成功的基础。';
+            }
+            if (cards[1].card.suit === 'swords') {
+              text += ' 「准备方向」是宝剑牌，说明你需要更多理性分析和系统复习，重点攻克弱项而非重复已经掌握的内容。';
+            } else if (cards[1].card.suit === 'pentacles') {
+              text += ' 「准备方向」是星币牌，说明你需要制定具体的复习计划，按部就班、稳扎稳打比临时抱佛脚更有效。';
+            }
+            if (cards[3].isReversed) {
+              text += ' 「潜在障碍」逆位，说明障碍可能来自内心——紧张、自我怀疑或完美主义，而非知识储备不足。';
+            }
+          } else {
+            text += 'The Exam spread provides precise guidance for your preparation and performance. ';
+            if (cards[0].isReversed) {
+              text += 'The "Exam/Interview Result" is reversed — this does not mean certain failure, but reminds you the result may not meet expectations.';
+            } else {
+              text += 'The "Exam/Interview Result" is upright — the result tends to be positive, but full preparation is still the foundation of success.';
+            }
+          }
+          break;
+
+        // ---- 命运之轮 ----
+        case 'fatewheel':
+          if (!isEn) {
+            text += '命运之轮牌阵帮助你理解命运的起伏与转折。';
+            if (cards[0].card.suit === 'major') {
+              text += '「当前命运状态」是大阿卡那牌，说明你正处于一个命运的关键节点上，个人的选择会与更大的命运力量交汇。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「命运的转变点」逆位，说明转变可能以你不期望的方式发生，或者时机与你预期的不同。接受而非抗拒是智慧的选择。';
+            }
+            if (cards[4].isReversed) {
+              text += ' 「最终的命运走向」逆位，说明命运之轮可能会转向一个你未曾预料的方向，但逆位也意味着你有重新定义结局的力量。';
+            }
+          } else {
+            text += 'The Wheel of Fortune spread helps you understand the rises and turns of fate. ';
+            if (cards[0].card.suit === 'major') {
+              text += 'Your "Current Fate Status" is a Major Arcana card — you are at a key node of fate where personal choice meets larger fate forces.';
+            }
+          }
+          break;
+
+        // ---- 月运牌阵 ----
+        case 'monthly':
+          if (!isEn) {
+            text += '月运牌阵为你勾勒未来一个月的能量蓝图。';
+            if (cards[0].isReversed) {
+              text += '「本月主题」逆位，说明这个月可能不会一帆风顺，但逆位也意味着你有突破旧模式的机会。这个月的课题可能恰恰是你需要成长的领域。';
+            }
+            const monthSuits = cards.map(c => c.card.suit);
+            if (monthSuits.filter(s => s === 'wands').length >= 2) {
+              text += ' 权杖牌在本月占据重要位置，说明这个月行动力充沛，适合启动新项目或推进搁置的计划。';
+            } else if (monthSuits.filter(s => s === 'cups').length >= 2) {
+              text += ' 圣杯牌在本月占据重要位置，说明这个月情感丰富，适合处理人际关系或内在探索。';
+            }
+          } else {
+            text += 'The Monthly Fortune spread outlines the energy blueprint for the coming month. ';
+            if (cards[0].isReversed) {
+              text += 'The "Monthly Theme" is reversed — this month may not be smooth sailing, but it also means you have the opportunity to break old patterns.';
+            }
+          }
+          break;
+
+        // ---- 灵魂旅程 ----
+        case 'souljourney':
+          if (!isEn) {
+            text += '灵魂旅程牌阵引导你深入灵性成长的核心。';
+            if (cards[0].card.suit === 'major') {
+              text += '「当下的灵魂状态」是大阿卡那牌，说明你正处于一个灵魂层面的重要阶段，日常的表面问题可能只是灵魂课题的映射。';
+            }
+            if (cards[3].isReversed) {
+              text += ' 「当前的精神挑战」逆位，说明挑战可能来自你不愿意面对的真相，或者你以为自己已经超越了某些模式但实际上还没有。';
+            }
+            if (cards[6].card.suit === 'cups' || cards[6].card.suit === 'wands') {
+              text += ' 「高我/直觉声音」是情感或行动导向的牌，说明你的高我通过感受和直觉与你沟通，而非理性的声音。学会信任那份"说不出的感觉"。';
+            }
+          } else {
+            text += 'The Soul Journey spread guides you into the core of spiritual growth. ';
+            if (cards[0].card.suit === 'major') {
+              text += 'Your "Current Soul State" is a Major Arcana card, indicating you are at an important soul-level stage.';
+            }
+          }
+          break;
+
+        // ---- 星座牌阵（12宫位）----
+        case 'zodiac':
+          if (!isEn) {
+            text += '星座牌阵对应黄道12宫位，全面解读生活的各个面向。';
+            const zodiacMajors = cards.filter(c => c.card.suit === 'major');
+            if (zodiacMajors.length >= 3) {
+              text += '有' + zodiacMajors.length + '张大阿卡那牌出现在宫位中，说明这一年（或这一阶段）将发生多个重要的生命事件，命运的集中度很高。';
+            }
+            // 检查第1宫与第7宫的关系（自我 vs 关系）
+            if (cards[0].card.suit === cards[6].card.suit) {
+              text += ' 第1宫（自我）与第7宫（伴侣）属于同元素，说明你在关系中寻找的是与自己相似的能量，这可能带来共鸣，也可能导致缺乏成长刺激。';
+            }
+          } else {
+            text += 'The Zodiac spread corresponds to the 12 astrological houses, comprehensively interpreting all areas of life. ';
+            const zodiacMajors = cards.filter(c => c.card.suit === 'major');
+            if (zodiacMajors.length >= 3) {
+              text += 'There are ' + zodiacMajors.length + ' Major Arcana cards in the houses, indicating multiple important life events concentrated in this period.';
+            }
+          }
+          break;
+
+        // ---- 前世今生 ----
+        case 'pastlife':
+          if (!isEn) {
+            text += '前世今生牌阵帮助你理解跨越时间的灵魂课题。';
+            if (cards[0].card.suit === 'major') {
+              text += '「前世身份」是大阿卡那牌，说明你的前世经历与重要的灵魂原型相关，可能不是普通人的生活，而是带有某种使命或特殊遭遇。';
+            }
+            if (cards[1].card.suit === cards[3].card.suit) {
+              text += ' 「未完成课题」与「灵魂成长方向」属于同元素，说明你今生的成长方向正是前世未竟的事业——这是一种灵魂的延续，而非重新开始。';
+            }
+            if (cards[4].card.suit === 'pentacles' || cards[4].card.suit === 'wands') {
+              text += ' 「建议」是行动导向的牌，说明理解前世今生不是为了沉溺于故事，而是为了在今生的行动上做出不同的选择。';
+            }
+          } else {
+            text += 'The Past Life spread helps you understand soul lessons across time. ';
+            if (cards[0].card.suit === 'major') {
+              text += 'Your "Past Life Identity" is a Major Arcana card, indicating your past life was connected to important soul archetypes.';
+            }
+          }
+          break;
+
+        // ---- 健康牌阵 ----
+        case 'health':
+          if (!isEn) {
+            text += '健康牌阵从身心整合的角度给出疗愈指引。';
+            if (cards[0].card.suit === 'swords') {
+              text += '「身体状态」是宝剑牌，说明身体症状可能与思维过度、焦虑或压力有关。身心是一体的，放松头脑可能是改善身体的第一步。';
+            } else if (cards[0].card.suit === 'cups') {
+              text += '「身体状态」是圣杯牌，说明身体症状可能与情感压抑、未表达的情绪有关。允许自己感受并表达情感，身体会随之放松。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「心理情绪」逆位，说明你可能没有意识到自己的情绪状态对身体的影响，或者在否认某些情感需求。';
+            }
+            text += ' 请注意：塔罗健康解读仅供辅助参考，任何身体症状请务必咨询专业医师。';
+          } else {
+            text += 'The Health spread gives healing guidance from the perspective of mind-body integration. ';
+            if (cards[0].card.suit === 'swords') {
+              text += 'Your "Physical Condition" is a Swords card — body symptoms may be related to overthinking, anxiety, or stress.';
+            }
+            text += ' Note: Tarot health reading is for reference only. Please consult a professional doctor for any physical symptoms.';
+          }
+          break;
+
+        // ---- 家庭关系 ----
+        case 'family':
+          if (!isEn) {
+            text += '家庭关系牌阵帮助你理解家庭动力与改善亲子/亲人关系。';
+            if (cards[1].isReversed) {
+              text += '「父亲」逆位，可能意味着父亲的形象在你心中是缺失的、疏远的，或者你对父亲有未化解的情绪。这可能影响你与权威人物的关系模式。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「母亲」逆位，可能意味着母亲的形象在你心中是过度控制的、情绪化的，或者你对母亲有未化解的情绪。这可能影响你的安全感和亲密关系模式。';
+            }
+            if (!cards[3].isReversed) {
+              text += ' 「家庭氛围」正位，说明尽管可能存在个体层面的问题，但家庭整体的能量是健康的，有改善和疗愈的空间。';
+            }
+          } else {
+            text += 'The Family spread helps you understand family dynamics and improve parent-child/relative relationships. ';
+            if (cards[1].isReversed) {
+              text += 'The "Father" card is reversed — the father figure may feel absent or distant in your heart.';
+            }
+            if (cards[2].isReversed) {
+              text += 'The "Mother" card is reversed — the mother figure may feel over-controlling or emotional in your heart.';
+            }
+          }
+          break;
+
+        // ---- 一周运势 ----
+        case 'weekly':
+          if (!isEn) {
+            text += '一周运势牌阵为你预示未来七天可能的能量起伏。';
+            const weekRevCount = cards.filter(c => c.isReversed).length;
+            if (weekRevCount >= 5) {
+              text += '本周逆位牌占多数，预示这可能是一个需要更多耐心和自我关怀的星期。不要对每一天都有太高期待，允许自己休息和充电。';
+            } else if (weekRevCount <= 2) {
+              text += '本周正位牌占多数，预示这将是充满能量和机会的一周。充分利用这股正向能量，推进重要计划。';
+            }
+            // 找出能量最强的一天
+            const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            const dayNamesEn = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            let strongestDay = 0, maxEnergy = 0;
+            cards.forEach((item, i) => {
+              let e = item.card.suit === 'major' ? 10 : 5;
+              if (item.isReversed) e *= 0.7;
+              if (e > maxEnergy) { maxEnergy = e; strongestDay = i; }
+            });
+            text += ' 本周能量最强的一天是' + (isEn ? dayNamesEn[strongestDay] : dayNames[strongestDay]) + '（' + deckManager.getCardName(cards[strongestDay].card) + '），这天适合重点推进重要事项。';
+          } else {
+            text += 'The Weekly Fortune spread forecasts the possible energy fluctuations for the coming seven days. ';
+            const weekRevCount = cards.filter(c => c.isReversed).length;
+            if (weekRevCount >= 5) {
+              text += 'Reversed cards are in the majority this week — this may be a week requiring more patience and self-care.';
+            } else if (weekRevCount <= 2) {
+              text += 'Upright cards are in the majority — this will be a week full of energy and opportunities.';
+            }
+          }
+          break;
+
+        default:
+          text += isEn
+            ? 'This spread provides unique insights based on the cards drawn. Please refer to the position meanings and individual card interpretations above.'
+            : '该牌阵根据所抽到的牌提供独特见解，请参考上方的位置含义和单张牌意解读。';
+          break;
+      }
+
+      html += '<p>' + text + '</p></div></div>';
+      return html;
+    }
+
+    // 辅助函数：获取牌组名称（用于专属解读）
+    suitName(suit, isEn) {
+      const names = isEn
+        ? { wands: 'Wands (Fire)', cups: 'Cups (Water)', swords: 'Swords (Air)', pentacles: 'Pentacles (Earth)', major: 'Major Arcana' }
+        : { wands: '权杖（火）', cups: '圣杯（水）', swords: '宝剑（风）', pentacles: '星币（土）', major: '大阿卡那' };
+      return names[suit] || suit;
+    }
+
+    // ============ 综合解读生成（改造） ============
     async generateComprehensiveReading() {
       if (!this.currentCards || this.currentCards.length === 0) return '';
 
@@ -856,6 +2422,8 @@
       let html = this.analyzeTheme(cards, spreadName);
       html += this.analyzeCardRelations(mode, cards, positions);
       html += this.analyzeTrend(cards);
+      // 牌阵专属解读段落（新增）
+      html += this.generateSpreadSpecificReading(mode, cards, positions);
       html += this.generateAdvice(mode, cards);
 
       // Level 2 优化：添加牌意组合解读
@@ -863,6 +2431,18 @@
 
       // Level 3 优化：添加能量强度分析
       html += this.analyzeEnergyIntensity(cards);
+
+      // ============ 新增功能：综合解读摘要 ============
+      html += this.generateSummary(cards, mode);
+
+      // ============ 新增功能：关键词标签 ============
+      html += this.generateKeywordTags(cards);
+
+      // ============ 新增功能：行动步骤清单 ============
+      html += this.generateActionSteps(cards, mode);
+
+      // ============ 新增功能：元素平衡分析 ============
+      html += this.analyzeElementBalance(cards);
 
       // 扩展功能：检查开关状态，添加历史分析、时间维度、性格分析
       const extendedToggle = document.getElementById('extended-reading-toggle');
