@@ -5539,3 +5539,96 @@ button:active {
     height: 125px;
   }
 }
+
+/* ============ 扩展解读开关样式 ============ */
+.extended-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  padding: 4px 8px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  margin-left: auto;
+}
+
+.extended-toggle:hover {
+  color: var(--color-gold);
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.extended-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.extended-toggle-slider {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9px;
+  transition: background 0.3s ease;
+  flex-shrink: 0;
+}
+
+.extended-toggle-slider::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: var(--color-text-muted);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.extended-toggle input:checked + .extended-toggle-slider {
+  background: rgba(255, 215, 0, 0.4);
+}
+
+.extended-toggle input:checked + .extended-toggle-slider::before {
+  left: 16px;
+  background: var(--color-gold);
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.extended-toggle-label {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 扩展解读内容样式 */
+.reading-section {
+  margin-bottom: 16px;
+  animation: sectionFadeIn 0.5s ease-out both;
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reading-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  letter-spacing: 1px;
+}
+
+.reading-section-body {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--color-text);
+  padding: 8px 10px;
+  background: rgba(26, 15, 64, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 215, 0, 0.08);
+}

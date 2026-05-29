@@ -561,14 +561,65 @@
         else if (dominantElement === 'pentacles') text += this.t('theme_pentacles');
       }
 
+      // 检测元素互动
+      const hasFire = elements.wands > 0;
+      const hasWater = elements.cups > 0;
+      const hasAir = elements.swords > 0;
+      const hasEarth = elements.pentacles > 0;
+
+      if (hasFire && hasWater) text += this.t('theme_element_fire_water');
+      if (hasFire && hasAir) text += this.t('theme_element_fire_air');
+      if (hasFire && hasEarth) text += this.t('theme_element_fire_earth');
+      if (hasWater && hasAir) text += this.t('theme_element_water_air');
+      if (hasWater && hasEarth) text += this.t('theme_element_water_earth');
+      if (hasAir && hasEarth) text += this.t('theme_element_air_earth');
+
+      // 正逆位平衡分析
       if (reversedCount >= cards.length * 0.5) {
         text += this.t('theme_mostly_reversed');
       } else if (uprightCount >= cards.length * 0.7) {
         text += this.t('theme_mostly_upright');
+      } else if (uprightCount > 0 && reversedCount > 0) {
+        text += this.t('theme_balanced');
       }
+
+      // Level 3 优化：添加牌面"故事线"解读
+      text += this.generateStoryline(cards);
 
       html += text + '</div></div>';
       return html;
+    }
+
+    // ============ Level 3 优化：生成牌面故事线 ============
+    generateStoryline(cards) {
+      if (cards.length < 3) return '';
+
+      let text = '<br><br><strong>' + (this.currentLang === 'en' ? 'Storyline: ' : '故事线：') + '</strong>';
+      text += this.currentLang === 'en' ? 'The cards tell a story — ' : '牌面在讲述一个故事——';
+
+      // 根据牌面生成简单的叙事
+      const firstCard = cards[0];
+      const lastCard = cards[cards.length - 1];
+
+      if (firstCard.isReversed && !lastCard.isReversed) {
+        text += this.currentLang === 'en'
+          ? 'starting with challenges but moving toward resolution.'
+          : '从挑战开始，但正走向解决。';
+      } else if (!firstCard.isReversed && lastCard.isReversed) {
+        text += this.currentLang === 'en'
+          ? 'starting smoothly but facing tests ahead.'
+          : '开始顺利，但前方有考验。';
+      } else if (!firstCard.isReversed && !lastCard.isReversed) {
+        text += this.currentLang === 'en'
+          ? 'the energy flows positively from beginning to end.'
+          : '能量从开始到结束都是正向流动的。';
+      } else {
+        text += this.currentLang === 'en'
+          ? 'there are challenges to work through, but each step brings growth.'
+          : '有需要克服的挑战，但每一步都带来成长。';
+      }
+
+      return text;
     }
 
     // ============ 综合解读 - 分析牌面关系 ============
@@ -609,18 +660,38 @@
           deckManager.getCardName(cards[2].card),
           deckManager.getCardName(cards[9].card));
       } else {
+        // 通用牌面关系分析（增强版）
         for (let i = 0; i < cards.length - 1; i++) {
           const c1 = cards[i], c2 = cards[i + 1];
-          if (c1.card.suit === c2.card.suit) {
-            const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币', major: '大阿卡那' };
+
+          // 检测大阿卡那牌对
+          if (c1.card.suit === 'major' && c2.card.suit === 'major') {
+            text += this.t('relation_major_pair',
+              deckManager.getCardName(c1.card) + ' ' + this.getPosText(c1.isReversed),
+              deckManager.getCardName(c2.card) + ' ' + this.getPosText(c2.isReversed));
+          }
+
+          // 检测同牌组延续
+          if (c1.card.suit === c2.card.suit && c1.card.suit !== 'major') {
+            const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
             const suitName = suitNames[c1.card.suit] || c1.card.suit;
             text += this.t('relation_suite_continue', positions[i], positions[i + 1], suitName);
           }
+
+          // 检测正逆位转换
           if (c1.isReversed && !c2.isReversed) {
             text += this.t('relation_rev_to_up', positions[i], positions[i + 1]);
           }
           if (!c1.isReversed && c2.isReversed) {
             text += this.t('relation_up_to_rev', positions[i], positions[i + 1]);
+          }
+
+          // 检测能量冲突（火vs水，风vs土）
+          if (c1.card.suit === 'wands' && c2.card.suit === 'cups') {
+            text += this.t('relation_conflict', positions[i], positions[i + 1]);
+          }
+          if (c1.card.suit === 'swords' && c2.card.suit === 'pentacles') {
+            text += this.t('relation_conflict', positions[i], positions[i + 1]);
           }
         }
         if (text === '') text = this.t('relation_smooth');
@@ -637,13 +708,31 @@
       html += '<div class="reading-section-body">';
 
       let text = '';
+
+      // 更精细的走势分析：逐张检查正逆位变化
+      let revCount = 0;
+      let trend = [];
+      for (let i = 0; i < cards.length; i++) {
+        if (cards[i].isReversed) revCount++;
+        trend.push(cards[i].isReversed ? 0 : 1); // 0=逆位, 1=正位
+      }
+
+      // 计算前半段和后半段逆位比例
       const firstHalf = cards.slice(0, Math.ceil(cards.length / 2));
       const secondHalf = cards.slice(Math.ceil(cards.length / 2));
       let firstRev = 0, secondRev = 0;
       firstHalf.forEach((c) => { if (c.isReversed) firstRev++; });
       secondHalf.forEach((c) => { if (c.isReversed) secondRev++; });
 
-      if (secondRev < firstRev) {
+      // 检测走势趋势（改善/恶化/平稳）
+      const firstRevRatio = firstRev / firstHalf.length;
+      const secondRevRatio = secondRev / secondHalf.length;
+
+      if (secondRevRatio < firstRevRatio - 0.2) {
+        text = this.t('trend_improvement');
+      } else if (secondRevRatio > firstRevRatio + 0.2) {
+        text = this.t('trend_decline');
+      } else if (secondRev < firstRev) {
         text = this.t('trend_good');
       } else if (secondRev > firstRev) {
         text = this.t('trend_warning');
@@ -651,6 +740,7 @@
         text = this.t('trend_stable');
       }
 
+      // 检测大阿卡那转折牌
       const turningCardsEn = ['Wheel of Fortune', 'Judgement', 'The Tower', 'Death'];
       const turningCardsZh = ['命运之轮', '审判', '塔', '死神'];
       cards.forEach((item) => {
@@ -660,6 +750,32 @@
           text += this.t('trend_major_turn', deckManager.getCardName(item.card));
         }
       });
+
+      // 检测连续正位/逆位
+      let consecutiveUp = 0, consecutiveRev = 0;
+      let maxConsecutiveUp = 0, maxConsecutiveRev = 0;
+      for (let i = 0; i < trend.length; i++) {
+        if (trend[i] === 1) {
+          consecutiveUp++;
+          consecutiveRev = 0;
+          maxConsecutiveUp = Math.max(maxConsecutiveUp, consecutiveUp);
+        } else {
+          consecutiveRev++;
+          consecutiveUp = 0;
+          maxConsecutiveRev = Math.max(maxConsecutiveRev, consecutiveRev);
+        }
+      }
+
+      if (maxConsecutiveRev >= 3) {
+        text += this.currentLang === 'en'
+          ? ' There is a sequence of ' + maxConsecutiveRev + ' reversed cards, indicating a period of significant challenge or inner resistance that needs sustained attention.'
+          : ' 出现连续 ' + maxConsecutiveRev + ' 张逆位牌，显示有一段时期面临较大挑战或内在抗拒，需要持续关注。';
+      }
+      if (maxConsecutiveUp >= 3) {
+        text += this.currentLang === 'en'
+          ? ' There is a sequence of ' + maxConsecutiveUp + ' upright cards, indicating a period of strong positive energy and smooth progress.'
+          : ' 出现连续 ' + maxConsecutiveUp + ' 张正位牌，显示有一段时期能量通畅，进展顺利。';
+      }
 
       html += text + '</div></div>';
       return html;
@@ -692,9 +808,36 @@
         }
       }
 
+      // 检测当前位置是否有大阿卡那牌
+      const currentIdx = (mode === 'five' || mode === 'career') ? 1 :
+                        (mode === 'choice') ? 0 :
+                        (mode === 'celtic') ? 0 :
+                        (cards.length > 1 ? 1 : -1);
+      if (currentIdx >= 0 && cards[currentIdx] && cards[currentIdx].card.suit === 'major') {
+        text += this.t('advice_major_present', deckManager.getCardName(cards[currentIdx].card));
+      }
+
+      // 根据逆位数量给出建议
       const reversedCount = cards.filter((item) => item.isReversed).length;
       if (reversedCount >= cards.length * 0.5) {
         text += this.t('advice_many_reversed');
+      }
+
+      // 根据牌组组合给出更细致的建议
+      const suits = cards.map(c => c.card.suit);
+      const uniqueSuits = [...new Set(suits)];
+      if (uniqueSuits.length === 1 && uniqueSuits[0] !== 'major') {
+        // 全是同一牌组
+        const suitNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+        const suitName = suitNames[uniqueSuits[0]] || uniqueSuits[0];
+        text += this.currentLang === 'en'
+          ? ' All cards are from the ' + uniqueSuits[0] + ' suit, suggesting you should focus entirely on this area of life.'
+          : ' 本次牌面全部为' + suitName + '牌组，建议你将注意力完全集中在这个生活领域。';
+      } else if (uniqueSuits.length >= 3) {
+        // 牌组分散，需要整合
+        text += this.currentLang === 'en'
+          ? ' The cards span multiple suits, indicating that your situation involves multiple aspects. Try to prioritize and focus on the most important one.'
+          : ' 牌面涉及多个牌组，说明你的处境涉及多个面向。尝试分清优先级，聚焦在最有影响力的那个方面。';
       }
 
       html += '<div class="reading-advice">' + text + '</div></div></div>';
@@ -702,7 +845,7 @@
     }
 
     // ============ 综合解读生成 ============
-    generateComprehensiveReading() {
+    async generateComprehensiveReading() {
       if (!this.currentCards || this.currentCards.length === 0) return '';
 
       const cards = this.currentCards;
@@ -715,6 +858,153 @@
       html += this.analyzeTrend(cards);
       html += this.generateAdvice(mode, cards);
 
+      // Level 2 优化：添加牌意组合解读
+      html += this.analyzeCardCombinations(cards);
+
+      // Level 3 优化：添加能量强度分析
+      html += this.analyzeEnergyIntensity(cards);
+
+      // 扩展功能：检查开关状态，添加历史分析、时间维度、性格分析
+      const extendedToggle = document.getElementById('extended-reading-toggle');
+      const enableExtended = extendedToggle ? extendedToggle.checked : true;
+
+      if (enableExtended) {
+        const extendedReading = await this.generateExtendedReading();
+        if (extendedReading) {
+          html += '<hr style="margin:20px 0;border-color:var(--color-gold);opacity:0.3;"/>';
+          html += '<div style="margin-top:20px;">' + extendedReading + '</div>';
+        }
+      }
+
+      return html;
+    }
+
+    // ============ Level 2 优化：分析牌意组合 ============
+    analyzeCardCombinations(cards) {
+      let html = '<div class="reading-section">';
+      html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '⚕ Card Combinations' : '⚕ 牌意组合解读') + '</div>';
+      html += '<div class="reading-section-body">';
+
+      let text = '';
+      const majors = cards.filter((item) => item.card.suit === 'major');
+      const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
+      cards.forEach((item) => {
+        if (item.card.suit === 'wands') elements.wands++;
+        else if (item.card.suit === 'cups') elements.cups++;
+        else if (item.card.suit === 'swords') elements.swords++;
+        else if (item.card.suit === 'pentacles') elements.pentacles++;
+      });
+
+      // 检测多张大阿卡那牌
+      if (majors.length >= 2) {
+        const sep = this.currentLang === 'en' ? ', ' : '、';
+        const majorNames = majors.map((m) => deckManager.getCardName(m.card) + ' ' + this.getPosText(m.isReversed)).join(sep);
+        text += this.t('combo_major_many', majors.length, majorNames);
+      }
+
+      // 检测特定大阿卡那牌对（如：死神+审判=重生，魔术师+愚者=新开始）
+      const majorIds = majors.map((m) => m.card.id);
+      if (majorIds.includes('major-00') && majorIds.includes('major-01')) {
+        text += this.currentLang === 'en'
+          ? 'The Fool and The Magician appearing together indicate a powerful new beginning. The universe is giving you a "reset button" — dare to start anew.'
+          : '愚者与魔术师同时出现，预示着强大的新开始。宇宙正在给你一个"重启按钮"——勇敢地从零开始吧。';
+      }
+      if (majorIds.includes('major-13') && majorIds.includes('major-20')) {
+        text += this.currentLang === 'en'
+          ? 'Death and Judgement together indicate a complete transformation and rebirth. You are going through a deep soul-level change.'
+          : '死神与审判同时出现，预示着彻底的转化与重生。你正在经历灵魂层面的深刻改变。';
+      }
+      if (majorIds.includes('major-19') && majorIds.includes('major-06')) {
+        text += this.currentLang === 'en'
+          ? 'The Sun and The Lovers together indicate that following your heart will lead to bright outcomes. Love and joy are supporting your path.'
+          : '太阳与恋人同时出现，预示着跟随内心会走向光明的结果。爱与喜悦正在支持你的道路。';
+      }
+
+      // 检测元素缺失/过剩
+      if (elements.pentacles === 0 && cards.length >= 4) {
+        text += this.t('combo_light');
+      }
+      if (elements.pentacles >= 3) {
+        text += this.t('combo_grounded');
+      }
+
+      // 检测元素对话
+      if (elements.swords > 0 && elements.cups > 0) {
+        text += this.t('combo_air_water');
+      }
+      if (elements.wands > 0 && elements.pentacles > 0 && elements.wands >= 2 && elements.pentacles >= 2) {
+        text += this.t('combo_fire_earth_block');
+      }
+
+      if (text === '') {
+        text = this.currentLang === 'en'
+          ? 'No special card combinations detected. Please refer to the individual card meanings and position interpretations above.'
+          : '未检测到特殊牌意组合。请参考上方各张牌的牌意和位置解读。';
+      }
+
+      html += text + '</div></div>';
+      return html;
+    }
+
+    // ============ Level 3 优化：分析牌面能量强度 ============
+    analyzeEnergyIntensity(cards) {
+      let html = '<div class="reading-section">';
+      html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '⚡ Energy Intensity' : '⚡ 牌面能量强度') + '</div>';
+      html += '<div class="reading-section-body">';
+
+      let text = '';
+
+      // 计算能量强度（大阿卡那牌权重更高）
+      let totalEnergy = 0;
+      const cardEnergies = [];
+      cards.forEach((item) => {
+        let energy = 0;
+        if (item.card.suit === 'major') energy = 10; // 大阿卡那牌能量最强
+        else {
+          // 小阿卡那牌：宫廷牌 > 数字牌
+          const num = parseInt(item.card.id.split('-').pop());
+          if (num >= 11) energy = 7; // 宫廷牌
+          else if (num >= 7) energy = 5; // 高数字牌
+          else energy = 3; // 低数字牌
+        }
+        if (item.isReversed) energy *= 0.7; // 逆位能量减弱
+        totalEnergy += energy;
+        cardEnergies.push({ card: item, energy });
+      });
+
+      const avgEnergy = totalEnergy / cards.length;
+
+      // 根据平均能量给出解读
+      if (avgEnergy >= 8) {
+        text += this.currentLang === 'en'
+          ? 'The overall energy of the spread is <strong>very strong</strong>. Major life events or transformations are at play. This is not a time for half-measures.'
+          : '牌面整体能量<strong>非常强</strong>。重大生活事件或转化正在发生。这不是一个可以半途而废的时刻。';
+      } else if (avgEnergy >= 5) {
+        text += this.currentLang === 'en'
+          ? 'The overall energy of the spread is <strong>moderate to strong</strong>. Things are moving, and your actions have significant impact. Stay focused and committed.'
+          : '牌面整体能量<strong>中等偏强</strong>。事情正在推进，你的行动有重要影响。保持专注和投入。';
+      } else {
+        text += this.currentLang === 'en'
+          ? 'The overall energy of the spread is <strong>gentle</strong>. Changes may be subtle and require patience. This is a time for quiet cultivation rather than dramatic action.'
+          : '牌面整体能量<strong>温和</strong>。变化可能微妙，需要耐心。这是默默耕耘而非剧烈行动的时刻。';
+      }
+
+      // 找出能量最强和最弱的牌
+      cardEnergies.sort((a, b) => b.energy - a.energy);
+      const strongest = cardEnergies[0];
+      const weakest = cardEnergies[cardEnergies.length - 1];
+
+      text += this.currentLang === 'en'
+        ? '<br><br>The card with the <strong>strongest energy</strong> is <strong>' + deckManager.getCardName(strongest.card.card) + ' ' + this.getPosText(strongest.card.isReversed) + '</strong>. This is where your attention and energy should focus.'
+        : '<br><br>能量<strong>最强</strong>的牌是<strong>' + deckManager.getCardName(strongest.card.card) + ' ' + this.getPosText(strongest.card.isReversed) + '</strong>。这是你需要注意力和能量投入的地方。';
+
+      if (strongest.card !== weakest.card) {
+        text += this.currentLang === 'en'
+          ? '<br>The card with the <strong>weakest energy</strong> is <strong>' + deckManager.getCardName(weakest.card.card) + ' ' + this.getPosText(weakest.card.isReversed) + '</strong>. This area may need more attention or nurturing.'
+          : '<br>能量<strong>最弱</strong>的牌是<strong>' + deckManager.getCardName(weakest.card.card) + ' ' + this.getPosText(weakest.card.isReversed) + '</strong>。这个领域可能需要更多关注或滋养。';
+      }
+
+      html += text + '</div></div>';
       return html;
     }
 
@@ -939,11 +1229,13 @@
           const compContent = document.getElementById('comprehensive-content');
           const compSection = document.getElementById('comprehensive-reading');
           if (compContent && compSection) {
-            compContent.innerHTML = this.generateComprehensiveReading();
-            compSection.classList.remove('hidden');
-            compContent.classList.remove('hidden');
-            const tBtn = document.getElementById('toggle-reading-btn');
-            if (tBtn) tBtn.textContent = this.t('btn_collapse');
+            this.generateComprehensiveReading().then(reading => {
+              compContent.innerHTML = reading;
+              compSection.classList.remove('hidden');
+              compContent.classList.remove('hidden');
+              const tBtn = document.getElementById('toggle-reading-btn');
+              if (tBtn) tBtn.textContent = this.t('btn_collapse');
+            });
           }
 
           this.showPage('divination-page');
@@ -1043,16 +1335,18 @@
       this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
 
       document.getElementById('page-title').textContent = this.getLocalizedSpreadName('celtic');
-      this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌义');
+      this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌義');
 
       const compContent = document.getElementById('comprehensive-content');
       const compSection = document.getElementById('comprehensive-reading');
       if (compContent && compSection) {
-        compContent.innerHTML = this.generateComprehensiveReading();
-        compSection.classList.remove('hidden');
-        compContent.classList.remove('hidden');
-        const tBtn = document.getElementById('toggle-reading-btn');
-        if (tBtn) tBtn.textContent = this.t('btn_collapse');
+        this.generateComprehensiveReading().then(reading => {
+          compContent.innerHTML = reading;
+          compSection.classList.remove('hidden');
+          compContent.classList.remove('hidden');
+          const tBtn = document.getElementById('toggle-reading-btn');
+          if (tBtn) tBtn.textContent = this.t('btn_collapse');
+        });
       }
 
       this.showPage('divination-page');
@@ -4019,6 +4313,399 @@
                num +
                '<span class="spread-diagram-card-label" style="font-size:' + labelSize + ';">' + shortLabel + '</span>' +
              '</div>';
+    }
+
+    // ============ 扩展功能1：用户历史记录分析 ============
+    async analyzeUserHistory() {
+      return new Promise((resolve) => {
+        chrome.storage.local.get({ history: [] }, (result) => {
+          const history = result.history || [];
+          if (history.length < 3) {
+            resolve(null); // 历史记录不足
+            return;
+          }
+
+          try {
+            const analysis = {
+              totalReadings: history.length,
+              frequentCards: this.getFrequentCards(history),
+              suitDistribution: this.getSuitDistribution(history),
+              reversalsTrend: this.getReversalsTrend(history),
+              spreadPreferences: this.getSpreadPreferences(history),
+              timePattern: this.getTimePattern(history)
+            };
+            resolve(analysis);
+          } catch (e) {
+            console.error('分析历史记录出错:', e);
+            resolve(null);
+          }
+        });
+      });
+    }
+
+    getFrequentCards(history) {
+      const cardCount = {};
+      history.forEach(record => {
+        record.cards.forEach(cardInfo => {
+          const key = cardInfo.cardId;
+          cardCount[key] = (cardCount[key] || 0) + 1;
+        });
+      });
+
+      // 返回出现最多的5张牌
+      return Object.entries(cardCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([cardId, count]) => ({
+          cardId,
+          count,
+          percentage: ((count / (history.length * this.getAverageCards(history))) * 100).toFixed(1)
+        }));
+    }
+
+    getAverageCards(history) {
+      const total = history.reduce((sum, record) => sum + record.cards.length, 0);
+      return total / history.length;
+    }
+
+    getSuitDistribution(history) {
+      const suits = { major: 0, wands: 0, cups: 0, swords: 0, pentacles: 0 };
+      let total = 0;
+
+      history.forEach(record => {
+        record.cards.forEach(cardInfo => {
+          const card = this.findCardById(cardInfo.cardId);
+          if (card) {
+            suits[card.suit] = (suits[card.suit] || 0) + 1;
+            total++;
+          }
+        });
+      });
+
+      // 转换为百分比
+      const distribution = {};
+      for (const suit in suits) {
+        distribution[suit] = total > 0 ? ((suits[suit] / total) * 100).toFixed(1) : 0;
+      }
+      return distribution;
+    }
+
+    findCardById(cardId) {
+      const deckData = this.getDeckData();
+      return deckData ? deckData.find(c => c.id === cardId) : null;
+    }
+
+    getReversalsTrend(history) {
+      const recent = history.slice(0, 10); // 最近10次
+      let reversalCount = 0;
+      let total = 0;
+
+      recent.forEach(record => {
+        record.cards.forEach(cardInfo => {
+          if (cardInfo.isReversed) reversalCount++;
+          total++;
+        });
+      });
+
+      return {
+        recentReversalRate: total > 0 ? ((reversalCount / total) * 100).toFixed(1) : 0,
+        trend: reversalCount > total / 2 ? 'high_reversal' : 'balanced'
+      };
+    }
+
+    getSpreadPreferences(history) {
+      const spreadCount = {};
+      history.forEach(record => {
+        spreadCount[record.mode] = (spreadCount[record.mode] || 0) + 1;
+      });
+
+      return Object.entries(spreadCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([mode, count]) => ({
+          mode,
+          count,
+          percentage: ((count / history.length) * 100).toFixed(1)
+        }));
+    }
+
+    getTimePattern(history) {
+      const hourCount = {};
+      history.forEach(record => {
+        const hour = new Date(record.timestamp).getHours();
+        const timeSlot = hour < 6 ? '凌晨' : hour < 12 ? '上午' : hour < 18 ? '下午' : '晚上';
+        hourCount[timeSlot] = (hourCount[timeSlot] || 0) + 1;
+      });
+
+      return hourCount;
+    }
+
+    // ============ 扩展功能2：时间维度解读 ============
+    getTimeBasedInterpretation() {
+      const now = new Date();
+      const hour = now.getHours();
+      const dayOfWeek = now.getDay();
+      const date = now.getDate();
+
+      let timeFactors = {
+        timeOfDay: this.getTimeOfDayEnergy(hour),
+        dayEnergy: this.getDayEnergy(dayOfWeek),
+        dateEnergy: this.getDateEnergy(date),
+        lunarPhase: this.getLunarPhase(now) // 简化版月相
+      };
+
+      return timeFactors;
+    }
+
+    getTimeOfDayEnergy(hour) {
+      if (hour >= 5 && hour < 9) {
+        return { phase: 'morning', energy: 'fire', description: '晨间火能量旺盛，适合新开始和主动行动' };
+      } else if (hour >= 9 && hour < 13) {
+        return { phase: 'noon', energy: 'earth', description: '午间土能量稳定，适合务实决策和执行' };
+      } else if (hour >= 13 && hour < 17) {
+        return { phase: 'afternoon', energy: 'air', description: '下午风能量活跃，适合沟通和思考' };
+      } else if (hour >= 17 && hour < 21) {
+        return { phase: 'evening', energy: 'water', description: '晚间水能量流动，适合情感和直觉' };
+      } else {
+        return { phase: 'night', energy: 'spirit', description: '夜间精神能量强，适合内省和灵性探索' };
+      }
+    }
+
+    getDayEnergy(dayOfWeek) {
+      const dayEnergies = {
+        0: { planet: '太阳', energy: '领导、创造', suit: 'wands' },
+        1: { planet: '月亮', energy: '情感、直觉', suit: 'cups' },
+        2: { planet: '火星', energy: '行动、冲突', suit: 'wands' },
+        3: { planet: '水星', energy: '沟通、智慧', suit: 'swords' },
+        4: { planet: '木星', energy: '扩张、幸运', suit: 'pentacles' },
+        5: { planet: '金星', energy: '爱情、和谐', suit: 'cups' },
+        6: { planet: '土星', energy: '限制、责任', suit: 'pentacles' }
+      };
+      return dayEnergies[dayOfWeek] || dayEnergies[0];
+    }
+
+    getDateEnergy(date) {
+      // 简化：日期数字的根数对应塔罗牌
+      const root = this.getDigitalRoot(date);
+      const majorArcana = this.getMajorArcanaInfo();
+      return {
+        dateNumber: date,
+        digitalRoot: root,
+        correspondingCard: majorArcana[root] || majorArcana[0]
+      };
+    }
+
+    getLunarPhase(date) {
+      // 简化月相计算（实际应使用精确算法）
+      const lunarCycle = 29.53;
+      const knownNewMoon = new Date('2024-01-11'); // 已知新月
+      const daysSince = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+      const phase = (daysSince % lunarCycle) / lunarCycle;
+
+      if (phase < 0.125) return { phase: '新月', energy: '开始、意图设定' };
+      if (phase < 0.25) return { phase: '上弦月', energy: '行动、成长' };
+      if (phase < 0.375) return { phase: '盈凸月', energy: '调整、优化' };
+      if (phase < 0.5) return { phase: '满月', energy: '完成、释放' };
+      if (phase < 0.625) return { phase: '亏凸月', energy: '感恩、分享' };
+      if (phase < 0.75) return { phase: '下弦月', energy: '释放、放下' };
+      if (phase < 0.875) return { phase: '残月', energy: '休息、内省' };
+      return { phase: '新月', energy: '开始、意图设定' };
+    }
+
+    // ============ 扩展功能3：问卜者性格分析 ============
+    async analyzeUserPersonality() {
+      const historyAnalysis = await this.analyzeUserHistory();
+      if (!historyAnalysis) return null;
+
+      const personality = {
+        preferredElement: this.inferPreferredElement(historyAnalysis.suitDistribution),
+        decisionStyle: this.inferDecisionStyle(historyAnalysis),
+        spiritualGrowthStage: this.inferGrowthStage(historyAnalysis.frequentCards),
+        advice: this.generatePersonalityAdvice(historyAnalysis)
+      };
+
+      return personality;
+    }
+
+    inferPreferredElement(suitDistribution) {
+      const suits = suitDistribution;
+      let maxSuit = 'wands';
+      let maxValue = 0;
+
+      for (const suit in suits) {
+        if (parseFloat(suits[suit]) > maxValue) {
+          maxValue = parseFloat(suits[suit]);
+          maxSuit = suit;
+        }
+      }
+
+      const elementMap = {
+        'wands': { element: '火', trait: '热情、主动、创造力强', suit: '权杖' },
+        'cups': { element: '水', trait: '情感丰富、直觉敏锐', suit: '圣杯' },
+        'swords': { element: '风', trait: '理性、善于分析、追求真理', suit: '宝剑' },
+        'pentacles': { element: '土', trait: '务实、稳定、重视物质', suit: '星币' },
+        'major': { element: '灵性', trait: '重视精神成长和人生课题', suit: '大阿卡纳' }
+      };
+
+      return elementMap[maxSuit] || elementMap['wands'];
+    }
+
+    inferDecisionStyle(historyAnalysis) {
+      const { reversalsTrend, spreadPreferences } = historyAnalysis;
+
+      if (reversalsTrend.trend === 'high_reversal') {
+        return {
+          style: '谨慎型',
+          description: '你倾向于看到事物的另一面，做决定时较为谨慎，容易犹豫。',
+          advice: '尝试相信第一直觉，有时过度分析反而会错失良机。'
+        };
+      }
+
+      const prefersSimple = spreadPreferences.some(p => p.mode === 'single' || p.mode === 'three');
+      if (prefersSimple) {
+        return {
+          style: '直觉型',
+          description: '你喜欢简单直接的解答，相信直觉，不喜欢复杂分析。',
+          advice: '偶尔尝试复杂牌阵，可能会发现被忽略的重要信息。'
+        };
+      }
+
+      return {
+        style: '分析型',
+        description: '你喜欢深入了解问题，愿意花时间分析各种可能性。',
+        advice: '你的分析能力很强，但要注意不要陷入过度思考，适时行动更重要。'
+      };
+    }
+
+    inferGrowthStage(frequentCards) {
+      // 根据频繁出现的牌推断成长阶段
+      const majorCards = frequentCards.filter(f => f.cardId.startsWith('major-'));
+      
+      if (majorCards.some(c => c.cardId === 'major-00' || c.cardId === 'major-01')) {
+        return '新手阶段：你正处于探索和自我发现的时期';
+      }
+      if (majorCards.some(c => c.cardId === 'major-07' || c.cardId === 'major-08')) {
+        return '力量培养期：你在学习如何运用内在力量面对挑战';
+      }
+      if (majorCards.some(c => c.cardId === 'major-13' || c.cardId === 'major-16')) {
+        return '转化期：你正在经历或刚刚经历重大人生转变';
+      }
+      if (majorCards.some(c => c.cardId === 'major-19' || c.cardId === 'major-21')) {
+        return '整合期：你正在整合人生经验，走向完整和自我实现';
+      }
+
+      return '探索期：你正在不断探索人生方向和自我认知';
+    }
+
+    generatePersonalityAdvice(historyAnalysis) {
+      const { frequentCards, suitDistribution } = historyAnalysis;
+      let advice = '';
+
+      // 根据元素分布给建议
+      const fire = parseFloat(suitDistribution.wands || 0);
+      const water = parseFloat(suitDistribution.cups || 0);
+      const air = parseFloat(suitDistribution.swords || 0);
+      const earth = parseFloat(suitDistribution.pentacles || 0);
+
+      if (fire > 30) {
+        advice += '你的人生充满热情和行动力，但要注意避免冲动和过度消耗。';
+      }
+      if (water > 30) {
+        advice += '你的情感丰富且直觉敏锐，记得也要照顾自己的理性面。';
+      }
+      if (air > 30) {
+        advice += '你善于思考和分析，但有时需要放下头脑，多倾听内心声音。';
+      }
+      if (earth > 30) {
+        advice += '你务实可靠，但偶尔也要允许自己放松和享受不确定性。';
+      }
+
+      return advice || '保持平衡，继续探索自我成长之路。';
+    }
+
+    // ============ 生成扩展解读内容 ============
+    async generateExtendedReading() {
+      let html = '';
+
+      // 1. 历史记录分析
+      const historyAnalysis = await this.analyzeUserHistory();
+      if (historyAnalysis) {
+        html += '<div class="reading-section">';
+        html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '📊 Your Reading Patterns' : '📊 你的占卜模式') + '</div>';
+        html += '<div class="reading-section-body">';
+
+        // 频繁出现的牌
+        if (historyAnalysis.frequentCards.length > 0) {
+          html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Frequently Appearing Cards:' : '频繁出现的牌：') + '</strong><br/>';
+          historyAnalysis.frequentCards.forEach(f => {
+            const card = this.findCardById(f.cardId);
+            if (card) {
+              const cardName = this.currentLang === 'en' ? card.originalName : card.name;
+              html += `• ${cardName} (出现${f.count}次，占比${f.percentage}%)<br/>`;
+            }
+          });
+          html += '</div>';
+        }
+
+        // 元素分布
+        html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Element Distribution:' : '元素分布：') + '</strong><br/>';
+        const suitNames = { major: '大阿卡纳', wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+        for (const [suit, percentage] of Object.entries(historyAnalysis.suitDistribution)) {
+          html += `• ${suitNames[suit] || suit}: ${percentage}%<br/>`;
+        }
+        html += '</div>';
+
+        // 逆位趋势
+        html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Recent Trend:' : '近期趋势：') + '</strong> ';
+        html += this.currentLang === 'en' 
+          ? `Reversal rate: ${historyAnalysis.reversalsTrend.recentReversalRate}% (${historyAnalysis.reversalsTrend.trend === 'high_reversal' ? 'High challenges period' : 'Balanced'})`
+          : `逆位率：${historyAnalysis.reversalsTrend.recentReversalRate}%（${historyAnalysis.reversalsTrend.trend === 'high_reversal' ? '挑战较多时期' : '相对平衡'}）`;
+        html += '</div>';
+
+        html += '</div></div>';
+      }
+
+      // 2. 时间维度解读
+      const timeFactors = this.getTimeBasedInterpretation();
+      html += '<div class="reading-section">';
+      html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '⏰ Time Dimension' : '⏰ 时间维度') + '</div>';
+      html += '<div class="reading-section-body">';
+
+      html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Current Time Energy:' : '当前时间能量：') + '</strong><br/>';
+      html += `• ${this.currentLang === 'en' ? 'Time of Day' : '时辰'}：${timeFactors.timeOfDay.description}<br/>`;
+      html += `• ${this.currentLang === 'en' ? 'Day Energy' : '星期能量'}：${timeFactors.dayEnergy.planet} - ${timeFactors.dayEnergy.energy}<br/>`;
+      html += `• ${this.currentLang === 'en' ? 'Date Energy' : '日期能量'}：${this.currentLang === 'en' ? 'Card' : '对应牌'} #${timeFactors.dateEnergy.digitalRoot} ${timeFactors.dateEnergy.correspondingCard.name}<br/>`;
+      html += `• ${this.currentLang === 'en' ? 'Lunar Phase' : '月相'}：${timeFactors.lunarPhase.phase} - ${timeFactors.lunarPhase.energy}`;
+      html += '</div>';
+
+      html += '</div></div>';
+
+      // 3. 性格分析
+      const personality = await this.analyzeUserPersonality();
+      if (personality) {
+        html += '<div class="reading-section">';
+        html += '<div class="reading-section-title">' + (this.currentLang === 'en' ? '🧠 Your Tarot Personality' : '🧠 你的塔罗性格') + '</div>';
+        html += '<div class="reading-section-body">';
+
+        html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Preferred Element:' : '偏好元素：') + '</strong> ';
+        html += `${personality.preferredElement.element}（${personality.preferredElement.trait}）</div>`;
+
+        html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Decision Style:' : '决策风格：') + '</strong><br/>';
+        html += `• ${this.currentLang === 'en' ? 'Type' : '类型'}：${personality.decisionStyle.style}<br/>`;
+        html += `• ${this.currentLang === 'en' ? 'Description' : '描述'}：${personality.decisionStyle.description}<br/>`;
+        html += `• ${this.currentLang === 'en' ? 'Advice' : '建议'}：${personality.decisionStyle.advice}`;
+        html += '</div>';
+
+        html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Growth Stage:' : '成长阶段：') + '</strong> ';
+        html += personality.spiritualGrowthStage + '</div>';
+
+        html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Personalized Advice:' : '个性化建议：') + '</strong><br/>';
+        html += personality.advice + '</div>';
+
+        html += '</div></div>';
+      }
+
+      return html;
     }
   }
 
