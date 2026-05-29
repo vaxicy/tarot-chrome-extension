@@ -453,6 +453,31 @@ const SPREADS = {
     usage: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致，比二选一牌阵更聚焦单一问题。',
     usageEn: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread, more focused on a single issue than the Choice spread.'
   },
+  // ============ 新增旅行牌阵 ============
+  travel: {
+    name: '旅行牌阵',
+    nameEn: 'Travel Spread',
+    positions: ['旅行整体能量', '目的地/出行方向', '需要注意的事项', '旅途中的收获', '建议'],
+    positionsEn: ['Overall Travel Energy', 'Destination/Direction', 'Things to Note', 'Gains & Experiences', 'Advice'],
+    positionMeanings: [
+      '旅行整体能量：这次旅行的整体氛围和能量状态，是顺利愉快还是波折较多。',
+      '目的地/出行方向：目的地的能量特质，或出行方向是否合适，是否有更好的选择。',
+      '需要注意的事项：旅途中需要特别留意的人、事、物，可能的风险或麻烦。',
+      '旅途中的收获：这次旅行能带给你的收获、体验、感悟或意外惊喜。',
+      '建议：塔罗对这次旅行的具体建议，包括出行时机、准备事项、心态调整等。'
+    ],
+    positionMeaningsEn: [
+      'Overall Travel Energy: The overall atmosphere and energy of this trip, whether it will be smooth and pleasant or full of twists and turns.',
+      'Destination/Direction: The energy qualities of the destination, or whether the travel direction is suitable, if there is a better choice.',
+      'Things to Note: People, events, or things that need special attention during the trip, possible risks or troubles.',
+      'Gains & Experiences: The gains, experiences, insights, or unexpected surprises this trip can bring you.',
+      'Advice: The Tarot\'s specific advice for this trip, including travel timing, preparation, mindset adjustment, etc.'
+    ],
+    category: 'decision', difficulty: 'easy', recommended: true, loadingText: '正在展开旅行牌阵...',
+    loadingTextEn: 'Unfolding the Travel spread...',
+    usage: '适合出行前占卜，了解旅行整体状况、注意事项和旅途收获，帮助做出更明智的出行决策。',
+    usageEn: 'Suitable for divination before traveling. Understand the overall travel situation, things to note, and travel gains, helping to make wiser travel decisions.'
+  },
   // ============ 新增自我成长牌阵 ============
   lifepurpose: {
     name: '人生使命牌阵',
@@ -982,6 +1007,8 @@ const I18N = {
     year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     spread_proscons_name: '利弊分析',
     spread_proscons_desc: '4张牌 · 支持与反对因素分析',
+    spread_travel_name: '旅行牌阵',
+    spread_travel_desc: '5张牌 · 出行决策与旅途指引',
     spread_lifepurpose_name: '人生使命',
     spread_lifepurpose_desc: '8张牌 · 探索天命与人生方向',
     proscons_tip: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致。',
@@ -1212,6 +1239,9 @@ const I18N = {
     year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.',
     spread_proscons_name: 'Pros & Cons',
     spread_proscons_desc: '4 cards · Analyze pros and cons',
+    spread_travel_name: 'Travel Spread',
+    spread_travel_desc: '5 cards · Travel decision & guidance',
+    travel_tip: 'Suitable for divination before traveling. Understand the overall travel situation, things to note, and travel gains.',
     spread_lifepurpose_name: 'Life Purpose',
     spread_lifepurpose_desc: '8 cards · Explore destiny & life direction',
     proscons_tip: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread.',

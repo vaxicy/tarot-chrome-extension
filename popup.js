@@ -1139,6 +1139,11 @@
       this.drawStandardSpread('proscons', 70, 110);
     }
 
+    // ============ 新增旅行牌阵 ============
+    drawTravel() {
+      this.drawStandardSpread('travel', 60, 96);
+    }
+
     // ============ 新增自我成长牌阵 ============
     // ============ 人生使命牌阵 ============
     drawLifepurpose() {
@@ -1189,6 +1194,8 @@
         // 新增：利弊分析、人生使命
         case 'proscons':   this.drawProscons(); break;
         case 'lifepurpose': this.drawLifepurpose(); break;
+        // 新增：旅行牌阵
+        case 'travel':     this.drawTravel(); break;
         // 新增：考试牌阵
         case 'exam':      this.drawExam(); break;
         // 新增：命运之轮
@@ -3367,6 +3374,8 @@
               // 新增：利弊分析、人生使命
               case 'proscons':   this.drawProscons(); break;
               case 'lifepurpose': this.drawLifepurpose(); break;
+              // 新增：旅行牌阵
+              case 'travel':     this.drawTravel(); break;
               // 新增：考试牌阵
               case 'exam':      this.drawExam(); break;
               // 新增：命运之轮
