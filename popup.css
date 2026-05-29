@@ -1459,6 +1459,60 @@ body::before {
   background: rgba(45, 27, 105, 0.8);
 }
 
+/* ============ 解读工具栏 ============ */
+.reading-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(45, 27, 105, 0.3);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+/* ============ 解读模式切换器 ============ */
+.reading-mode-switcher {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: rgba(255, 215, 0, 0.08);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.mode-btn {
+  padding: 4px 10px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.mode-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  color: var(--color-gold-light);
+}
+
+.mode-btn.active {
+  background: var(--color-gold);
+  color: var(--color-bg);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .comprehensive-icon {
   font-size: 16px;
   flex-shrink: 0;
@@ -1555,6 +1609,65 @@ body::before {
   border-radius: 4px;
   padding: 2px 6px;
   margin: 2px 4px 2px 0;
+}
+
+/* ============ 简单解读样式 ============ */
+.simple-reading {
+  text-align: center;
+  padding: 20px;
+}
+
+.simple-core {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.simple-advice {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--color-text);
+  text-align: left;
+}
+
+/* ============ 标准解读样式 ============ */
+.standard-reading {
+  padding: 16px;
+}
+
+.std-section {
+  margin-bottom: 20px;
+}
+
+.std-section:last-child {
+  margin-bottom: 0;
+}
+
+.std-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+}
+
+.std-content {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.std-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.std-content li {
+  margin-bottom: 8px;
 }
 
 /* ============ 鎿嶄綔鎸夐挳 ============ */
@@ -5457,7 +5570,6 @@ button:active {
 
 /* ============ 重新解读按钮 ============ */
 .reinterpret-btn {
-  margin-left: auto;
   padding: 4px 12px;
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.3);
@@ -5761,12 +5873,10 @@ button:active {
   transition: all 0.3s ease;
   user-select: none;
   -webkit-user-select: none;
-  margin-left: auto;
 }
 
 .extended-toggle:hover {
   color: var(--color-gold);
-  background: rgba(255, 215, 0, 0.08);
 }
 
 .extended-toggle input[type="checkbox"] {

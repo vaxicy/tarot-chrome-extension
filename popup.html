@@ -483,12 +483,22 @@
                     <span class="comprehensive-icon">&#10024;</span>
                     <span class="comprehensive-title" data-i18n-key="comprehensive_reading">综合解读</span>
                     <button id="toggle-reading-btn" class="toggle-reading-btn" type="button" data-i18n-key="btn_expand">展开</button>
-                    <button id="reinterpret-btn" class="reinterpret-btn" type="button" title="重新解读">&#128260; <span data-i18n-key="btn_reinterpret">重新解读</span></button>
-                    <label class="extended-toggle" title="启用扩展解读（历史分析、时间维度、性格分析）">
-                        <input type="checkbox" id="extended-reading-toggle" checked />
-                        <span class="extended-toggle-slider"></span>
-                        <span class="extended-toggle-label" data-i18n-key="extended_reading">扩展</span>
-                    </label>
+                </div>
+                <!-- 解读工具栏 -->
+                <div class="reading-toolbar">
+                    <div class="reading-mode-switcher">
+                        <button class="mode-btn active" data-mode="simple" type="button" data-i18n-key="mode_simple">简单</button>
+                        <button class="mode-btn" data-mode="standard" type="button" data-i18n-key="mode_standard">标准</button>
+                        <button class="mode-btn" data-mode="deep" type="button" data-i18n-key="mode_deep">深度</button>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button id="reinterpret-btn" class="reinterpret-btn" type="button" title="重新解读">&#128260; <span data-i18n-key="btn_reinterpret">重新解读</span></button>
+                        <label class="extended-toggle" title="启用扩展解读（历史分析、时间维度、性格分析）">
+                            <input type="checkbox" id="extended-reading-toggle" checked />
+                            <span class="extended-toggle-slider"></span>
+                            <span class="extended-toggle-label" data-i18n-key="extended_reading">扩展</span>
+                        </label>
+                    </div>
                 </div>
                 <div id="comprehensive-content" class="comprehensive-content"></div>
             </div>

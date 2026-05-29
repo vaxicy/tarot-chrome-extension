@@ -2410,15 +2410,29 @@
       return names[suit] || suit;
     }
 
-    // ============ 综合解读生成（改造） ============
+    // ============ 综合解读生成（支持三级模式） ============
     async generateComprehensiveReading() {
       if (!this.currentCards || this.currentCards.length === 0) return '';
+
+      // 获取当前解读模式
+      const modeToggle = document.querySelector('.mode-btn.active');
+      const currentMode = modeToggle ? modeToggle.dataset.mode : 'standard';
 
       const cards = this.currentCards;
       const mode = this.currentMode;
       const spreadName = this.getLocalizedSpreadName(mode);
       const positions = this.getLocalizedPositions(mode);
 
+      // 根据模式生成不同内容
+      if (currentMode === 'simple') {
+        return this.generateSimpleReading(cards, mode);
+      }
+
+      if (currentMode === 'standard') {
+        return this.generateStandardReading(cards, mode, positions);
+      }
+
+      // 深度模式：保留现有完整逻辑
       let html = this.analyzeTheme(cards, spreadName);
       html += this.analyzeCardRelations(mode, cards, positions);
       html += this.analyzeTrend(cards);
@@ -2457,6 +2471,672 @@
       }
 
       return html;
+    }
+
+    // ============ 简单解读生成（一句话启示） ============
+    generateSimpleReading(cards, mode) {
+      const isEn = this.currentLang === 'en';
+      let html = '<div class="simple-reading">';
+
+      // 1. 核心结论（一句话，含牌阵定位）
+      html += '<div class="simple-core">';
+      html += this.generateCoreInsight(cards, isEn, mode);
+      html += '</div>';
+
+      // 2. 关键词标签
+      html += this.generateKeywordTags(cards);
+
+      // 3. 一句话建议（含牌阵特色）
+      html += '<div class="simple-advice">';
+      html += this.generateOneLineAdvice(cards, isEn, mode);
+      html += '</div>';
+
+      html += '</div>';
+      return html;
+    }
+
+    // 获取牌阵上下文（简单/标准模式共用）
+    getSpreadContext(mode, isEn) {
+      const ctx = {
+        zh: {
+          single:     { prefix: '【今日指引】', theme: '关注当下的能量状态', advice: '以这张牌为核心指引' },
+          three:      { prefix: '【时间线】', theme: '过去、现在与未来的能量流动', advice: '结合三张牌的时间脉络' },
+          celtic:     { prefix: '【深度探索】', theme: '全方位的人生课题分析', advice: '综合十个位置的深层讯息' },
+          relation:   { prefix: '【关系动态】', theme: '你与对方的互动能量', advice: '关注双方态度与关系走向' },
+          choice:     { prefix: '【决策分析】', theme: '两个选项的比较与权衡', advice: '权衡A/B的利弊与结果' },
+          five:       { prefix: '【问题剖析】', theme: '从核心到结果的完整路径', advice: '针对问题核心采取行动' },
+          horseshoe:  { prefix: '【全面洞察】', theme: '从过去到未来的全貌', advice: '综合七个位置的指引' },
+          career:     { prefix: '【事业指引】', theme: '职场与学业的能量状态', advice: '聚焦事业发展方向' },
+          timeflow:   { prefix: '【时间之流】', theme: '深层原因与可能结果', advice: '理解时间线上的因果' },
+          action:     { prefix: '【行动指引】', theme: '问题、行动与结果的关联', advice: '立即采取建议的行动' },
+          mind:       { prefix: '【心灵探索】', theme: '意识与潜意识的对谈', advice: '整合内心各层面的声音' },
+          love:       { prefix: '【感情分析】', theme: '恋爱关系的各个层面', advice: '关注彼此感受与关系未来' },
+          broken:     { prefix: '【复合可能】', theme: '分手原因与复合机会', advice: '诚实面对关系的问题' },
+          yesno:      { prefix: '【是否判断】', theme: '支持与反对因素的权衡', advice: '正位偏向「是」，逆位偏向「否」' },
+          jobchange:  { prefix: '【职业变动】', theme: '离职与新机会的评估', advice: '谨慎评估风险与机会' },
+          shadow:     { prefix: '【阴影整合】', theme: '意识与阴影自我的对话', advice: '接纳被否认的自我面向' },
+          year:       { prefix: '【年度运势】', theme: '一整年的能量主题', advice: '把握年度重要领域' },
+          proscons:   { prefix: '【利弊权衡】', theme: '支持与反对因素的细致分析', advice: '综合利弊后做决定' },
+          travel:     { prefix: '【旅行指引】', theme: '旅途的能量与注意事项', advice: '关注旅途安全与收获' },
+          lifepurpose:{ prefix: '【人生使命】', theme: '天命与核心天赋的探索', advice: '活出真正的自我' },
+          exam:       { prefix: '【考试运势】', theme: '考试/面试的表现与准备', advice: '针对重点方向复习' },
+          fatewheel:  { prefix: '【命运走向】', theme: '命运之轮的转动方向', advice: '把握转变的关键点' },
+          monthly:    { prefix: '【月度运势】', theme: '本月各方面的能量主题', advice: '关注本月重点领域' },
+          souljourney:{ prefix: '【灵魂成长】', theme: '灵魂阶段的课题与方向', advice: '连接高我与内在指引' },
+          zodiac:     { prefix: '【星座分析】', theme: '十二宫位的全面解读', advice: '关注重点宫位的讯息' },
+          pastlife:   { prefix: '【前世今生】', theme: '跨生命的灵魂课题', advice: '化解前世的未完成课题' },
+          health:     { prefix: '【健康指引】', theme: '身心健康的根本因素', advice: '关注身心整合的疗愈' }
+        },
+        en: {
+          single:     { prefix: '[Daily Guidance]', theme: 'Focus on current energy', advice: 'Take this card as core guidance' },
+          three:      { prefix: '[Timeline]', theme: 'Energy flow of past, present, future', advice: 'Combine the timeline of three cards' },
+          celtic:     { prefix: '[Deep Exploration]', theme: 'Comprehensive life theme analysis', advice: 'Integrate insights from ten positions' },
+          relation:   { prefix: '[Relationship]', theme: 'Interaction energy between you two', advice: 'Focus on both attitudes and relationship direction' },
+          choice:     { prefix: '[Decision]', theme: 'Comparison and trade-off of two options', advice: 'Weigh pros/cons and outcomes of A/B' },
+          five:       { prefix: '[Problem Analysis]', theme: 'Complete path from core to result', advice: 'Take action targeting the problem core' },
+          horseshoe:  { prefix: '[Full Insight]', theme: 'Full picture from past to future', advice: 'Integrate guidance from seven positions' },
+          career:     { prefix: '[Career]', theme: 'Energy status of work and study', advice: 'Focus on career development direction' },
+          timeflow:   { prefix: '[Time Flow]', theme: 'Deep causes and possible results', advice: 'Understand causality on the timeline' },
+          action:     { prefix: '[Action Guide]', theme: 'Link problem, action, and result', advice: 'Take the suggested action immediately' },
+          mind:       { prefix: '[Mind Explore]', theme: 'Dialogue between conscious and subconscious', advice: 'Integrate voices from all inner levels' },
+          love:       { prefix: '[Love Analysis]', theme: 'All aspects of romantic relationship', advice: 'Focus on mutual feelings and relationship future' },
+          broken:     { prefix: '[Reunion]', theme: 'Breakup causes and reunion chance', advice: 'Face relationship issues honestly' },
+          yesno:      { prefix: '[Yes/No]', theme: 'Weighing supporting and opposing factors', advice: 'Upright leans yes, reversed leans no' },
+          jobchange:  { prefix: '[Career Change]', theme: 'Evaluation of leaving and new opportunities', advice: 'Carefully assess risks and opportunities' },
+          shadow:     { prefix: '[Shadow Work]', theme: 'Dialogue between conscious and shadow self', advice: 'Embrace denied aspects of yourself' },
+          year:       { prefix: '[Yearly]', theme: 'Energy themes for the whole year', advice: 'Grasp important areas of the year' },
+          proscons:   { prefix: '[Pros & Cons]', theme: 'Detailed analysis of supporting and opposing factors', advice: 'Decide after weighing pros and cons' },
+          travel:     { prefix: '[Travel]', theme: 'Travel energy and precautions', advice: 'Pay attention to travel safety and gains' },
+          lifepurpose:{ prefix: '[Life Purpose]', theme: 'Exploration of destiny and core talents', advice: 'Live as your true self' },
+          exam:       { prefix: '[Exam]', theme: 'Exam/interview performance and preparation', advice: 'Review focusing on key directions' },
+          fatewheel:  { prefix: '[Fate]', theme: 'Direction the Wheel of Fortune turns', advice: 'Grasp the key turning point' },
+          monthly:    { prefix: '[Monthly]', theme: 'Energy themes across all areas this month', advice: 'Focus on key areas of this month' },
+          souljourney:{ prefix: '[Soul Journey]', theme: 'Soul stage lessons and direction', advice: 'Connect with higher self and inner guidance' },
+          zodiac:     { prefix: '[Zodiac]', theme: 'Comprehensive reading of twelve houses', advice: 'Focus on messages from key houses' },
+          pastlife:   { prefix: '[Past Life]', theme: 'Cross-life soul lessons', advice: 'Resolve unfinished past-life lessons' },
+          health:     { prefix: '[Health]', theme: 'Root causes of body-mind health', advice: 'Focus on body-mind integrative healing' }
+        }
+      };
+      return ctx[isEn ? 'en' : 'zh'][mode] || ctx[isEn ? 'en' : 'zh']['single'];
+    }
+
+    // 生成核心洞察（一句话，含牌阵定位）
+    generateCoreInsight(cards, isEn, mode) {
+      const uprightCount = cards.filter(c => !c.isReversed).length;
+      const total = cards.length;
+      const ratio = uprightCount / total;
+      const ctx = this.getSpreadContext(mode, isEn);
+
+      let base = '';
+      if (isEn) {
+        if (ratio >= 0.7) base = 'The energy is generally positive. Move forward with confidence.';
+        else if (ratio <= 0.3) base = 'Challenges exist, but they are guiding you to grow.';
+        else base = 'Mixed energies. Balance and integration are key.';
+      } else {
+        if (ratio >= 0.7) base = '整体能量偏积极，可以信心满满地前进。';
+        else if (ratio <= 0.3) base = '存在挑战，但这些挑战正在引导你成长。';
+        else base = '能量好坏参半，平衡与整合是关键。';
+      }
+
+      return ctx.prefix + ' ' + base;
+    }
+
+    // 生成一句话建议（含牌阵特色）
+    generateOneLineAdvice(cards, isEn, mode) {
+      const ctx = this.getSpreadContext(mode, isEn);
+
+      // 根据主导元素给出建议
+      const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
+      cards.forEach(c => {
+        if (c.card.suit === 'wands') elements.wands++;
+        else if (c.card.suit === 'cups') elements.cups++;
+        else if (c.card.suit === 'swords') elements.swords++;
+        else if (c.card.suit === 'pentacles') elements.pentacles++;
+      });
+
+      const dominant = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
+
+      const adviceMap = {
+        zh: {
+          wands: '💡 建议：主动行动，抓住机会，但别忘记计划。' + ctx.advice,
+          cups: '💡 建议：倾听内心，表达情感，让直觉引导你。' + ctx.advice,
+          swords: '💡 建议：理性分析，清晰沟通，避免冲动决策。' + ctx.advice,
+          pentacles: '💡 建议：脚踏实地，关注实际，耐心积累成果。' + ctx.advice
+        },
+        en: {
+          wands: '💡 Advice: Take action, seize opportunities, but don\'t forget to plan. ' + ctx.advice,
+          cups: '💡 Advice: Listen to your heart, express emotions, let intuition guide you. ' + ctx.advice,
+          swords: '💡 Advice: Analyze rationally, communicate clearly, avoid impulsive decisions. ' + ctx.advice,
+          pentacles: '💡 Advice: Stay grounded, focus on practicalities, accumulate results patiently. ' + ctx.advice
+        }
+      };
+
+      return adviceMap[isEn ? 'en' : 'zh'][dominant] || '';
+    }
+
+    // ============ 标准解读生成（5段式，含牌阵感知 + 牌面组合 + 能量趋势）============
+    generateStandardReading(cards, mode, positions) {
+      const isEn = this.currentLang === 'en';
+      const ctx = this.getSpreadContext(mode, isEn);
+      let html = '<div class="standard-reading">';
+
+      // 1. 核心主题（融入牌阵特色 + 牌面组合分析）
+      html += '<div class="std-section">';
+      html += '<div class="std-title">' + (isEn ? '★ Core Theme' : '★ 核心主题') + '</div>';
+      html += '<div class="std-content">' + this.generateCoreTheme(cards, isEn, mode, ctx) + '</div>';
+      html += '</div>';
+
+      // 2. 牌面组合解读（新增：标准模式专属增强）
+      html += '<div class="std-section">';
+      html += '<div class="std-title">' + (isEn ? '⚕ Card Combinations' : '⚕ 牌面组合解读') + '</div>';
+      html += '<div class="std-content">' + this.generateStandardCombinations(cards, isEn) + '</div>';
+      html += '</div>';
+
+      // 3. 关键建议（融入牌阵特色 + 结合具体牌面）
+      html += '<div class="std-section">';
+      html += '<div class="std-title">' + (isEn ? '⚡ Key Advice' : '⚡ 关键建议') + '</div>';
+      html += '<div class="std-content"><ul>' + this.generateKeyAdvice(cards, isEn, mode, ctx) + '</ul></div>';
+      html += '</div>';
+
+      // 4. 能量趋势（新增：简化版趋势分析）
+      html += '<div class="std-section">';
+      html += '<div class="std-title">' + (isEn ? '📈 Energy Trend' : '📈 能量趋势') + '</div>';
+      html += '<div class="std-content">' + this.generateStandardTrend(cards, isEn) + '</div>';
+      html += '</div>';
+
+      // 5. 注意事项（融入牌阵特色）
+      html += '<div class="std-section">';
+      html += '<div class="std-title">' + (isEn ? '⚠ Things to Note' : '⚠ 注意事项') + '</div>';
+      html += '<div class="std-content">' + this.generateWarnings(cards, isEn, mode, ctx) + '</div>';
+      html += '</div>';
+
+      html += '</div>';
+      return html;
+    }
+
+    generateCoreTheme(cards, isEn, mode, ctx) {
+      const hasMajor = cards.some(c => c.card.suit === 'major');
+      const revCount = cards.filter(c => c.isReversed).length;
+      const majorCards = cards.filter(c => c.card.suit === 'major');
+
+      // 牌阵专属主题前缀
+      let prefix = (isEn ? 'This reading focuses on: ' : '本次占卜聚焦于：') + ctx.theme + '。';
+
+      if (isEn) {
+        let text = prefix + ' ';
+        if (hasMajor) {
+          text += 'Important life themes are present';
+          if (majorCards.length === 1) {
+            text += ' — ' + deckManager.getCardName(majorCards[0].card) + ' indicates ' + 
+                    (isEn ? 'a key lesson you need to learn' : '你需要学习的重要课题');
+          } else if (majorCards.length >= 2) {
+            const sep = ', ';
+            const majorNames = majorCards.map(c => deckManager.getCardName(c.card)).join(sep);
+            text += ' — multiple Major Arcana (' + majorNames + ') suggest this is a fateful period';
+          }
+          text += '. ';
+        }
+        if (revCount > cards.length / 2) text += 'Challenges you face are guiding necessary transformations. ';
+        else if (revCount > 0) text += 'Some challenges need attention, but overall the energy supports moving forward. ';
+        else text += 'The energy is very supportive for moving forward. ';
+        return text;
+      } else {
+        let text = prefix + ' ';
+        if (hasMajor) {
+          text += '重要的生命课题正在显现';
+          if (majorCards.length === 1) {
+            text += '——「' + deckManager.getCardName(majorCards[0].card) + '」指示了你需要学习的核心课题';
+          } else if (majorCards.length >= 2) {
+            const sep = '、';
+            const majorNames = majorCards.map(c => '「' + deckManager.getCardName(c.card) + '」').join(sep);
+            text += '——多张张大阿卡那牌（' + majorNames + '）同时出现，说明这是一个充满命运转折的时期';
+          }
+          text += '。';
+        }
+        if (revCount > cards.length / 2) text += '你面临的挑战正在引导必要的转化。';
+        else if (revCount > 0) text += '部分牌面逆位提示需要注意的挑战，但整体能量对前进是比较支持的。';
+        else text += '所有牌面都是正位，整体能量非常支持你前进。';
+        return text;
+      }
+    }
+
+    // ============ 标准模式：牌面组合解读（简化版）============
+    generateStandardCombinations(cards, isEn) {
+      let text = '';
+      const majors = cards.filter(c => c.card.suit === 'major');
+      const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
+      
+      cards.forEach(c => {
+        if (c.card.suit in elements) elements[c.card.suit]++;
+      });
+
+      // 1. 检测大阿卡那牌对组合
+      const majorIds = majors.map(m => m.card.id);
+      if (majorIds.includes('major-00') && majorIds.includes('major-01')) {
+        text += isEn 
+          ? 'The Fool and The Magician together indicate a powerful new beginning. The universe is giving you a "reset button".'
+          : '【愚者】与【魔术师】同时出现，预示着强大的新开始。宇宙正在给你一个"重启按钮"。';
+        text += '<br/>';
+      }
+      if (majorIds.includes('major-13') && majorIds.includes('major-20')) {
+        text += isEn
+          ? 'Death and Judgement together indicate complete transformation and rebirth. You are going through a soul-level change.'
+          : '【死神】与【审判】同时出现，预示着彻底的转化与重生。你正在经历灵魂层面的深刻改变。';
+        text += '<br/>';
+      }
+      if (majorIds.includes('major-19') && majorIds.includes('major-06')) {
+        text += isEn
+          ? 'The Sun and The Lovers together indicate that following your heart will lead to bright outcomes.'
+          : '【太阳】与【恋人】同时出现，预示着跟随内心会走向光明的结果。';
+        text += '<br/>';
+      }
+
+      // 2. 检测元素主导与缺失
+      const maxElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0];
+      const minElement = Object.entries(elements).sort((a, b) => a[1] - b[1])[0];
+      const elementNames = { wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+      const elementNamesEn = { wands: 'Wands', cups: 'Cups', swords: 'Swords', pentacles: 'Pentacles' };
+
+      if (maxElement[1] >= 2) {
+        const elemName = isEn ? elementNamesEn[maxElement[0]] : elementNames[maxElement[0]];
+        text += isEn
+          ? `The dominance of ${elemName} suit indicates strong energy in this area. `
+          : `牌面中【${elemName}】牌组占主导，说明这个领域的能量很强。`;
+        text += '<br/>';
+      }
+
+      if (minElement[1] === 0 && cards.length >= 4) {
+        const elemName = isEn ? elementNamesEn[minElement[0]] : elementNames[minElement[0]];
+        text += isEn
+          ? `The absence of ${elemName} suit suggests this element needs more attention in the situation.`
+          : `牌面中缺少【${elemName}】牌组，说明在这个情境中这个元素需要更多关注。`;
+        text += '<br/>';
+      }
+
+      // 3. 检测同牌组相邻牌的增强效果
+      for (let i = 0; i < cards.length - 1; i++) {
+        if (cards[i].card.suit === cards[i+1].card.suit && cards[i].card.suit !== 'major') {
+          const suitName = isEn ? cards[i].card.suit : elementNames[cards[i].card.suit];
+          text += isEn
+            ? `Adjacent ${suitName} cards enhance each other's energy, creating a focused influence.`
+            : `相邻的【${suitName}】牌相互增强能量，形成集中的影响力。`;
+          text += '<br/>';
+          break; // 只显示第一个
+        }
+      }
+
+      if (text === '') {
+        text = isEn 
+          ? 'The cards work together harmoniously. Refer to individual card meanings above for detailed interpretation.'
+          : '牌面和谐共事。请参考上方各张牌的牌意进行解读。';
+      }
+
+      return text;
+    }
+
+    // ============ 标准模式：能量趋势分析（简化版）============
+    generateStandardTrend(cards, isEn) {
+      let text = '';
+      
+      // 计算前半段和后半段逆位比例
+      const firstHalf = cards.slice(0, Math.ceil(cards.length / 2));
+      const secondHalf = cards.slice(Math.ceil(cards.length / 2));
+      let firstRev = 0, secondRev = 0;
+      firstHalf.forEach(c => { if (c.isReversed) firstRev++; });
+      secondHalf.forEach(c => { if (c.isReversed) secondRev++; });
+
+      const firstRevRatio = firstRev / firstHalf.length;
+      const secondRevRatio = secondHalf.length > 0 ? secondRev / secondHalf.length : 0;
+
+      // 判断趋势
+      if (secondRevRatio < firstRevRatio - 0.3) {
+        text = isEn 
+          ? 'The energy trend is <strong>improving</strong>. Challenges in the early stage are gradually being resolved, and the future looks more positive.'
+          : '能量趋势<strong>正在好转</strong>。前期的挑战正在逐步化解，未来走向更加积极。';
+      } else if (secondRevRatio > firstRevRatio + 0.3) {
+        text = isEn
+          ? 'The energy trend shows <strong>caution</strong>. The situation may face increasing challenges. Early preparation and adjustment are recommended.'
+          : '能量趋势显示需要<strong>谨慎</strong>。情况可能面临越来越多挑战，建议提前做好准备和调整。';
+      } else {
+        text = isEn
+          ? 'The energy trend is <strong>stable</strong>. The situation will develop steadily. Maintaining current direction and pace is appropriate.'
+          : '能量趋势<strong>平稳</strong>。情况会稳步发展，保持目前的方向和节奏即可。';
+      }
+
+      // 检测是否有大阿卡那转折牌
+      const turningCardsEn = ['Wheel of Fortune', 'Judgement', 'The Tower', 'Death'];
+      const turningCardsZh = ['命运之轮', '审判', '塔', '死神'];
+      const turningCards = isEn ? turningCardsEn : turningCardsZh;
+      
+      cards.forEach(c => {
+        const nameToCheck = isEn ? c.card.originalName : c.card.name;
+        if (turningCards.includes(nameToCheck)) {
+          text += isEn
+            ? '<br/><br/><strong>Note:</strong> ' + deckManager.getCardName(c.card) + ' indicates a possible turning point. The situation may change unexpectedly.'
+            : '<br/><br/><strong>注意：</strong>【' + deckManager.getCardName(c.card) + '】的出现预示可能的转折点，情况可能有意外变化。';
+        }
+      });
+
+      return text;
+    }
+
+    generateKeyAdvice(cards, isEn, mode, ctx) {
+      const advice = [];
+      const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
+
+      cards.forEach(c => {
+        if (c.card.suit in elements) elements[c.card.suit]++;
+      });
+
+      const dominant = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
+
+      // 牌阵专属建议（优先加入，限制2条以留出空间给牌面建议）
+      const spreadAdvice = isEn ? this.getSpreadSpecificAdviceEn(mode) : this.getSpreadSpecificAdviceZh(mode);
+      spreadAdvice.slice(0, 2).forEach(a => { if (advice.length < 5) advice.push(a); });
+
+      // 基于具体牌面给出针对性建议（新增：结合具体抽到的牌）
+      cards.forEach(c => {
+        if (advice.length >= 5) return;
+        const cardName = deckManager.getCardName(c.card);
+        const isRev = c.isReversed;
+        
+        if (isEn) {
+          const adviceText = this.getCardSpecificAdviceEn(c.card, isRev, cardName);
+          if (adviceText && !advice.includes(adviceText)) {
+            advice.push(adviceText);
+          }
+        } else {
+          const adviceText = this.getCardSpecificAdviceZh(c.card, isRev, cardName);
+          if (adviceText && !advice.includes(adviceText)) {
+            advice.push(adviceText);
+          }
+        }
+      });
+
+      // 如果建议不够5条，补充元素主导建议
+      if (isEn) {
+        if (dominant === 'wands' && advice.length < 5) advice.push('Take initiative and act on your goals with confidence');
+        if (dominant === 'cups' && advice.length < 5) advice.push('Trust your intuition and let emotions guide your decisions');
+        if (dominant === 'swords' && advice.length < 5) advice.push('Think clearly and communicate your truth honestly');
+        if (dominant === 'pentacles' && advice.length < 5) advice.push('Focus on practical steps and build solid foundations');
+      } else {
+        if (dominant === 'wands' && advice.length < 5) advice.push('主动出击，自信地朝目标行动');
+        if (dominant === 'cups' && advice.length < 5) advice.push('信任直觉，让情感指引你的决定');
+        if (dominant === 'swords' && advice.length < 5) advice.push('清晰思考，诚实地沟通你的真相');
+        if (dominant === 'pentacles' && advice.length < 5) advice.push('关注实际步骤，打下坚实基础');
+      }
+
+      return advice.slice(0, 5).map(a => '<li>' + a + '</li>').join('');
+    }
+
+    // ============ 根据具体牌面生成针对性建议（中文）============
+    getCardSpecificAdviceZh(card, isReversed, cardName) {
+      const suit = card.suit;
+      const id = card.id;
+      
+      // 大阿卡那牌的针对性建议
+      if (suit === 'major') {
+        const majorAdvice = {
+          'major-00': isReversed ? '不要冲动开始新事物，先做好规划再行动' : '勇敢踏上新旅程，这是属于你的时刻',
+          'major-01': isReversed ? '暂时不要操控局面，让事情自然发展' : '运用你的创造力和意志力去实现目标',
+          'major-02': isReversed ? '不要过度牺牲自己，学会设立边界' : '相信直觉，在合适时机采取行动',
+          'major-03': isReversed ? '不要被过剩的母性/控制欲束缚，给对方空间' : '用爱和耐心滋养周围的人事物',
+          'major-04': isReversed ? '打破僵化的传统和限制，拥抱变化' : '在传统和稳定中建立扎实的基础',
+          'major-05': isReversed ? '困境即将过去，保持希望' : '接受当前的挑战，它们让你更强大',
+          'major-06': isReversed ? '不要陷入不平衡的关系，做出选择' : '跟随内心的声音，做出真诚的选择',
+          'major-07': isReversed ? '不要被恐惧支配，面对你的阴影' : '运用内在力量和勇气战胜挑战',
+          'major-08': isReversed ? '不要过度控制，学会放松和信任' : '保持自律和耐心，正义终将到来',
+          'major-09': isReversed ? '不要过度孤立自己，适当寻求支持' : '享受独处的智慧，内在力量正在增长',
+          'major-10': isReversed ? '命运之轮暂时在低处，但很快就会转动起来' : '接受命运的起伏，好运转眼即到',
+          'major-11': isReversed ? '不要滥用力量，真正的力量来自内在' : '运用你的力量为他人服务，保持正义',
+          'major-12': isReversed ? '牺牲已经完成，现在可以放下重担了' : '有些牺牲是必要的，但为了更高的善',
+          'major-13': isReversed ? '抗拒改变只会带来更多痛苦，试着放下' : '彻底放下旧的模式，为新生让路',
+          'major-14': isReversed ? '不要抗拒内在的转化，保持平衡' : '在变化中保持内在平衡，耐心等待',
+          'major-15': isReversed ? '正在从阴影中走出来，继续前进' : '面对你的阴影和执念，它们是成长的契机',
+          'major-16': isReversed ? '危机已经过去，从废墟中重建' : '突如其来的变化正在打破旧结构，接受它',
+          'major-17': isReversed ? '不要失去希望，星星仍在照耀' : '保持希望和信心，宇宙正在回应你的愿望',
+          'major-18': isReversed ? '幻觉正在消散，真相即将显现' : '信任你的直觉，但小心不要被幻觉迷惑',
+          'major-19': isReversed ? '暂时的阴霾遮挡了阳光，但光明仍在' : '光明和喜悦正在到来，享受生命的礼物',
+          'major-20': isReversed ? '不要忽略内在的召唤，是时候醒来了' : '内在的声音正在召唤你，倾听并行动',
+          'major-21': isReversed ? '尚未完成整合，需要更多内在工作' : '你已经完成了一个重要阶段，庆祝你的成就'
+        };
+        return majorAdvice[id] || null;
+      }
+      
+      // 小阿卡那牌的针对性建议（按牌组给出）
+      if (suit === 'wands') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? '权杖牌逆位提示行动受阻，检查是否有内在恐惧' : '权杖牌正位鼓励你主动行动，抓住机会';
+        if (num <= 7) return isReversed ? '行动过程中遇到挑战，需要调整策略' : '行动顺利推进中，保持专注和热情';
+        if (num <= 10) return isReversed ? '行动的结果不如预期，反思并从中学习' : '行动即将带来成果，坚持到底';
+        // 宫廷牌
+        return isReversed ? '权杖宫廷牌逆位提示行动能量失衡' : '权杖宫廷牌鼓励你用热情和创意领导';
+      }
+      
+      if (suit === 'cups') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? '情感上可能有失落，给自己时间疗愈' : '情感上正在经历甜蜜或新的开始';
+        if (num <= 7) return isReversed ? '情感上需要做出选择或放下' : '情感丰富，享受并信任这份能量';
+        if (num <= 10) return isReversed ? '情感上的满足感受到挑战' : '情感上的满足和家庭幸福正在实现';
+        return isReversed ? '圣杯宫廷牌逆位提示情感表达受阻' : '圣杯宫廷牌鼓励你用爱和同理心交流';
+      }
+      
+      if (suit === 'swords') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? '思维上的痛苦正在缓解' : '思维清晰但可能伴随痛苦，保持理性';
+        if (num <= 7) return isReversed ? '过度的思考正在制造混乱，需要静心' : '思维活跃，用逻辑和沟通解决问题';
+        if (num <= 10) return isReversed ? '痛苦的结束，真相即将大白' : '思维上的挑战正在带来真相和释放';
+        return isReversed ? '宝剑宫廷牌逆位提示思维或沟通偏颇' : '宝剑宫廷牌鼓励你用清晰思维和公正沟通';
+      }
+      
+      if (suit === 'pentacles') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? '财务或资源上的新开始受阻' : '财务或资源上的新机会正在出现';
+        if (num <= 7) return isReversed ? '努力尚未带来回报，不要放弃' : '务实的努力正在积累，耐心等待收获';
+        if (num <= 10) return isReversed ? '财务上的损失或不安' : '财务稳定和丰盛正在实现';
+        return isReversed ? '星币宫廷牌逆位提示务实或财务上有盲点' : '星币宫廷牌鼓励你务实并有耐心地积累';
+      }
+      
+      return null;
+    }
+
+    // ============ 根据具体牌面生成针对性建议（英文）============
+    getCardSpecificAdviceEn(card, isReversed, cardName) {
+      const suit = card.suit;
+      const id = card.id;
+      
+      // 大阿卡那牌的针对性建议
+      if (suit === 'major') {
+        const majorAdvice = {
+          'major-00': isReversed ? 'Don\'t rush into new things; plan first' : 'Bravely embark on a new journey; this is your moment',
+          'major-01': isReversed ? 'Don\'t manipulate; let things unfold naturally' : 'Use your creativity and willpower to achieve goals',
+          'major-02': isReversed ? 'Don\'t over-sacrifice; learn to set boundaries' : 'Trust intuition and act at the right moment',
+          'major-03': isReversed ? 'Don\'t be controlled by excessive nurturing; give space' : 'Nurture people and things around you with love',
+          'major-04': isReversed ? 'Break rigid traditions and embrace change' : 'Build a solid foundation within tradition',
+          'major-05': isReversed ? 'Hardship is passing; keep hope' : 'Accept current challenges; they make you stronger',
+          'major-06': isReversed ? 'Don\'t stay in unbalanced relationships; make a choice' : 'Follow your heart and make authentic choices',
+          'major-07': isReversed ? 'Don\'t be ruled by fear; face your shadow' : 'Use inner strength and courage to overcome challenges',
+          'major-08': isReversed ? 'Don\'t over-control; learn to relax and trust' : 'Maintain self-discipline and patience; justice will come',
+          'major-09': isReversed ? 'Don\'t over-isolate; seek support when needed' : 'Enjoy the wisdom of solitude; inner strength grows',
+          'major-10': isReversed ? 'The Wheel is temporarily low, but will turn soon' : 'Accept the ups and downs of fate; good luck is coming',
+          'major-11': isReversed ? 'Don\'t abuse power; true power comes from within' : 'Use your power to serve others; maintain justice',
+          'major-12': isReversed ? 'Sacrifice is complete; you can let go now' : 'Some sacrifice is necessary for the higher good',
+          'major-13': isReversed ? 'Resisting change brings more pain; try to let go' : 'Completely release old patterns; make way for rebirth',
+          'major-14': isReversed ? 'Don\'t resist inner transformation; maintain balance' : 'Maintain inner balance amid changes; wait patiently',
+          'major-15': isReversed ? 'You are walking out of shadow; keep going' : 'Face your shadow and attachments; they are growth opportunities',
+          'major-16': isReversed ? 'Crisis has passed; rebuild from ruins' : 'Sudden change is breaking old structures; accept it',
+          'major-17': isReversed ? 'Don\'t lose hope; the Star still shines' : 'Keep hope and faith; the universe is answering',
+          'major-18': isReversed ? 'Illusions are dissolving; truth is coming' : 'Trust your intuition, but beware of illusions',
+          'major-19': isReversed ? 'Temporary clouds obscure the Sun, but light remains' : 'Light and joy are coming; enjoy life\'s gifts',
+          'major-20': isReversed ? 'Don\'t ignore the inner call; time to wake up' : 'Inner voice is calling you; listen and act',
+          'major-21': isReversed ? 'Integration incomplete; more inner work needed' : 'You have completed an important phase; celebrate'
+        };
+        return majorAdvice[id] || null;
+      }
+      
+      // 小阿卡那牌的针对性建议（按牌组给出）
+      if (suit === 'wands') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? 'Reversed Wands suggest blocked action; check inner fears' : 'Upright Wands encourage taking initiative and seizing opportunities';
+        if (num <= 7) return isReversed ? 'Challenges in action; adjust your strategy' : 'Action progressing smoothly; stay focused and passionate';
+        if (num <= 10) return isReversed ? 'Action results not as expected; reflect and learn' : 'Action about to bear fruit; persevere to the end';
+        return isReversed ? 'Reversed Wands Court card suggests imbalanced action energy' : 'Wands Court cards encourage leading with passion and creativity';
+      }
+      
+      if (suit === 'cups') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? 'Emotional loss possible; give yourself time to heal' : 'Experiencing sweetness or new emotional beginnings';
+        if (num <= 7) return isReversed ? 'Need to make emotional choices or let go' : 'Emotions are rich; enjoy and trust this energy';
+        if (num <= 10) return isReversed ? 'Emotional fulfillment challenged' : 'Emotional fulfillment and family happiness manifesting';
+        return isReversed ? 'Reversed Cups Court card suggests blocked emotional expression' : 'Cups Court cards encourage communicating with love and empathy';
+      }
+      
+      if (suit === 'swords') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? 'Mental pain is easing' : 'Mind is clear but may involve pain; stay rational';
+        if (num <= 7) return isReversed ? 'Overthinking creating chaos; need to calm mind' : 'Mind is active; use logic and communication to solve problems';
+        if (num <= 10) return isReversed ? 'Pain ending; truth about to surface' : 'Mental challenges bringing truth and release';
+        return isReversed ? 'Reversed Swords Court card suggests biased thinking or communication' : 'Swords Court cards encourage clear thinking and fair communication';
+      }
+      
+      if (suit === 'pentacles') {
+        const num = parseInt(id.split('-').pop());
+        if (num <= 3) return isReversed ? 'New financial or resource beginnings blocked' : 'New financial or resource opportunities appearing';
+        if (num <= 7) return isReversed ? 'Effort not yet bringing rewards; don\'t give up' : 'Practical efforts accumulating; wait patiently for harvest';
+        if (num <= 10) return isReversed ? 'Financial loss or insecurity' : 'Financial stability and abundance manifesting';
+        return isReversed ? 'Reversed Pentacles Court card suggests blind spots in practical or financial matters' : 'Pentacles Court cards encourage being practical and patiently accumulating';
+      }
+      
+      return null;
+    }
+
+    // 牌阵专属建议（中文）
+    getSpreadSpecificAdviceZh(mode) {
+      const map = {
+        single:     ['以今日抽到的牌为核心指引，专注当下'],
+        three:      ['结合过去、现在、未来三张牌理解时间线'],
+        celtic:     ['综合十个位置全面分析当前处境'],
+        relation:   ['关注你与对方各自的状态和态度', '留意关系发展的可能方向'],
+        choice:     ['比较A、B两个选项的可能结果', '权衡后做出最适合自己的选择'],
+        five:       ['针对问题核心采取行动', '留意潜意识中隐藏的影响因素'],
+        horseshoe:  ['从过去的影响到最终结果全面考量', '留意未被重视的隐藏因素'],
+        career:     ['关注事业发展的优势与挑战', '把握建议的行动方向'],
+        timeflow:   ['理解事情从过去到未来的发展脉络', '关注深层根本原因'],
+        action:     ['明确问题核心后立即采取行动', '相信牌面指引的可能结果'],
+        mind:       ['整合意识与潜意识的讯息', '在理想与现实之间找到平衡'],
+        love:       ['关注彼此的真实感受与关系本质', '留意外部影响对关系的干扰'],
+        broken:     ['诚实面对导致分开的根本原因', '评估双方是否都有复合的意愿'],
+        yesno:      ['正位牌偏向「是」，逆位牌偏向「否」', '综合支持与反对因素后判断'],
+        jobchange:  ['评估现工作的离职原因是否充分', '了解新机会的真实情况与风险'],
+        shadow:     ['接纳自己不愿面对的阴影面向', '释放阻碍成长的旧有模式'],
+        year:       ['关注年度各领域的整体能量走向', '在重点领域提前做好准备'],
+        proscons:   ['列出所有支持与反对的理由', '留意未被考虑的隐藏因素'],
+        travel:     ['关注旅途整体能量与安全事项', '以开放心态迎接旅途的收获'],
+        lifepurpose:['认清自己的核心天赋与人生课题', '勇敢走向属于自己的使命方向'],
+        exam:       ['针对牌面指示的重点方向复习', '调整心态，保持适度紧张'],
+        fatewheel:  ['把握命运之轮即将转动的转折点', '留意隐藏的机遇与可能的陷阱'],
+        monthly:    ['关注本月核心能量主题', '在本月重点领域中积极行动'],
+        souljourney:['连接内在高我的声音与指引', '接纳灵魂深处需要整合的阴影'],
+        zodiac:     ['关注重点宫位显示的领域讯息', '综合十二宫位全面了解自己'],
+        pastlife:   ['理解前世未完成课题对今生的影响', '以慈悲心化解前世的业力模式'],
+        health:     ['关注身心健康的根本能量因素', '必要时寻求专业医疗建议']
+      };
+      return map[mode] || [];
+    }
+
+    // 牌阵专属建议（英文）
+    getSpreadSpecificAdviceEn(mode) {
+      const map = {
+        single:     ['Take the drawn card as core guidance, focus on the present'],
+        three:      ['Understand the timeline by combining past, present, and future cards'],
+        celtic:     ['Comprehensively analyze current situation from ten positions'],
+        relation:   ['Pay attention to each other\'s state and attitude', 'Notice the possible direction of relationship development'],
+        choice:     ['Compare possible outcomes of options A and B', 'Make the choice that suits you best after weighing'],
+        five:       ['Take action targeting the problem core', 'Notice hidden influencing factors in the subconscious'],
+        horseshoe:  ['Consider comprehensively from past influence to final outcome', 'Notice hidden factors not valued'],
+        career:     ['Focus on advantages and challenges in career development', 'Grasp the suggested action direction'],
+        timeflow:   ['Understand the development from past to future', 'Pay attention to the deep root cause'],
+        action:     ['Take action immediately after clarifying the problem core', 'Trust the possible outcome shown by the cards'],
+        mind:       ['Integrate messages from conscious and subconscious', 'Find balance between ideal and reality'],
+        love:       ['Focus on each other\'s true feelings and relationship essence', 'Notice external influences on the relationship'],
+        broken:     ['Face the root cause of the breakup honestly', 'Assess whether both parties have willingness to reunite'],
+        yesno:      ['Upright cards lean toward "yes", reversed lean toward "no"', 'Judge after integrating supporting and opposing factors'],
+        jobchange:  ['Assess whether the reason for leaving is sufficient', 'Understand the reality and risks of the new opportunity'],
+        shadow:     ['Embrace the shadow aspects you are unwilling to face', 'Release old patterns that hinder growth'],
+        year:       ['Focus on the overall energy direction of each area this year', 'Prepare in advance in key focus areas'],
+        proscons:   ['List all supporting and opposing reasons', 'Notice hidden factors not yet considered'],
+        travel:     ['Pay attention to overall travel energy and safety', 'Welcome travel gains with an open mind'],
+        lifepurpose:['Recognize your core talent and life lessons', 'Bravely move toward your own mission direction'],
+        exam:       ['Review focusing on the direction indicated by the cards', 'Adjust mindset, maintain moderate tension'],
+        fatewheel:  ['Grasp the turning point where the Wheel of Fortune is about to turn', 'Notice hidden opportunities and possible traps'],
+        monthly:    ['Focus on this month\'s core energy theme', 'Take active action in this month\'s key areas'],
+        souljourney:['Connect with the voice and guidance of your higher self', 'Embrace the shadows deep in your soul that need integration'],
+        zodiac:     ['Focus on messages from key house positions', 'Comprehensively understand yourself through twelve houses'],
+        pastlife:   ['Understand the impact of past-life unfinished lessons on this life', 'Resolve past-life karmic patterns with compassion'],
+        health:     ['Focus on root energy factors of body-mind health', 'Seek professional medical advice when necessary']
+      };
+      return map[mode] || [];
+    }
+
+    generateWarnings(cards, isEn, mode, ctx) {
+      const revCount = cards.filter(c => c.isReversed).length;
+
+      // 牌阵专属注意事项
+      const spreadWarn = isEn ? this.getSpreadSpecificWarningEn(mode) : this.getSpreadSpecificWarningZh(mode);
+
+      if (isEn) {
+        let text = '';
+        if (spreadWarn) text += spreadWarn + ' ';
+        if (revCount >= 2) text += 'Some reversed cards suggest inner resistance. Allow time for integration.';
+        else text += 'Overall the energy flows well. Stay mindful of details.';
+        return text;
+      } else {
+        let text = '';
+        if (spreadWarn) text += spreadWarn + ' ';
+        if (revCount >= 2) text += '部分逆位牌提示内在抗拒。给自己时间整合。';
+        else text += '整体能量流动顺畅，注意保持对细节的觉察。';
+        return text;
+      }
+    }
+
+    // 牌阵专属注意事项（中文）
+    getSpreadSpecificWarningZh(mode) {
+      const map = {
+        celtic:     '凯尔特十字信息量大，建议分次理解',
+        relation:   '关系解读仅供参考，真实感情需要双方沟通',
+        choice:     '塔罗显示的可能性，最终决定权在你手中',
+        five:       '建议的行动需要配合实际状况灵活调整',
+        career:     '事业决策建议结合现实条件综合判断',
+        shadow:     '阴影工作可能带来不适，请温柔对待自己',
+        year:       '年运显示整体趋势，具体事件仍有变数',
+        lifepurpose:'人生使命的探索是一生的旅程，不必急于求成',
+        exam:       '考试结果也受实际准备程度影响，牌面仅供参考',
+        fatewheel:  '命运之轮有升有降，顺境时勿骄，逆境时勿馁',
+        zodiac:     '十二宫位信息量大，建议分次深入理解',
+        pastlife:   '前世解读属于灵性探索，请以开放心态看待',
+        health:     '健康解读不能替代专业医疗诊断，如有不适请及时就医'
+      };
+      return map[mode] || '';
+    }
+
+    // 牌阵专属注意事项（英文）
+    getSpreadSpecificWarningEn(mode) {
+      const map = {
+        celtic:     'Celtic Cross has rich information; it is recommended to understand it in stages',
+        relation:   'Relationship reading is for reference only; real feelings need communication from both sides',
+        choice:     'Tarot shows possibilities; the final decision is in your hands',
+        five:       'Suggested actions need flexible adjustment according to actual conditions',
+        career:     'Career decisions should be comprehensively judged combined with realistic conditions',
+        shadow:     'Shadow work may cause discomfort; please treat yourself gently',
+        year:       'Yearly reading shows overall trends; specific events still have variables',
+        lifepurpose:'Exploring life purpose is a lifelong journey; no need to rush',
+        exam:       'Exam results are also affected by actual preparation; the reading is for reference only',
+        fatewheel:  'The Wheel of Fortune has ups and downs; don\'t be proud in good times, don\'t be discouraged in bad times',
+        zodiac:     'Twelve houses have rich information; it is recommended to understand deeply in stages',
+        pastlife:   'Past-life reading is spiritual exploration; please view it with an open mind',
+        health:     'Health reading cannot replace professional medical diagnosis; please seek medical attention if unwell'
+      };
+      return map[mode] || '';
     }
 
     // ============ Level 2 优化：分析牌意组合 ============
@@ -5355,6 +6035,26 @@
       if (compHeader) {
         compHeader.addEventListener('click', () => this.toggleComprehensiveReading());
       }
+
+      // 解读模式切换
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          // 重新生成解读
+          const compContent = document.getElementById('comprehensive-content');
+          if (compContent && this.currentCards && this.currentCards.length > 0) {
+            this.generateComprehensiveReading().then(reading => {
+              compContent.innerHTML = reading;
+              compContent.classList.remove('hidden');
+              const tBtn = document.getElementById('toggle-reading-btn');
+              if (tBtn) tBtn.textContent = this.t('btn_collapse');
+            });
+          }
+        });
+      });
 
       // 问题输入 → 牌阵智能推荐
       const questionInput = document.getElementById('spread-question-input');
