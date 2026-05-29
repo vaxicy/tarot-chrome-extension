@@ -99,7 +99,7 @@
 
     getLocalizedDeckName(deckKey) {
       if (this.currentLang === 'en') {
-        const enNames = { hp: 'Magic Theme', rider: 'Rider-Waite', marseille: 'Marseille', thoth: 'Thoth', angel: 'Angel' };
+        const enNames = { hp: 'Magic Theme', rider: 'Rider-Waite', marseille: 'Marseille', thoth: 'Thoth', angel: 'Angel', healing: 'Healing' };
         return enNames[deckKey] || 'Tarot';
       }
       return DECK_NAMES[deckKey] || '塔罗牌';

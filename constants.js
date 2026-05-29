@@ -11,7 +11,8 @@ const DECK_NAMES = {
   rider: '伟特塔罗',
   marseille: '马赛塔罗',
   thoth: '托特塔罗',
-  angel: '天使塔罗'
+  angel: '天使塔罗',
+  healing: '治愈塔罗'
 };
 
 // ============ 牌阵配置 ============
@@ -816,6 +817,7 @@ const I18N = {
     deck_marseille: '马赛塔罗',
     deck_thoth: '托特塔罗',
     deck_angel: '天使塔罗',
+    deck_healing: '治愈塔罗',
     label_lang: '语言：',
     inst_start: '选择牌阵开始你的魔法之旅',
     inst_click: '点击卡牌查看正/逆位解读',
@@ -1156,6 +1158,7 @@ const I18N = {
     deck_marseille: 'Marseille',
     deck_thoth: 'Thoth',
     deck_angel: 'Angel',
+    deck_healing: 'Healing Tarot',
     label_lang: 'Language:',
     inst_start: 'Choose a spread to begin your magical journey',
     inst_click: 'Tap cards to view upright / reversed meaning',

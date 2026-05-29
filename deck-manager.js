@@ -222,3 +222,8 @@ deckManager.registerDeck('thoth', function () {
 deckManager.registerDeck('angel', function () {
   return Promise.resolve(typeof angelCards !== 'undefined' ? angelCards : []);
 }, { nameZh: '天使塔罗', nameEn: 'Angel', description: '天使指引塔罗牌' });
+
+deckManager.registerDeck('healing', function () {
+  return Promise.resolve(typeof healingCards !== 'undefined' ? healingCards : []);
+}, { nameZh: '治愈塔罗', nameEn: 'Healing', description: '心理疗愈与内在成长塔罗牌' });
+
