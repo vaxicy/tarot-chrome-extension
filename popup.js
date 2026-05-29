@@ -1177,7 +1177,12 @@
         case 'shadow':
         case 'proscons':
         case 'year':
+        case 'creative':
+        case 'finance':
           adviceCard = cards[4] || null;
+          break;
+        case 'declutter':
+          adviceCard = cards[3] || null;
           break;
         case 'horseshoe':
         case 'timeflow':
@@ -1234,7 +1239,8 @@
         'exam': 0, 'jobchange': 0, 'shadow': 0, 'lifepurpose': 0,
         'horseshoe': 1, 'timeflow': 1, 'fatewheel': 0, 'monthly': 0,
         'souljourney': 0, 'zodiac': 0, 'pastlife': 0, 'health': 0,
-        'family': 0, 'weekly': 0, 'proscons': 0, 'travel': 0, 'yesno': 0
+        'family': 0, 'weekly': 0, 'proscons': 0, 'travel': 0, 'yesno': 0,
+        'creative': 0, 'finance': 0, 'declutter': 0
       };
       const currentIdx = currentIdxMap[mode] !== undefined ? currentIdxMap[mode] : (cards.length > 1 ? 1 : -1);
       if (currentIdx >= 0 && cards[currentIdx] && cards[currentIdx].card.suit === 'major') {
@@ -2204,6 +2210,38 @@
           }
           break;
 
+        // ---- 灵感创作牌阵 ----
+        case 'creative':
+          if (!isEn) {
+            text += '灵感创作牌阵为你的创作之路提供指引。';
+            if (cards[0].isReversed) {
+              text += '「创作瓶颈根源」逆位，说明瓶颈可能来自内在恐惧——害怕作品不被认可、害怕灵感和预期不符。试着先为自己而创作。';
+            } else {
+              text += '「创作瓶颈根源」正位，瓶颈的根源已经清晰，现在需要的是找到突破的方法而非继续纠结原因。';
+            }
+            if (cards[1].card.suit === 'wands' || cards[1].card.suit === 'fire') {
+              text += ' 「灵感方向」是权杖/火牌，灵感来自行动和冒险——走出去、尝试新事物，灵感会在行动中自然涌现。';
+            } else if (cards[1].card.suit === 'cups' || cards[1].card.suit === 'water') {
+              text += ' 「灵感方向」是圣杯/水牌，灵感来自情感和直觉——关注你的感受，最深的情感往往是最好的创作素材。';
+            } else if (cards[1].card.suit === 'swords' || cards[1].card.suit === 'clouds') {
+              text += ' 「灵感方向」是宝剑/云牌，灵感来自思考和观察——换个角度看待问题，灵感藏在你未曾留意的细节里。';
+            } else if (cards[1].card.suit === 'pentacles' || cards[1].card.suit === 'rainbow') {
+              text += ' 「灵感方向」是星币/彩虹牌，灵感来自扎实的积累——回顾你已有的作品和经验，灵感就在你走过的路里。';
+            }
+            if (cards[3].isReversed) {
+              text += ' 「创作能量状态」逆位，说明你目前创作能量偏低，需要休息、充电或转换节奏，不要强迫自己输出。';
+            }
+          } else {
+            text += 'The Creative Inspiration spread provides guidance for your creative journey. ';
+            if (cards[0].isReversed) {
+              text += 'The "Root of Creative Block" is reversed — the block may come from inner fear. Try creating for yourself first.';
+            }
+            if (cards[3].isReversed) {
+              text += ' "Creative Energy" is reversed — your creative energy is low right now. Rest and recharge, do not force output.';
+            }
+          }
+          break;
+
         // ---- 人生使命牌阵 ----
         case 'lifepurpose':
           if (!isEn) {
@@ -2248,6 +2286,67 @@
               text += 'The "Exam/Interview Result" is reversed — this does not mean certain failure, but reminds you the result may not meet expectations.';
             } else {
               text += 'The "Exam/Interview Result" is upright — the result tends to be positive, but full preparation is still the foundation of success.';
+            }
+          }
+          break;
+
+        // ---- 财务投资牌阵 ----
+        case 'finance':
+          if (!isEn) {
+            text += '财务投资牌阵为你的财务决策提供能量层面的指引。';
+            if (cards[0].card.suit === 'pentacles') {
+              text += '「当前财务状况」是星币牌，你的财务基础相对稳固，此时做出的财务决策有较好的现实支撑。';
+            } else if (cards[0].card.suit === 'swords') {
+              text += '「当前财务状况」是宝剑牌，财务上可能有些焦虑和不确定性，做决策前需要理性分析而非情绪化行动。';
+            } else if (cards[0].card.suit === 'cups') {
+              text += '「当前财务状况」是圣杯牌，财务决策可能受到情感因素影响，注意不要让情感凌驾于理性判断之上。';
+            } else if (cards[0].card.suit === 'wands') {
+              text += '「当前财务状况」是权杖牌，财务上有行动力和机会，但也可能有冲动消费的倾向，需要平衡冒险与稳健。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「投资风险」逆位，风险可能来自你未曾预料的方向，或者你低估了风险——务必做好最坏打算。';
+            } else {
+              text += ' 「投资风险」正位，风险是可见且可控的，关键在于你是否有足够的心理准备和资金准备去面对。';
+            }
+            if (cards[3].isReversed) {
+              text += ' 「时间因素」逆位， timing 可能不太对——要么是太着急，要么是拖延太久。耐心等待更好的时机可能会更好。';
+            }
+          } else {
+            text += 'The Finance spread provides guidance for your financial decisions from an energy perspective. ';
+            if (cards[1].isReversed) {
+              text += ' "Investment Risk" is reversed — the risk may come from an unexpected direction. Make sure you have a backup plan.';
+            }
+          }
+          break;
+
+        // ---- 断舍离牌阵 ----
+        case 'declutter':
+          if (!isEn) {
+            text += '断舍离牌阵帮助你清理能量场，勇敢放下执念。';
+            if (cards[0].isReversed) {
+              text += '「要舍弃的对象本质」逆位，说明你其实已经知道该放下什么，但还在找借口拖延。承认它、面对它。';
+            } else {
+              text += '「要舍弃的对象本质」正位，这个对象对你的影响已经清晰可见，是时候正视它带给你的消耗了。';
+            }
+            if (cards[1].card.suit === 'cups') {
+              text += ' 「不舍的原因」是圣杯牌，情感羁绊是你最大的执着——你可能还在期待一个不会到来的结局。';
+            } else if (cards[1].card.suit === 'pentacles') {
+              text += ' 「不舍的原因」是星币牌，物质或现实层面的顾虑让你难以放手——担心失去安全感或实际利益。';
+            } else if (cards[1].card.suit === 'swords') {
+              text += ' 「不舍的原因」是宝剑牌，理性分析反而让你更纠结——你可能在用"道理"说服自己留下，而非跟随内心。';
+            } else if (cards[1].card.suit === 'wands') {
+              text += ' 「不舍的原因」是权杖牌，激情或惯性让你难以放下——你可能只是习惯了它的存在，而非真正需要它。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「舍弃后的收获」逆位，说明放下后的正面影响可能需要一段时间才能显现，不要因为短期内感觉"空落落"就回头。';
+            }
+          } else {
+            text += 'The Declutter spread helps you clear your energy field and let go of attachments. ';
+            if (cards[0].isReversed) {
+              text += ' "What to Let Go" is reversed — you already know what to release, but you are making excuses to delay. Acknowledge it and face it.';
+            }
+            if (cards[2].isReversed) {
+              text += ' "Gain After Letting Go" is reversed — the positive effects may take time to manifest. Do not look back just because you feel empty in the short term.';
             }
           }
           break;
@@ -3827,6 +3926,12 @@
         case 'family':    this.drawFamily(); break;
         // 新增：一周运势牌阵
         case 'weekly':    this.drawWeekly(); break;
+        // 新增：灵感创作牌阵
+        case 'creative':  this.drawCreative(); break;
+        // 新增：财务投资牌阵
+        case 'finance':   this.drawFinance(); break;
+        // 新增：断舍离牌阵
+        case 'declutter': this.drawDeclutter(); break;
       }
     }
 
@@ -3853,6 +3958,21 @@
     // ============ 新增一周运势牌阵 ============
     drawWeekly() {
       this.drawStandardSpread('weekly', 55, 88);
+    }
+
+    // ============ 新增灵感创作牌阵 ============
+    drawCreative() {
+      this.drawStandardSpread('creative', 60, 96);
+    }
+
+    // ============ 新增财务投资牌阵 ============
+    drawFinance() {
+      this.drawStandardSpread('finance', 60, 96);
+    }
+
+    // ============ 新增断舍离牌阵 ============
+    drawDeclutter() {
+      this.drawStandardSpread('declutter', 60, 96);
     }
 
     // ============ 返回欢迎页 ============
@@ -6007,6 +6127,12 @@
               case 'family':    this.drawFamily(); break;
               // 新增：一周运势牌阵
               case 'weekly':    this.drawWeekly(); break;
+              // 新增：灵感创作牌阵
+              case 'creative':  this.drawCreative(); break;
+              // 新增：财务投资牌阵
+              case 'finance':   this.drawFinance(); break;
+              // 新增：断舍离牌阵
+              case 'declutter': this.drawDeclutter(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);

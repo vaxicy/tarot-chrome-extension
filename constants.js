@@ -761,6 +761,79 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Weekly Fortune spread...',
     usage: '适合周日或周一抽取，了解未来一周每天的运势走向，提前做好规划与准备。',
     usageEn: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week, and plan ahead.'
+  },
+  // ============ 新增灵感创作牌阵 ============
+  creative: {
+    name: '灵感创作',
+    nameEn: 'Creative Inspiration Spread',
+    positions: ['创作瓶颈根源', '灵感方向', '需要突破的点', '创作能量状态', '建议'],
+    positionsEn: ['Root of Creative Block', 'Inspiration Direction', 'Breakthrough Point', 'Creative Energy', 'Advice'],
+    positionMeanings: [
+      '创作瓶颈根源：导致你卡文、没有灵感或创作停滞的深层原因，可能是内在恐惧、外在压力或能量枯竭。',
+      '灵感方向：宇宙/潜意识想给你的创作灵感方向，值得关注的主题、意象或路径。',
+      '需要突破的点：你在创作中需要勇敢跨出去的那一步，可能是风格突破、题材拓展或表达方式的改变。',
+      '创作能量状态：你当前的创作能量是否充沛，是灵感迸发期还是沉淀积累期。',
+      '建议：塔罗对你创作之路的具体建议，包括如何找回灵感、突破瓶颈或调整创作节奏。'
+    ],
+    positionMeaningsEn: [
+      'Root of Creative Block: The deep reason causing your writer\'s block, lack of inspiration, or creative stagnation. May be inner fear, external pressure, or energy depletion.',
+      'Inspiration Direction: The direction of creative inspiration that the universe/subconscious wants to give you. Themes, imagery, or paths worth paying attention to.',
+      'Breakthrough Point: The step you need to bravely take in your creation. May be style breakthrough, genre expansion, or change of expression.',
+      'Creative Energy: Whether your current creative energy is abundant, whether this is a period of inspiration burst or accumulation and sedimentation.',
+      'Advice: The Tarot\'s specific advice for your creative path, including how to regain inspiration, break through bottlenecks, or adjust creative rhythm.'
+    ],
+    category: 'self', difficulty: 'medium', recommended: true, loadingText: '正在连接创作灵感...',
+    loadingTextEn: 'Connecting to creative inspiration...',
+    usage: '适合创作者卡文、寻找灵感方向、或想要突破创作瓶颈时使用。也适用于任何需要创意发想的情境。',
+    usageEn: 'Suitable for creators facing writer\'s block, seeking inspiration direction, or wanting to break through creative bottlenecks. Also applicable to any situation requiring creative ideas.'
+  },
+  // ============ 财务投资牌阵 ============
+  finance: {
+    name: '财务投资',
+    nameEn: 'Finance & Investment Spread',
+    positions: ['当前财务状况', '投资风险', '潜在收益', '时间因素', '建议'],
+    positionsEn: ['Current Finance', 'Investment Risk', 'Potential Return', 'Timing', 'Advice'],
+    positionMeanings: [
+      '当前财务状况：你的财务能量状态，收入/支出趋势，当前的财务安全感或焦虑感来源。',
+      '投资风险：这个财务决策潜在的风险点，可能亏损的方式，需要格外留心的因素。',
+      '潜在收益：这个决策可能带来的回报或收益，不仅是金钱层面，也包括机会和成长。',
+      '时间因素：时机是否合适，短期/长期影响，何时能看到结果，时间轴上的注意事项。',
+      '建议：塔罗对这次财务决策的具体建议，包括是否行动、如何规避风险、何时进退。'
+    ],
+    positionMeaningsEn: [
+      'Current Finance: Your financial energy state, income/expense trends, source of financial security or anxiety.',
+      'Investment Risk: Potential risks of this financial decision, ways you might lose money, factors requiring extra caution.',
+      'Potential Return: Possible returns or gains from this decision, not only in monetary terms but also opportunities and growth.',
+      'Timing: Whether the timing is right, short/long-term impact, when results will be seen, timeline considerations.',
+      'Advice: The Tarot\'s specific advice for this financial decision, including whether to act, how to avoid risks, when to advance or retreat.'
+    ],
+    category: 'decision', difficulty: 'medium', recommended: true, loadingText: '正在解读财务状况...',
+    loadingTextEn: 'Analyzing financial situation...',
+    usage: '适合投资理财决策、大额消费、买房/买车等财务决策前使用。帮助你从能量层面看清财务风险与机会。',
+    usageEn: 'Suitable for investment decisions, large purchases, buying a house/car, etc. Helps you see financial risks and opportunities from an energy perspective.'
+  },
+  // ============ 断舍离牌阵 ============
+  declutter: {
+    name: '断舍离',
+    nameEn: 'Declutter & Let Go Spread',
+    positions: ['要舍弃的对象本质', '不舍的原因', '舍弃后的收获', '建议'],
+    positionsEn: ['What to Let Go', 'Reason for Attachment', 'Gain After Letting Go', 'Advice'],
+    positionMeanings: [
+      '要舍弃的对象本质：你当前需要放下的人、事、物或习惯的本质，它对你当下的影响是什么。',
+      '不舍的原因：你为什么难以放手，执着的深层原因，可能是恐惧、习惯、期待或自我认同的绑定。',
+      '舍弃后的收获：当你真正放下之后，会获得什么——可能是自由、能量、新机会或内心的平静。',
+      '建议：塔罗对你「断舍离」之路的具体建议，包括如何放手、放下的步骤、以及放下后如何重建。'
+    ],
+    positionMeaningsEn: [
+      'What to Let Go: The essence of the person, thing, habit, or situation you need to release right now, and how it affects you.',
+      'Reason for Attachment: Why you find it hard to let go. The deep reason for your attachment — may be fear, habit, expectation, or identity bond.',
+      'Gain After Letting Go: What you will gain after truly letting go — may be freedom, energy, new opportunities, or inner peace.',
+      'Advice: The Tarot\'s specific advice for your decluttering journey — how to let go, steps for release, and how to rebuild afterward.'
+    ],
+    category: 'self', difficulty: 'easy', recommended: true, loadingText: '正在清理能量场...',
+    loadingTextEn: 'Clearing your energy field...',
+    usage: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场、或做「放下」决策时使用。',
+    usageEn: 'Suitable when you are torn about letting go of someone/something/a lifestyle, want to clear your energy field, or need to make a "letting go" decision.'
   }
 };
 
@@ -873,6 +946,14 @@ const I18N = {
     spread_family_desc: '5张牌 · 家庭和谐分析',
     spread_weekly_name: '一周运势',
     spread_weekly_desc: '7张牌 · 本周每日运势指南',
+    spread_creative_name: '灵感创作',
+    spread_creative_desc: '5张牌 · 突破创作瓶颈',
+    spread_finance_name: '财务投资',
+    spread_finance_desc: '5张牌 · 财务决策指引',
+    finance_tip: '适合投资理财决策、大额消费、买房/买车等财务决策前使用。',
+    spread_declutter_name: '断舍离',
+    spread_declutter_desc: '4张牌 · 放下执念与清理',
+    declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
     placeholder_click_card: '点击上方卡牌查看详细解读',
     comprehensive_reading: '综合解读',
     mode_simple: '简单',
@@ -917,6 +998,7 @@ const I18N = {
     health_tip: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
     family_tip: '适合分析家庭关系、亲子关系、家庭氛围，帮助改善家庭和谐。',
     weekly_tip: '适合周日或周一抽取，了解未来一周每天的运势走向，提前做好规划与准备。',
+    creative_tip: '适合创作者卡文、寻找灵感方向、或想要突破创作瓶颈时使用。',
     fortune_overall: '★ 综合运势',
     fortune_dimensions: '➡ 各维度评分',
     fortune_lucky_info: '💫 幸运信息',
@@ -1349,7 +1431,16 @@ const I18N = {
     spread_family_desc: '5 cards · Family harmony analysis',
     spread_weekly_name: 'Weekly Fortune',
     spread_weekly_desc: '7 cards · Daily fortune guide for the week',
+    spread_creative_name: 'Creative Inspiration',
+    spread_creative_desc: '5 cards · Break through creative block',
+    spread_finance_name: 'Finance & Investment',
+    spread_finance_desc: '5 cards · Financial decision guidance',
     weekly_tip: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week.',
+    finance_tip: 'Suitable for investment decisions, large purchases, buying a house/car, etc. Helps you see financial risks and opportunities.',
+    creative_tip: 'Suitable for creators facing writer\'s block, seeking inspiration direction, or wanting to break through creative bottlenecks.',
+    spread_declutter_name: 'Declutter & Let Go',
+    spread_declutter_desc: '4 cards · Release attachment & cleanse',
+    declutter_tip: 'Suitable when you are torn about letting go of someone/something, or want to clear your energy field.',
     zodiac_tip: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading.',
     pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',
     health_tip: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.',
