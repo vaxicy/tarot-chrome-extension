@@ -646,6 +646,31 @@ const SPREADS = {
     usage: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
     usageEn: 'Suitable for use during spiritual growth, inner exploration, or life turning points. Helps connect with higher self and clarify soul lessons and growth direction.'
   },
+  // ============ 新增梦境解读牌阵 ============
+  dream: {
+    name: '梦境解读牌阵',
+    nameEn: 'Dream Interpretation Spread',
+    positions: ['梦境主题/核心意象', '隐藏的情绪', '潜意识讯息', '现实关联', '建议/行动'],
+    positionsEn: ['Dream Theme/Core Image', 'Hidden Emotion', 'Subconscious Message', 'Real-life Connection', 'Advice/Action'],
+    positionMeanings: [
+      '梦境主题/核心意象：梦中反复出现或最令你印象深刻的画面、人物或场景，是梦境的核心线索。',
+      '隐藏的情绪：这个梦境反映了你内心深处哪些未被察觉或未被表达的情绪，可能是被压抑的恐惧、渴望或焦虑。',
+      '潜意识讯息：你的潜意识想通过这个梦境传达给你的重要讯息，可能是被忽略的直觉、警告或启示。',
+      '现实关联：这个梦境与你现实生活中哪些人、事、物或处境有关联，梦境正在回应你生活中的什么议题。',
+      '建议/行动：基于梦境的启示，塔罗建议你如何在现实生活中行动，或如何整合这个梦境带来的觉察。'
+    ],
+    positionMeaningsEn: [
+      'Dream Theme/Core Image: The scenes, characters, or images that repeatedly appear or impress you most in the dream. They are the core clues of the dream.',
+      'Hidden Emotion: What emotions does this dream reflect that are undetected or unexpressed deep in your heart? Possibly suppressed fears, desires, or anxieties.',
+      'Subconscious Message: The important message your subconscious wants to convey to you through this dream. It may be an overlooked intuition, warning, or revelation.',
+      'Real-life Connection: Which people, events, things, or situations in your real life are related to this dream? What issue in your life is the dream responding to?',
+      'Advice/Action: Based on the dream\'s revelation, the Tarot suggests how you should act in real life, or how to integrate the awareness brought by this dream.'
+    ],
+    category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在解读你的梦境...',
+    loadingTextEn: 'Interpreting your dream...',
+    usage: '适合在做了印象深刻、反复出现或令你困惑的梦之后使用，帮助理解梦境背后的潜意识讯息。',
+    usageEn: 'Suitable for use after having an impressive, recurring, or confusing dream. Helps understand the subconscious message behind the dream.'
+  },
   // ============ 新增星座牌阵（12宫位）============
   zodiac: {
     name: '星座牌阵',
@@ -984,6 +1009,9 @@ const I18N = {
     spread_declutter_name: '断舍离',
     spread_declutter_desc: '4张牌 · 放下执念与清理',
     declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
+    spread_dream_name: '梦境解读',
+    spread_dream_desc: '5张牌 · 潜意识与梦境分析',
+    dream_tip: '适合做了印象深刻、反复出现或令你困惑的梦之后使用。',
     placeholder_click_card: '点击上方卡牌查看详细解读',
     comprehensive_reading: '综合解读',
     mode_simple: '简单',
@@ -1350,6 +1378,9 @@ const I18N = {
     spread_office_name: 'Office Interpersonal',
     spread_office_desc: '6 cards · Workplace relationship analysis',
     office_tip: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc.',
+    spread_dream_name: 'Dream Interpretation',
+    spread_dream_desc: '5 cards · Subconscious & dream analysis',
+    dream_tip: 'Suitable for use after having an impressive, recurring, or confusing dream.',
     fortune_overall: '★ Overall Fortune',
     fortune_dimensions: '➡ Dimension Scores',
     fortune_lucky_info: '💫 Lucky Info',
