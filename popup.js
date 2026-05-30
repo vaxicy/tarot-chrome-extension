@@ -1200,7 +1200,8 @@
         case 'health':
         case 'family':
         case 'weekly':
-          adviceCard = cards[4] || null;
+        case 'decisiontree':
+          adviceCard = cards[5] || null; // 决策树牌阵的建议在第6张（索引5）
           break;
         case 'lifepurpose':
           adviceCard = cards[7] || null;
@@ -1318,6 +1319,95 @@
             text += ' 利弊分析建议：最困难的决策往往不是"利大于弊"那么简单。真正的答案通常在"即使有弊，我也愿意"的那个选项里。';
           } else {
             text += ' Pros & Cons advice: The hardest decisions are rarely as simple as "more pros than cons". The real answer is usually in the option where you think "I am willing even with the cons".';
+          }
+          break;
+        // 新增：决策树牌阵的综合解读
+        case 'decisiontree':
+          if (!isEn) {
+            text += '\n\n📊 决策树分析：\n';
+            
+            // 分析选择A的短期vs长期
+            const aShort = !cards[1].isReversed ? 1 : 0;
+            const aLong = !cards[2].isReversed ? 1 : 0;
+            const bShort = !cards[3].isReversed ? 1 : 0;
+            const bLong = !cards[4].isReversed ? 1 : 0;
+            
+            text += '【选择A】短期：' + (aShort ? '✅ 顺利' : '⚠️ 有挑战') + ' | 长期：' + (aLong ? '✅ 向好' : '⚠️ 需谨慎') + '\n';
+            text += '【选择B】短期：' + (bShort ? '✅ 顺利' : '⚠️ 有挑战') + ' | 长期：' + (bLong ? '✅ 向好' : '⚠️ 需谨慎') + '\n\n';
+            
+            // 给出差异化建议
+            if (aShort && !aLong) {
+              text += '💡 选择A是「蜜糖陷阱」——短期甜，长期苦。小心！\n';
+            } else if (!aShort && aLong) {
+              text += '💡 选择A是「先苦后甜」——短期痛，长期爽。你愿意吃苦吗？\n';
+            }
+            
+            if (bShort && !bLong) {
+              text += '💡 选择B也是「蜜糖陷阱」——短期甜，长期苦。小心！\n';
+            } else if (!bShort && bLong) {
+              text += '💡 选择B也是「先苦后甜」——短期痛，长期爽。你愿意吃苦吗？\n';
+            }
+            
+            if (aLong && bLong) {
+              text += '🌟 好消息：两个选择的长期结果都不错！那就选那个让你短期更开心的吧。\n';
+            } else if (!aLong && !bLong) {
+              text += '⚠️ 提醒：两个选择的长期都有挑战。此时要问自己：哪个挑战我更愿意面对？\n';
+            }
+            
+            // 建议牌的解读
+            text += '\n【建议】';
+            if (cards[5].card.suit === 'major') {
+              text += ' 这张牌是「人生课题级」的，说明这个决策会深刻影响你的成长轨迹。不要轻率，但也不要因为害怕而逃避。';
+            } else if (cards[5].card.suit === 'pentacles') {
+              text += ' 这张牌提醒你要考虑实际条件——钱、时间、资源够吗？梦想很重要，但面包也很重要。';
+            } else if (cards[5].card.suit === 'cups') {
+              text += ' 这张牌指向你的心。逻辑上再完美的选择，如果心里不愿意，也很难坚持。听听内心的声音。';
+            } else if (cards[5].card.suit === 'swords') {
+              text += ' 这张牌要求你理性分析。不要被情绪裹挟，拿出纸笔，列出利弊，用大脑做决策。';
+            } else if (cards[5].card.suit === 'wands') {
+              text += ' 这张牌关于行动和激情。如果选择让你觉得「等不及要开始」，那可能就是它了！';
+            }
+          } else {
+            text += '\n\n📊 Decision Tree Analysis:\n';
+            
+            const aShort = !cards[1].isReversed ? 1 : 0;
+            const aLong = !cards[2].isReversed ? 1 : 0;
+            const bShort = !cards[3].isReversed ? 1 : 0;
+            const bLong = !cards[4].isReversed ? 1 : 0;
+            
+            text += '[Option A] Short: ' + (aShort ? '✅ Good' : '⚠️ Challenging') + ' | Long: ' + (aLong ? '✅ Good' : '⚠️ Caution') + '\n';
+            text += '[Option B] Short: ' + (bShort ? '✅ Good' : '⚠️ Challenging') + ' | Long: ' + (bLong ? '✅ Good' : '⚠️ Caution') + '\n\n';
+            
+            if (aShort && !aLong) {
+              text += '💡 Option A is a "honey trap" — sweet now, bitter later. Be careful!\n';
+            } else if (!aShort && aLong) {
+              text += '💡 Option A is "bitter now, sweet later" — painful now, great later. Are you willing to endure?\n';
+            }
+            
+            if (bShort && !bLong) {
+              text += '💡 Option B is also a "honey trap" — sweet now, bitter later. Be careful!\n';
+            } else if (!bShort && bLong) {
+              text += '💡 Option B is also "bitter now, sweet later" — painful now, great later. Are you willing to endure?\n';
+            }
+            
+            if (aLong && bLong) {
+              text += '🌟 Good news: Both options have good long-term results! Then pick the one that makes you happier short-term.\n';
+            } else if (!aLong && !bLong) {
+              text += '⚠️ Warning: Both options have challenging long-term results. Ask yourself: Which challenge am I more willing to face?\n';
+            }
+            
+            text += '\n[Advice]';
+            if (cards[5].card.suit === 'major') {
+              text += ' This card is "life-lesson level", indicating this decision will profoundly affect your growth path. Don\'t be rash, but don\'t escape because of fear either.';
+            } else if (cards[5].card.suit === 'pentacles') {
+              text += ' This card reminds you to consider practical conditions — money, time, resources. Dreams matter, but bread matters too.';
+            } else if (cards[5].card.suit === 'cups') {
+              text += ' This card points to your heart. No matter how perfect a choice is logically, if your heart isn\'t in it, it\'s hard to persist. Listen to your inner voice.';
+            } else if (cards[5].card.suit === 'swords') {
+              text += ' This card demands rational analysis. Don\'t be swayed by emotions. Take out paper, list pros and cons, use your brain to decide.';
+            } else if (cards[5].card.suit === 'wands') {
+              text += ' This card is about action and passion. If a choice makes you think "can\'t wait to start", then that might be it!';
+            }
           }
           break;
         case 'travel':
@@ -3972,6 +4062,11 @@
       this.drawStandardSpread('choice', 60, 96);
     }
 
+    // ============ 决策树牌阵 ============
+    drawDecisiontree() {
+      this.drawStandardSpread('decisiontree', 60, 96);
+    }
+
     // ============ 五张牌阵 ============
     drawFive() {
       this.drawStandardSpread('five', 60, 96);
@@ -4097,6 +4192,8 @@
         // 新增：利弊分析、人生使命
         case 'proscons':   this.drawProscons(); break;
         case 'lifepurpose': this.drawLifepurpose(); break;
+        // 新增：决策树牌阵
+        case 'decisiontree': this.drawDecisiontree(); break;
         // 新增：旅行牌阵
         case 'travel':     this.drawTravel(); break;
         // 新增：考试牌阵
@@ -6363,6 +6460,8 @@
               // 新增：利弊分析、人生使命
               case 'proscons':   this.drawProscons(); break;
               case 'lifepurpose': this.drawLifepurpose(); break;
+              // 新增：决策树牌阵
+              case 'decisiontree': this.drawDecisiontree(); break;
               // 新增：旅行牌阵
               case 'travel':     this.drawTravel(); break;
               // 新增：考试牌阵
@@ -6859,6 +6958,30 @@
           html += '</div>';
           break;
 
+        // 新增：决策树牌阵图示
+        case 'decisiontree':
+          // 布局：上方当前决策，中间A/B选择对比，下方建议
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">';
+          // 第一行：当前决策
+          html += this.diagramCard(1, positions[0], '28px');
+          // 第二行：A/B 选择对比
+          html += '<div style="display:flex;gap:10px;justify-content:center;">';
+          html += '<div style="display:flex;flex-direction:column;gap:2px;">';
+          html += this.diagramCard(2, 'A短期', '24px');
+          html += this.diagramCard(3, 'A长期', '24px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;gap:2px;">';
+          html += this.diagramCard(4, 'B短期', '24px');
+          html += this.diagramCard(5, 'B长期', '24px');
+          html += '</div>';
+          html += '</div>';
+          // 第三行：建议
+          html += '<div style="display:flex;justify-content:center;margin-top:4px;">';
+          html += this.diagramCard(6, positions[5], '28px');
+          html += '</div>';
+          html += '</div>';
+          break;
+
         case 'five':
           // 五张牌阵：十字
           html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
@@ -7156,10 +7279,11 @@
     }
 
     getTimePattern(history) {
+      const isEn = this.currentLang === 'en';
       const hourCount = {};
       history.forEach(record => {
         const hour = new Date(record.timestamp).getHours();
-        const timeSlot = hour < 6 ? '凌晨' : hour < 12 ? '上午' : hour < 18 ? '下午' : '晚上';
+        const timeSlot = hour < 6 ? (isEn ? 'Early Morning' : '凌晨') : hour < 12 ? (isEn ? 'Morning' : '上午') : hour < 18 ? (isEn ? 'Afternoon' : '下午') : (isEn ? 'Evening' : '晚上');
         hourCount[timeSlot] = (hourCount[timeSlot] || 0) + 1;
       });
 
@@ -7184,28 +7308,30 @@
     }
 
     getTimeOfDayEnergy(hour) {
+      const isEn = this.currentLang === 'en';
       if (hour >= 5 && hour < 9) {
-        return { phase: 'morning', energy: 'fire', description: '晨间火能量旺盛，适合新开始和主动行动' };
+        return { phase: 'morning', energy: 'fire', description: isEn ? 'Morning fire energy is strong, suitable for new beginnings and proactive action' : '晨间火能量旺盛，适合新开始和主动行动' };
       } else if (hour >= 9 && hour < 13) {
-        return { phase: 'noon', energy: 'earth', description: '午间土能量稳定，适合务实决策和执行' };
+        return { phase: 'noon', energy: 'earth', description: isEn ? 'Noon earth energy is stable, suitable for practical decisions and execution' : '午间土能量稳定，适合务实决策和执行' };
       } else if (hour >= 13 && hour < 17) {
-        return { phase: 'afternoon', energy: 'air', description: '下午风能量活跃，适合沟通和思考' };
+        return { phase: 'afternoon', energy: 'air', description: isEn ? 'Afternoon air energy is active, suitable for communication and thinking' : '下午风能量活跃，适合沟通和思考' };
       } else if (hour >= 17 && hour < 21) {
-        return { phase: 'evening', energy: 'water', description: '晚间水能量流动，适合情感和直觉' };
+        return { phase: 'evening', energy: 'water', description: isEn ? 'Evening water energy flows, suitable for emotions and intuition' : '晚间水能量流动，适合情感和直觉' };
       } else {
-        return { phase: 'night', energy: 'spirit', description: '夜间精神能量强，适合内省和灵性探索' };
+        return { phase: 'night', energy: 'spirit', description: isEn ? 'Night spiritual energy is strong, suitable for introspection and spiritual exploration' : '夜间精神能量强，适合内省和灵性探索' };
       }
     }
 
     getDayEnergy(dayOfWeek) {
+      const isEn = this.currentLang === 'en';
       const dayEnergies = {
-        0: { planet: '太阳', energy: '领导、创造', suit: 'wands' },
-        1: { planet: '月亮', energy: '情感、直觉', suit: 'cups' },
-        2: { planet: '火星', energy: '行动、冲突', suit: 'wands' },
-        3: { planet: '水星', energy: '沟通、智慧', suit: 'swords' },
-        4: { planet: '木星', energy: '扩张、幸运', suit: 'pentacles' },
-        5: { planet: '金星', energy: '爱情、和谐', suit: 'cups' },
-        6: { planet: '土星', energy: '限制、责任', suit: 'pentacles' }
+        0: { planet: isEn ? 'Sun' : '太阳', energy: isEn ? 'Leadership, Creativity' : '领导、创造', suit: 'wands' },
+        1: { planet: isEn ? 'Moon' : '月亮', energy: isEn ? 'Emotion, Intuition' : '情感、直觉', suit: 'cups' },
+        2: { planet: isEn ? 'Mars' : '火星', energy: isEn ? 'Action, Conflict' : '行动、冲突', suit: 'wands' },
+        3: { planet: isEn ? 'Mercury' : '水星', energy: isEn ? 'Communication, Wisdom' : '沟通、智慧', suit: 'swords' },
+        4: { planet: isEn ? 'Jupiter' : '木星', energy: isEn ? 'Expansion, Luck' : '扩张、幸运', suit: 'pentacles' },
+        5: { planet: isEn ? 'Venus' : '金星', energy: isEn ? 'Love, Harmony' : '爱情、和谐', suit: 'cups' },
+        6: { planet: isEn ? 'Saturn' : '土星', energy: isEn ? 'Restriction, Responsibility' : '限制、责任', suit: 'pentacles' }
       };
       return dayEnergies[dayOfWeek] || dayEnergies[0];
     }
@@ -7223,19 +7349,20 @@
 
     getLunarPhase(date) {
       // 简化月相计算（实际应使用精确算法）
+      const isEn = this.currentLang === 'en';
       const lunarCycle = 29.53;
       const knownNewMoon = new Date('2024-01-11'); // 已知新月
       const daysSince = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
       const phase = (daysSince % lunarCycle) / lunarCycle;
 
-      if (phase < 0.125) return { phase: '新月', energy: '开始、意图设定' };
-      if (phase < 0.25) return { phase: '上弦月', energy: '行动、成长' };
-      if (phase < 0.375) return { phase: '盈凸月', energy: '调整、优化' };
-      if (phase < 0.5) return { phase: '满月', energy: '完成、释放' };
-      if (phase < 0.625) return { phase: '亏凸月', energy: '感恩、分享' };
-      if (phase < 0.75) return { phase: '下弦月', energy: '释放、放下' };
-      if (phase < 0.875) return { phase: '残月', energy: '休息、内省' };
-      return { phase: '新月', energy: '开始、意图设定' };
+      if (phase < 0.125) return { phase: isEn ? 'New Moon' : '新月', energy: isEn ? 'Beginnings, Intention Setting' : '开始、意图设定' };
+      if (phase < 0.25) return { phase: isEn ? 'First Quarter' : '上弦月', energy: isEn ? 'Action, Growth' : '行动、成长' };
+      if (phase < 0.375) return { phase: isEn ? 'Waxing Gibbous' : '盈凸月', energy: isEn ? 'Adjustment, Optimization' : '调整、优化' };
+      if (phase < 0.5) return { phase: isEn ? 'Full Moon' : '满月', energy: isEn ? 'Completion, Release' : '完成、释放' };
+      if (phase < 0.625) return { phase: isEn ? 'Waning Gibbous' : '亏凸月', energy: isEn ? 'Gratitude, Sharing' : '感恩、分享' };
+      if (phase < 0.75) return { phase: isEn ? 'Last Quarter' : '下弦月', energy: isEn ? 'Release, Letting Go' : '释放、放下' };
+      if (phase < 0.875) return { phase: isEn ? 'Waning Crescent' : '残月', energy: isEn ? 'Rest, Introspection' : '休息、内省' };
+      return { phase: isEn ? 'New Moon' : '新月', energy: isEn ? 'Beginnings, Intention Setting' : '开始、意图设定' };
     }
 
     // ============ 扩展功能3：问卜者性格分析 ============
@@ -7254,6 +7381,7 @@
     }
 
     inferPreferredElement(suitDistribution) {
+      const isEn = this.currentLang === 'en';
       const suits = suitDistribution;
       let maxSuit = 'wands';
       let maxValue = 0;
@@ -7266,68 +7394,71 @@
       }
 
       const elementMap = {
-        'wands': { element: '火', trait: '热情、主动、创造力强', suit: '权杖' },
-        'cups': { element: '水', trait: '情感丰富、直觉敏锐', suit: '圣杯' },
-        'swords': { element: '风', trait: '理性、善于分析、追求真理', suit: '宝剑' },
-        'pentacles': { element: '土', trait: '务实、稳定、重视物质', suit: '星币' },
-        'major': { element: '灵性', trait: '重视精神成长和人生课题', suit: '大阿卡纳' },
-        'fire': { element: '火', trait: '热情、主动、充满活力', suit: '火' },
-        'water': { element: '水', trait: '情感丰富、直觉敏锐、善于流动', suit: '水' },
-        'clouds': { element: '风', trait: '思维活跃、善于观察、追求清晰', suit: '云' },
-        'rainbow': { element: '土', trait: '务实、包容、重视整体', suit: '彩虹' }
+        'wands': { element: isEn ? 'Fire' : '火', trait: isEn ? 'Passionate, Proactive, Creative' : '热情、主动、创造力强', suit: isEn ? 'Wands' : '权杖' },
+        'cups': { element: isEn ? 'Water' : '水', trait: isEn ? 'Emotionally Rich, Intuitive' : '情感丰富、直觉敏锐', suit: isEn ? 'Cups' : '圣杯' },
+        'swords': { element: isEn ? 'Air' : '风', trait: isEn ? 'Rational, Analytical, Truth-Seeking' : '理性、善于分析、追求真理', suit: isEn ? 'Swords' : '宝剑' },
+        'pentacles': { element: isEn ? 'Earth' : '土', trait: isEn ? 'Practical, Stable, Material-Oriented' : '务实、稳定、重视物质', suit: isEn ? 'Pentacles' : '星币' },
+        'major': { element: isEn ? 'Spirit' : '灵性', trait: isEn ? 'Values Spiritual Growth and Life Lessons' : '重视精神成长和人生课题', suit: isEn ? 'Major Arcana' : '大阿卡纳' },
+        'fire': { element: isEn ? 'Fire' : '火', trait: isEn ? 'Passionate, Proactive, Energetic' : '热情、主动、充满活力', suit: isEn ? 'Fire' : '火' },
+        'water': { element: isEn ? 'Water' : '水', trait: isEn ? 'Emotionally Rich, Intuitive, Flowing' : '情感丰富、直觉敏锐、善于流动', suit: isEn ? 'Water' : '水' },
+        'clouds': { element: isEn ? 'Air' : '风', trait: isEn ? 'Active Mind, Observant, Clarity-Seeking' : '思维活跃、善于观察、追求清晰', suit: isEn ? 'Clouds' : '云' },
+        'rainbow': { element: isEn ? 'Earth' : '土', trait: isEn ? 'Practical, Inclusive, Holistic' : '务实、包容、重视整体', suit: isEn ? 'Rainbow' : '彩虹' }
       };
 
       return elementMap[maxSuit] || elementMap['wands'];
     }
 
     inferDecisionStyle(historyAnalysis) {
+      const isEn = this.currentLang === 'en';
       const { reversalsTrend, spreadPreferences } = historyAnalysis;
 
       if (reversalsTrend.trend === 'high_reversal') {
         return {
-          style: '谨慎型',
-          description: '你倾向于看到事物的另一面，做决定时较为谨慎，容易犹豫。',
-          advice: '尝试相信第一直觉，有时过度分析反而会错失良机。'
+          style: isEn ? 'Cautious' : '谨慎型',
+          description: isEn ? 'You tend to see the other side of things, are cautious when making decisions, and easily hesitate.' : '你倾向于看到事物的另一面，做决定时较为谨慎，容易犹豫。',
+          advice: isEn ? 'Try to trust your first instinct; sometimes over-analysis can cause you to miss good opportunities.' : '尝试相信第一直觉，有时过度分析反而会错失良机。'
         };
       }
 
       const prefersSimple = spreadPreferences.some(p => p.mode === 'single' || p.mode === 'three');
       if (prefersSimple) {
         return {
-          style: '直觉型',
-          description: '你喜欢简单直接的解答，相信直觉，不喜欢复杂分析。',
-          advice: '偶尔尝试复杂牌阵，可能会发现被忽略的重要信息。'
+          style: isEn ? 'Intuitive' : '直觉型',
+          description: isEn ? 'You prefer simple and direct answers, trust your intuition, and dislike complex analysis.' : '你喜欢简单直接的解答，相信直觉，不喜欢复杂分析。',
+          advice: isEn ? 'Occasionally try complex spreads; you may discover important information that was overlooked.' : '偶尔尝试复杂牌阵，可能会发现被忽略的重要信息。'
         };
       }
 
       return {
-        style: '分析型',
-        description: '你喜欢深入了解问题，愿意花时间分析各种可能性。',
-        advice: '你的分析能力很强，但要注意不要陷入过度思考，适时行动更重要。'
+        style: isEn ? 'Analytical' : '分析型',
+        description: isEn ? 'You like to deeply understand problems and are willing to spend time analyzing various possibilities.' : '你喜欢深入了解问题，愿意花时间分析各种可能性。',
+        advice: isEn ? 'Your analytical skills are strong, but be careful not to fall into overthinking; timely action is more important.' : '你的分析能力很强，但要注意不要陷入过度思考，适时行动更重要。'
       };
     }
 
     inferGrowthStage(frequentCards) {
       // 根据频繁出现的牌推断成长阶段
+      const isEn = this.currentLang === 'en';
       const majorCards = frequentCards.filter(f => f.cardId.startsWith('major-'));
-      
+
       if (majorCards.some(c => c.cardId === 'major-00' || c.cardId === 'major-01')) {
-        return '新手阶段：你正处于探索和自我发现的时期';
+        return isEn ? 'Beginner Stage: You are in a period of exploration and self-discovery' : '新手阶段：你正处于探索和自我发现的时期';
       }
       if (majorCards.some(c => c.cardId === 'major-07' || c.cardId === 'major-08')) {
-        return '力量培养期：你在学习如何运用内在力量面对挑战';
+        return isEn ? 'Strength Building: You are learning how to use inner strength to face challenges' : '力量培养期：你在学习如何运用内在力量面对挑战';
       }
       if (majorCards.some(c => c.cardId === 'major-13' || c.cardId === 'major-16')) {
-        return '转化期：你正在经历或刚刚经历重大人生转变';
+        return isEn ? 'Transformation Period: You are experiencing or have just experienced a major life change' : '转化期：你正在经历或刚刚经历重大人生转变';
       }
       if (majorCards.some(c => c.cardId === 'major-19' || c.cardId === 'major-21')) {
-        return '整合期：你正在整合人生经验，走向完整和自我实现';
+        return isEn ? 'Integration Phase: You are integrating life experiences, moving toward wholeness and self-realization' : '整合期：你正在整合人生经验，走向完整和自我实现';
       }
 
-      return '探索期：你正在不断探索人生方向和自我认知';
+      return isEn ? 'Exploration Phase: You are continuously exploring life direction and self-awareness' : '探索期：你正在不断探索人生方向和自我认知';
     }
 
     generatePersonalityAdvice(historyAnalysis) {
+      const isEn = this.currentLang === 'en';
       const { frequentCards, suitDistribution } = historyAnalysis;
       let advice = '';
 
@@ -7338,19 +7469,19 @@
       const earth = parseFloat(suitDistribution.pentacles || 0);
 
       if (fire > 30) {
-        advice += '你的人生充满热情和行动力，但要注意避免冲动和过度消耗。';
+        advice += isEn ? 'Your life is full of passion and action, but be careful to avoid impulsiveness and overexertion.' : '你的人生充满热情和行动力，但要注意避免冲动和过度消耗。';
       }
       if (water > 30) {
-        advice += '你的情感丰富且直觉敏锐，记得也要照顾自己的理性面。';
+        advice += isEn ? 'You are emotionally rich and intuitively sharp; remember to also take care of your rational side.' : '你的情感丰富且直觉敏锐，记得也要照顾自己的理性面。';
       }
       if (air > 30) {
-        advice += '你善于思考和分析，但有时需要放下头脑，多倾听内心声音。';
+        advice += isEn ? 'You are good at thinking and analyzing, but sometimes need to let go of your mind and listen more to your inner voice.' : '你善于思考和分析，但有时需要放下头脑，多倾听内心声音。';
       }
       if (earth > 30) {
-        advice += '你务实可靠，但偶尔也要允许自己放松和享受不确定性。';
+        advice += isEn ? 'You are practical and reliable, but occasionally allow yourself to relax and enjoy uncertainty.' : '你务实可靠，但偶尔也要允许自己放松和享受不确定性。';
       }
 
-      return advice || '保持平衡，继续探索自我成长之路。';
+      return advice || (isEn ? 'Maintain balance and continue exploring the path of self-growth.' : '保持平衡，继续探索自我成长之路。');
     }
 
     // ============ 生成扩展解读内容 ============
@@ -7371,7 +7502,7 @@
             const card = this.findCardById(f.cardId);
             if (card) {
               const cardName = this.currentLang === 'en' ? card.originalName : card.name;
-              html += `• ${cardName} (出现${f.count}次，占比${f.percentage}%)<br/>`;
+              html += this.currentLang === 'en' ? `• ${cardName} (appeared ${f.count} times, ${f.percentage}%)<br/>` : `• ${cardName} (出现${f.count}次，占比${f.percentage}%)<br/>`;
             }
           });
           html += '</div>';
@@ -7379,7 +7510,9 @@
 
         // 元素分布
         html += '<div style="margin-bottom:10px;"><strong>' + (this.currentLang === 'en' ? 'Element Distribution:' : '元素分布：') + '</strong><br/>';
-        const suitNames = { major: '大阿卡纳', wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
+        const suitNames = this.currentLang === 'en'
+          ? { major: 'Major Arcana', wands: 'Wands', cups: 'Cups', swords: 'Swords', pentacles: 'Pentacles' }
+          : { major: '大阿卡纳', wands: '权杖', cups: '圣杯', swords: '宝剑', pentacles: '星币' };
         for (const [suit, percentage] of Object.entries(historyAnalysis.suitDistribution)) {
           html += `• ${suitNames[suit] || suit}: ${percentage}%<br/>`;
         }

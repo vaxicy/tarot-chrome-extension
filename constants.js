@@ -480,6 +480,33 @@ const SPREADS = {
     usage: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致，比二选一牌阵更聚焦单一问题。',
     usageEn: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread, more focused on a single issue than the Choice spread.'
   },
+  // ============ 新增决策树牌阵 ============
+  decisiontree: {
+    name: '决策树牌阵',
+    nameEn: 'Decision Tree Spread',
+    positions: ['🌱 决策之根', '🌿 选择A的枝干（短期）', '🌳 选择A的果实（长期）', '🌿 选择B的枝干（短期）', '🌳 选择B的果实（长期）', '💡 园丁的建议'],
+    positionsEn: ['🌱 Root', '🌿 Branch A (Short)', '🌳 Fruit A (Long)', '🌿 Branch B (Short)', '🌳 Fruit B (Long)', '💡 Gardener\'s Advice'],
+    positionMeanings: [
+      '🌱 决策之根：想象你面前有两颗种子（选择A和选择B），你打算种下哪一颗？这个位置揭示你内心真正的渴望和担忧。就像树根决定了树的方向，你的初心是什么？',
+      '🌿 选择A的枝干（短期）：如果种下种子A，前1-3个月树苗会长什么样？这个阶段你能看到嫩芽破土、枝干伸展——可能是快速见效的喜悦，也可能是风雨摧折的挑战。',
+      '🌳 选择A的果实（长期）：1年后，种子A会长成什么样的大树？会结出甜美的果实，还是酸涩的野果？短期看起来好看的树苗，长期可能长歪；短期看起来弱小的树苗，长期可能长成参天大树。',
+      '🌿 选择B的枝干（短期）：如果种下种子B，前1-3个月又是怎样的光景？和A的嫩芽对比，哪个看起来更绿、更有生命力？',
+      '🌳 选择B的果实（长期）：1年后再回头看，种子B长成的大树会让你在树荫下微笑，还是后悔没选另一条路？不要只看眼前的种子，要想象它长成大树的样子。',
+      '💡 园丁的建议：塔罗就像一位经验丰富的园丁，看过无数棵树的生长。它会告诉你：哪颗种子更适合你的土壤？哪棵树更值得你花时间灌溉？记住：最好的选择不一定是最快开花的，而是让你愿意长期浇水、看着它长大的那颗。'
+    ],
+    positionMeaningsEn: [
+      '🌱 Root: Imagine there are two seeds in front of you (Choice A and Choice B), which one are you going to plant? This position reveals your true desires and worries. Just like the root determines the tree\'s direction, what is your original intention?',
+      '🌿 Branch A (Short): If you plant seed A, what will the sapling look like in the first 1-3 months? At this stage you can see sprouts breaking through the soil and branches stretching — could be the joy of quick results, or the challenge of wind and rain.',
+      '🌳 Fruit A (Long): After 6 months to 1 year, what kind of big tree will seed A grow into? Will it bear sweet fruit, or sour wild fruit? A sapling that looks good short-term might grow crooked long-term; a sapling that looks weak short-term might grow into a towering tree long-term.',
+      '🌿 Branch B (Short): If you plant seed B, what will the first 1-3 months look like? Comparing with A\'s sprouts, which one looks greener and more vibrant?',
+      '🌳 Fruit B (Long): Looking back after a year, will the big tree grown from seed B make you smile in its shade, or regret not choosing another path? Don\'t just look at the seed in front of you, imagine what it will look like when it grows into a big tree.',
+      '💡 Gardener\'s Advice: Tarot is like an experienced gardener who has seen countless trees grow. It will tell you: Which seed is more suitable for your soil? Which tree is more worth your time watering? Remember: The best choice isn\'t necessarily the one that blooms fastest, but the one you\'re willing to water long-term and watch grow big.'
+    ],
+    category: 'decision', difficulty: 'medium', recommended: true, loadingText: '正在展开决策树牌阵...',
+    loadingTextEn: 'Unfolding the Decision Tree spread...',
+    usage: '当你纠结于两个重要选择时，这个牌阵帮你看清每个选择的「短期后果」和「长期影响」，避免短视或过度焦虑未来。适合换工作、搬家、投资、分手等人生重大决策。',
+    usageEn: 'When you\'re torn between two important choices, this spread helps you see the "short-term consequences" and "long-term impacts" of each choice, avoiding short-sightedness or over-worrying about the future. Suitable for major life decisions like job change, moving, investment, breakup, etc.'
+  },
   // ============ 新增旅行牌阵 ============
   travel: {
     name: '旅行牌阵',
@@ -1040,6 +1067,9 @@ const I18N = {
     spread_declutter_name: '断舍离',
     spread_declutter_desc: '4张牌 · 放下执念与清理',
     declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
+    spread_decisiontree_name: '决策树牌阵',
+    spread_decisiontree_desc: '6张牌 · 短期与长期结果分析',
+    decisiontree_tip: '适合面临重要决策时，全面分析不同选择的短期和长期影响，帮助你做出最明智的决定。',
     spread_dream_name: '梦境解读',
     spread_dream_desc: '5张牌 · 潜意识与梦境分析',
     dream_tip: '适合做了印象深刻、反复出现或令你困惑的梦之后使用。',
@@ -1409,6 +1439,9 @@ const I18N = {
     timeflow_tip: 'Analyze the problem through time dimensions. See the past, present and future clearly.',
     action_tip: 'Simple three-card spread. Quickly clarify the core issue and best action direction.',
     mind_tip: 'For self-exploration and inner growth. Helps see consciousness, subconscious, ideal and reality.',
+    spread_decisiontree_name: 'Decision Tree Spread',
+    spread_decisiontree_desc: '6 cards · Short & Long-term Analysis',
+    decisiontree_tip: 'Suitable for important decisions, comprehensively analyze the short-term and long-term impacts of different choices, helping you make the wisest decision.',
     spread_office_name: 'Office Interpersonal',
     spread_office_desc: '6 cards · Workplace relationship analysis',
     office_tip: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc.',
