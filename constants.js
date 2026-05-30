@@ -23,8 +23,8 @@ const SPREADS = {
     nameEn: 'Single Card',
     positions: ['今日指引'],
     positionsEn: ['Daily Guidance'],
-    positionMeanings: ['一张牌概括当前能量状态，适合快速提问或每日指引。正位通常表示顺利，逆位提示需要注意的方向。'],
-    positionMeaningsEn: ['One card summarizes the current energy state. Good for quick questions or daily guidance. Upright suggests smoothness; reversed indicates areas to watch.'],
+    positionMeanings: ['这一张牌就是宇宙给你的"今日简讯"。正位=今天能量顺畅，逆位=今天有坑注意看路。适合每天早上抽一张，或者遇到具体问题想快速问答案时使用。'],
+    positionMeaningsEn: ['This one card is the "daily brief" from the universe. Upright = smooth energy today; reversed = there\'s a pothole today, watch your step. Good for drawing one card every morning, or when you have a specific question and want a quick answer.'],
     category: 'simple', difficulty: 'easy', recommended: true, loadingText: '正在抽取今日指引...',
     loadingTextEn: 'Drawing your daily guidance...',
     usage: '适合每日抽一张牌作为当日指引，或针对一个具体问题寻求答案。',
@@ -36,14 +36,14 @@ const SPREADS = {
     positions: ['过去', '现在', '未来'],
     positionsEn: ['Past', 'Present', 'Future'],
     positionMeanings: [
-      '过去：影响当前情况的历史因素或已发生的事件。',
-      '现在：当前的核心状况、你的状态和正在发生的事。',
-      '未来：基于当前趋势可能的发展方向，并非注定不变。'
+      '过去：这张牌告诉你"为什么事情会变成现在这样"。就像看剧的前情提要——可能是上周的一个决定，也可能是一段一直没放下的人。',
+      '现在：你目前站的位置。这张牌很诚实，它直接告诉你"此刻真实的状态"——可能不是你以为的那样。',
+      '未来：如果保持现在的方向，事情会怎么发展。记住：塔罗说的是"趋势"不是"命中注定"，你随时可以转弯。'
     ],
     positionMeaningsEn: [
-      'Past: Historical factors or events that influence the current situation.',
-      'Present: The core situation, your state, and what is happening now.',
-      'Future: Possible development direction based on current trends; not set in stone.'
+      'Past: This card tells you "why things have become what they are now." Like watching the recap of a show — it could be a decision from last week, or someone you haven\'t let go of.',
+      'Present: Where you are standing right now. This card is honest — it directly tells you "what the real situation is right now" — it might not be what you thought.',
+      'Future: If you keep going in the current direction, how things will turn out. Remember: Tarot tells you "trends" not "destiny" — you can make a turn at any time.'
     ],
     category: 'simple', difficulty: 'easy', recommended: true, loadingText: '正在展开三张牌...',
     loadingTextEn: 'Laying out three cards...',
@@ -56,28 +56,28 @@ const SPREADS = {
     positions: ['当前情况', '挑战/障碍', '过去基础', '近期过去', '可能未来', '近期未来', '你的态度', '外部影响', '希望与恐惧', '最终结果'],
     positionsEn: ['Current Situation', 'Challenge', 'Past', 'Future', 'Above', 'Below', 'Advice', 'External', 'Hopes/Fears', 'Outcome'],
     positionMeanings: [
-      '当前情况：你目前所处的境况和核心问题。',
-      '挑战/障碍：当前面临的主要困难或需要克服的挑战。',
-      '过去基础：形成当前状况的过去原因和根基。',
-      '近期过去：最近发生并仍在影响你的事情。',
-      '可能未来：未来可能发展的方向（不一定发生）。',
-      '近期未来：短期内即将发生的事。',
-      '你的态度：你内心对这个问题的真实态度和感受。',
-      '外部影响：来自外界的人、事、物对问题的影响。',
-      '希望与恐惧：你内心深处的期望和担忧。',
-      '最终结果：综合所有因素后最可能的结果。'
+      '当前情况：你现在站的地方，以及"到底发生了什么"。这张牌不会骗你，哪怕答案让你不舒服。',
+      '挑战/障碍：你面前那堵墙——是什么在挡路？这张牌告诉你障碍的本质，不是让你放弃，是让你知道该往哪用力。',
+      '过去基础：一切是从哪开始的？这张牌像"事件回放"，帮你看到"原来当初是这样才变成现在的"。',
+      '近期过去：最近发生、而且现在还在影响你的事。可能是上周的某句话、某件事，你以为过去了，其实还在影响你。',
+      '可能未来：如果什么都不改变，事情会怎么发展。注意：这只是"可能性"，不是"注定"，你随时可以改变方向。',
+      '近期未来：接下来几周会发生的事。比"可能未来"更确定，是近期就会看到的趋势。',
+      '你的态度：你以为自己对这件事很理性？这张牌会告诉你"你其实在想什么"。有时候，我们最不了解的就是自己的心。',
+      '外部影响：不是你，也不是对方，是"环境"。可能是公司政策、家人意见、朋友插嘴——那些你控制不了但确实在影响结果的东西。',
+      '希望与恐惧：你深夜睡不着时在想什么？这张牌把你内心最深处的期待和担忧都摊开给你看。',
+      '最终结果：把所有牌放在一起看，最可能出现的结局。记住：塔罗说的是"能量趋势"，不是"铁板钉钉的命运"。'
     ],
     positionMeaningsEn: [
-      'Current Situation: The situation you are currently in and the core issue.',
-      'Challenge: The main difficulty or challenge you are currently facing.',
-      'Past: Past reasons and foundations that formed the current situation.',
-      'Future: Recent past events that still influence you.',
-      'Above: Possible future development direction (not guaranteed to happen).',
-      'Below: Things that will happen in the near future.',
-      'Advice: Your true attitude and feelings toward this issue.',
-      'External: Influence from external people, events, or things on the issue.',
-      'Hopes/Fears: Expectations and worries deep in your heart.',
-      'Outcome: The most likely result after integrating all factors.'
+      'Current Situation: Where you are standing right now, and "what\'s actually going on". This card won\'t lie to you, even if the answer makes you uncomfortable.',
+      'Challenge: The wall in front of you — what\'s blocking your way? This card tells you the nature of the obstacle, not to make you give up, but to show you where to push.',
+      'Past: Where did all this start? This card is like "event replay", helping you see "so that\'s why things became what they are now".',
+      'Recent Past: Something that happened recently and is still affecting you. Might be something someone said last week — you thought it passed, but it\'s still affecting you.',
+      'Possible Future: If nothing changes, how will things develop? Note: This is just a "possibility", not "destined". You can change direction at any time.',
+      'Near Future: What will happen in the next few weeks. More definite than "Possible Future" — it\'s the trend you\'ll see soon.',
+      'Your Attitude: Think you\'re being rational about this? This card tells you "what you\'re actually thinking". Sometimes, the person we understand least is ourselves.',
+      'External Influence: Not you, not the other person — it\'s the "environment". Could be company policy, family opinions, friends butting in — things you can\'t control but are definitely affecting the outcome.',
+      'Hopes/Fears: What do you think about when you can\'t sleep at night? This card lays out the deepest expectations and worries in your heart.',
+      'Final Outcome: Putting all the cards together, the most likely ending. Remember: Tarot tells you "energy trends", not "iron-clad destiny".'
     ],
     category: 'advanced', difficulty: 'hard', recommended: false, loadingText: '正在展开凯尔特十字...',
     loadingTextEn: 'Unfolding the Celtic Cross...',
@@ -90,20 +90,20 @@ const SPREADS = {
     positions: ['你', '对方', '你的态度', '对方的态度', '当前关系', '发展方向'],
     positionsEn: ['You', 'Partner', 'Your Attitude', 'Their Attitude', 'Current Relationship', 'Direction'],
     positionMeanings: [
-      '你：你在这段关系中的状态、能量和角色。',
-      '对方：对方在这段关系中的状态、能量和角色。',
-      '你的态度：你对这段关系的真实感受和态度。',
-      '对方的态度：对方对这段关系的真实感受和态度。',
-      '当前关系：你们之间目前的关系状态和互动模式。',
-      '发展方向：这段关系未来的可能走向。'
+      '你：你在这段关系里的真实样子。这张牌像一面镜子——你是那个总是付出的，还是总是患得患失的？',
+      '对方：对方在这段关系里的真实样子。注意：这张牌说的是"对方实际怎样"，不是"你希望对方怎样"。',
+      '你的态度：你对这段关系的真实感受。是在享受，还是在勉强维持？这张牌不会骗你。',
+      '对方的态度：对方对这段关系的真实感受。如果这张牌让你意外，说明你并不真的了解对方。',
+      '当前关系：你们俩现在的相处模式。这张牌像一份"关系体检报告"——健康还是有毒，一看就知道。',
+      '发展方向：如果继续保持现状，这段关系会怎么走。记住：关系是两个人的事，改变需要两个人一起努力。'
     ],
     positionMeaningsEn: [
-      'You: Your state, energy, and role in this relationship.',
-      'Partner: The other person\'s state, energy, and role in this relationship.',
-      'Your Attitude: Your true feelings and attitude toward this relationship.',
-      'Their Attitude: The other person\'s true feelings and attitude toward this relationship.',
-      'Current Relationship: The current relationship status and interaction pattern between you.',
-      'Direction: The possible future direction of this relationship.'
+      'You: Your true self in this relationship. This card is like a mirror — are you the one who always gives, or the one who\'s always insecure?',
+      'Partner: The other person\'s true self in this relationship. Note: This card shows "how the other person actually is", not "how you wish the other person would be".',
+      'Your Attitude: Your true feelings about this relationship. Are you enjoying it, or just barely hanging in there? This card won\'t lie to you.',
+      'Their Attitude: The other person\'s true feelings about this relationship. If this card surprises you, it means you don\'t really know what they think.',
+      'Current Relationship: How you two interact right now. This card is like a "relationship health check report" — whether it\'s healthy or toxic, you\'ll know at a glance.',
+      'Direction: If things stay as they are, where this relationship is heading. Remember: A relationship takes two people — changing it takes effort from both.'
     ],
     category: 'relationship', difficulty: 'medium', recommended: true, loadingText: '正在解读关系牌阵...',
     loadingTextEn: 'Reading the relationship spread...',
@@ -116,18 +116,18 @@ const SPREADS = {
     positions: ['选项A', '选项B', 'A的可能结果', 'B的可能结果', '建议/提醒'],
     positionsEn: ['Option A', 'Option B', 'Outcome A', 'Outcome B', 'Advice'],
     positionMeanings: [
-      '选项A：第一个选项的现状和本质。',
-      '选项B：第二个选项的现状和本质。',
-      'A的可能结果：如果选择A，可能带来的结果。',
-      'B的可能结果：如果选择B，可能带来的结果。',
-      '建议/提醒：塔罗对你的建议，以及需要特别注意的事项。'
+      '选项A：这条路现在长什么样？这张牌揭示选项A的真实面貌——可能和你想象的不一样。',
+      '选项B：另一条路现在长什么样？别只顾着美化没选的那条路，先看清楚它实际的样子。',
+      'A的可能结果：如果选A，接下来大概会发生什么。记住：这是"趋势"不是"判决书"。',
+      'B的可能结果：如果选B，接下来大概会发生什么。对比两张牌，哪个让你心里更踏实？',
+      '建议/提醒：塔罗给你的建议。如果建议牌是正位=偏向行动；逆位=提醒你再想想。'
     ],
     positionMeaningsEn: [
-      'Option A: The current status and nature of the first option.',
-      'Option B: The current status and nature of the second option.',
-      'Outcome A: The possible result if you choose A.',
-      'Outcome B: The possible result if you choose B.',
-      'Advice: The Tarot\'s advice for you, and points to pay special attention to.'
+      'Option A: What does this path look like right now? This card reveals the true face of Option A — might be different from what you imagined.',
+      'Option B: What does the other path look like right now? Don\'t just keep beautifying the path you didn\'t choose, first see clearly what it actually looks like.',
+      'Outcome A: If you choose A, what will likely happen next. Remember: this is a "trend" not a "verdict".',
+      'Outcome B: If you choose B, what will likely happen next. Compare the two cards — which one makes your heart feel more at ease?',
+      'Advice: The Tarot\'s advice for you. If the advice card is upright = leans toward action; reversed = reminds you to think again.'
     ],
     category: 'decision', difficulty: 'medium', recommended: false, loadingText: '正在分析两个选项...',
     loadingTextEn: 'Analyzing the two options...',
@@ -140,18 +140,18 @@ const SPREADS = {
     positions: ['问题核心', '面临的障碍', '潜意识/隐藏因素', '建议的行动', '可能的结果'],
     positionsEn: ['Problem', 'Obstacle', 'Subconscious', 'Suggested Action', 'Possible Outcome'],
     positionMeanings: [
-      '问题核心：问题的本质和最关键的因素。',
-      '面临的障碍：阻碍问题解决的主要困难和挑战。',
-      '潜意识/隐藏因素：你自己可能未察觉的动机、情感或隐藏的影响因素。',
-      '建议的行动：塔罗建议你采取的行动方向。',
-      '可能的结果：如果按照建议行动，可能得到的结果。'
+      '问题核心：你的"真正问题"是什么？有时候我们以为的问题是表象，这张牌帮你看到冰山下面那块。',
+      '面临的障碍：为什么还没解决？这张牌告诉你卡在哪了——可能是外在困难，也可能是你内心的抗拒。',
+      '潜意识/隐藏因素：你自己都没意识到的部分。就像 iceberg 的水下部分——这张牌把它捞出来给你看。',
+      '建议的行动：塔罗说"你该怎么做"。如果这张牌让你意外，说明答案不在你预期的那个方向。',
+      '可能的结果：如果按照建议行动，事情会怎么发展。注意：你永远可以选择不按建议走，结果也会不同。'
     ],
     positionMeaningsEn: [
-      'Problem: The essence of the problem and the most critical factor.',
-      'Obstacle: The main difficulty or challenge that hinders problem-solving.',
-      'Subconscious: Motivations, emotions, or hidden influencing factors you may not be aware of.',
-      'Suggested Action: The action direction the Tarot suggests you take.',
-      'Possible Outcome: The possible result if you act on the suggestion.'
+      'Problem: What is your "real problem"? Sometimes the problem we think we have is just the surface — this card helps you see the part below the iceberg.',
+      'Obstacle: Why hasn\'t it been solved yet? This card tells you where you\'re stuck — might be external difficulty, or your own inner resistance.',
+      'Subconscious: The part you\'re not even aware of yourself. Like the underwater part of an iceberg — this card pulls it out for you to see.',
+      'Suggested Action: What the Tarot says "you should do". If this card surprises you, it means the answer isn\'t in the direction you expected.',
+      'Possible Outcome: If you act on the advice, how will things turn out? Note: you can always choose not to follow the advice, and the outcome will be different.'
     ],
     category: 'decision', difficulty: 'medium', recommended: false, loadingText: '正在展开五张牌阵...',
     loadingTextEn: 'Unfolding the five-card spread...',
@@ -164,22 +164,22 @@ const SPREADS = {
     positions: ['过去的影响', '现在的情况', '隐藏的因素', '面临的挑战', '外部影响', '希望与恐惧', '最终结果'],
     positionsEn: ['Past Influence', 'Current', 'Hidden Factor', 'Challenge', 'External', 'Hopes/Fears', 'Outcome'],
     positionMeanings: [
-      '过去的影响：过去事件对当前情况的持续影响。',
-      '现在的情况：当前问题的实际状况。',
-      '隐藏的因素：未被发现或未被重视的重要因素。',
-      '面临的挑战：需要面对和克服的困难。',
-      '外部影响：环境、他人或不可控因素对问题的影响。',
-      '希望与恐惧：内心深处的期望与担忧，可能影响决策。',
-      '最终结果：综合所有因素后，最有可能发生的结果。'
+      '过去的影响：那些"以为翻篇了但其实没有"的事。这张牌告诉你，哪段过去还在偷偷影响现在。',
+      '现在的情况：此刻的真相。不管你愿不愿意看，这张牌都会诚实告诉你"现在到底怎么回事"。',
+      '隐藏的因素：所有人都没注意到，但会影响结果的关键点。就像推理小说里的那个不起眼的线索。',
+      '面临的挑战：你要跨过的那道坎。不是"会不会来"的问题，是"你准备好面对它了吗"。',
+      '外部影响：不是你也不是对方，是"环境"。天气、政策、第三个人——那些你控制不了但确实在搅局的东西。',
+      '希望与恐惧：你半夜睡不着时在想什么？这张牌把你内心最深处的期待和担忧都摊开。',
+      '最终结果：把所有牌放在一起看，最可能出现的结局。记住：牌告诉你趋势，不是给你判刑。'
     ],
     positionMeaningsEn: [
-      'Past Influence: The lasting impact of past events on the current situation.',
-      'Current: The actual status of the current problem.',
-      'Hidden Factor: Important factors that have not been discovered or valued.',
-      'Challenge: Difficulties that need to be faced and overcome.',
-      'External: Influence of environment, others, or uncontrollable factors on the problem.',
-      'Hopes/Fears: Deep expectations and worries that may affect decision-making.',
-      'Outcome: The most likely result after integrating all factors.'
+      'Past Influence: Those things you "thought were over but actually aren\'t". This card tells you which part of the past is still secretly affecting the present.',
+      'Current: The truth of this moment. Whether you want to look or not, this card will honestly tell you "what\'s actually going on right now".',
+      'Hidden Factor: Something everyone overlooked, but it will affect the outcome. Like that inconspicuous clue in a mystery novel.',
+      'Challenge: The hurdle you need to cross. It\'s not a question of "whether it will come", it\'s "are you ready to face it?".',
+      'External Influence: Not you, not the other person — it\'s the "environment". Weather, policy, a third person — things you can\'t control but are definitely messing with the situation.',
+      'Hopes/Fears: What do you think about when you can\'t sleep at night? This card lays out the deepest expectations and worries in your heart.',
+      'Final Outcome: Putting all the cards together, the most likely ending. Remember: the cards tell you trends, not sentencing you.'
     ],
     category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开马蹄铁牌阵...',
     loadingTextEn: 'Unfolding the Horseshoe spread...',
@@ -192,18 +192,18 @@ const SPREADS = {
     positions: ['当前状况', '面临的挑战', '你的优势', '建议的行动', '未来发展'],
     positionsEn: ['Current', 'Challenge', 'Strengths', 'Action', 'Future'],
     positionMeanings: [
-      '当前状况：你在事业/学业方面的现状。',
-      '面临的挑战：工作中遇到的困难或需要克服的障碍。',
-      '你的优势：你拥有的能力、资源或有利条件。',
-      '建议的行动：塔罗建议你在事业/学业上采取的行动。',
-      '未来发展：基于当前情况，事业/学业的可能发展方向。'
+      '当前状况：你工作/学业的真实状态。是在顺风顺水，还是在硬撑？这张牌不会骗你。',
+      '面临的挑战：工作中那块"搬不动的石头"。可能是难搞的老板、做不完的项目，或者你自己的心魔。',
+      '你的优势：你手里真正的好牌。别总盯着"不够好"的地方，这张牌提醒你"你其实挺厉害的"。',
+      '建议的行动：塔罗说"接下来该怎么做"。可能是"主动争取"，也可能是"暂时蛰伏"——看牌面告诉你什么。',
+      '未来发展：如果按建议走，工作/学业会怎么发展。正位=向上的趋势；逆位=提醒你有坑要绕开。'
     ],
     positionMeaningsEn: [
-      'Current: Your current status in career/studies.',
-      'Challenge: Difficulties encountered at work or obstacles to overcome.',
-      'Strengths: Your abilities, resources, or favorable conditions.',
-      'Action: Actions the Tarot suggests you take in career/studies.',
-      'Future: Possible development direction of career/studies based on the current situation.'
+      'Current: The true status of your work/studies. Is everything going smoothly, or are you just hanging in there? This card won\'t lie to you.',
+      'Challenge: That "rock you can\'t move" at work. Might be a difficult boss, an endless project, or your own inner demon.',
+      'Your Strengths: The truly good cards in your hand. Don\'t just keep staring at where you\'re "not good enough" — this card reminds you "you\'re actually pretty awesome".',
+      'Suggested Action: What the Tarot says "you should do next". Might be "take initiative and fight for it", or might be "lie low for now" — see what the card tells you.',
+      'Future: If you follow the advice, how will work/studies develop? Upright = upward trend; reversed = warns you there\'s a pothole to detour around.'
     ],
     category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在展开事业牌阵...',
     loadingTextEn: 'Unfolding the Career spread...',
@@ -216,18 +216,18 @@ const SPREADS = {
     positions: ['过去', '现在', '未来', '深层原因', '可能的结果'],
     positionsEn: ['Past', 'Present', 'Future', 'Root Cause', 'Possible Outcome'],
     positionMeanings: [
-      '过去：影响当前情况的历史因素和已发生的事件。',
-      '现在：当前的核心状况和你的真实状态。',
-      '未来：基于当前趋势最可能的发展方向。',
-      '深层原因：潜藏在问题背后的根本动因。',
-      '可能的结果：综合所有因素后最终可能呈现的状态。'
+      '过去：一切是从哪开始的？这张牌像"事件回放"，帮你看到那条从过去延伸到现在的线。',
+      '现在：你此刻站在哪里。可能不是你以为的那个位置——这张牌会纠正你的认知。',
+      '未来：如果保持现状不变，会发生什么。注意：未来是可以改写的，这张牌只是告诉你"按当前轨迹会怎样"。',
+      '深层原因：为什么这事一直解决不了？这张牌挖到根了——可能是你一直不愿面对的某个核心信念或模式。',
+      '可能的结果：把所有因素放在一起，最可能的结果。记住：塔罗显示的是"概率最高的走向"，不是"不可改变的命运"。'
     ],
     positionMeaningsEn: [
-      'Past: Historical factors and events that influenced the current situation.',
-      'Present: The core situation and your true state at present.',
-      'Future: The most likely development direction based on current trends.',
-      'Root Cause: The root cause hidden behind the problem.',
-      'Possible Outcome: The state that may eventually appear after integrating all factors.'
+      'Past: Where did it all start? This card is like "event replay", helping you see the line that extends from the past to the present.',
+      'Present: Where you\'re standing right this moment. Might not be the position you thought you were at — this card will correct your perception.',
+      'Future: If things stay as they are, what will happen? Note: the future can be rewritten — this card just tells you "what will happen if the current trajectory continues".',
+      'Root Cause: Why has this problem not been solved? This card digs all the way to the root — might be a core belief or pattern you\'ve been unwilling to face.',
+      'Possible Outcome: Putting all factors together, the most likely result. Remember: Tarot shows you "the most probable direction", not "unchangeable destiny".'
     ],
     category: 'fortune', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
     loadingTextEn: 'Unfolding the Time Flow spread...',
@@ -240,14 +240,14 @@ const SPREADS = {
     positions: ['问题核心', '建议行动', '可能结果'],
     positionsEn: ['Problem', 'Suggested Action', 'Possible Outcome'],
     positionMeanings: [
-      '问题核心：你最关心的核心问题或担忧。',
-      '建议行动：塔罗建议你采取的具体行动方向。',
-      '可能结果：如果按照建议行动，最可能得到的结果。'
+      '问题核心：你真正想问的是什么？有时候我们问的是一个问题，实际想解决的是另一个。这张牌帮你对准真正的靶心。',
+      '建议行动：塔罗说"去做这件事"。可能是"主动出击"，也可能是"先停下来想清楚"——看牌面告诉你什么。',
+      '可能结果：如果按建议行动，会怎样。正位=顺利；逆位=有阻碍但未必是坏事，可能是让你放慢速度的提醒。'
     ],
     positionMeaningsEn: [
-      'Problem: The core problem or worry you care about most.',
-      'Suggested Action: The specific action direction the Tarot suggests you take.',
-      'Possible Outcome: The most likely result if you act on the suggestion.'
+      'Problem: What are you really asking? Sometimes we ask one question, but actually want to solve a different one. This card helps you aim at the real target.',
+      'Suggested Action: What the Tarot says "go do this". Might be "take initiative and strike", or might be "stop first and think it through" — see what the card tells you.',
+      'Possible Outcome: If you act on the advice, what will happen. Upright = smooth; reversed = there\'s an obstacle but not necessarily a bad thing — might be a reminder to slow down.'
     ],
     category: 'simple', difficulty: 'easy', recommended: true, loadingText: '正在展开问题行动结果...',
     loadingTextEn: 'Analyzing Problem-Action-Result...',
@@ -260,18 +260,18 @@ const SPREADS = {
     positions: ['意识', '潜意识', '理想', '现实', '建议'],
     positionsEn: ['Conscious', 'Subconscious', 'Ideal', 'Reality', 'Advice'],
     positionMeanings: [
-      '意识：你清醒时对自己和问题的认知。',
-      '潜意识：内心深处隐藏的动机、恐惧或渴望。',
-      '理想：你内心真正渴望达到的状态或结果。',
-      '现实：客观现实和实际的限制条件。',
-      '建议：综合意识与潜意识、理想与现实后的最佳建议。'
+      '意识：你"以为"的自己。你平时怎么描述自己？这张牌告诉你，你展现给外界的形象和内在有多少落差。',
+      '潜意识：你没告诉任何人的那部分。那些被你压下去的情绪、不敢承认的渴望——这张牌把它们捞出来。',
+      '理想：你内心真正想要的生活长什么样？别管"现实不现实"，先让这张牌告诉你"你真正渴望的是什么"。',
+      '现实：接地气的那张牌。可能是"残酷真相"，也可能是"其实没你想的那么糟"——先看清楚再决定怎么走。',
+      '建议：整合以上四张牌后的建议。意识与潜意识、理想与现实之间，这张牌告诉你"下一步该怎么走"。'
     ],
     positionMeaningsEn: [
-      'Conscious: Your awareness of yourself and the problem when awake.',
-      'Subconscious: Hidden motivations, fears, or desires deep in your heart.',
-      'Ideal: The state or result you truly desire deep in your heart.',
-      'Reality: Objective reality and actual limiting conditions.',
-      'Advice: The best advice after integrating conscious and subconscious, ideal and reality.'
+      'Conscious: The self you "think" you are. How do you usually describe yourself? This card tells you how much gap there is between the image you project to the outside world and your inner self.',
+      'Subconscious: The part you haven\'t told anyone about. Those emotions you\'ve suppressed, desires you don\'t dare admit — this card pulls them out.',
+      'Ideal: What does the life you truly want look like? Don\'t worry about "is it realistic", first let this card tell you "what you truly desire".',
+      'Reality: The down-to-earth card. Might be a "harsh truth", or might be "it\'s actually not as bad as you think" — first see clearly, then decide how to proceed.',
+      'Advice: Advice after integrating the above four cards. Between conscious and subconscious, ideal and reality, this card tells you "how to proceed next".'
     ],
     category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在展开心灵牌阵...',
     loadingTextEn: 'Exploring the Mind spread...',
@@ -285,22 +285,22 @@ const SPREADS = {
     positions: ['你', '对方', '你们的关系', '面临的挑战', '周围的影响', '关系的未来', '建议'],
     positionsEn: ['You', 'Partner', 'Your Relationship', 'Challenges', 'External Influence', 'Relationship Future', 'Advice'],
     positionMeanings: [
-      '你：你在这段感情中的状态、感受和行为模式。',
-      '对方：对方在感情中的真实状态和对你的感受。',
-      '你们的关系：这段关系的本质和当前的互动模式。',
-      '面临的挑战：这段感情中需要面对和解决的问题。',
-      '周围的影响：来自外界（朋友、家人、环境）对这段关系的影响。',
-      '关系的未来：基于当前状态，这段关系可能的发展方向。',
-      '建议：塔罗对这段感情的建议和指引。'
+      '你：你在这段感情里的真实样子。是那个总是秒回消息的人，还是那个总是患得患失的人？这张牌像一面镜子。',
+      '对方：对方在这段感情里的真实样子。注意：这张牌说的是"对方实际怎样"，不是"你希望对方怎样"。',
+      '你们的关系：这段关系的"体检报告"。这张牌告诉你这段关系是健康的、有毒的、还是你在单方面付出？',
+      '面临的挑战：你们俩需要一起跨过的那道坎。如果这张牌是正位=可以克服；逆位=需要认真考虑要不要继续。',
+      '周围的影响：那些"插嘴的人"。可能是催婚的爸妈、泼冷水的朋友、或者你们之间的第三方。',
+      '关系的未来：如果继续保持现状，这段关系会怎么走。记住：关系是两个人的事，改变需要两个人一起努力。',
+      '建议：塔罗对这段感情的建议。如果建议牌是正位=往前走；逆位=停下来想清楚。'
     ],
     positionMeaningsEn: [
-      'You: Your state, feelings, and behavior pattern in this relationship.',
-      'Partner: The other person\'s true state in the relationship and feelings toward you.',
-      'Your Relationship: The nature of this relationship and the current interaction pattern.',
-      'Challenges: Problems that need to be faced and resolved in this relationship.',
-      'External Influence: Influence from the outside (friends, family, environment) on this relationship.',
-      'Relationship Future: Possible development direction of this relationship based on the current state.',
-      'Advice: The Tarot\'s advice and guidance for this relationship.'
+      'You: Your true self in this relationship. Are you the one who always replies in seconds, or the one who\'s always insecure? This card is like a mirror.',
+      'Partner: The other person\'s true self in this relationship. Note: This card shows "how the other person actually is", not "how you wish they would be".',
+      'Your Relationship: The "health check report" of this relationship. This card tells you whether this relationship is healthy, toxic, or you\'re the only one putting in effort.',
+      'Challenges: The hurdle you two need to cross together. If this card is upright = can be overcome; reversed = need to seriously consider whether to continue.',
+      'External Influence: Those "people who butt in". Could be parents pressuring you to marry, friends pouring cold water, or a third person between you two.',
+      'Relationship Future: If things stay as they are, where this relationship is heading. Remember: a relationship takes two people — changing it takes effort from both.',
+      'Advice: The Tarot\'s advice for this relationship. If the advice card is upright = move forward; reversed = stop and think it through.'
     ],
     category: 'relationship', difficulty: 'medium', recommended: true, loadingText: '正在解读恋人牌阵...',
     loadingTextEn: 'Reading the Love spread...',
@@ -313,20 +313,20 @@ const SPREADS = {
     positions: ['问题根源', '对方的想法', '你的状态', '障碍', '复合的可能性', '建议'],
     positionsEn: ['Root Cause', 'Their Thoughts', 'Your State', 'Obstacles', 'Reunion Possibility', 'Advice'],
     positionMeanings: [
-      '问题根源：导致分手或关系破裂的核心原因。',
-      '对方的想法：对方目前对你的真实想法和感受。',
-      '你的状态：你在这段关系中的真实状态和需要成长的地方。',
-      '障碍：复合道路上需要克服的困难和阻碍。',
-      '复合的可能性：基于双方状态，复合的可能性有多大。',
-      '建议：塔罗对你是否应该复合、以及如何行动的建议。'
+      '问题根源：为什么分手？这张牌不说场面话，直接告诉你"真正的原因是什么"。可能和你以为的不一样。',
+      '对方的想法：对方现在对你的真实想法。如果这张牌让你意外，说明你并不真的了解对方现在怎么想。',
+      '你的状态：你准备好复合了吗？这张牌告诉你，你是真的放下了，还是只是在"等一个结果"。',
+      '障碍：复合路上的"那堵墙"。可能是对方已有新欢、你们之间的问题还没解决、或者你自己还没准备好。',
+      '复合的可能性：基于双方现在的状态，复合概率大不大。正位=有机会；逆位=概率较低，或者复合了也会再分。',
+      '建议：塔罗说"该不该复合"。注意：有时候"不复合"才是对两个人最好的选择。'
     ],
     positionMeaningsEn: [
-      'Root Cause: The core reason that led to the breakup or relationship rupture.',
-      'Their Thoughts: The other person\'s true thoughts and feelings about you at present.',
-      'Your State: Your true state in this relationship and areas where you need to grow.',
-      'Obstacles: Difficulties and barriers that need to be overcome on the road to getting back together.',
-      'Reunion Possibility: How likely is a reunion based on both parties\' status.',
-      'Advice: The Tarot\'s advice on whether you should get back together and how to act.'
+      'Root Cause: Why did you break up? This card doesn\'t do polite talk — it directly tells you "what the real reason is". Might be different from what you thought.',
+      'Their Thoughts: The other person\'s true thoughts about you right now. If this card surprises you, it means you don\'t actually know what they think now.',
+      'Your State: Are you ready to get back together? This card tells you whether you\'ve truly let go, or are just "waiting for a result".',
+      'Obstacles: That "wall" on the road to getting back together. Might be the other person already has someone new, the problems between you aren\'t solved yet, or you yourself aren\'t ready yet.',
+      'Reunion Possibility: Based on both parties\' current status, is there a good chance of getting back together? Upright = there\'s a chance; reversed = probability is low, or you\'ll break up again even if you get back together.',
+      'Advice: What the Tarot says about "should we get back together". Note: Sometimes "not getting back together" is the best choice for both of you.'
     ],
     category: 'relationship', difficulty: 'medium', recommended: false, loadingText: '正在解读复合牌阵...',
     loadingTextEn: 'Reading the Reunion spread...',
@@ -340,14 +340,14 @@ const SPREADS = {
     positions: ['支持因素', '反对因素', '综合建议'],
     positionsEn: ['Supporting Factors', 'Opposing Factors', 'Comprehensive Advice'],
     positionMeanings: [
-      '支持因素：支持你做这件事的理由和有利条件。',
-      '反对因素：反对你做这件事的理由和需要注意的风险。',
-      '综合建议：综合两方面因素后，塔罗给出的建议（正位偏向"是"，逆位偏向"否"）。'
+      '支持因素：有哪些理由支持你"去做"？这张牌告诉你，你内心其实知道"为什么应该做"——可能只是需要被提醒。',
+      '反对因素：有哪些理由让你犹豫？这张牌告诉你，你内心那些"不太对劲"的感觉是什么。别忽略它们。',
+      '综合建议：塔罗给你的最终答案。正位=偏向"是/可以做"；逆位=偏向"否/再等等"。但记住：最终决定权在你手里。'
     ],
     positionMeaningsEn: [
-      'Supporting Factors: Reasons and favorable conditions that support you doing this.',
-      'Opposing Factors: Reasons against doing this and risks that need attention.',
-      'Comprehensive Advice: The Tarot\'s advice after integrating both factors (upright leans toward "yes", reversed leans toward "no").'
+      'Supporting Factors: What reasons support you "going ahead and doing it"? This card tells you that deep down you actually know "why you should do it" — you might just need to be reminded.',
+      'Opposing Factors: What reasons make you hesitate? This card tells you what those "something\'s not quite right" feelings in your heart are. Don\'t ignore them.',
+      'Comprehensive Advice: The final answer the Tarot gives you. Upright = leans toward "yes/go ahead"; reversed = leans toward "no/wait a bit more". But remember: the final decision power is in your hands.'
     ],
     category: 'simple', difficulty: 'easy', recommended: false, loadingText: '正在解读是否牌阵...',
     loadingTextEn: 'Analyzing Yes/No spread...',
@@ -361,18 +361,18 @@ const SPREADS = {
     positions: ['现状', '想离职的原因', '新机会的本质', '风险与挑战', '建议'],
     positionsEn: ['Current Situation', 'Reason for Leaving', 'Nature of New Opportunity', 'Risks & Challenges', 'Advice'],
     positionMeanings: [
-      '现状：你目前的工作状态和感受。',
-      '想离职的原因：促使你想离开当前工作的核心因素。',
-      '新机会的本质：新工作或新机会的真实情况。',
-      '风险与挑战：换工作可能面临的困难和挑战。',
-      '建议：塔罗对你是否应该换工作、以及如何选择的建议。'
+      '现状：你现在的工作状态。是在"温水煮青蛙"，还是在"已经忍到极限"？这张牌告诉你真实的现状。',
+      '想离职的原因：为什么想走？这张牌挖到根了——可能和你以为的理由不一样（比如你以为是不涨薪，实际是不被尊重）。',
+      '新机会的本质：新工作/新机会的真实样子。别只看JD（职位描述），这张牌告诉你"实际进去会是什么样"。',
+      '风险与挑战：跳槽的风险。可能是"新工作不如预期"，也可能是"你还没准备好"。这张牌帮你看到坑在哪里。',
+      '建议：塔罗说"该不该跳"。正位=可以行动；逆位=再等等或再想想。记住：最好的跳槽时机是"下家已经确定"而不是"受不了了就裸辞"。'
     ],
     positionMeaningsEn: [
-      'Current Situation: Your current work status and feelings.',
-      'Reason for Leaving: The core factor that prompts you to want to leave your current job.',
-      'Nature of New Opportunity: The true situation of the new job or new opportunity.',
-      'Risks & Challenges: Difficulties and challenges you may face when changing jobs.',
-      'Advice: The Tarot\'s advice on whether you should change jobs and how to choose.'
+      'Current Situation: Your current work status. Are you "a frog in slowly heating water", or have you "endured to the limit"? This card tells you the true current situation.',
+      'Reason for Leaving: Why do you want to leave? This card digs all the way to the root — might be different from the reason you thought (for example, you think it\'s no raise, but actually it\'s not being respected).',
+      'Nature of New Opportunity: What the new job/new opportunity actually looks like. Don\'t just look at the JD — this card tells you "what it\'ll actually be like once you\'re in there".',
+      'Risks & Challenges: The risks of job-hopping. Might be "new job isn\'t as good as expected", or might be "you\'re not ready yet". This card helps you see where the potholes are.',
+      'Advice: What the Tarot says about "should I jump or not". Upright = can take action; reversed = wait a bit more or think again. Remember: The best timing for job-hopping is "next job is already confirmed" not "quit impulsively because you can\'t stand it anymore".'
     ],
     category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在解读换工作牌阵...',
     loadingTextEn: 'Analyzing Job Change spread...',
@@ -386,18 +386,18 @@ const SPREADS = {
     positions: ['意识自我', '阴影自我', '需要释放的', '成长方向', '建议'],
     positionsEn: ['Conscious Self', 'Shadow Self', 'What to Release', 'Growth Direction', 'Advice'],
     positionMeanings: [
-      '意识自我：你平时展现给外界的自我形象。',
-      '阴影自我：你不愿面对或否认的性格面向，可能正是你需要整合的部分。',
-      '需要释放的：阻碍你成长的旧模式、执念或创伤。',
-      '成长方向：你接下来应该专注的成长方向。',
-      '建议：塔罗对你自我整合和成长的建议。'
+      '意识自我：你"以为"的自己。你平时怎么介绍自己？这张牌告诉你，你展现给外界的形象和内在有多少落差。',
+      '阴影自我：你不愿承认的那部分。可能是"其实我很嫉妒"、"其实我不够爱自己"——这张牌把它们捞出来，让你看见。',
+      '需要释放的：那些"背着很累"的东西。可能是童年的创伤、某段关系的阴影、或者你一直背着别人期待的包袱。',
+      '成长方向：接下来该往哪走？这张牌告诉你，你灵魂的下一个关卡是什么，以及该怎么准备。',
+      '建议：塔罗对你自我整合的建议。可能是"去面对那件事"，也可能是"先停下来休息"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Conscious Self: The self-image you usually present to the outside world.',
-      'Shadow Self: The personality aspects you are unwilling to face or deny, which may be exactly the parts you need to integrate.',
-      'What to Release: Old patterns, obsessions, or traumas that hinder your growth.',
-      'Growth Direction: The growth direction you should focus on next.',
-      'Advice: The Tarot\'s advice for your self-integration and growth.'
+      'Conscious Self: The self you "think" you are. How do you usually introduce yourself? This card tells you how much gap there is between the image you project and your inner self.',
+      'Shadow Self: The part you\'re unwilling to admit. Might be "actually I\'m quite jealous", or "actually I don\'t love myself enough" — this card pulls them out for you to see.',
+      'What to Release: Those things that "feel heavy to carry". Might be childhood trauma, the shadow of a certain relationship, or the burden of carrying others\' expectations.',
+      'Growth Direction: Where should you head next? This card tells you what your soul\'s next level is, and how to prepare for it.',
+      'Advice: The Tarot\'s advice for your self-integration. Might be "go face that thing", or might be "stop and rest first" — see what the card tells you.'
     ],
     category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在展开阴影牌阵...',
     loadingTextEn: 'Unfolding the Shadow spread...',
@@ -410,22 +410,22 @@ const SPREADS = {
     positions: ['整体运势', '事业/学业', '感情/人际关系', '财富/物质', '健康/身心', '需要注意的', '年度建议'],
     positionsEn: ['Overall Fortune', 'Career/Study', 'Love/Relationships', 'Wealth/Material', 'Health/Wellness', 'Things to Note', 'Annual Advice'],
     positionMeanings: [
-      '整体运势：这一年的整体能量和主题。',
-      '事业/学业：这一年事业或学业方面的发展。',
-      '感情/人际关系：这一年感情和人际方面的情况。',
-      '财富/物质：这一年财务和物质生活方面的状况。',
-      '健康/身心：这一年健康和身心状态需要注意的地方。',
-      '需要注意的：这一年需要特别留意的人、事、物。',
-      '年度建议：塔罗对这一年整体行动的建议。'
+      '整体运势：这一年你的主旋律是什么？这张牌像"年度主题曲"——可能是"成长年"、"转折年"或者"休息年"。',
+      '事业/学业：工作/学业这一年的能量。这张牌告诉你，今年是适合冲刺、稳扎稳打，还是该换个方向？',
+      '感情/人际关系：感情和人际这一年的状态。可能是"桃花年"、"独处年"或者"人际关系大洗牌年"。',
+      '财富/物质：钱和物质生活这一年的能量。注意：这张牌说的是"能量趋势"，不是"注定穷或富"。',
+      '健康/身心：这一年需要关照的身体部位或心理议题。如果这张牌提示某部位，建议去做体检。',
+      '需要注意的：这一年容易踩的坑。可能是某类人、某个时间段，或者你自己的某种模式。',
+      '年度建议：塔罗给你这一年的"行动指南"。正位=积极行动；逆位=提醒你先稳住再行动。'
     ],
     positionMeaningsEn: [
-      'Overall Fortune: The overall energy and theme of this year.',
-      'Career/Study: Developments in career or studies this year.',
-      'Love/Relationships: Situation in love and interpersonal relationships this year.',
-      'Wealth/Material: Financial and material life status this year.',
-      'Health/Wellness: Areas of health and physical/mental state that need attention this year.',
-      'Things to Note: People, events, or things that need special attention this year.',
-      'Annual Advice: The Tarot\'s advice for overall actions this year.'
+      'Overall Fortune: What is the main theme of this year for you? This card is like the "annual theme song" — might be a "growth year", a "turning point year", or a "rest year".',
+      'Career/Study: The energy of work/studies this year. This card tells you: is this year suitable for sprinting, steady progress, or should you change direction?',
+      'Love/Relationships: The status of love and interpersonal relationships this year. Might be a "peach blossom year", a "solitude year", or a "major interpersonal reshuffle year".',
+      'Wealth/Material: The energy of money and material life this year. Note: This card talks about "energy trends", not "destined to be poor or rich".',
+      'Health/Wellness: Body parts or psychological issues you need to pay attention to this year. If this card points to a certain body part, consider getting a health checkup.',
+      'Things to Note: The potholes you\'re likely to step into this year. Might be a certain type of person, a certain time period, or a certain pattern of your own.',
+      'Annual Advice: The "action guide" the Tarot gives you for this year. Upright = take active action; reversed = reminds you to stabilize first before taking action.'
     ],
     category: 'fortune', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
     loadingTextEn: 'Unfolding the Yearly spread...',
@@ -439,11 +439,11 @@ const SPREADS = {
     positions: ['失物方向/位置', '失物状态', '寻找线索', '阻碍因素', '建议/是否能找回'],
     positionsEn: ['Direction/Location', 'Item Status', 'Search Clue', 'Obstacle', 'Advice/Can It Be Found'],
     positionMeanings: [
-      '失物方向/位置：根据牌的花色判断方位和场所。权杖/火元素=南方、厨房、客厅、高处、电器附近；圣杯/水元素=西方、浴室、水源附近、低处、冰箱里；宝剑/风元素=东方、书房、办公室、窗户边、书籍文件附近；星币/土元素=北方、玄关、储物间、地面附近、口袋或包里。宫廷牌可能表示物品在某人那里。数字牌提示具体位置（如3=三楼/第三个房间）。',
-      '失物状态：物品当前的状态和可见性。正位牌表示物品状态完好、未被移动、相对容易找到；逆位牌表示可能被损坏、被遮挡、已移位或掉落。数字牌暗示物品在某个容器、抽屉或袋子里；宫廷牌则表示物品在某人手中、口袋里或被借走。',
-      '寻找线索：帮助定位物品的关键信息。大阿卡纳提示与重要事件、常去地点或近期活动有关；小阿卡纳指向具体房间或物品附近。注意牌面数字，可能对应楼层、房间号或时间线索（几小时前/几天前遗失）。出现「力量」「战车」等行动牌，建议立即主动寻找。',
-      '阻碍因素：阻碍你找到物品的原因。逆位牌表示你忽略了最明显的地方，或记忆出现偏差；宝剑牌表示被其他物品遮挡、位置被移动或信息混乱；圣杯牌表示情绪紧张、心不在焉导致记忆模糊；星币牌表示被杂物覆盖、放在了不常去的地方或忘记放入何处。',
-      '建议/是否能找回：塔罗给出的行动建议和找回可能性。正位牌偏向能找回，按牌面提示的方向和场所仔细寻找，不要放弃；逆位牌偏向难以找回，可能已被他人拿走、丢弃或遗失在外。若为大阿卡纳，说明物品对你有重要意义，值得坚持寻找；若为数字牌，按提示的具体位置逐一排查。'
+      '失物方向/位置：塔罗当"GPS"用。权杖=南方/厨房/高处；圣杯=西方/浴室/低处；宝剑=东方/书房/窗户边；星币=北方/玄关/地面。宫廷牌=在某人那里；数字牌=具体位置提示（3=三楼或第三个房间）。',
+      '失物状态：东西还好吗？正位=物品完好、没被移动、相对好找；逆位=可能被损坏、被遮挡、已移位或掉到缝隙里。数字牌暗示在某个容器/抽屉/袋子里。',
+      '寻找线索：关键线索在哪里？大阿卡纳=和重要事件/常去地点有关；小阿卡纳=指向具体房间或物品附近。注意牌面数字——可能对应楼层、房间号，或者"几小时前/几天前"的时间线索。',
+      '阻碍因素：为什么找不到？逆位牌=你忽略了最明显的地方；宝剑牌=被其他东西压住了；圣杯牌=你太焦虑导致记忆模糊；星币牌=被杂物盖住或放在不常去的地方。',
+      '建议/是否能找回：塔罗说"能不能找回来"。正位=有机会，按提示方向仔细找，别放弃；逆位=希望较小，可能已被拿走或丢弃。大阿卡纳=这东西对你有重要意义，值得坚持找；数字牌=按提示位置逐一排查。'
     ],
     positionMeaningsEn: [
       'Direction/Location: Determine direction and place by suit. Wands/Fire = South, kitchen, living room, high places, near appliances; Cups/Water = West, bathroom, near water sources, low places, inside fridge; Swords/Air = East, study, office, near windows, near books/files; Pentacles/Earth = North, entrance, storage room, near the floor, in pockets or bags. Court cards may indicate the item is with someone.',
@@ -464,16 +464,16 @@ const SPREADS = {
     positions: ['利（支持的理由）', '弊（反对的理由）', '隐藏的因素', '建议'],
     positionsEn: ['Pros (Supporting Reasons)', 'Cons (Opposing Reasons)', 'Hidden Factor', 'Advice'],
     positionMeanings: [
-      '利（支持的理由）：支持你做这件事的理由和有利条件。',
-      '弊（反对的理由）：反对你做这件事的理由和需要注意的风险。',
-      '隐藏的因素：未被考虑的隐藏因素或潜在影响。',
-      '建议：综合各方面因素后，塔罗给出的建议（正位偏向支持，逆位偏向谨慎）。'
+      '利（支持的理由）：做这件事的"好处清单"。这张牌帮你把"为什么该做"的理由都列出来——可能有些你自己都没意识到。',
+      '弊（反对的理由）：做这件事的"风险清单"。这张牌告诉你"可能踩的坑"——别只看好处，风险也要看清。',
+      '隐藏的因素：那些你"没想到"的事。就像下棋时的"暗子"——这张牌帮你看到被忽略的关键变量。',
+      '建议：塔罗给你的最终答案。正位=偏向"做吧"；逆位=偏向"再想想"。但记住：决定权永远在你手里。'
     ],
     positionMeaningsEn: [
-      'Pros: Reasons and favorable conditions that support you doing this.',
-      'Cons: Reasons against doing this and risks that need attention.',
-      'Hidden Factor: Hidden factors or potential influences not yet considered.',
-      'Advice: The Tarot\'s advice after integrating all factors (upright leans toward support, reversed leans toward caution).'
+      'Pros: The "benefits list" of doing this. This card helps you list all the reasons "why you should do it" — some you might not even be aware of yourself.',
+      'Cons: The "risk list" of doing this. This card tells you "the potholes you might step into" — don\'t just look at the benefits, see the risks clearly too.',
+      'Hidden Factor: Those things you "didn\'t think of". Like a "hidden piece" in chess — this card helps you see the key variables you overlooked.',
+      'Advice: The final answer the Tarot gives you. Upright = leans toward "go ahead and do it"; reversed = leans toward "think again". But remember: the decision power is always in your hands.'
     ],
     category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在分析利弊...',
     loadingTextEn: 'Analyzing pros and cons...',
@@ -514,18 +514,18 @@ const SPREADS = {
     positions: ['旅行整体能量', '目的地/出行方向', '需要注意的事项', '旅途中的收获', '建议'],
     positionsEn: ['Overall Travel Energy', 'Destination/Direction', 'Things to Note', 'Gains & Experiences', 'Advice'],
     positionMeanings: [
-      '旅行整体能量：这次旅行的整体氛围和能量状态，是顺利愉快还是波折较多。',
-      '目的地/出行方向：目的地的能量特质，或出行方向是否合适，是否有更好的选择。',
-      '需要注意的事项：旅途中需要特别留意的人、事、物，可能的风险或麻烦。',
-      '旅途中的收获：这次旅行能带给你的收获、体验、感悟或意外惊喜。',
-      '建议：塔罗对这次旅行的具体建议，包括出行时机、准备事项、心态调整等。'
+      '旅行整体能量：这次旅行是"躺平游"还是"波折游"？这张牌告诉你整体氛围——是轻松愉快，还是要多留个心眼。',
+      '目的地/出行方向：目的地靠谱吗？这张牌揭示"那个地方真实的能量"——可能和你想象的不一样，提前知道总没错。',
+      '需要注意的事项：旅行中的"坑"在哪？可能是天气、小偷、迷路，或者你自己的粗心。这张牌帮你提前看到，好做准备。',
+      '旅途中的收获：这次旅行能带走什么？可能是美景照片、意外惊喜，或者一个"对自己更了解"的瞬间。',
+      '建议：塔罗说"该怎么准备"。可能是"带把伞"、"多留两天"，或者"取消吧换个时间"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Overall Travel Energy: The overall atmosphere and energy of this trip, whether it will be smooth and pleasant or full of twists and turns.',
-      'Destination/Direction: The energy qualities of the destination, or whether the travel direction is suitable, if there is a better choice.',
-      'Things to Note: People, events, or things that need special attention during the trip, possible risks or troubles.',
-      'Gains & Experiences: The gains, experiences, insights, or unexpected surprises this trip can bring you.',
-      'Advice: The Tarot\'s specific advice for this trip, including travel timing, preparation, mindset adjustment, etc.'
+      'Overall Travel Energy: Is this trip a "lie-flat vacation" or a "full-of-twists trip"? This card tells you the overall vibe — whether it\'s relaxed and pleasant, or you need to keep an extra eye out.',
+      'Destination/Direction: Is the destination reliable? This card reveals "the true energy of that place" — might be different from what you imagined. Knowing in advance never hurts.',
+      'Things to Note: Where are the "potholes" during the trip? Might be weather, thieves, getting lost, or your own carelessness. This card helps you see in advance so you can prepare.',
+      'Gains & Experiences: What can you take away from this trip? Might be beautiful photos, unexpected surprises, or a moment of "understanding yourself better".',
+      'Advice: What the Tarot says about "how to prepare". Might be "bring an umbrella", "stay two more days", or "cancel and pick another time" — see what the card tells you.'
     ],
     category: 'life', difficulty: 'easy', recommended: true, loadingText: '正在展开旅行牌阵...',
     loadingTextEn: 'Unfolding the Travel spread...',
@@ -539,24 +539,24 @@ const SPREADS = {
     positions: ['你的核心天赋', '你的人生课题', '过去的制约/限制', '当前的机会', '需要释放的信念', '你的使命方向', '可能的阻碍', '建议'],
     positionsEn: ['Your Core Talent', 'Your Life Lesson', 'Past Conditioning', 'Current Opportunity', 'Beliefs to Release', 'Your Mission Direction', 'Possible Obstacles', 'Advice'],
     positionMeanings: [
-      '你的核心天赋：你天生具备的天赋、才能或独特优势。',
-      '你的人生课题：你此生需要学习的核心课题或需要克服的挑战。',
-      '过去的制约/限制：来自过去（童年、成长环境、过往经历）的限制性信念或模式。',
-      '当前的机会：此刻出现的、与你的使命相关的机会或召唤。',
-      '需要释放的信念：阻碍你走向使命的旧有信念、恐惧或执念。',
-      '你的使命方向：你的人生方向和使命所在，塔罗给出的指引。',
-      '可能的阻碍：在实现使命道路上可能遇到的内在或外在阻碍。',
-      '建议：塔罗对你如何走向人生使命、活出真实自我的建议。'
+      '你的核心天赋：你天生就厉害的地方。可能是"很会安慰人"、"总能看到机会"、"学东西特别快"——这张牌帮你看到自己的闪光点。',
+      '你的人生课题：你这辈子一直在"复读"的主题。可能是"学会爱自己"、"放下控制欲"、"建立边界感"——这张牌告诉你，你来这一世要修炼什么。',
+      '过去的制约/限制：那些"从小被植入你脑子里的程序"。可能是"你要优秀才值得被爱"、"表达情绪是软弱的"——这张牌帮你看到，哪些旧程序该删了。',
+      '当前的机会：此刻正在敲你门的机会。可能是一份新工作、一段新关系、或者一个"内心突然想做"的事——这张牌告诉你，别再装作没听见了。',
+      '需要释放的信念：那些"拖你后腿"的旧信念。可能是"我不配"、"我会搞砸"、"没人会爱我"——这张牌告诉你，该把这些包袱放下了。',
+      '你的使命方向：你这辈子来"干什么"的。不一定是"改变世界"那种大事，可能是"用你的温暖照亮身边的人"——这张牌帮你记起初心。',
+      '可能的阻碍：你在"成为真正的自己"路上会碰到的坎。可能是外界的质疑、家人的不理解、或者你自己内心的恐惧——这张牌帮你提前看到，好做准备。',
+      '建议：塔罗对你"活出使命"的建议。可能是"勇敢迈出第一步"、"先从小事开始"、"别管别人怎么看"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Your Core Talent: The natural talents, abilities, or unique advantages you possess.',
-      'Your Life Lesson: The core lesson you need to learn in this life or the challenge you need to overcome.',
-      'Past Conditioning: Limiting beliefs or patterns from the past (childhood, upbringing, past experiences).',
-      'Current Opportunity: Opportunities or calls appearing now that are related to your mission.',
-      'Beliefs to Release: Old beliefs, fears, or obsessions that hinder you from moving toward your mission.',
-      'Your Mission Direction: Your life direction and mission, the guidance given by the Tarot.',
-      'Possible Obstacles: Inner or outer obstacles you may encounter on the path to fulfilling your mission.',
-      'Advice: The Tarot\'s advice on how to move toward your life purpose and live as your true self.'
+      'Your Core Talent: Where you are naturally awesome. Might be "really good at comforting people", "always seeing opportunities", "learning things super fast" — this card helps you see your own sparkle.',
+      'Your Life Lesson: The theme you keep "rereading" in this lifetime. Might be "learn to love yourself", "let go of control", "establish boundaries" — this card tells you what you came to this life to cultivate.',
+      'Past Conditioning: Those "programs implanted in your brain since childhood". Might be "you\'re only worthy of love if you\'re excellent", "expressing emotions is weak" — this card helps you see which old programs need deleting.',
+      'Current Opportunity: The opportunity that\'s knocking on your door right now. Might be a new job, a new relationship, or something you "suddenly feel like doing" — this card tells you, stop pretending you didn\'t hear it.',
+      'Beliefs to Release: Those old beliefs that "drag you down". Might be "I don\'t deserve it", "I\'ll mess it up", "no one will love me" — this card tells you it\'s time to put down these burdens.',
+      'Your Mission Direction: What you came to this life to "do". Doesn\'t have to be something big like "change the world" — might be "illuminate the people around you with your warmth" — this card helps you remember your original intention.',
+      'Possible Obstacles: The hurdles you\'ll encounter on the road to "becoming your true self". Might be external doubts, family not understanding, or your own inner fears — this card helps you see in advance so you can prepare.',
+      'Advice: The Tarot\'s advice for you to "live out your mission". Might be "bravely take the first step", "start with small things first", "don\'t care what others think" — see what the card tells you.'
     ],
     category: 'spiritual', difficulty: 'hard', recommended: false, loadingText: '正在展开人生使命牌阵...',
     loadingTextEn: 'Unfolding the Life Purpose spread...',
@@ -570,18 +570,18 @@ const SPREADS = {
     positions: ['考试/面试结果', '准备方向', '需要注意的地方', '潜在障碍', '建议'],
     positionsEn: ['Exam/Interview Result', 'Preparation Direction', 'Points to Note', 'Potential Obstacles', 'Advice'],
     positionMeanings: [
-      '考试/面试结果：这次考试或面试最可能的结果和表现。',
-      '准备方向：你应该重点复习或准备的方向和内容。',
-      '需要注意的地方：考试中容易出错或忽略的关键点。',
-      '潜在障碍：可能影响发挥的隐藏因素，如紧张、身体状态等。',
-      '建议：塔罗对你备考策略、心态调整或面试准备的具体建议。'
+      '考试/面试结果：这次能不能过？这张牌直接告诉你"最可能出现的结局"——正位=希望很大；逆位=有点悬，但未必没戏。',
+      '准备方向：接下来该往哪用力？这张牌告诉你"复习/准备的性价比最高的方向"——别瞎刷题了，按牌面提示来。',
+      '需要注意的地方：考试/面试中容易"翻车"的点。可能是某个知识点、某个类型的题，或者你容易紧张的小细节。',
+      '潜在障碍：可能让你"发挥失常"的因素。可能是前一晚没睡好、路上堵车、或者你自己的"考前焦虑"。',
+      '建议：塔罗说"接下来该怎么做"。可能是"再刷一遍错题"、"考前好好睡一觉"，或者"相信自己，你已经准备好了"。'
     ],
     positionMeaningsEn: [
-      'Exam/Interview Result: The most likely result and performance of this exam or interview.',
-      'Preparation Direction: The direction and content you should focus on reviewing or preparing.',
-      'Points to Note: Key points that are easily overlooked or mistaken in the exam.',
-      'Potential Obstacles: Hidden factors that may affect your performance, such as nervousness, physical condition, etc.',
-      'Advice: The Tarot\'s specific advice for your preparation strategy, mindset adjustment, or interview preparation.'
+      'Exam/Interview Result: Can you pass this time? This card directly tells you "the most likely outcome" — Upright = good chance; Reversed = a bit shaky, but not necessarily hopeless.',
+      'Preparation Direction: Where should you put in effort next? This card tells you "the highest ROI direction for review/preparation" — stop blindly doing practice questions, follow the card\'s hint.',
+      'Points to Note: Where you might "flip the car" in the exam/interview. Might be a certain knowledge point, a certain type of question, or a small detail you easily get nervous about.',
+      'Potential Obstacles: Factors that might make you "underperform". Might be didn\'t sleep well the night before, got stuck in traffic, or your own "pre-exam anxiety".',
+      'Advice: What the Tarot says "what to do next". Might be "review wrong questions one more time", "get a good sleep before the exam", or "believe in yourself, you\'re already prepared".'
     ],
     category: 'career', difficulty: 'medium', recommended: true, loadingText: '正在展开考试牌阵...',
     loadingTextEn: 'Unfolding the Exam spread...',
@@ -595,20 +595,20 @@ const SPREADS = {
     positions: ['你的职场形象', '同事对你的看法', '上司/领导对你的看法', '职场人际隐患', '改善人际的建议', '最终职场关系走向'],
     positionsEn: ['Your Workplace Image', 'Colleagues\' View of You', 'Supervisor\'s View of You', 'Interpersonal Risks', 'Advice for Improvement', 'Final Workplace Relationship Outlook'],
     positionMeanings: [
-      '你的职场形象：你在办公室中展现出来的形象和给人的第一印象，以及你如何看待自己在工作中的角色。',
-      '同事对你的看法：你的同事们真正怎么看待你，他们对你的真实态度和评价，以及你们之间的互动模式。',
-      '上司/领导对你的看法：你的上级或领导对你的评价和期望，他们在职场中如何看待你的能力和表现。',
-      '职场人际隐患：办公室人际关系中潜在的问题和矛盾，可能被忽视的人际冲突或误解。',
-      '改善人际的建议：塔罗牌对于如何改善办公室人际关系、化解矛盾、提升职场人缘的具体建议。',
-      '最终职场关系走向：基于当前状况，未来一段时间办公室人际关系的发展趋势和可能的结果。'
+      '你的职场形象：你在同事眼里是什么样的人？是"那个很能干的"，还是"那个不太好接近的"？这张牌告诉你别人怎么看你，以及你是怎么看待自己的。',
+      '同事对你的看法：你的同事们"背后怎么议论你"？这张牌揭开真相——可能和你以为的不一样。别急着否认，先看看牌面说了什么。',
+      '上司/领导对你的看法：你的老板/领导真的认可你吗？这张牌告诉你他们的真实想法——可能是"这人挺能干"，也可能是"这人有点飘了需要敲打"。',
+      '职场人际隐患：办公室里"还没爆的雷"。可能是某个对你有意见的同事、某个容易引发误会的场合，或者你自己没注意到的"得罪人"的小习惯。',
+      '改善人际的建议：塔罗说"该怎么改善职场关系"。可能是"主动破冰"、"少说多做"，或者"别把情绪带到办公室"——看牌面告诉你什么。',
+      '最终职场关系走向：如果继续保持现在的相处模式，接下来办公室关系会怎么发展？记住：职场关系也是关系，需要经营，不是"我把活干好就行了"。'
     ],
     positionMeaningsEn: [
-      'Your Workplace Image: The image you project in the office and the first impression you give, and how you see your role at work.',
-      'Colleagues\' View of You: How your colleagues truly see you, their real attitude and evaluation of you, and your interaction patterns.',
-      'Supervisor\'s View of You: Your supervisor\'s or leader\'s evaluation and expectations of you, how they see your performance.',
-      'Interpersonal Risks: Potential problems and conflicts in office relationships, interpersonal conflicts or misunderstandings that may be overlooked.',
-      'Advice for Improvement: The Tarot\'s specific advice on how to improve office relationships, resolve conflicts, and enhance workplace popularity.',
-      'Final Workplace Relationship Outlook: Based on the current situation, the development trend and possible outcome of office relationships in the coming period.'
+      'Your Workplace Image: What kind of person are you in your colleagues\' eyes? Are you "that very capable one", or "that one who\'s not very approachable"? This card tells you how others see you, and how you see yourself.',
+      'Colleagues\' View of You: How do your colleagues "talk about you behind your back"? This card reveals the truth — might be different from what you thought. Don\'t rush to deny, first see what the card says.',
+      'Supervisor\'s View of You: Does your boss/leader really recognize you? This card tells you their true thoughts — might be "this person is quite capable", or might be "this person is a bit too full of themselves and needs a reality check".',
+      'Interpersonal Risks: The "landmines that haven\'t exploded yet" in the office. Might be a colleague who has opinions about you, a situation that easily causes misunderstandings, or a small habit of "offending people" that you haven\'t noticed yourself.',
+      'Advice for Improvement: What the Tarot says about "how to improve workplace relationships". Might be "take initiative to break the ice", "talk less and do more", or "don\'t bring emotions to the office" — see what the card tells you.',
+      'Final Workplace Relationship Outlook: If you keep getting along the way you do now, how will office relationships develop next? Remember: workplace relationships are also relationships, they need cultivation, it\'s not just "I\'ll just do my job well".'
     ],
     category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在展开办公室人际牌阵...',
     loadingTextEn: 'Unfolding the Office Interpersonal spread...',
@@ -622,18 +622,18 @@ const SPREADS = {
     positions: ['当前命运状态', '命运的转变点', '隐藏的机遇', '需要警惕的陷阱', '最终的命运走向'],
     positionsEn: ['Current Fate Status', 'Turning Point of Fate', 'Hidden Opportunities', 'Traps to Watch Out', 'Final Fate Outcome'],
     positionMeanings: [
-      '当前命运状态：这件事目前的命运能量和发展阶段，当前处于顺境还是逆境。',
-      '命运的转变点：即将到来的关键转折点，命运之轮即将转动的方向，何时会发生转变。',
-      '隐藏的机遇：命运中隐藏的机遇和可能性，容易被忽视但能改变命运走向的关键因素。',
-      '需要警惕的陷阱：命运路上需要注意的障碍和陷阱，可能因疏忽而错失良机或遭遇挫折。',
-      '最终的命运走向：这件事最终的命运归宿，综合所有因素后最可能的结果，命运之轮最终停下的位置。'
+      '当前命运状态：你现在站在命运之轮的哪个位置？是正位=轮子在往上转（好运期）；还是逆位=轮子在往下转（低谷期）。这张牌告诉你"此刻的命运能量"。',
+      '命运的转变点：命运之轮"即将转动"的时刻。可能是下周、下个月，或者你已经感觉到"有什么要变了"——这张牌帮你 pinpoint 那个转折点。',
+      '隐藏的机遇：当轮子转动时，那些"稍纵即逝"的机会。可能是某个人的一句推荐、某个你差点错过的招聘信息——这张牌告诉你"别漏掉这个机会"。',
+      '需要警惕的陷阱：命运之轮上的"尖刺"。当好运来时，别飘；当坏运来时，别崩。这张牌提醒你"哪几个坑需要绕着走"。',
+      '最终的命运走向：命运之轮最终会停在哪里？记住：轮子是圆的，没有永远的巅峰也没有永远的低谷——这张牌告诉你"这一轮的终局大概长什么样"。'
     ],
     positionMeaningsEn: [
-      'Current Fate Status: The current fate energy and development stage of this matter, whether you are currently in good times or bad times.',
-      'Turning Point of Fate: The upcoming key turning point, the direction the Wheel of Fortune is about to turn, when the change will happen.',
-      'Hidden Opportunities: Hidden opportunities and possibilities in fate, key factors that are easily overlooked but can change the direction of fate.',
-      'Traps to Watch Out: Obstacles and traps to watch out for on the road of fate, may miss good opportunities or encounter setbacks due to negligence.',
-      'Final Fate Outcome: The final fate outcome of this matter, the most likely result after integrating all factors, where the Wheel of Fortune finally stops.'
+      'Current Fate Status: Where are you standing on the Wheel of Fortune right now? Upright = the wheel is turning upward (good luck period); or Reversed = the wheel is turning downward (low valley period). This card tells you "the fate energy of this moment".',
+      'Turning Point of Fate: The moment the Wheel of Fortune is "about to turn". Might be next week, next month, or you already feel "something is about to change" — this card helps you pinpoint that turning point.',
+      'Hidden Opportunities: Those "fleeting" opportunities when the wheel turns. Might be a recommendation from someone, a job posting you almost missed — this card tells you "don\'t miss this opportunity".',
+      'Traps to Watch Out: The "sharp spikes" on the Wheel of Fortune. When good luck comes, don\'t get cocky; when bad luck comes, don\'t collapse. This card reminds you "which potholes you need to detour around".',
+      'Final Fate Outcome: Where will the Wheel of Fortune finally stop? Remember: the wheel is round, there\'s no eternal peak nor eternal valley — this card tells you "what the end of this round probably looks like".'
     ],
     category: 'fortune', difficulty: 'medium', recommended: true, loadingText: '正在转动命运之轮...',
     loadingTextEn: 'Turning the Wheel of Fortune...',
@@ -647,18 +647,18 @@ const SPREADS = {
     positions: ['本月主题', '事业/学业运势', '感情/人际运势', '健康/财富运势', '本月注意事项'],
     positionsEn: ['Monthly Theme', 'Career/Study', 'Love/Social', 'Health/Wealth', 'Things to Note'],
     positionMeanings: [
-      '本月主题：本月的核心能量和整体运势主题，指引本月的主旋律。',
-      '事业/学业运势：本月在工作、学习方面的发展状况和机遇挑战。',
-      '感情/人际运势：本月感情关系、人际交往方面的运势和需要注意的地方。',
-      '健康/财富运势：本月身体健康状态和财务方面的运势。',
-      '本月注意事项：本月需要特别留意的人、事、物，以及塔罗的提醒和建议。'
+      '本月主题：这个月的"主打歌"是什么？可能是"忙碌月"、"桃花月"、"破财月"或者"躺平月"——这张牌告诉你这个月的整体调性。',
+      '事业/学业运势：这个月工作/学业是"开挂模式"还是"水逆模式"？这张牌告诉你能量走向——是在上升期、平稳期还是瓶颈期。',
+      '感情/人际运势：这个月感情和人际的"剧本"是什么？可能是"脱单月"、"吵架月"或者"社交达人月"——看牌面告诉你什么。',
+      '健康/财富运势：这个月身体和钱包还好吗？这张牌提示你"哪方面需要多留心"——可能是"少熬夜"、"控制购物欲"或者"投资需谨慎"。',
+      '本月注意事项：这个月容易"踩坑"的地方。可能是某个时间段（比如"月中容易崩"）、某类人（比如"小心双子座同事"），或者你自己的某个模式（比如"这个月容易冲动消费"）。'
     ],
     positionMeaningsEn: [
-      'Monthly Theme: The core energy and overall fortune theme of this month.',
-      'Career/Study: Development status and opportunities/challenges in work and study this month.',
-      'Love/Social: Fortune in romantic relationships and interpersonal interactions this month.',
-      'Health/Wealth: Physical health status and financial fortune this month.',
-      'Things to Note: People/events/things to pay special attention to, and the Tarot\'s advice.'
+      'Monthly Theme: What is this month\'s "theme song"? Might be "busy month", "peach blossom month", "losing money month" or "lying-flat month" — this card tells you the overall tone of this month.',
+      'Career/Study: Is this month\'s work/studies in "god mode" or "Mercury retrograde mode"? This card tells you the energy trend — is it in an upward period, stable period or bottleneck period.',
+      'Love/Social: What is this month\'s "script" for love and interpersonal relationships? Might be "getting out of single month", "fighting month" or "social expert month" — see what the card tells you.',
+      'Health/Wealth: Are your body and wallet okay this month? This card reminds you "which aspect needs more attention" — might be "sleep less late", "control shopping desire" or "be cautious about investments".',
+      'Things to Note: Where it\'s easy to "step on a pit" this month. Might be a certain time period (like "prone to breakdown mid-month"), a certain type of person (like "be careful of Gemini colleagues"), or a certain pattern of your own (like "prone to impulse spending this month").'
     ],
     category: 'fortune', difficulty: 'easy', recommended: true, loadingText: '正在展开月运牌阵...',
     loadingTextEn: 'Unfolding the Monthly Fortune spread...',
@@ -672,26 +672,26 @@ const SPREADS = {
     positions: ['当下的灵魂状态', '需要学习的课题', '正在释放的旧模式', '当前的精神挑战', '宇宙的指引', '内在的阴影面', '高我/直觉声音', '接下来的成长方向', '综合建议'],
     positionsEn: ['Current Soul State', 'Lesson to Learn', 'Old Patterns Releasing', 'Spiritual Challenge', 'Universe Guidance', 'Inner Shadow', 'Higher Self/Intuition', 'Growth Direction', 'Comprehensive Advice'],
     positionMeanings: [
-      '当下的灵魂状态：你灵魂此刻所处的阶段和能量状态，你正在经历怎样的灵魂成长。',
-      '需要学习的课题：你此生或此阶段最需要学习的核心灵魂课题。',
-      '正在释放的旧模式：你目前正在放下、疗愈或转化的旧有模式、信念或创伤。',
-      '当前的精神挑战：你在灵性成长道路上当前面临的最大挑战。',
-      '宇宙的指引：宇宙/源头/高维能量想通过这个情况传达给你的讯息。',
-      '内在的阴影面：你灵魂深处尚未整合、需要看见和接纳的阴影部分。',
-      '高我/直觉声音：你的高我或内在智慧想让你听见的声音和指引。',
-      '接下来的成长方向：基于当前状态，你灵魂接下来最适宜的成长方向。',
-      '综合建议：塔罗对你灵魂旅程的整体建议，以及当下最需要做的事。'
+      '当下的灵魂状态：你的灵魂现在"在干嘛"？是在"快速成长中"、"正在疗愈中"，还是"在坑里还没爬出来"？这张牌告诉你灵魂此刻的阶段。',
+      '需要学习的课题：你这辈子/这个阶段"必须修完的学分"。可能是"学会爱自己"、"放下控制欲"、"建立边界感"——这张牌告诉你，你现在的必修课是什么。',
+      '正在释放的旧模式：你最近在"卸载"什么？可能是"讨好型人格"、"总觉得自己不够好"、"害怕被抛弃"——这张牌帮你看到，哪些旧程序正在被你删除。',
+      '当前的精神挑战：你现在面临的最大"灵魂考卷"。可能是"在黑暗中还能不能信任自己"、"面对诱惑还能不能守住初心"——这张牌告诉你，这关考的是什么。',
+      '宇宙的指引：宇宙/源头/高我"想通过这个情况告诉你什么"？可能是"别怕，我在给你指路"、"这个坑你必须自己跨过去"——这张牌是宇宙给你发的短信，好好读。',
+      '内在的阴影面：你"不想让别人看到"、甚至"不想让自己看到"的那部分。可能是"其实我很嫉妒"、"其实我不够爱自己"——这张牌把它们捞出来，让你看见、接纳。',
+      '高我/直觉声音：你的高我"一直在跟你说话"，但你不一定听见了。这张牌帮你"调频"到高我的频道——可能是"别做这件事"、"快去做那件事"，或者"你已经做得很好了，放过自己吧"。',
+      '接下来的成长方向：基于你现在的状态，你的灵魂"建议接下来往哪走"。可能是"去学那个你一直想学的东西"、"去认识那类你一直不敢接触的人"，或者"给自己放个假，灵魂也需要休息"。',
+      '综合建议：塔罗对你灵魂旅程的"整体导航"。可能是"勇敢往前走"、"先停下来整合"、"去找个老师/疗愈师"，或者"你已经准备好了，去活出你自己吧"。'
     ],
     positionMeaningsEn: [
-      'Current Soul State: The stage and energy state your soul is currently in, and what soul growth you are experiencing.',
-      'Lesson to Learn: The core soul lesson you need to learn most in this lifetime or this phase.',
-      'Old Patterns Releasing: The old patterns, beliefs, or traumas you are currently letting go of, healing, or transforming.',
-      'Spiritual Challenge: The biggest challenge you are currently facing on your spiritual growth path.',
-      'Universe Guidance: The message the Universe/Source/higher dimensional energy wants to convey to you through this situation.',
-      'Inner Shadow: The shadow aspects deep in your soul that have not yet been integrated and need to be seen and accepted.',
-      'Higher Self/Intuition: The voice and guidance your higher self or inner wisdom wants you to hear.',
-      'Growth Direction: Based on your current state, the most suitable direction for your soul\'s next growth.',
-      'Comprehensive Advice: The Tarot\'s overall advice for your soul journey and what you most need to do right now.'
+      'Current Soul State: What is your soul "doing" right now? Is it "in rapid growth", "in the middle of healing", or "still not climbed out of the pit"? This card tells you the current stage of your soul.',
+      'Lesson to Learn: The "credits you must complete" in this lifetime/this phase. Might be "learn to love yourself", "let go of control", "establish boundaries" — this card tells you what your current required course is.',
+      'Old Patterns Releasing: What have you been "uninstalling" lately? Might be "people-pleasing personality", "always feeling not good enough", "fear of being abandoned" — this card helps you see which old programs are being deleted by you.',
+      'Spiritual Challenge: The biggest "soul exam paper" you\'re facing right now. Might be "can you still trust yourself in the dark", "can you still stick to your original intention when facing temptations" — this card tells you what this level is testing.',
+      'Universe Guidance: What does the Universe/Source/Higher Self "want to tell you through this situation"? Might be "don\'t be afraid, I\'m showing you the way", "you must cross this pit yourself" — this card is the text message the universe sent you, read it carefully.',
+      'Inner Shadow: The part you "don\'t want others to see", or even "don\'t want to see yourself". Might be "actually I\'m quite jealous", "actually I don\'t love myself enough" — this card pulls them out for you to see and accept.',
+      'Higher Self/Intuition: Your higher self "has been talking to you", but you might not have heard. This card helps you "tune" to the higher self\'s frequency — might be "don\'t do this", "go do that quickly", or "you\'re already doing great, let yourself go".',
+      'Growth Direction: Based on your current state, where does your soul "suggest going next"? Might be "go learn that thing you\'ve always wanted to learn", "go meet that type of person you\'ve never dared to contact", or "give yourself a break, souls also need rest".',
+      'Comprehensive Advice: The "overall navigation" for your soul journey. Might be "bravely move forward", "stop first to integrate", "go find a teacher/healer", or "you\'re already prepared, go live as yourself".'
     ],
     category: 'spiritual', difficulty: 'hard', recommended: false, loadingText: '正在展开灵魂旅程...',
     loadingTextEn: 'Unfolding the Soul Journey spread...',
@@ -705,18 +705,18 @@ const SPREADS = {
     positions: ['梦境主题/核心意象', '隐藏的情绪', '潜意识讯息', '现实关联', '建议/行动'],
     positionsEn: ['Dream Theme/Core Image', 'Hidden Emotion', 'Subconscious Message', 'Real-life Connection', 'Advice/Action'],
     positionMeanings: [
-      '梦境主题/核心意象：梦中反复出现或最令你印象深刻的画面、人物或场景，是梦境的核心线索。',
-      '隐藏的情绪：这个梦境反映了你内心深处哪些未被察觉或未被表达的情绪，可能是被压抑的恐惧、渴望或焦虑。',
-      '潜意识讯息：你的潜意识想通过这个梦境传达给你的重要讯息，可能是被忽略的直觉、警告或启示。',
-      '现实关联：这个梦境与你现实生活中哪些人、事、物或处境有关联，梦境正在回应你生活中的什么议题。',
-      '建议/行动：基于梦境的启示，塔罗建议你如何在现实生活中行动，或如何整合这个梦境带来的觉察。'
+      '梦境主题/核心意象：你梦里那个"最让你在意的画面"。可能是"被追着跑"、"考试迟到"、"在空中飞"——这张牌帮你解码，这个画面到底在说什么。',
+      '隐藏的情绪：这个梦"其实是在说"你内心深处的什么情绪？可能是"我很焦虑"、"我害怕被抛弃"、"我渴望被看见"——这张牌帮你把没说出口的情绪捞出来。',
+      '潜意识讯息：你的潜意识"想通过这个梦告诉你"什么？可能是"别忽略身体的信号"、"那个你一直不敢面对的问题该面对了"，或者"你其实知道答案，只是不敢承认"——这张牌是潜意识发给你的微信，别已读不回。',
+      '现实关联：这个梦和你现实生活中"正在发生的事"有什么关联？可能是工作压力大、最近和人吵架了、或者你一直在回避的某个决定——这张牌帮你把梦境和现实连上线。',
+      '建议/行动：基于这个梦的启示，塔罗建议你"接下来怎么做"。可能是"去找那个人谈谈"、"做个决定别再拖了"，或者"对自己温柔一点，你已经很累了"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Dream Theme/Core Image: The scenes, characters, or images that repeatedly appear or impress you most in the dream. They are the core clues of the dream.',
-      'Hidden Emotion: What emotions does this dream reflect that are undetected or unexpressed deep in your heart? Possibly suppressed fears, desires, or anxieties.',
-      'Subconscious Message: The important message your subconscious wants to convey to you through this dream. It may be an overlooked intuition, warning, or revelation.',
-      'Real-life Connection: Which people, events, things, or situations in your real life are related to this dream? What issue in your life is the dream responding to?',
-      'Advice/Action: Based on the dream\'s revelation, the Tarot suggests how you should act in real life, or how to integrate the awareness brought by this dream.'
+      'Dream Theme/Core Image: That "scene in the dream that you care about most". Might be "being chased", "late for an exam", "flying in the air" — this card helps you decode what on earth this scene is saying.',
+      'Hidden Emotion: What emotion deep in your heart is this dream "actually talking about"? Might be "I\'m very anxious", "I\'m afraid of being abandoned", "I desire to be seen" — this card helps you pull out the emotions you haven\'t spoken out.',
+      'Subconscious Message: What does your subconscious "want to tell you through this dream"? Might be "don\'t ignore your body\'s signals", "it\'s time to face that problem you\'ve been afraid to face", or "you actually know the answer, you just don\'t dare to admit it" — this card is the WeChat message your subconscious sent you, don\'t leave it on read.',
+      'Real-life Connection: What is the connection between this dream and the "things happening" in your real life? Might be work stress, had a fight with someone recently, or a decision you\'ve been avoiding — this card helps you connect the dream and reality.',
+      'Advice/Action: Based on the revelation of this dream, what does the Tarot suggest you "do next"? Might be "go talk to that person", "make a decision, stop dragging", or "be gentler to yourself, you\'re already very tired" — see what the card tells you.'
     ],
     category: 'self', difficulty: 'medium', recommended: false, loadingText: '正在解读你的梦境...',
     loadingTextEn: 'Interpreting your dream...',
@@ -730,32 +730,32 @@ const SPREADS = {
     positions: ['第1宫：自我形象', '第2宫：财富资源', '第3宫：沟通学习', '第4宫：家庭根基', '第5宫：创造力', '第6宫：健康服务', '第7宫：伴侣关系', '第8宫：转化重生', '第9宫：人生哲学', '第10宫：事业声望', '第11宫：社交愿景', '第12宫：潜意识'],
     positionsEn: ['1st House: Self Image', '2nd House: Wealth & Resources', '3rd House: Communication & Learning', '4th House: Home & Foundation', '5th House: Creativity', '6th House: Health & Service', '7th House: Partnership', '8th House: Transformation', '9th House: Life Philosophy', '10th House: Career & Reputation', '11th House: Social & Vision', '12th House: Subconscious'],
     positionMeanings: [
-      '第1宫：自我形象。你给外界的第一印象、外貌特征、性格特质和人生的基本态度。',
-      '第2宫：财富资源。你的收入来源、赚钱能力、物质价值观和拥有的资源。',
-      '第3宫：沟通学习。你的沟通方式、学习能力、兄弟姐妹关系、短途旅行和邻里关系。',
-      '第4宫：家庭根基。你的家庭背景、成长环境、内心安全感来源和家族根基。',
-      '第5宫：创造力。你的创造力、恋爱运势、子女缘分、娱乐方式和自我表达。',
-      '第6宫：健康服务。你的健康状况、工作态度、服务精神和日常生活的秩序。',
-      '第7宫：伴侣关系。你的婚姻状况、合作伙伴、一对一关系的模式和质量。',
-      '第8宫：转化重生。你的性关系、他人资源、危机转化能力和深层心理课题。',
-      '第9宫：人生哲学。你的宗教信仰、高等教育、长途旅行和人生哲学观。',
-      '第10宫：事业声望。你的事业发展、社会声望、公众形象和人生目标。',
-      '第11宫：社交愿景。你的朋友圈、社团活动、未来愿景和社会理想。',
-      '第12宫：潜意识。你的潜意识模式、灵性修行、隐藏的恐惧和因果业力。'
+      '第1宫：别人第一次见你"什么感觉"？这张牌告诉你你的"门面"长什么样——可能是"很能打"、"很温柔"，或者"不太好接近"。',
+      '第2宫：你的"钱袋子"和"值钱的地方"。这张牌告诉你你的收入来源、赚钱能力，以及你"觉得自己值多少"。',
+      '第3宫：你的"嘴巴和脑子"。这张牌告诉你你怎么说话、怎么学习、和兄弟姐妹/邻居的关系，以及短途出行的运势。',
+      '第4宫：你的"根"和"内在小孩"。这张牌告诉你你的家庭背景、成长环境，以及你"一个人的时候真正的安全感来源"。',
+      '第5宫：你的"玩心"和"创造力"。这张牌告诉你你的恋爱运势、和孩子的缘分、怎么玩、怎么表达自己。',
+      '第6宫：你的"日常"和"身体"。这张牌告诉你你的健康状况、工作态度、怎么服务别人，以及日常生活的秩序感。',
+      '第7宫：你的"一对一关系"。这张牌告诉你你的婚姻状况、合作伙伴，以及你"在亲密关系里是什么样子"。',
+      '第8宫：你的"深层转化"和"别人的资源"。这张牌告诉你你的性关系、能不能拿到投资/遗产/伴侣的钱，以及你的深层心理课题。',
+      '第9宫：你的"诗和远方"。这张牌告诉你你的宗教信仰、要不要继续读书/出国、长途旅行运势，以及你的人生哲学。',
+      '第10宫：你的"社会面"和"野心"。这张牌告诉你你的事业发展、社会声望、公众形象，以及你"想被记住的样子"。',
+      '第11宫：你的"圈子"和"未来"。这张牌告诉你你的朋友圈、社团活动、未来愿景，以及你的社会理想。',
+      '第12宫：你的"潜意识"和"灵性"。这张牌告诉你你的潜意识模式、灵性修行状态、隐藏的恐惧，以及你的因果业力。'
     ],
     positionMeaningsEn: [
-      '1st House: Self Image. The first impression you give to the outside world, physical appearance, personality traits, and basic attitude toward life.',
-      '2nd House: Wealth & Resources. Your income source, money-making ability, material values, and resources you possess.',
-      '3rd House: Communication & Learning. Your communication style, learning ability, relationship with siblings, short trips, and neighborhood relations.',
-      '4th House: Home & Foundation. Your family background, growing environment, source of inner security, and family roots.',
-      '5th House: Creativity. Your creativity, love fortune, affinity with children, entertainment style, and self-expression.',
-      '6th House: Health & Service. Your health condition, work attitude, service spirit, and order in daily life.',
-      '7th House: Partnership. Your marriage status, cooperative partners, patterns and quality of one-on-one relationships.',
-      '8th House: Transformation. Your sexual relationships, other people\'s resources, crisis transformation ability, and deep psychological issues.',
-      '9th House: Life Philosophy. Your religious beliefs, higher education, long-distance travel, and philosophy of life.',
-      '10th House: Career & Reputation. Your career development, social reputation, public image, and life goals.',
-      '11th House: Social & Vision. Your circle of friends, community activities, future vision, and social ideals.',
-      '12th House: Subconscious. Your subconscious patterns, spiritual practice, hidden fears, and karmic lessons.'
+      '1st House: What do others feel "when they first meet you"? This card tells you what your "storefront" looks like — might be "very capable", "very gentle", or "not very approachable".',
+      '2nd House: Your "money bag" and "where you\'re valuable". This card tells you your income source, money-making ability, and how much you "think you\'re worth".',
+      '3rd House: Your "mouth and brain". This card tells you how you speak, how you learn, your relationship with siblings/neighbors, and fortune for short trips.',
+      '4th House: Your "roots" and "inner child". This card tells you your family background, growing environment, and "the source of your true sense of security when you\'re alone".',
+      '5th House: Your "playfulness" and "creativity". This card tells you your love fortune, affinity with children, how you play, and how you express yourself.',
+      '6th House: Your "daily life" and "body". This card tells you your health condition, work attitude, how you serve others, and the sense of order in daily life.',
+      '7th House: Your "one-on-one relationships". This card tells you your marriage status, cooperative partners, and what you "are like in intimate relationships".',
+      '8th House: Your "deep transformation" and "other people\'s resources". This card tells you your sexual relationships, whether you can get investments/inheritance/partner\'s money, and your deep psychological issues.',
+      '9th House: Your "poetry and distant places". This card tells you your religious beliefs, whether to continue studying/going abroad, fortune for long-distance travel, and your philosophy of life.',
+      '10th House: Your "social face" and "ambition". This card tells you your career development, social reputation, public image, and the "way you want to be remembered".',
+      '11th House: Your "circle" and "future". This card tells you your circle of friends, community activities, future vision, and your social ideals.',
+      '12th House: Your "subconscious" and "spirituality". This card tells you your subconscious patterns, spiritual practice status, hidden fears, and your karmic lessons.'
     ],
     category: 'advanced', difficulty: 'hard', recommended: false, loadingText: '正在展开星座牌阵...',
     loadingTextEn: 'Unfolding the Zodiac spread...',
@@ -769,18 +769,18 @@ const SPREADS = {
     positions: ['前世身份', '未完成课题', '今生挑战', '灵魂成长方向', '建议'],
     positionsEn: ['Past Life Identity', 'Unfinished Lesson', 'Current Life Challenge', 'Soul Growth Direction', 'Advice'],
     positionMeanings: [
-      '前世身份：你在前世的角色、身份或主要经历，影响今生的性格和偏好。',
-      '未完成课题：前世未完成的灵魂课题，今生需要继续学习和体验。',
-      '今生挑战：今生面临的主要挑战和困难，与前世因果密切相关。',
-      '灵魂成长方向：你的灵魂此生想要成长和体验的方向。',
-      '建议：塔罗对你灵魂成长和化解前世业力的建议。'
+      '前世身份：你上辈子"是干啥的"？可能是"宫廷乐师"、"战场上的医生"，或者"在某个小村庄里教孩子们读书"——这张牌帮你连上那条"前世的线"。',
+      '未完成课题：你上辈子"没做完的功课"。可能是"学会放手"、"表达真实的自己"、"服务他人不求回报"——这张牌告诉你，你今生活着活着怎么又碰到这个主题了。',
+      '今生挑战：你这辈子"一直在卡"的地方。可能是"总是遇到渣男/渣女"、"总是觉得自己不够好"、"总是很难信任别人"——这张牌帮你看到，这些"卡点"可能来自前世。',
+      '灵魂成长方向：你的灵魂"这辈子想升级的方向"。可能是"学会爱自己"、"建立健康的边界感"、"活出创造力"——这张牌告诉你，你来到这一世，最想"刷的经验值"是什么。',
+      '建议：塔罗对你"化解前世业力、完成灵魂功课"的建议。可能是"去那个你一直想去的地方旅行"、"学那个你一直想学但被阻止的技能"，或者"去见那个你一直不敢面对的人"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Past Life Identity: Your role, identity, or main experience in past life, which influences your personality and preferences in this life.',
-      'Unfinished Lesson: The soul lesson unfinished in past life, which needs to be continued and experienced in this life.',
-      'Current Life Challenge: The main challenges and difficulties you face in this life, closely related to past life karma.',
-      'Soul Growth Direction: The direction your soul wants to grow and experience in this life.',
-      'Advice: The Tarot\'s advice for your soul growth and resolving past life karma.'
+      'Past Life Identity: What were you "doing in your previous life"? Might be "court musician", "doctor on the battlefield", or "teaching children to read in a small village" — this card helps you connect that "thread from past life".',
+      'Unfinished Lesson: The "homework you didn\'t finish" in your previous life. Might be "learn to let go", "express your true self", "serve others without asking for return" — this card tells you why you encounter this theme again in this life.',
+      'Current Life Challenge: Where you "keep getting stuck" in this lifetime. Might be "always meeting toxic partners", "always feeling not good enough", "always finding it hard to trust others" — this card helps you see that these "stuck points" might come from past life.',
+      'Soul Growth Direction: The direction your soul "wants to level up in this lifetime". Might be "learn to love yourself", "establish healthy boundaries", "live out creativity" — this card tells you what "experience points you most want to grind" in this lifetime.',
+      'Advice: The Tarot\'s advice for you to "resolve past life karma and complete soul lessons". Might be "travel to that place you\'ve always wanted to go", "learn that skill you\'ve always wanted to learn but were stopped from", or "go meet that person you\'ve always dared not to face" — see what the card tells you.'
     ],
     category: 'spiritual', difficulty: 'hard', recommended: false, loadingText: '正在连接前世记忆...',
     loadingTextEn: 'Connecting to past life memories...',
@@ -794,18 +794,18 @@ const SPREADS = {
     positions: ['身体状态', '心理情绪', '根本原因', '疗愈方向', '注意事项'],
     positionsEn: ['Physical Condition', 'Mental & Emotional', 'Root Cause', 'Healing Direction', 'Precautions'],
     positionMeanings: [
-      '身体状态：当前身体的整体状况，需要关注的部位或症状。',
-      '心理情绪：心理状态对身体健康的影响，情绪层面的根源。',
-      '根本原因：导致健康问题的深层次原因，可能是生活方式、情绪积压或环境因素。',
-      '疗愈方向：改善健康状态的建议方向，包括生活习惯、心态调整等。',
-      '注意事项：需要特别留意的症状、行为或健康风险，提醒及时就医。'
+      '身体状态：你的身体"现在啥情况"？这张牌告诉你哪个部位需要注意、最近容易出什么状况，或者你"一直忽略的身体信号"。',
+      '心理情绪：你的"心"怎么影响你的"身"？这张牌告诉你，你的焦虑、压力、情绪积压是怎么"变成身体的症状"的。',
+      '根本原因：为什么身体会出这个问题？这张牌挖到根了——可能是"长期熬夜"、"一直压抑情绪"、"童年创伤的身体记忆"，或者"你一直在做不喜欢的工作"。',
+      '疗愈方向：接下来该怎么调整？这张牌告诉你"对身体最好的做法"——可能是"去睡觉"、"开始运动"、"找人聊聊"，或者"换个环境"。',
+      '注意事项：需要特别留意的"身体红灯"。如果这张牌提示某个部位，建议去医院检查一下，别硬扛。记住：塔罗是辅助，不是医生。'
     ],
     positionMeaningsEn: [
-      'Physical Condition: Current overall physical condition, areas or symptoms that need attention.',
-      'Mental & Emotional: The impact of psychological state on physical health, emotional root causes.',
-      'Root Cause: The deep-seated reason for health problems, may be lifestyle, emotional backlog, or environmental factors.',
-      'Healing Direction: Suggested directions for improving health, including lifestyle habits, mindset adjustment, etc.',
-      'Precautions: Symptoms, behaviors, or health risks that need special attention. Reminder to seek medical advice promptly.'
+      'Physical Condition: What\'s the "current situation with your body"? This card tells you which part needs attention, what problems you\'re prone to recently, or those "body signals you\'ve been ignoring".',
+      'Mental & Emotional: How does your "heart" affect your "body"? This card tells you how your anxiety, stress, and emotional backlog "turn into physical symptoms".',
+      'Root Cause: Why is your body having this problem? This card digs all the way to the root — might be "long-term staying up late", "suppressing emotions all along", "body memory of childhood trauma", or "you\'ve been doing a job you don\'t like".',
+      'Healing Direction: How to adjust next? This card tells you "the best practice for your body" — might be "go sleep", "start exercising", "find someone to talk to", or "change your environment".',
+      'Precautions: The "body red lights" that need special attention. If this card points to a certain body part, consider getting a check-up at the hospital, don\'t tough it out. Remember: Tarot is auxiliary, not a doctor.'
     ],
     category: 'life', difficulty: 'medium', recommended: false, loadingText: '正在展开健康牌阵...',
     loadingTextEn: 'Unfolding the Health spread...',
@@ -819,18 +819,18 @@ const SPREADS = {
     positions: ['你', '父亲', '母亲', '家庭氛围', '改善建议'],
     positionsEn: ['You', 'Father', 'Mother', 'Family Atmosphere', 'Improvement Advice'],
     positionMeanings: [
-      '你：你在这个家庭中的状态、角色和感受。',
-      '父亲：父亲的状态、对你的影响，以及父子/父女关系的质量。',
-      '母亲：母亲的状态、对你的影响，以及母子/母女关系的质量。',
-      '家庭氛围：整个家庭的能量氛围、沟通模式和潜在问题。',
-      '改善建议：塔罗对改善家庭关系和氛围的具体建议。'
+      '你：你在这个家里"是什么角色"？是"那个一直付出的人"、"那个一直被忽略的人"，还是"那个努力调和的人"？这张牌告诉你，你在家庭系统中的位置。',
+      '父亲：你爸"现在啥状态"？这张牌告诉你他的身心状态、对你的真实影响，以及你们的关系质量。别只看"他说了什么"，看牌面告诉你"他实际是什么样"。',
+      '母亲：你妈"现在啥状态"？这张牌告诉你她的身心状态、对你的真实影响，以及你们的关系质量。母女/母子关系往往是我们第一段亲密关系，影响很深。',
+      '家庭氛围：你家的"空气"是什么样的？是温暖的、压抑的、冷漠的，还是"表面和谐实际暗流涌动"的？这张牌帮你看到家庭系统的能量场。',
+      '改善建议：塔罗说"该怎么改善家庭关系"。可能是"主动找爸妈谈一次"、"先改变自己的回应方式"，或者"接受"有些事暂时改不了"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'You: Your state, role, and feelings in this family.',
-      'Father: Father\'s state, his influence on you, and the quality of father-child relationship.',
-      'Mother: Mother\'s state, her influence on you, and the quality of mother-child relationship.',
-      'Family Atmosphere: The energy atmosphere of the whole family, communication patterns, and potential problems.',
-      'Improvement Advice: The Tarot\'s specific advice for improving family relationships and atmosphere.'
+      'You: What "role" are you in this family? Are you "the one who keeps giving", "the one who\'s always ignored", or "the one who tries hard to mediate"? This card tells you your position in the family system.',
+      'Father: What\'s "your dad\'s current state"? This card tells you his physical/mental state, his real influence on you, and the quality of your relationship. Don\'t just look at "what he says", see what the card tells you "what he\'s actually like".',
+      'Mother: What\'s "your mom\'s current state"? This card tells you her physical/mental state, her real influence on you, and the quality of your relationship. Mother-daughter/son relationships are often our first intimate relationship, with deep influence.',
+      'Family Atmosphere: What is the "air" in your home like? Is it warm, suppressive, cold, or "superficially harmonious but with undercurrents"? This card helps you see the energy field of the family system.',
+      'Improvement Advice: What the Tarot says about "how to improve family relationships". Might be "take initiative to have a talk with your parents", "first change your own response pattern", or "accept that some things can\'t be changed temporarily" — see what the card tells you.'
     ],
     category: 'relationship', difficulty: 'medium', recommended: false, loadingText: '正在展开家庭关系牌阵...',
     loadingTextEn: 'Unfolding the Family spread...',
@@ -844,22 +844,22 @@ const SPREADS = {
     positions: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
     positionsEn: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     positionMeanings: [
-      '周一：本周开始时的能量状态，工作/学业的起始运势，需要注意的事项。',
-      '周二：周中前期的能量变化，可能遇到的机遇或挑战，情绪状态。',
-      '周三：一周的中点，能量转折的关键日，需要特别关注的人和事。',
-      '周四：周中后期的能量走向，工作/学业进展，人际互动状况。',
-      '周五：临近周末的能量状态，心情与社交运势，适合安排的活动。',
-      '周六：周末第一天的能量，休息与娱乐运势，家庭与社交活动。',
-      '周日：周末收尾与下周准备，能量总结与调整，下周运势的预兆。'
+      '周一：这周"开局"是什么样的？是"满血复活"还是"不想起床"？这张牌告诉你周一的能量状态，以及本周初期需要注意什么。',
+      '周二：周中前期的"小转折"。可能是"突然来活了"、"碰到那个让你烦的人"，或者"情绪突然低落"——这张牌告诉你周二大概会发生什么。',
+      '周三：一周的"分水岭"。这张牌告诉你周三能量会怎么转折——可能是"前半周很累，后半周开始好转"，或者"前半周很顺，后半周要小心"。',
+      '周四：快要周末了，能量"是升还是降"？这张牌告诉你周四的工作/学业进展、人际互动状况，以及"能不能顺利等到周五"。',
+      '周五：临近周末的"心情指数"。这张牌告诉你周五的能量状态、社交运势，以及"适合安排什么活动"——是去社交还是在家躺平。',
+      '周六：周末第一天的"打开方式"。这张牌告诉你周六适合做什么——是出去玩、约会，还是"适合在家休息充电"。',
+      '周日：周末收尾与"下周预热"。这张牌告诉你周日的能量状态、需要为下周做什么准备，以及"下周大概会是什么画风"。'
     ],
     positionMeaningsEn: [
-      'Mon: Energy state at the start of the week, work/study fortune at the beginning, things to note.',
-      'Tue: Energy changes in the early mid-week, possible opportunities or challenges, emotional state.',
-      'Wed: The midpoint of the week, a key day for energy shifts, people and things to pay special attention to.',
-      'Thu: Energy trend in the late mid-week, work/study progress, interpersonal interaction status.',
-      'Fri: Energy state approaching the weekend, mood and social fortune, suitable activities to arrange.',
-      'Sat: Energy on the first day of the weekend, rest and entertainment fortune, family and social activities.',
-      'Sun: Weekend wrap-up and next week preparation, energy summary and adjustment, omens for next week\'s fortune.'
+      'Mon: What is this week\'s "opening" like? Is it "fully resurrected" or "don\'t want to get out of bed"? This card tells you Monday\'s energy state and what to note in the early part of this week.',
+      'Tue: The "small turning point" in the early mid-week. Might be "suddenly got work", "ran into that annoying person", or "mood suddenly dipped" — this card tells you what might happen on Tuesday.',
+      'Wed: The "watershed" of the week. This card tells you how the energy will turn on Wednesday — might be "first half of the week is tiring, second half starts to get better", or "first half is smooth, need to be careful in the second half".',
+      'Thu: Almost the weekend, is energy "rising or falling"? This card tells you Thursday\'s work/study progress, interpersonal interaction status, and "whether you can smoothly wait until Friday".',
+      'Fri: The "mood index" approaching the weekend. This card tells you Friday\'s energy state, social fortune, and "what activities are suitable to arrange" — go socialize or lie flat at home.',
+      'Sat: The "opening mode" of the first day of the weekend. This card tells you what Saturday is suitable for — going out to play, dating, or "suitable for resting and recharging at home".',
+      'Sun: Weekend wrap-up and "next week preheat". This card tells you Sunday\'s energy state, what preparations need to be made for next week, and "what the style of next week will probably be like".'
     ],
     category: 'fortune', difficulty: 'medium', recommended: true, loadingText: '正在展开一周运势...',
     loadingTextEn: 'Unfolding the Weekly Fortune spread...',
@@ -873,18 +873,18 @@ const SPREADS = {
     positions: ['创作瓶颈根源', '灵感方向', '需要突破的点', '创作能量状态', '建议'],
     positionsEn: ['Root of Creative Block', 'Inspiration Direction', 'Breakthrough Point', 'Creative Energy', 'Advice'],
     positionMeanings: [
-      '创作瓶颈根源：导致你卡文、没有灵感或创作停滞的深层原因，可能是内在恐惧、外在压力或能量枯竭。',
-      '灵感方向：宇宙/潜意识想给你的创作灵感方向，值得关注的主题、意象或路径。',
-      '需要突破的点：你在创作中需要勇敢跨出去的那一步，可能是风格突破、题材拓展或表达方式的改变。',
-      '创作能量状态：你当前的创作能量是否充沛，是灵感迸发期还是沉淀积累期。',
-      '建议：塔罗对你创作之路的具体建议，包括如何找回灵感、突破瓶颈或调整创作节奏。'
+      '创作瓶颈根源：你"卡住"的真正原因。可能是"怕写出来的东西没人看"、"最近太累了脑子转不动"，或者"被别人的好评绑架了，不敢写真实的自己"——这张牌帮你挖到根。',
+      '灵感方向：宇宙"想给你"的灵感。可能是"去写那个你一直想写但不敢写的题材"、"去试试那个你一直好奇的风格"，或者"去那个地方住几天，灵感会来找你"——这张牌是宇宙的灵感快递。',
+      '需要突破的点：你在创作上"一直不敢跨出去"的那一步。可能是"开始写那个敏感话题"、"把作品发出去给别人看"，或者"放弃完美主义，先完成再完美"——这张牌推你一把。',
+      '创作能量状态：你现在的"创作电池"还剩多少格？这张牌告诉你，现在是"灵感大爆发期"（赶紧写），还是"需要充电期"（去生活里找灵感，别硬写）。',
+      '建议：塔罗对你创作之路的具体建议。可能是"每天写500字别管好坏"、"去找个老师/搭子聊聊"，或者"先去休息几天，灵感会在你放松时来找你"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Root of Creative Block: The deep reason causing your writer\'s block, lack of inspiration, or creative stagnation. May be inner fear, external pressure, or energy depletion.',
-      'Inspiration Direction: The direction of creative inspiration that the universe/subconscious wants to give you. Themes, imagery, or paths worth paying attention to.',
-      'Breakthrough Point: The step you need to bravely take in your creation. May be style breakthrough, genre expansion, or change of expression.',
-      'Creative Energy: Whether your current creative energy is abundant, whether this is a period of inspiration burst or accumulation and sedimentation.',
-      'Advice: The Tarot\'s specific advice for your creative path, including how to regain inspiration, break through bottlenecks, or adjust creative rhythm.'
+      'Root of Creative Block: The real reason you\'re "stuck". Might be "afraid that what you write won\'t have readers", "recently too tired and brain can\'t turn", or "kidnapped by others\' positive reviews, don\'t dare to write your true self" — this card helps you dig to the root.',
+      'Inspiration Direction: The inspiration the universe "wants to give you". Might be "go write that theme you\'ve always wanted to write but didn\'t dare to", "go try that style you\'ve always been curious about", or "go stay in that place for a few days, inspiration will come find you" — this card is the universe\'s inspiration delivery.',
+      'Breakthrough Point: That step you\'ve "never dared to take" in creation. Might be "start writing that sensitive topic", "send your work out for others to see", or "abandon perfectionism, complete it first then make it perfect" — this card gives you a push.',
+      'Creative Energy: How many "bars" are left in your "creative battery" right now? This card tells you whether this is "inspiration explosion period" (write quickly) or "need to recharge period" (go find inspiration in life, don\'t force yourself to write).',
+      'Advice: The Tarot\'s specific advice for your creative path. Might be "write 500 words every day, don\'t care about good or bad", "go find a teacher/buddy to talk to", or "go rest for a few days first, inspiration will come find you when you relax" — see what the card tells you.'
     ],
     category: 'spiritual', difficulty: 'medium', recommended: true, loadingText: '正在连接创作灵感...',
     loadingTextEn: 'Connecting to creative inspiration...',
@@ -898,18 +898,18 @@ const SPREADS = {
     positions: ['当前财务状况', '投资风险', '潜在收益', '时间因素', '建议'],
     positionsEn: ['Current Finance', 'Investment Risk', 'Potential Return', 'Timing', 'Advice'],
     positionMeanings: [
-      '当前财务状况：你的财务能量状态，收入/支出趋势，当前的财务安全感或焦虑感来源。',
-      '投资风险：这个财务决策潜在的风险点，可能亏损的方式，需要格外留心的因素。',
-      '潜在收益：这个决策可能带来的回报或收益，不仅是金钱层面，也包括机会和成长。',
-      '时间因素：时机是否合适，短期/长期影响，何时能看到结果，时间轴上的注意事项。',
-      '建议：塔罗对这次财务决策的具体建议，包括是否行动、如何规避风险、何时进退。'
+      '当前财务状况：你的钱包"现在啥情况"？这张牌告诉你你的财务能量状态——是在"土里有钱花"，还是在"月光族边缘"？',
+      '投资风险：如果你投了，钱"可能怎么没的"？这张牌告诉你潜在的风险点——可能是市场波动、被人忽悠，或者你自己的贪婪。',
+      '潜在收益：如果这个决策做对了，你能"赚到什么"？这张牌告诉你可能的回报——不仅是钱，也可能是机会、经验、或者"避开了一次大坑"。',
+      '时间因素：这个财务决策的"时机"对不对？这张牌告诉你短期/长期影响、什么时候能看到结果，以及"现在是不是出手的好时机"。',
+      '建议：塔罗说"该不该投/该不该花"？可能是"可以投，但别 all-in"、"再等两周看看"，或者"这钱别动，存着更香"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'Current Finance: Your financial energy state, income/expense trends, source of financial security or anxiety.',
-      'Investment Risk: Potential risks of this financial decision, ways you might lose money, factors requiring extra caution.',
-      'Potential Return: Possible returns or gains from this decision, not only in monetary terms but also opportunities and growth.',
-      'Timing: Whether the timing is right, short/long-term impact, when results will be seen, timeline considerations.',
-      'Advice: The Tarot\'s specific advice for this financial decision, including whether to act, how to avoid risks, when to advance or retreat.'
+      'Current Finance: What\'s the "current situation with your wallet"? This card tells you your financial energy state — are you "having money to spend when there\'s land", or on the "edge of being a moonlight clan"?',
+      'Investment Risk: If you invest, how might "the money possibly disappear"? This card tells you the potential risk points — might be market volatility, being tricked by someone, or your own greed.',
+      'Potential Return: If this decision is made correctly, what can you "earn"? This card tells you the possible returns — not only money, but also opportunities, experience, or "avoided a big pit".',
+      'Timing: Is the "timing" of this financial decision right? This card tells you short/long-term impact, when you can see results, and "whether now is a good time to make a move".',
+      'Advice: What the Tarot says about "should I invest/spend or not"? Might be "you can invest, but don\'t all-in", "wait two more weeks and see", or "don\'t touch this money, saving is more fragrant" — see what the card tells you.'
     ],
     category: 'life', difficulty: 'medium', recommended: true, loadingText: '正在解读财务状况...',
     loadingTextEn: 'Analyzing financial situation...',
@@ -923,16 +923,16 @@ const SPREADS = {
     positions: ['要舍弃的对象本质', '不舍的原因', '舍弃后的收获', '建议'],
     positionsEn: ['What to Let Go', 'Reason for Attachment', 'Gain After Letting Go', 'Advice'],
     positionMeanings: [
-      '要舍弃的对象本质：你当前需要放下的人、事、物或习惯的本质，它对你当下的影响是什么。',
-      '不舍的原因：你为什么难以放手，执着的深层原因，可能是恐惧、习惯、期待或自我认同的绑定。',
-      '舍弃后的收获：当你真正放下之后，会获得什么——可能是自由、能量、新机会或内心的平静。',
-      '建议：塔罗对你「断舍离」之路的具体建议，包括如何放手、放下的步骤、以及放下后如何重建。'
+      '要舍弃的对象本质：你"一直舍不得扔"的那个人/事/物/习惯到底是什么？这张牌帮你看到它的本质——是"已经没用的执念"、"消耗你的关系"，还是"你用来逃避现实的借口"？',
+      '不舍的原因：为什么"扔不掉"？这张牌告诉你深层原因——可能是"怕以后用得上"、"丢了这个我就不是我了"，或者"这是我最后的尊严"。',
+      '舍弃后的收获：如果你真的"放下了"，生活会怎么样？这张牌告诉你舍弃后的收获——可能是"突然轻松了"、"有能量做自己喜欢的事了"，或者"房间和心都空出来，新的人事物可以进来了"。',
+      '建议：塔罗说"该怎么断舍离"。可能是"先从扔一件衣服开始"、"给那段关系一个正式的告别仪式"，或者"找个信任的朋友帮你一起清理"——看牌面告诉你什么。'
     ],
     positionMeaningsEn: [
-      'What to Let Go: The essence of the person, thing, habit, or situation you need to release right now, and how it affects you.',
-      'Reason for Attachment: Why you find it hard to let go. The deep reason for your attachment — may be fear, habit, expectation, or identity bond.',
-      'Gain After Letting Go: What you will gain after truly letting go — may be freedom, energy, new opportunities, or inner peace.',
-      'Advice: The Tarot\'s specific advice for your decluttering journey — how to let go, steps for release, and how to rebuild afterward.'
+      'What to Let Go: What is that person/thing/habit you "haven\'t been able to bear to throw away" exactly? This card helps you see its essence — is it "an attachment that\'s already useless", "a relationship that\'s draining you", or "an excuse you use to avoid reality"?',
+      'Reason for Attachment: Why can\'t you "throw it away"? This card tells you the deep reason — might be "afraid it\'ll be useful later", "if I throw this away I won\'t be me anymore", or "this is my last dignity".',
+      'Gain After Letting Go: If you really "let go", what will life be like? This card tells you the gains after letting go — might be "suddenly feeling light", "having energy to do things I like", or "both the room and heart are emptied out, new people/things can come in".',
+      'Advice: What the Tarot says about "how to declutter". Might be "start with throwing away one piece of clothing", "give that relationship a formal farewell ritual", or "find a trusted friend to help you clean together" — see what the card tells you.'
     ],
     category: 'self', difficulty: 'easy', recommended: true, loadingText: '正在清理能量场...',
     loadingTextEn: 'Clearing your energy field...',
