@@ -536,6 +536,33 @@ const SPREADS = {
     usage: '适合考前占卜，了解考试结果、复习重点和需要注意的事项。也适用于面试、资格考试等场景。',
     usageEn: 'Suitable for divination before exams. Understand exam results, key review points, and things to note. Also applicable to interviews, qualification exams, etc.'
   },
+  // ============ 新增办公室人际牌阵 ============
+  office: {
+    name: '办公室人际牌阵',
+    nameEn: 'Office Interpersonal Spread',
+    positions: ['你的职场形象', '同事对你的看法', '上司/领导对你的看法', '职场人际隐患', '改善人际的建议', '最终职场关系走向'],
+    positionsEn: ['Your Workplace Image', 'Colleagues\' View of You', 'Supervisor\'s View of You', 'Interpersonal Risks', 'Advice for Improvement', 'Final Workplace Relationship Outlook'],
+    positionMeanings: [
+      '你的职场形象：你在办公室中展现出来的形象和给人的第一印象，以及你如何看待自己在工作中的角色。',
+      '同事对你的看法：你的同事们真正怎么看待你，他们对你的真实态度和评价，以及你们之间的互动模式。',
+      '上司/领导对你的看法：你的上级或领导对你的评价和期望，他们在职场中如何看待你的能力和表现。',
+      '职场人际隐患：办公室人际关系中潜在的问题和矛盾，可能被忽视的人际冲突或误解。',
+      '改善人际的建议：塔罗牌对于如何改善办公室人际关系、化解矛盾、提升职场人缘的具体建议。',
+      '最终职场关系走向：基于当前状况，未来一段时间办公室人际关系的发展趋势和可能的结果。'
+    ],
+    positionMeaningsEn: [
+      'Your Workplace Image: The image you project in the office and the first impression you give, and how you see your role at work.',
+      'Colleagues\' View of You: How your colleagues truly see you, their real attitude and evaluation of you, and your interaction patterns.',
+      'Supervisor\'s View of You: Your supervisor\'s or leader\'s evaluation and expectations of you, how they see your performance.',
+      'Interpersonal Risks: Potential problems and conflicts in office relationships, interpersonal conflicts or misunderstandings that may be overlooked.',
+      'Advice for Improvement: The Tarot\'s specific advice on how to improve office relationships, resolve conflicts, and enhance workplace popularity.',
+      'Final Workplace Relationship Outlook: Based on the current situation, the development trend and possible outcome of office relationships in the coming period.'
+    ],
+    category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在展开办公室人际牌阵...',
+    loadingTextEn: 'Unfolding the Office Interpersonal spread...',
+    usage: '适合想了解办公室人际关系、改善同事关系、了解上司看法等场景。帮助你更好地 navigate 职场人际。',
+    usageEn: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc. Helps you better navigate workplace interpersonal dynamics.'
+  },
   // ============ 新增命运走向牌阵 ============
   fatewheel: {
     name: '命运之轮',
@@ -951,6 +978,9 @@ const I18N = {
     spread_finance_name: '财务投资',
     spread_finance_desc: '5张牌 · 财务决策指引',
     finance_tip: '适合投资理财决策、大额消费、买房/买车等财务决策前使用。',
+    spread_office_name: '办公室人际牌阵',
+    spread_office_desc: '6张牌 · 职场人际关系分析',
+    office_tip: '适合想了解办公室人际关系、改善同事关系、了解上司看法等场景。',
     spread_declutter_name: '断舍离',
     spread_declutter_desc: '4张牌 · 放下执念与清理',
     declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
@@ -1317,6 +1347,9 @@ const I18N = {
     timeflow_tip: 'Analyze the problem through time dimensions. See the past, present and future clearly.',
     action_tip: 'Simple three-card spread. Quickly clarify the core issue and best action direction.',
     mind_tip: 'For self-exploration and inner growth. Helps see consciousness, subconscious, ideal and reality.',
+    spread_office_name: 'Office Interpersonal',
+    spread_office_desc: '6 cards · Workplace relationship analysis',
+    office_tip: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc.',
     fortune_overall: '★ Overall Fortune',
     fortune_dimensions: '➡ Dimension Scores',
     fortune_lucky_info: '💫 Lucky Info',

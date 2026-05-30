@@ -4123,6 +4123,8 @@
         case 'finance':   this.drawFinance(); break;
         // 新增：断舍离牌阵
         case 'declutter': this.drawDeclutter(); break;
+        // 新增：办公室人际牌阵
+        case 'office':     this.drawOffice(); break;
       }
     }
 
@@ -4164,6 +4166,11 @@
     // ============ 新增断舍离牌阵 ============
     drawDeclutter() {
       this.drawStandardSpread('declutter', 60, 96);
+    }
+
+    // ============ 新增办公室人际牌阵 ============
+    drawOffice() {
+      this.drawStandardSpread('office', 55, 88);
     }
 
     // ============ 返回欢迎页 ============
@@ -6324,6 +6331,8 @@
               case 'finance':   this.drawFinance(); break;
               // 新增：断舍离牌阵
               case 'declutter': this.drawDeclutter(); break;
+              // 新增：办公室人际牌阵
+              case 'office':     this.drawOffice(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
