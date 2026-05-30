@@ -153,7 +153,7 @@ const SPREADS = {
       'Suggested Action: The action direction the Tarot suggests you take.',
       'Possible Outcome: The possible result if you act on the suggestion.'
     ],
-    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开五张牌阵...',
+    category: 'decision', difficulty: 'medium', recommended: false, loadingText: '正在展开五张牌阵...',
     loadingTextEn: 'Unfolding the five-card spread...',
     usage: '适合分析任何类型的问题，从问题核心到解决方案，层层递进。',
     usageEn: 'Suitable for analyzing any type of problem, from the core issue to the solution, layer by layer.'
@@ -229,7 +229,7 @@ const SPREADS = {
       'Root Cause: The root cause hidden behind the problem.',
       'Possible Outcome: The state that may eventually appear after integrating all factors.'
     ],
-    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
+    category: 'fortune', difficulty: 'medium', recommended: false, loadingText: '正在展开时间之流...',
     loadingTextEn: 'Unfolding the Time Flow spread...',
     usage: '在时间维度上全面分析问题，适合想要看清事情来龙去脉的情况。',
     usageEn: 'Comprehensively analyze problems across the time dimension. Suitable for situations where you want to see the whole story.'
@@ -427,7 +427,7 @@ const SPREADS = {
       'Things to Note: People, events, or things that need special attention this year.',
       'Annual Advice: The Tarot\'s advice for overall actions this year.'
     ],
-    category: 'advanced', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
+    category: 'fortune', difficulty: 'hard', recommended: false, loadingText: '正在展开年运牌阵...',
     loadingTextEn: 'Unfolding the Yearly spread...',
     usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     usageEn: 'Suitable for drawing at New Year or birthday to understand the fortune trend and development in various fields for the whole year.'
@@ -452,7 +452,7 @@ const SPREADS = {
       'Obstacle: Reasons preventing you from finding the item. Reversed cards mean you\'re overlooking the most obvious place or your memory is inaccurate; Sword cards mean the item is blocked by other objects, has been moved, or information is confused; Cup cards mean emotional stress or absent-mindedness is blurring your memory; Pentacle cards mean the item is covered by clutter, placed in an unusual spot, or you forgot where it was put.',
       'Advice/Can It Be Found: The Tarot\'s action advice and the likelihood of recovery. Upright cards lean toward recoverable — search carefully in the direction and place indicated by the cards, don\'t give up; reversed cards lean toward difficult to recover — it may have been taken by someone else, discarded, or lost outside. If a Major Arcana appears, the item has important significance to you and is worth persistent searching; if a number card appears, check each specific location as indicated.'
     ],
-    category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在寻找失物...',
+    category: 'life', difficulty: 'easy', recommended: false, loadingText: '正在寻找失物...',
     loadingTextEn: 'Searching for your lost item...',
     usage: '适合物品遗失后使用，帮助定位失物位置、获取寻找线索和判断是否还能找回。',
     usageEn: 'Suitable for use after losing an item. Helps locate the lost item, get search clues, and determine if it can still be found.'
@@ -500,7 +500,7 @@ const SPREADS = {
       'Gains & Experiences: The gains, experiences, insights, or unexpected surprises this trip can bring you.',
       'Advice: The Tarot\'s specific advice for this trip, including travel timing, preparation, mindset adjustment, etc.'
     ],
-    category: 'decision', difficulty: 'easy', recommended: true, loadingText: '正在展开旅行牌阵...',
+    category: 'life', difficulty: 'easy', recommended: true, loadingText: '正在展开旅行牌阵...',
     loadingTextEn: 'Unfolding the Travel spread...',
     usage: '适合出行前占卜，了解旅行整体状况、注意事项和旅途收获，帮助做出更明智的出行决策。',
     usageEn: 'Suitable for divination before traveling. Understand the overall travel situation, things to note, and travel gains, helping to make wiser travel decisions.'
@@ -531,7 +531,7 @@ const SPREADS = {
       'Possible Obstacles: Inner or outer obstacles you may encounter on the path to fulfilling your mission.',
       'Advice: The Tarot\'s advice on how to move toward your life purpose and live as your true self.'
     ],
-    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开人生使命牌阵...',
+    category: 'spiritual', difficulty: 'hard', recommended: false, loadingText: '正在展开人生使命牌阵...',
     loadingTextEn: 'Unfolding the Life Purpose spread...',
     usage: '适合在人生转折点、迷茫期或想要寻找人生意义和方向时使用，帮助探索天命与使命。',
     usageEn: 'Suitable for use at life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.'
@@ -608,7 +608,7 @@ const SPREADS = {
       'Traps to Watch Out: Obstacles and traps to watch out for on the road of fate, may miss good opportunities or encounter setbacks due to negligence.',
       'Final Fate Outcome: The final fate outcome of this matter, the most likely result after integrating all factors, where the Wheel of Fortune finally stops.'
     ],
-    category: 'advanced', difficulty: 'medium', recommended: true, loadingText: '正在转动命运之轮...',
+    category: 'fortune', difficulty: 'medium', recommended: true, loadingText: '正在转动命运之轮...',
     loadingTextEn: 'Turning the Wheel of Fortune...',
     usage: '适合询问某件事的命运走向，了解命运的转变点和隐藏机遇，帮助把握命运的方向。',
     usageEn: 'Suitable for asking about the fate trend of something, understanding the turning points and hidden opportunities of fate, helping to grasp the direction of fate.'
@@ -633,7 +633,7 @@ const SPREADS = {
       'Health/Wealth: Physical health status and financial fortune this month.',
       'Things to Note: People/events/things to pay special attention to, and the Tarot\'s advice.'
     ],
-    category: 'advanced', difficulty: 'easy', recommended: true, loadingText: '正在展开月运牌阵...',
+    category: 'fortune', difficulty: 'easy', recommended: true, loadingText: '正在展开月运牌阵...',
     loadingTextEn: 'Unfolding the Monthly Fortune spread...',
     usage: '适合月初或任意时间抽取，了解未来一个月各方面的运势走向和需要注意的事项。',
     usageEn: 'Suitable for drawing at the beginning of the month or anytime to understand the fortune trends for the coming month.'
@@ -666,7 +666,7 @@ const SPREADS = {
       'Growth Direction: Based on your current state, the most suitable direction for your soul\'s next growth.',
       'Comprehensive Advice: The Tarot\'s overall advice for your soul journey and what you most need to do right now.'
     ],
-    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在展开灵魂旅程...',
+    category: 'spiritual', difficulty: 'hard', recommended: false, loadingText: '正在展开灵魂旅程...',
     loadingTextEn: 'Unfolding the Soul Journey spread...',
     usage: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
     usageEn: 'Suitable for use during spiritual growth, inner exploration, or life turning points. Helps connect with higher self and clarify soul lessons and growth direction.'
@@ -755,7 +755,7 @@ const SPREADS = {
       'Soul Growth Direction: The direction your soul wants to grow and experience in this life.',
       'Advice: The Tarot\'s advice for your soul growth and resolving past life karma.'
     ],
-    category: 'self', difficulty: 'hard', recommended: false, loadingText: '正在连接前世记忆...',
+    category: 'spiritual', difficulty: 'hard', recommended: false, loadingText: '正在连接前世记忆...',
     loadingTextEn: 'Connecting to past life memories...',
     usage: '适合探索灵魂成长、理解今生的重复模式、寻找生命课题。需要一定灵性基础。',
     usageEn: 'Suitable for exploring soul growth, understanding recurring patterns in this life, and finding life lessons. Requires some spiritual foundation.'
@@ -780,7 +780,7 @@ const SPREADS = {
       'Healing Direction: Suggested directions for improving health, including lifestyle habits, mindset adjustment, etc.',
       'Precautions: Symptoms, behaviors, or health risks that need special attention. Reminder to seek medical advice promptly.'
     ],
-    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开健康牌阵...',
+    category: 'life', difficulty: 'medium', recommended: false, loadingText: '正在展开健康牌阵...',
     loadingTextEn: 'Unfolding the Health spread...',
     usage: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
     usageEn: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.'
@@ -834,7 +834,7 @@ const SPREADS = {
       'Sat: Energy on the first day of the weekend, rest and entertainment fortune, family and social activities.',
       'Sun: Weekend wrap-up and next week preparation, energy summary and adjustment, omens for next week\'s fortune.'
     ],
-    category: 'advanced', difficulty: 'medium', recommended: true, loadingText: '正在展开一周运势...',
+    category: 'fortune', difficulty: 'medium', recommended: true, loadingText: '正在展开一周运势...',
     loadingTextEn: 'Unfolding the Weekly Fortune spread...',
     usage: '适合周日或周一抽取，了解未来一周每天的运势走向，提前做好规划与准备。',
     usageEn: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week, and plan ahead.'
@@ -859,7 +859,7 @@ const SPREADS = {
       'Creative Energy: Whether your current creative energy is abundant, whether this is a period of inspiration burst or accumulation and sedimentation.',
       'Advice: The Tarot\'s specific advice for your creative path, including how to regain inspiration, break through bottlenecks, or adjust creative rhythm.'
     ],
-    category: 'self', difficulty: 'medium', recommended: true, loadingText: '正在连接创作灵感...',
+    category: 'spiritual', difficulty: 'medium', recommended: true, loadingText: '正在连接创作灵感...',
     loadingTextEn: 'Connecting to creative inspiration...',
     usage: '适合创作者卡文、寻找灵感方向、或想要突破创作瓶颈时使用。也适用于任何需要创意发想的情境。',
     usageEn: 'Suitable for creators facing writer\'s block, seeking inspiration direction, or wanting to break through creative bottlenecks. Also applicable to any situation requiring creative ideas.'
@@ -884,7 +884,7 @@ const SPREADS = {
       'Timing: Whether the timing is right, short/long-term impact, when results will be seen, timeline considerations.',
       'Advice: The Tarot\'s specific advice for this financial decision, including whether to act, how to avoid risks, when to advance or retreat.'
     ],
-    category: 'decision', difficulty: 'medium', recommended: true, loadingText: '正在解读财务状况...',
+    category: 'life', difficulty: 'medium', recommended: true, loadingText: '正在解读财务状况...',
     loadingTextEn: 'Analyzing financial situation...',
     usage: '适合投资理财决策、大额消费、买房/买车等财务决策前使用。帮助你从能量层面看清财务风险与机会。',
     usageEn: 'Suitable for investment decisions, large purchases, buying a house/car, etc. Helps you see financial risks and opportunities from an energy perspective.'
@@ -983,7 +983,10 @@ const I18N = {
     cat_relationship: '情感关系',
     cat_decision: '决策分析',
     cat_advanced: '深度专题',
+    cat_fortune: '运势预测',
+    cat_life: '生活决策',
     cat_career: '事业学业',
+    cat_spiritual: '灵性成长',
     badge_recommended: '★ 推荐',
     spread_single_name: '单牌阵',
     spread_single_desc: '1张牌 · 每日指引 / 快速决策',
@@ -1343,7 +1346,10 @@ const I18N = {
     cat_relationship: 'Love & Relationship',
     cat_decision: 'Decision Analysis',
     cat_advanced: 'Advanced Topics',
+    cat_fortune: 'Fortune Forecast',
+    cat_life: 'Life Decisions',
     cat_career: 'Career & Study',
+    cat_spiritual: 'Spiritual Growth',
     badge_recommended: '★ Recommended',
     spread_single_name: 'Single Card',
     spread_single_desc: '1 card · Daily guidance / Quick decision',

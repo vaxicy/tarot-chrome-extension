@@ -5877,7 +5877,7 @@
           const category = (spread.category || '').toLowerCase();
           const difficulty = (spread.difficulty || '').toLowerCase();
 
-              const categoryKeyMap = { simple: 'cat_simple', relationship: 'cat_relationship', decision: 'cat_decision', advanced: 'cat_advanced', career: 'cat_career', self: 'cat_self' };
+              const categoryKeyMap = { simple: 'cat_simple', relationship: 'cat_relationship', decision: 'cat_decision', advanced: 'cat_advanced', career: 'cat_career', self: 'cat_self', fortune: 'cat_fortune', spiritual: 'cat_spiritual', life: 'cat_life' };
           const catKey = categoryKeyMap[spread.category] || '';
           const catName = (this.t(catKey) || '') + (spread.category || '');
           const matches = nameZh.includes(query) || nameEn.includes(query)
@@ -6225,12 +6225,56 @@
         this.initSpreadHoverPreview();
         this.initSpreadFavorites();
         this.initCategoryCollapse();
+        this.updateCategoryCounts();  // 动态计算分类数量
         this.updateFortuneDate();
 
         console.log('Tarot App 初始化完成');
       } catch (err) {
         console.error('初始化错误:', err);
       }
+    }
+
+    // ============ 动态更新分类牌阵数量 ============
+    updateCategoryCounts() {
+      if (typeof SPREADS === 'undefined') return;
+      
+      // 统计每个 category 的牌阵数量
+      const counts = {};
+      Object.values(SPREADS).forEach(spread => {
+        const cat = spread.category || 'other';
+        counts[cat] = (counts[cat] || 0) + 1;
+      });
+
+      // 遍历所有分类标题，更新对应的数量显示
+      const categories = document.querySelectorAll('.spread-category');
+      categories.forEach(cat => {
+        const header = cat.querySelector('.spread-category-header');
+        if (!header) return;
+        const titleEl = header.querySelector('.category-title');
+        if (!titleEl) return;
+        const i18nKey = titleEl.dataset.i18nKey;
+        if (!i18nKey) return;
+
+        // 将 i18n key 映射到 category 名称
+        const keyToCategory = {
+          'cat_simple': 'simple',
+          'cat_relationship': 'relationship',
+          'cat_decision': 'decision',
+          'cat_advanced': 'advanced',
+          'cat_career': 'career',
+          'cat_self': 'self',
+          'cat_fortune': 'fortune',
+          'cat_spiritual': 'spiritual',
+          'cat_life': 'life'
+        };
+        const category = keyToCategory[i18nKey];
+        if (!category) return;
+
+        const countEl = header.querySelector('.category-count');
+        if (countEl) {
+          countEl.textContent = counts[category] || 0;
+        }
+      });
     }
 
     // ============ 牌阵分类折叠 ============
@@ -6574,8 +6618,6 @@
             let show = false;
             if (filter === 'all') {
               show = true;
-            } else if (filter === 'advanced') {
-              show = spread.difficulty === 'hard';
             } else {
               show = spread.category === filter;
             }
@@ -6617,7 +6659,8 @@
       const categoryKeyMap = {
         simple: 'cat_simple', relationship: 'cat_relationship', decision: 'cat_decision',
         advanced: 'cat_advanced', career: 'cat_career',
-        self: 'cat_self'
+        self: 'cat_self', fortune: 'cat_fortune',
+        spiritual: 'cat_spiritual', life: 'cat_life'
       };
       const catKey = categoryKeyMap[spread.category] || spread.category;
       const catLabel = this.t(catKey) || spread.category;
