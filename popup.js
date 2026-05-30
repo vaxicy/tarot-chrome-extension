@@ -1327,6 +1327,20 @@
             text += ' Travel spread advice: The best travel is not "perfectly executing the plan", but "greeting surprises with an open heart". When reversed cards appear, those may be the most unforgettable moments of the journey.';
           }
           break;
+        case 'finance':
+          if (!isEn) {
+            text += ' 财务投资牌阵建议：塔罗解读的是能量趋势，不等于投资建议。任何财务决策请结合自身风险承受能力和专业理财意见，切勿孤注一掷。';
+          } else {
+            text += ' Finance spread advice: Tarot interprets energy trends, not investment advice. Any financial decision should combine with your own risk tolerance and professional advice. Never put all your eggs in one basket.';
+          }
+          break;
+        case 'declutter':
+          if (!isEn) {
+            text += ' 断舍离牌阵建议：断舍离不是"丢弃一切"，而是"留下真正重要的"。如果某样东西让你犹豫，说明你还需要它——真正的放下是自然而然的。';
+          } else {
+            text += ' Declutter spread advice: Decluttering is not "throwing away everything", but "keeping what truly matters". If something makes you hesitate, you still need it — true letting go happens naturally.';
+          }
+          break;
         default:
           break;
       }
@@ -1544,8 +1558,17 @@
 
       // 获取关键词
       let keywordsData;
-      if (card.suit === 'major' && majorKeywords[card.id]) {
-        keywordsData = majorKeywords[card.id];
+      if (card.suit === 'major') {
+        // 兼容 card.id 为数字或字符串的情况
+        let majorKey = card.id;
+        if (typeof card.id === 'number') {
+          majorKey = `major-${String(card.id).padStart(2, '0')}`;
+        }
+        if (majorKeywords[majorKey]) {
+          keywordsData = majorKeywords[majorKey];
+        } else {
+          keywordsData = defaultKeywords;
+        }
       } else {
         keywordsData = defaultKeywords;
       }
@@ -2308,13 +2331,54 @@
             } else {
               text += ' 「投资风险」正位，风险是可见且可控的，关键在于你是否有足够的心理准备和资金准备去面对。';
             }
+            if (cards[2].isReversed) {
+              text += ' 「潜在收益」逆位，预示回报可能不如预期，或需要更长周期才能看到收益，做好心理准备。';
+            } else {
+              text += ' 「潜在收益」正位，预示这个决策有实质性回报潜力，值得认真考虑。';
+            }
             if (cards[3].isReversed) {
-              text += ' 「时间因素」逆位， timing 可能不太对——要么是太着急，要么是拖延太久。耐心等待更好的时机可能会更好。';
+              text += ' 「时间因素」逆位，时机可能不太对——要么是太着急，要么是拖延太久。耐心等待更好的时机可能会更好。';
+            } else {
+              text += ' 「时间因素」正位，时机基本合适，按节奏推进即可，但也要留意市场变化。';
+            }
+            if (cards[4].card.suit === 'pentacles') {
+              text += ' 「建议」是星币牌，稳健投资、分散风险是关键词，避免孤注一掷。';
+            } else if (cards[4].card.suit === 'swords') {
+              text += ' 「建议」是宝剑牌，需要理性分析和充分调研，不要被情绪或他人意见左右。';
+            } else if (cards[4].card.suit === 'cups') {
+              text += ' 「建议」是圣杯牌，这个财务决策与情感价值有关——确保它真正符合你内心的渴望，而非他人的期待。';
+            } else if (cards[4].card.suit === 'wands') {
+              text += ' 「建议」是权杖牌，适合积极主动地把握机会，但也要设定止损点，避免盲目扩张。';
             }
           } else {
             text += 'The Finance spread provides guidance for your financial decisions from an energy perspective. ';
+            if (cards[0].card.suit === 'pentacles') {
+              text += ' "Current Finance" is a Pentacles card — your financial foundation is relatively solid.';
+            } else if (cards[0].card.suit === 'swords') {
+              text += ' "Current Finance" is a Swords card — there may be anxiety and uncertainty in finance.';
+            } else if (cards[0].card.suit === 'cups') {
+              text += ' "Current Finance" is a Cups card — financial decisions may be influenced by emotions.';
+            } else if (cards[0].card.suit === 'wands') {
+              text += ' "Current Finance" is a Wands card — there is action and opportunity, but also impulse.';
+            }
             if (cards[1].isReversed) {
               text += ' "Investment Risk" is reversed — the risk may come from an unexpected direction. Make sure you have a backup plan.';
+            } else {
+              text += ' "Investment Risk" is upright — the risk is visible and controllable.';
+            }
+            if (cards[2].isReversed) {
+              text += ' "Potential Returns" is reversed — returns may be less than expected, or take longer to manifest.';
+            } else {
+              text += ' "Potential Returns" is upright — this decision has substantial return potential.';
+            }
+            if (cards[4].card.suit === 'pentacles') {
+              text += ' "Advice" is a Pentacles card — steady investment and risk diversification are key.';
+            } else if (cards[4].card.suit === 'swords') {
+              text += ' "Advice" is a Swords card — rational analysis and thorough research are needed.';
+            } else if (cards[4].card.suit === 'cups') {
+              text += ' "Advice" is a Cups card — ensure this decision truly aligns with your inner desire.';
+            } else if (cards[4].card.suit === 'wands') {
+              text += ' "Advice" is a Wands card — actively seize opportunities, but set stop-loss points.';
             }
           }
           break;
@@ -2339,14 +2403,47 @@
             }
             if (cards[2].isReversed) {
               text += ' 「舍弃后的收获」逆位，说明放下后的正面影响可能需要一段时间才能显现，不要因为短期内感觉"空落落"就回头。';
+            } else {
+              text += ' 「舍弃后的收获」正位，预示放下后你会感受到明显的轻松与自由，新能量将迅速填补空白。';
+            }
+            if (cards[3].card.suit === 'swords') {
+              text += ' 「建议」是宝剑牌，需要用理性和清晰的界限来辅助断舍离，情感上可能会反复，需要坚定的决心。';
+            } else if (cards[3].card.suit === 'cups') {
+              text += ' 「建议」是圣杯牌，断舍离的过程需要温柔对待自己的情感，允许自己悲伤，但不要回头。';
+            } else if (cards[3].card.suit === 'pentacles') {
+              text += ' 「建议」是星币牌，断舍离需要循序渐进，可以从最容易的对象开始，逐步建立信心。';
+            } else if (cards[3].card.suit === 'wands') {
+              text += ' 「建议」是权杖牌，断舍离需要果断行动，不要反复犹豫——一旦决定，就全力以赴向前看。';
             }
           } else {
             text += 'The Declutter spread helps you clear your energy field and let go of attachments. ';
             if (cards[0].isReversed) {
               text += ' "What to Let Go" is reversed — you already know what to release, but you are making excuses to delay. Acknowledge it and face it.';
+            } else {
+              text += ' "What to Let Go" is upright — the impact of this object is clearly visible. It is time to face the drain it brings you.';
+            }
+            if (cards[1].card.suit === 'cups') {
+              text += ' "Reason of Attachment" is a Cups card — emotional bonds are your biggest attachment.';
+            } else if (cards[1].card.suit === 'pentacles') {
+              text += ' "Reason of Attachment" is a Pentacles card — material or practical concerns make it hard to let go.';
+            } else if (cards[1].card.suit === 'swords') {
+              text += ' "Reason of Attachment" is a Swords card — rational analysis makes you more entangled.';
+            } else if (cards[1].card.suit === 'wands') {
+              text += ' "Reason of Attachment" is a Wands card — passion or inertia makes it hard to let go.';
             }
             if (cards[2].isReversed) {
               text += ' "Gain After Letting Go" is reversed — the positive effects may take time to manifest. Do not look back just because you feel empty in the short term.';
+            } else {
+              text += ' "Gain After Letting Go" is upright — after letting go, you will feel obvious lightness and freedom.';
+            }
+            if (cards[3].card.suit === 'swords') {
+              text += ' "Advice" is a Swords card — you need rationality and clear boundaries to assist decluttering.';
+            } else if (cards[3].card.suit === 'cups') {
+              text += ' "Advice" is a Cups card — be gentle with your emotions during decluttering, allow yourself to grieve, but do not look back.';
+            } else if (cards[3].card.suit === 'pentacles') {
+              text += ' "Advice" is a Pentacles card — decluttering needs to be gradual, start with the easiest objects.';
+            } else if (cards[3].card.suit === 'wands') {
+              text += ' "Advice" is a Wands card — decluttering requires decisive action, do not hesitate repeatedly.';
             }
           }
           break;
@@ -2560,6 +2657,8 @@
       const modeToggle = document.querySelector('.mode-btn.active');
       const currentMode = modeToggle ? modeToggle.dataset.mode : 'standard';
 
+      console.log('[Debug] 当前解读模式:', currentMode); // 调试日志
+
       const cards = this.currentCards;
       const mode = this.currentMode;
       const spreadName = this.getLocalizedSpreadName(mode);
@@ -2567,42 +2666,46 @@
 
       // 根据模式生成不同内容
       if (currentMode === 'simple') {
+        console.log('[Debug] 生成简单解读');
         return this.generateSimpleReading(cards, mode);
       }
 
       if (currentMode === 'standard') {
+        console.log('[Debug] 生成标准解读');
         return this.generateStandardReading(cards, mode, positions);
       }
 
-      // 深度模式：保留现有完整逻辑（带错误保护）
-      let html = '';
+      // 深度模式：显式检查 + 独立方法调用
+      if (currentMode === 'deep') {
+        console.log('[Debug] 生成深度解读');
+        return await this.generateDeepReading(cards, mode, positions, spreadName);
+      }
+
+      // 兜底：如果模式未知，使用标准模式
+      console.warn('[Debug] 未知模式，使用标准模式:', currentMode);
+      return this.generateStandardReading(cards, mode, positions);
+    }
+
+    // ============ 深度解读生成（独立方法，避免与标准模式混淆）============
+    async generateDeepReading(cards, mode, positions, spreadName) {
+      let html = '<div class="deep-reading">';
+      
       try {
+        // 各个分析方法内部已经包含 reading-section 和 reading-section-title
+        // 直接拼接即可，不需要额外添加标题包装
         html += this.analyzeTheme(cards, spreadName);
         html += this.analyzeCardRelations(mode, cards, positions);
         html += this.analyzeTrend(cards);
-        // 牌阵专属解读段落（新增）
         html += this.generateSpreadSpecificReading(mode, cards, positions);
         html += this.generateAdvice(mode, cards);
-
-        // Level 2 优化：添加牌意组合解读
         html += this.analyzeCardCombinations(cards);
-
-        // Level 3 优化：添加能量强度分析
         html += this.analyzeEnergyIntensity(cards);
-
-        // ============ 新增功能：综合解读摘要 ============
         html += this.generateSummary(cards, mode);
-
-        // ============ 新增功能：关键词标签 ============
         html += this.generateKeywordTags(cards);
-
-        // ============ 新增功能：行动步骤清单 ============
         html += this.generateActionSteps(cards, mode);
-
-        // ============ 新增功能：元素平衡分析 ============
         html += this.analyzeElementBalance(cards);
 
-        // 扩展功能：检查开关状态，添加历史分析、时间维度、性格分析
+        // 扩展功能（可选）
         const extendedToggle = document.getElementById('extended-reading-toggle');
         const enableExtended = extendedToggle ? extendedToggle.checked : true;
 
@@ -2617,12 +2720,18 @@
             console.warn('扩展解读生成失败，跳过:', extErr);
           }
         }
+
       } catch (deepErr) {
-        console.warn('深度解读生成失败，回退到标准模式:', deepErr);
-        // 回退到标准模式
-        return this.generateStandardReading(cards, mode, positions);
+        console.error('深度解读生成失败:', deepErr);
+        html += '<div class="reading-section error">';
+        html += '<div class="reading-section-title">❌ ' + (this.currentLang === 'en' ? 'Error' : '错误') + '</div>';
+        html += '<div class="reading-section-body"><p style="color:red;">' + (this.currentLang === 'en' 
+          ? 'Deep reading generation failed: ' + deepErr.message 
+          : '深度解读生成失败：' + deepErr.message) + '</p></div>';
+        html += '</div>';
       }
 
+      html += '</div>';
       return html;
     }
 
@@ -2678,7 +2787,9 @@
           souljourney:{ prefix: '【灵魂成长】', theme: '灵魂阶段的课题与方向', advice: '连接高我与内在指引' },
           zodiac:     { prefix: '【星座分析】', theme: '十二宫位的全面解读', advice: '关注重点宫位的讯息' },
           pastlife:   { prefix: '【前世今生】', theme: '跨生命的灵魂课题', advice: '化解前世的未完成课题' },
-          health:     { prefix: '【健康指引】', theme: '身心健康的根本因素', advice: '关注身心整合的疗愈' }
+          health:     { prefix: '【健康指引】', theme: '身心健康的根本因素', advice: '关注身心整合的疗愈' },
+          finance:    { prefix: '【财务决策】', theme: '财务风险与机会的能量分析', advice: '综合考虑风险与收益后行动' },
+          declutter:  { prefix: '【断舍离】', theme: '放下执念与清理能量场', advice: '识别真正需要释放的对象' }
         },
         en: {
           single:     { prefix: '[Daily Guidance]', theme: 'Focus on current energy', advice: 'Take this card as core guidance' },
@@ -2707,7 +2818,9 @@
           souljourney:{ prefix: '[Soul Journey]', theme: 'Soul stage lessons and direction', advice: 'Connect with higher self and inner guidance' },
           zodiac:     { prefix: '[Zodiac]', theme: 'Comprehensive reading of twelve houses', advice: 'Focus on messages from key houses' },
           pastlife:   { prefix: '[Past Life]', theme: 'Cross-life soul lessons', advice: 'Resolve unfinished past-life lessons' },
-          health:     { prefix: '[Health]', theme: 'Root causes of body-mind health', advice: 'Focus on body-mind integrative healing' }
+          health:     { prefix: '[Health]', theme: 'Root causes of body-mind health', advice: 'Focus on body-mind integrative healing' },
+          finance:    { prefix: '[Finance]', theme: 'Energy analysis of financial risk and opportunity', advice: 'Act after comprehensive consideration of risk and return' },
+          declutter:  { prefix: '[Declutter]', theme: 'Letting go of attachments and clearing energy field', advice: 'Identify what truly needs to be released' }
         }
       };
       return ctx[isEn ? 'en' : 'zh'][mode] || ctx[isEn ? 'en' : 'zh']['single'];
@@ -2868,7 +2981,12 @@
       });
 
       // 1. 检测大阿卡那牌对组合
-      const majorIds = majors.map(m => m.card.id);
+      const majorIds = majors.map(m => {
+        if (typeof m.card.id === 'number') {
+          return `major-${String(m.card.id).padStart(2, '0')}`;
+        }
+        return m.card.id;
+      });
       if (majorIds.includes('major-00') && majorIds.includes('major-01')) {
         text += isEn 
           ? 'The Fool and The Magician together indicate a powerful new beginning. The universe is giving you a "reset button".'
@@ -3028,6 +3146,7 @@
 
     // ============ 根据具体牌面生成针对性建议（中文）============
     getCardSpecificAdviceZh(card, isReversed, cardName) {
+      if (!card || !card.id) return null;
       const suit = card.suit;
       const id = card.id;
       
@@ -3061,8 +3180,15 @@
       }
       
       // 小阿卡那牌的针对性建议（按牌组给出）
+      // 安全获取牌面数字（兼容 id 为数字或字符串的情况）
+      const getNumFromId = (id) => {
+        if (typeof id === 'number') return id;
+        if (!id) return 0;
+        return parseInt(String(id).split('-').pop()) || 0;
+      };
+      
       if (suit === 'wands') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? '权杖牌逆位提示行动受阻，检查是否有内在恐惧' : '权杖牌正位鼓励你主动行动，抓住机会';
         if (num <= 7) return isReversed ? '行动过程中遇到挑战，需要调整策略' : '行动顺利推进中，保持专注和热情';
         if (num <= 10) return isReversed ? '行动的结果不如预期，反思并从中学习' : '行动即将带来成果，坚持到底';
@@ -3071,7 +3197,7 @@
       }
       
       if (suit === 'cups') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? '情感上可能有失落，给自己时间疗愈' : '情感上正在经历甜蜜或新的开始';
         if (num <= 7) return isReversed ? '情感上需要做出选择或放下' : '情感丰富，享受并信任这份能量';
         if (num <= 10) return isReversed ? '情感上的满足感受到挑战' : '情感上的满足和家庭幸福正在实现';
@@ -3079,7 +3205,7 @@
       }
       
       if (suit === 'swords') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? '思维上的痛苦正在缓解' : '思维清晰但可能伴随痛苦，保持理性';
         if (num <= 7) return isReversed ? '过度的思考正在制造混乱，需要静心' : '思维活跃，用逻辑和沟通解决问题';
         if (num <= 10) return isReversed ? '痛苦的结束，真相即将大白' : '思维上的挑战正在带来真相和释放';
@@ -3087,7 +3213,7 @@
       }
       
       if (suit === 'pentacles') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? '财务或资源上的新开始受阻' : '财务或资源上的新机会正在出现';
         if (num <= 7) return isReversed ? '努力尚未带来回报，不要放弃' : '务实的努力正在积累，耐心等待收获';
         if (num <= 10) return isReversed ? '财务上的损失或不安' : '财务稳定和丰盛正在实现';
@@ -3099,6 +3225,7 @@
 
     // ============ 根据具体牌面生成针对性建议（英文）============
     getCardSpecificAdviceEn(card, isReversed, cardName) {
+      if (!card || !card.id) return null;
       const suit = card.suit;
       const id = card.id;
       
@@ -3132,8 +3259,15 @@
       }
       
       // 小阿卡那牌的针对性建议（按牌组给出）
+      // 安全获取牌面数字（兼容 id 为数字或字符串的情况）
+      const getNumFromId = (id) => {
+        if (typeof id === 'number') return id;
+        if (!id) return 0;
+        return parseInt(String(id).split('-').pop()) || 0;
+      };
+      
       if (suit === 'wands') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? 'Reversed Wands suggest blocked action; check inner fears' : 'Upright Wands encourage taking initiative and seizing opportunities';
         if (num <= 7) return isReversed ? 'Challenges in action; adjust your strategy' : 'Action progressing smoothly; stay focused and passionate';
         if (num <= 10) return isReversed ? 'Action results not as expected; reflect and learn' : 'Action about to bear fruit; persevere to the end';
@@ -3141,7 +3275,7 @@
       }
       
       if (suit === 'cups') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? 'Emotional loss possible; give yourself time to heal' : 'Experiencing sweetness or new emotional beginnings';
         if (num <= 7) return isReversed ? 'Need to make emotional choices or let go' : 'Emotions are rich; enjoy and trust this energy';
         if (num <= 10) return isReversed ? 'Emotional fulfillment challenged' : 'Emotional fulfillment and family happiness manifesting';
@@ -3149,7 +3283,7 @@
       }
       
       if (suit === 'swords') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? 'Mental pain is easing' : 'Mind is clear but may involve pain; stay rational';
         if (num <= 7) return isReversed ? 'Overthinking creating chaos; need to calm mind' : 'Mind is active; use logic and communication to solve problems';
         if (num <= 10) return isReversed ? 'Pain ending; truth about to surface' : 'Mental challenges bringing truth and release';
@@ -3157,7 +3291,7 @@
       }
       
       if (suit === 'pentacles') {
-        const num = parseInt(id.split('-').pop());
+        const num = getNumFromId(id);
         if (num <= 3) return isReversed ? 'New financial or resource beginnings blocked' : 'New financial or resource opportunities appearing';
         if (num <= 7) return isReversed ? 'Effort not yet bringing rewards; don\'t give up' : 'Practical efforts accumulating; wait patiently for harvest';
         if (num <= 10) return isReversed ? 'Financial loss or insecurity' : 'Financial stability and abundance manifesting';
@@ -3321,7 +3455,12 @@
       }
 
       // 检测特定大阿卡那牌对（如：死神+审判=重生，魔术师+愚者=新开始）
-      const majorIds = majors.map((m) => m.card.id);
+      const majorIds = majors.map((m) => {
+        if (typeof m.card.id === 'number') {
+          return `major-${String(m.card.id).padStart(2, '0')}`;
+        }
+        return m.card.id;
+      });
       if (majorIds.includes('major-00') && majorIds.includes('major-01')) {
         text += this.currentLang === 'en'
           ? 'The Fool and The Magician appearing together indicate a powerful new beginning. The universe is giving you a "reset button" — dare to start anew.'
@@ -3336,6 +3475,38 @@
         text += this.currentLang === 'en'
           ? 'The Sun and The Lovers together indicate that following your heart will lead to bright outcomes. Love and joy are supporting your path.'
           : '太阳与恋人同时出现，预示着跟随内心会走向光明的结果。爱与喜悦正在支持你的道路。';
+      }
+      if (majorIds.includes('major-07') && majorIds.includes('major-08')) {
+        text += this.currentLang === 'en'
+          ? 'The Chariot and Strength together indicate that willpower and inner strength are combined — nothing can stop you now.'
+          : '战车与力量同时出现，预示着意志力与内在力量结合，无往不利。';
+      }
+      if (majorIds.includes('major-15') && item.isReversed && majorIds.includes('major-13')) {
+        text += this.currentLang === 'en'
+          ? 'The Devil reversed and Death together indicate strong release and rebirth energy. You are breaking free from old chains.'
+          : '恶魔逆位与死神同时出现，预示着强烈的释放与重生能量。你正在打破旧的枷锁。';
+      }
+      if (majorIds.includes('major-17') && majorIds.includes('major-18')) {
+        text += this.currentLang === 'en'
+          ? 'The Star and The Moon together indicate that hope and confusion coexist. Trust your intuition even when the path is not clear.'
+          : '星星与月亮同时出现，预示着希望与迷茫并存。即使道路不清晰，也要信任你的直觉。';
+      }
+
+      // 检测小阿卡那强力组合
+      const hasAceWands = cards.some(c => {
+        const id = c.card.id;
+        if (typeof id === 'number') return id === 1 && (c.card.suit === 'wands' || c.card.suit === 'fire');
+        return id === 'wands-01' || id === 'fire-01';
+      });
+      const hasAcePentacles = cards.some(c => {
+        const id = c.card.id;
+        if (typeof id === 'number') return id === 1 && (c.card.suit === 'pentacles' || c.card.suit === 'rainbow');
+        return id === 'pentacles-01' || id === 'rainbow-01';
+      });
+      if (hasAceWands && hasAcePentacles) {
+        text += this.currentLang === 'en'
+          ? 'Ace of Wands and Ace of Pentacles together indicate that both inspiration and implementation are present. This is an excellent time for starting a business or making investments.'
+          : '权杖王牌与星币王牌同时出现，预示着想法与落地兼备，适合创业或投资。';
       }
 
       // 检测元素缺失/过剩
@@ -3372,15 +3543,28 @@
 
       let text = '';
 
-      // 计算能量强度（大阿卡那牌权重更高）
+      // 计算能量强度（大阿卡那牌权重更高，根据序号递增）
       let totalEnergy = 0;
       const cardEnergies = [];
       cards.forEach((item) => {
         let energy = 0;
-        if (item.card.suit === 'major') energy = 10; // 大阿卡那牌能量最强
-        else {
+        if (!item.card || item.card.id == null) {
+          console.warn('[analyzeEnergyIntensity] 卡牌数据异常:', item);
+          return; // 跳过异常数据
+        }
+        // 安全获取牌面数字（兼容 id 为数字或字符串的情况）
+        const getNumFromId = (id) => {
+          if (typeof id === 'number') return id;
+          if (!id) return 0;
+          return parseInt(String(id).split('-').pop()) || 0;
+        };
+        if (item.card.suit === 'major') {
+          // 大阿卡那牌：根据序号给予不同权重（0愚者=8，21世界=12，中间递增）
+          const majorNum = getNumFromId(item.card.id);
+          energy = 8 + (majorNum / 21) * 4; // 8~12 的范围
+        } else {
           // 小阿卡那牌：宫廷牌 > 数字牌
-          const num = parseInt(item.card.id.split('-').pop());
+          const num = getNumFromId(item.card.id);
           if (num >= 11) energy = 7; // 宫廷牌
           else if (num >= 7) energy = 5; // 高数字牌
           else energy = 3; // 低数字牌
@@ -3416,7 +3600,14 @@
         ? '<br><br>The card with the <strong>strongest energy</strong> is <strong>' + deckManager.getCardName(strongest.card.card) + ' ' + this.getPosText(strongest.card.isReversed) + '</strong>. This is where your attention and energy should focus.'
         : '<br><br>能量<strong>最强</strong>的牌是<strong>' + deckManager.getCardName(strongest.card.card) + ' ' + this.getPosText(strongest.card.isReversed) + '</strong>。这是你需要注意力和能量投入的地方。';
 
-      if (strongest.card !== weakest.card) {
+      // 安全比较两张牌的 id（兼容数字和字符串类型）
+      const strongestId = strongest.card.card.id;
+      const weakestId = weakest.card.card.id;
+      const isSameCard = (typeof strongestId === 'number' && typeof weakestId === 'number') 
+        ? strongestId === weakestId 
+        : String(strongestId) === String(weakestId);
+      
+      if (!isSameCard) {
         text += this.currentLang === 'en'
           ? '<br>The card with the <strong>weakest energy</strong> is <strong>' + deckManager.getCardName(weakest.card.card) + ' ' + this.getPosText(weakest.card.isReversed) + '</strong>. This area may need more attention or nurturing.'
           : '<br>能量<strong>最弱</strong>的牌是<strong>' + deckManager.getCardName(weakest.card.card) + ' ' + this.getPosText(weakest.card.isReversed) + '</strong>。这个领域可能需要更多关注或滋养。';
