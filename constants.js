@@ -432,6 +432,31 @@ const SPREADS = {
     usage: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     usageEn: 'Suitable for drawing at New Year or birthday to understand the fortune trend and development in various fields for the whole year.'
   },
+  // ============ 新增失物寻找牌阵 ============
+  lost: {
+    name: '失物寻找牌阵',
+    nameEn: 'Lost Item Spread',
+    positions: ['失物方向/位置', '失物状态', '寻找线索', '阻碍因素', '建议/是否能找回'],
+    positionsEn: ['Direction/Location', 'Item Status', 'Search Clue', 'Obstacle', 'Advice/Can It Be Found'],
+    positionMeanings: [
+      '失物方向/位置：根据牌的花色判断方位和场所。权杖/火元素=南方、厨房、客厅、高处、电器附近；圣杯/水元素=西方、浴室、水源附近、低处、冰箱里；宝剑/风元素=东方、书房、办公室、窗户边、书籍文件附近；星币/土元素=北方、玄关、储物间、地面附近、口袋或包里。宫廷牌可能表示物品在某人那里。数字牌提示具体位置（如3=三楼/第三个房间）。',
+      '失物状态：物品当前的状态和可见性。正位牌表示物品状态完好、未被移动、相对容易找到；逆位牌表示可能被损坏、被遮挡、已移位或掉落。数字牌暗示物品在某个容器、抽屉或袋子里；宫廷牌则表示物品在某人手中、口袋里或被借走。',
+      '寻找线索：帮助定位物品的关键信息。大阿卡纳提示与重要事件、常去地点或近期活动有关；小阿卡纳指向具体房间或物品附近。注意牌面数字，可能对应楼层、房间号或时间线索（几小时前/几天前遗失）。出现「力量」「战车」等行动牌，建议立即主动寻找。',
+      '阻碍因素：阻碍你找到物品的原因。逆位牌表示你忽略了最明显的地方，或记忆出现偏差；宝剑牌表示被其他物品遮挡、位置被移动或信息混乱；圣杯牌表示情绪紧张、心不在焉导致记忆模糊；星币牌表示被杂物覆盖、放在了不常去的地方或忘记放入何处。',
+      '建议/是否能找回：塔罗给出的行动建议和找回可能性。正位牌偏向能找回，按牌面提示的方向和场所仔细寻找，不要放弃；逆位牌偏向难以找回，可能已被他人拿走、丢弃或遗失在外。若为大阿卡纳，说明物品对你有重要意义，值得坚持寻找；若为数字牌，按提示的具体位置逐一排查。'
+    ],
+    positionMeaningsEn: [
+      'Direction/Location: Determine direction and place by suit. Wands/Fire = South, kitchen, living room, high places, near appliances; Cups/Water = West, bathroom, near water sources, low places, inside fridge; Swords/Air = East, study, office, near windows, near books/files; Pentacles/Earth = North, entrance, storage room, near the floor, in pockets or bags. Court cards may indicate the item is with someone.',
+      'Item Status: The current status and visibility of the item. Upright cards mean the item is intact, unmoved, and relatively easy to find; reversed cards mean it may be damaged, obscured, shifted, or fallen. Number cards suggest the item is inside a container, drawer, or bag; Court cards indicate the item is in someone\'s hand, pocket, or has been borrowed.',
+      'Search Clue: Key information to help locate the item. Major Arcana points to important events, frequently visited places, or recent activities; Minor Arcana points to specific rooms or near certain objects. Pay attention to card numbers — they may correspond to floor numbers, room numbers, or time clues (lost how many hours/days ago). If action cards like "Strength" or "Chariot" appear, search immediately and proactively.',
+      'Obstacle: Reasons preventing you from finding the item. Reversed cards mean you\'re overlooking the most obvious place or your memory is inaccurate; Sword cards mean the item is blocked by other objects, has been moved, or information is confused; Cup cards mean emotional stress or absent-mindedness is blurring your memory; Pentacle cards mean the item is covered by clutter, placed in an unusual spot, or you forgot where it was put.',
+      'Advice/Can It Be Found: The Tarot\'s action advice and the likelihood of recovery. Upright cards lean toward recoverable — search carefully in the direction and place indicated by the cards, don\'t give up; reversed cards lean toward difficult to recover — it may have been taken by someone else, discarded, or lost outside. If a Major Arcana appears, the item has important significance to you and is worth persistent searching; if a number card appears, check each specific location as indicated.'
+    ],
+    category: 'decision', difficulty: 'easy', recommended: false, loadingText: '正在寻找失物...',
+    loadingTextEn: 'Searching for your lost item...',
+    usage: '适合物品遗失后使用，帮助定位失物位置、获取寻找线索和判断是否还能找回。',
+    usageEn: 'Suitable for use after losing an item. Helps locate the lost item, get search clues, and determine if it can still be found.'
+  },
   // ============ 新增决策分析牌阵 ============
   proscons: {
     name: '利弊分析',
@@ -1003,6 +1028,9 @@ const I18N = {
     spread_finance_name: '财务投资',
     spread_finance_desc: '5张牌 · 财务决策指引',
     finance_tip: '适合投资理财决策、大额消费、买房/买车等财务决策前使用。',
+    spread_lost_name: '失物寻找',
+    spread_lost_desc: '5张牌 · 定位失物与寻找线索',
+    lost_tip: '适合物品遗失后使用，帮助定位失物位置和判断是否还能找回。',
     spread_office_name: '办公室人际牌阵',
     spread_office_desc: '6张牌 · 职场人际关系分析',
     office_tip: '适合想了解办公室人际关系、改善同事关系、了解上司看法等场景。',
@@ -1378,6 +1406,9 @@ const I18N = {
     spread_office_name: 'Office Interpersonal',
     spread_office_desc: '6 cards · Workplace relationship analysis',
     office_tip: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc.',
+    spread_lost_name: 'Lost Item',
+    spread_lost_desc: '5 cards · Locate lost item & search clues',
+    lost_tip: 'Suitable for use after losing an item. Helps locate the lost item and determine if it can be found.',
     spread_dream_name: 'Dream Interpretation',
     spread_dream_desc: '5 cards · Subconscious & dream analysis',
     dream_tip: 'Suitable for use after having an impressive, recurring, or confusing dream.',

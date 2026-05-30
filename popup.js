@@ -4127,6 +4127,8 @@
         case 'office':     this.drawOffice(); break;
         // 新增：梦境解读牌阵
         case 'dream':      this.drawDream(); break;
+        // 新增：失物寻找牌阵
+        case 'lost':      this.drawLost(); break;
       }
     }
 
@@ -4178,6 +4180,11 @@
     // ============ 新增梦境解读牌阵 ============
     drawDream() {
       this.drawStandardSpread('dream', 55, 88);
+    }
+
+    // ============ 新增失物寻找牌阵 ============
+    drawLost() {
+      this.drawStandardSpread('lost', 55, 88);
     }
 
     // ============ 返回欢迎页 ============
@@ -6342,6 +6349,8 @@
               case 'office':     this.drawOffice(); break;
               // 新增：梦境解读牌阵
               case 'dream':      this.drawDream(); break;
+              // 新增：失物寻找牌阵
+              case 'lost':      this.drawLost(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
