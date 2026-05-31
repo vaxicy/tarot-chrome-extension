@@ -349,6 +349,9 @@
       if (this.currentDeck === 'osho' && typeof oshoZenCards !== 'undefined') {
         return oshoZenCards;
       }
+      if (this.currentDeck === 'stellar' && typeof stellarCards !== 'undefined') {
+        return stellarCards;
+      }
       return tarotCards;
     }
 
@@ -4284,6 +4287,11 @@
       this.drawStandardSpread('lost', 55, 88);
     }
 
+    // ============ 新增年度预测牌阵 ============
+    drawYearahead() {
+      this.drawStandardSpread('yearahead', 42, 67);
+    }
+
     // ============ 返回欢迎页 ============
     goBack() {
       this.currentCards = [];
@@ -6183,7 +6191,7 @@
         if (filter === 'all') {
           b.style.display = '';
         } else {
-          b.style.display = (spread.category === filter || (filter === 'advanced' && spread.difficulty === 'hard')) ? '' : 'none';
+          b.style.display = spread.category === filter ? '' : 'none';
         }
       });
 
@@ -6494,6 +6502,8 @@
               case 'dream':      this.drawDream(); break;
               // 新增：失物寻找牌阵
               case 'lost':      this.drawLost(); break;
+              // 新增：年度预测牌阵
+              case 'yearahead': this.drawYearahead(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);

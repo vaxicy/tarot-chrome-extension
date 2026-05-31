@@ -107,6 +107,146 @@ async function generateHealingBack() {
 }
 
 // 创建奥修禅卡牌背 - 禅宗风格
+// 创建星辰塔罗牌背 - 宇宙星空主题
+async function generateStellarBack() {
+  const outputPath = path.join(OUTPUT_DIR, 'card-back-stellar.png');
+
+  // 星辰主题SVG：深空背景 + 星点 + 星座连线 + 银河光晕
+  const svg = `
+    <svg width="${WIDTH}" height="${HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="nebula" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" style="stop-color:#1a0d4e;stop-opacity:0.5" />
+          <stop offset="100%" style="stop-color:#0d0d2e;stop-opacity:0" />
+        </radialGradient>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#1a0d3e;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#0d0d2a;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="galaxy" cx="50%" cy="50%" r="35%">
+          <stop offset="0%" style="stop-color:#7b68ee;stop-opacity:0.15" />
+          <stop offset="100%" style="stop-color:#7b68ee;stop-opacity:0" />
+        </radialGradient>
+        <linearGradient id="border" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#9b8cff;stop-opacity:0.7" />
+          <stop offset="100%" style="stop-color:#c8b8ff;stop-opacity:0.7" />
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- 深空背景 -->
+      <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bg)" rx="15"/>
+
+      <!-- 银河光晕 -->
+      <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#galaxy)" rx="15"/>
+      <!-- 星云 -->
+      <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#nebula)" rx="15"/>
+
+      <!-- 星点背景（随机散布的小圆点） -->
+      <g opacity="0.6">
+        ${_stellarStars(20, 280, 40, 460, 12)}
+      </g>
+
+      <!-- 装饰边框 -->
+      <rect x="8" y="8" width="${WIDTH-16}" height="${HEIGHT-16}"
+            fill="none" stroke="url(#border)" stroke-width="2.5" rx="12" opacity="0.6"/>
+      <rect x="18" y="18" width="${WIDTH-36}" height="${HEIGHT-36}"
+            fill="none" stroke="url(#border)" stroke-width="1" rx="10" opacity="0.3"/>
+
+      <!-- 星座图案：大熊座（北斗七星）简化 -->
+      <g transform="translate(${WIDTH/2}, ${HEIGHT/2 - 20})" opacity="0.35" filter="url(#glow)">
+        ${_stellarConstellation()}
+      </g>
+
+      <!-- 中心星辰符号：六角星 + 圆 -->
+      <g transform="translate(${WIDTH/2}, ${HEIGHT/2 + 40})" opacity="0.25" filter="url(#glow)">
+        <!-- 六角星 -->
+        <polygon points="0,-35 10,-10 35,-10 15,5 25,35 0,15 -25,35 -15,5 -35,-10 -10,-10"
+                  fill="none" stroke="#9b8cff" stroke-width="1.5"/>
+        <!-- 外圈 -->
+        <circle cx="0" cy="0" r="45" fill="none" stroke="#c8b8ff" stroke-width="1" stroke-dasharray="4 6"/>
+        <!-- 内圈 -->
+        <circle cx="0" cy="0" r="28" fill="none" stroke="#9b8cff" stroke-width="1" stroke-dasharray="3 5"/>
+        <!-- 中心点 -->
+        <circle cx="0" cy="0" r="4" fill="#c8b8ff" opacity="0.8"/>
+      </g>
+
+      <!-- 四角星标 -->
+      <g opacity="0.3" filter="url(#glow)">
+        <path d="M 40,40 l 4,-12 4,12 -10,-6 h 12 l -4,12 -4,-12" fill="#9b8cff"/>
+        <path d="${WIDTH-40},40 l 4,-12 4,12 -10,-6 h 12 l -4,12 -4,-12" fill="#9b8cff"/>
+        <path d="40,${HEIGHT-40} l 4,-12 4,12 -10,-6 h 12 l -4,12 -4,-12" fill="#9b8cff"/>
+        <path d="${WIDTH-40},${HEIGHT-40} l 4,-12 4,12 -10,-6 h 12 l -4,12 -4,-12" fill="#9b8cff"/>
+      </g>
+
+      <!-- 中心文字 -->
+      <text x="${WIDTH/2}" y="${HEIGHT/2 + 120}"
+            font-family="Georgia, serif" font-size="22" font-weight="bold"
+            fill="#9b8cff" text-anchor="middle" opacity="0.6" filter="url(#glow)">
+        Stellar
+      </text>
+      <text x="${WIDTH/2}" y="${HEIGHT/2 + 150}"
+            font-family="Georgia, serif" font-size="16"
+            fill="#c8b8ff" text-anchor="middle" opacity="0.45">
+        星辰塔罗
+      </text>
+
+      <!-- 底部装饰线 -->
+      <line x1="${WIDTH/2 - 45}" y1="${HEIGHT/2 + 168}"
+            x2="${WIDTH/2 + 45}" y2="${HEIGHT/2 + 168}"
+            stroke="#9b8cff" stroke-width="0.8" opacity="0.25"/>
+    </svg>
+  `;
+
+  await sharp(Buffer.from(svg))
+    .png()
+    .toFile(outputPath);
+
+  console.log(`✓ 生成星辰牌背: ${outputPath}`);
+}
+
+// 生成随机星点
+function _stellarStars(xMin, xMax, yMin, yMax, count) {
+  let xml = '';
+  for (let i = 0; i < count; i++) {
+    const cx = xMin + Math.round(Math.random() * (xMax - xMin));
+    const cy = yMin + Math.round(Math.random() * (yMax - yMin));
+    const r = 1 + Math.round(Math.random() * 2);
+    const o = (0.3 + Math.random() * 0.5).toFixed(2);
+    xml += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#c8b8ff" opacity="${o}"/>\n        `;
+  }
+  return xml;
+}
+
+// 生成星座连线图案（北斗七星简化）
+function _stellarConstellation() {
+  // 北斗七星相对坐标
+  const stars = [
+    [-40, -50], [-15, -55], [5, -40], [25, -42],
+    [45, -25], [55, -5], [40, 15]
+  ];
+  let xml = '';
+  // 连线
+  const edges = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]];
+  for (const [a, b] of edges) {
+    xml += `<line x1="${stars[a][0]}" y1="${stars[a][1]}" x2="${stars[b][0]}" y2="${stars[b][1]}" stroke="#9b8cff" stroke-width="1" opacity="0.6"/>\n        `;
+  }
+  // 星点
+  for (let i = 0; i < stars.length; i++) {
+    const [x, y] = stars[i];
+    xml += `<circle cx="${x}" cy="${y}" r="${i === 3 ? 4 : 3}" fill="#c8b8ff" opacity="0.8"/>\n        `;
+    xml += `<circle cx="${x}" cy="${y}" r="${i === 3 ? 7 : 5}" fill="none" stroke="#9b8cff" stroke-width="0.8" opacity="0.4"/>\n        `;
+  }
+  return xml;
+}
+
 async function generateOshoBack() {
   const outputPath = path.join(OUTPUT_DIR, 'card-back-osho.png');
   
@@ -218,13 +358,14 @@ async function generateOshoBack() {
 async function main() {
   try {
     console.log('开始生成牌背图片...\n');
-    
+
     await generateHealingBack();
     await generateOshoBack();
-    
+    await generateStellarBack();
+
     console.log('\n✅ 所有牌背图片生成完成！');
     console.log('输出目录:', OUTPUT_DIR);
-    
+
   } catch (error) {
     console.error('❌ 生成失败:', error);
     process.exit(1);

@@ -1271,6 +1271,24 @@ body::before {
   background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
 }
 
+/* 星辰塔罗 - 宇宙星空风格 */
+.card-back-stellar {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(123, 104, 238, 0.12) 0%, transparent 60%),
+    linear-gradient(135deg, #0a0a1a 0%, #1a0d2e 50%, #0d0d2a 100%);
+}
+.card-back-stellar::before {
+  border-color: rgba(155, 140, 255, 0.6);
+  border-width: 2px;
+  border-radius: 12px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(155, 140, 255, 0.06) 8px, rgba(155, 140, 255, 0.06) 16px);
+}
+.card-back-stellar::after {
+  border-color: rgba(200, 184, 255, 0.4);
+  border-radius: 10px;
+  background: radial-gradient(circle at 50% 50%, rgba(123, 104, 238, 0.08) 0%, transparent 70%);
+}
+
 /* 天使塔罗 - 治愈灵性风格 */
 .card-back-angel {
   background:

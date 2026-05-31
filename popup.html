@@ -39,6 +39,7 @@
                             <option value="angel" data-i18n-key="deck_angel">天使塔罗</option>
                             <option value="healing" data-i18n-key="deck_healing">治愈塔罗</option>
                             <option value="osho" data-i18n-key="deck_osho">奥修禅卡</option>
+                            <option value="stellar" data-i18n-key="deck_stellar">星辰塔罗</option>
                         </select>
                         <select id="lang-select" class="toolbar-select">
                             <option value="zh">中文</option>
@@ -254,6 +255,15 @@
                                     <span class="spread-desc" data-i18n-spread="decisiontree_desc">短期与长期结果分析</span>
                                 </div>
                             </button>
+                            <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="five" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">📜</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="five_name">五张牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="five_desc">5张牌 · 通用问题深入分析</span>
+                                </div>
+                            </button>
                         </div>
                     </div>
 
@@ -293,6 +303,15 @@
                                 <div class="spread-info">
                                     <span class="spread-name" data-i18n-spread="lost_name">失物寻找</span>
                                     <span class="spread-desc" data-i18n-spread="lost_desc">5张牌 · 定位失物与寻找线索</span>
+                                </div>
+                            </button>
+                            <button id="health-draw-btn" class="spread-btn" type="button" data-spread="health" data-i18n-tip="health_tip">
+                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
+                                <span class="spread-info-btn" data-spread-key="health" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">💊</span>
+                                <div class="spread-info">
+                                    <span class="spread-name" data-i18n-spread="health_name">健康牌阵</span>
+                                    <span class="spread-desc" data-i18n-spread="health_desc">5张牌 · 身心疗愈指引</span>
                                 </div>
                             </button>
                         </div>
@@ -376,15 +395,6 @@
                                     <span class="spread-desc" data-i18n-spread="celtic_desc">10张牌 · 全面深入解读</span>
                                 </div>
                             </button>
-                            <button id="five-draw-btn" class="spread-btn" type="button" data-spread="five" data-i18n-tip="five_tip">
-                                <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                                <span class="spread-info-btn" data-spread-key="five" title="查看牌阵说明">i</span>
-                                <span class="spread-icon">📜</span>
-                                <div class="spread-info">
-                                    <span class="spread-name" data-i18n-spread="five_name">五张牌阵</span>
-                                    <span class="spread-desc" data-i18n-spread="five_desc">5张牌 · 通用问题深入分析</span>
-                                </div>
-                            </button>
                             <button id="horseshoe-draw-btn" class="spread-btn" type="button" data-spread="horseshoe" data-i18n-tip="horseshoe_tip">
                                 <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
                                 <span class="spread-info-btn" data-spread-key="horseshoe" title="查看牌阵说明">i</span>
@@ -403,13 +413,13 @@
                                     <span class="spread-desc" data-i18n-spread="zodiac_desc">12张牌 · 12宫位全面分析</span>
                                 </div>
                             </button>
-                            <button id="health-draw-btn" class="spread-btn" type="button" data-spread="health" data-i18n-tip="health_tip">
+                            <button id="yearahead-draw-btn" class="spread-btn" type="button" data-spread="yearahead" data-i18n-tip="yearahead_tip">
                                 <span class="difficulty-tag difficulty-medium" data-i18n-key="difficulty_medium">中等</span>
-                                <span class="spread-info-btn" data-spread-key="health" title="查看牌阵说明">i</span>
-                                <span class="spread-icon">💊</span>
+                                <span class="spread-info-btn" data-spread-key="yearahead" title="查看牌阵说明">i</span>
+                                <span class="spread-icon">📅</span>
                                 <div class="spread-info">
-                                    <span class="spread-name" data-i18n-spread="health_name">健康牌阵</span>
-                                    <span class="spread-desc" data-i18n-spread="health_desc">5张牌 · 身心疗愈指引</span>
+                                    <span class="spread-name" data-i18n-spread="yearahead_name">年度预测</span>
+                                    <span class="spread-desc" data-i18n-spread="yearahead_desc">12张牌 · 逐月运势指引</span>
                                 </div>
                             </button>
                         </div>
@@ -892,6 +902,7 @@
     <script src="angel-cards.js"></script>
     <script src="healing-cards.js"></script>
     <script src="osho-zen-cards.js"></script>
+    <script src="stellar-cards.js"></script>
     <script src="deck-manager.js"></script>
     <script src="popup.js"></script>
     <script src="dilemma-spread.js"></script>

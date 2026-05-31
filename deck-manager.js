@@ -231,6 +231,14 @@ deckManager.registerDeck('osho', function () {
   return Promise.resolve(typeof oshoZenCards !== 'undefined' ? oshoZenCards : []);
 }, { nameZh: '奥修禅卡', nameEn: 'Osho Zen', description: '奥修禅卡 - 79张牌，侧重当下、觉知、接受' });
 
+deckManager.registerDeck('stellar', function () {
+  return Promise.resolve(typeof stellarCards !== 'undefined' ? stellarCards : []);
+}, { nameZh: '星辰塔罗', nameEn: 'Stellar Tarot', description: '星辰主题塔罗牌 - 宇宙、占星、星空美学' });
+
+
+
+
+
 
 
 

@@ -13,7 +13,8 @@ const DECK_NAMES = {
   thoth: '托特塔罗',
   angel: '天使塔罗',
   healing: '治愈塔罗',
-  osho: '奥修禅卡'
+  osho: '奥修禅卡',
+  stellar: '星辰塔罗'
 };
 
 // ============ 牌阵配置 ============
@@ -762,6 +763,45 @@ const SPREADS = {
     usage: '对应黄道12宫位，全面分析生活各个领域。适合年度运势解读、全面了解自己或某人。需要一定塔罗基础。',
     usageEn: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading, comprehensive self-understanding. Requires some Tarot foundation.'
   },
+  // ============ 新增年度预测牌阵 ============
+  yearahead: {
+    name: '年度预测',
+    nameEn: 'Year Ahead Spread',
+    positions: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+    positionsEn: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    positionMeanings: [
+      '1月：新年开局的能量。这张牌告诉你今年第一个月会发生什么——可能是"开门红"、"突然忙起来"，或者"需要慢慢调整状态"。注意：1月的能量会为全年定调。',
+      '2月：开年后的第一个"小转折"。可能是"关系有变化"、"工作上遇到新机会"，或者"突然想通了一些事"——这张牌告诉你2月的主题。',
+      '3月：春天的能量开始启动。这张牌告诉你3月的运势——可能是"开始新项目"、"社交运上升"，或者"内心开始有方向感"。',
+      '4月：第二季度的开端。这张牌告诉你4月会发生什么——可能是"事情开始落地"、"需要做一些重要决定"，或者"身体状况需要关注"。',
+      '5月：年中前的"关键月份"。这张牌告诉你5月的能量——可能是"事业有突破"、"感情有重要进展"，或者"需要做个重大选择"。',
+      '6月：上半年的收尾与下半年的铺垫。这张牌告诉你6月的主题——可能是"上半年努力开始看到成果"、"需要为下半年做规划"，或者"家庭/人际关系需要关注"。',
+      '7月：下半年的正式开启。这张牌告诉你7月的能量——可能是"进入新阶段"、"旅行/学习的好时机"，或者"需要给自己放个假"。',
+      '8月：夏季能量的高峰。这张牌告诉你8月会发生什么——可能是"创造力爆棚"、"社交活动频繁"，或者"需要关注财务问题"。',
+      '9月：秋天的开始，收获的季节。这张牌告诉你9月的主题——可能是"之前的努力开始有回报"、"需要做一些整理和总结"，或者"学习/进修的好时机"。',
+      '10月：第四季度的开端。这张牌告诉你10月的能量——可能是"事业/学业有重要进展"、"人际关系出现新变化"，或者"需要为年底做冲刺"。',
+      '11月：年底前的"深度调整期"。这张牌告诉你11月会发生什么——可能是"需要面对一些深层问题"、"内心开始沉淀和反思"，或者"为明年做准备"。',
+      '12月：全年的收官之月。这张牌告诉你12月的主题——可能是"圆满收官"、"需要放下一些事"，或者"为新的一年积蓄能量"。注意：12月的能量会影响明年的开局。'
+    ],
+    positionMeaningsEn: [
+      'January: The energy of the New Year opening. This card tells you what will happen in the first month — might be "a great start", "suddenly getting busy", or "needing time to get back in shape". Note: January\'s energy sets the tone for the whole year.',
+      'February: The first "small turning point" after the year starts. Might be "changes in relationships", "new opportunities at work", or "suddenly figuring some things out" — this card tells you February\'s theme.',
+      'March: Spring energy starts to activate. This card tells you March\'s fortune — might be "starting new projects", "social luck rising", or "starting to have a sense of direction inside".',
+      'April: The beginning of the second quarter. This card tells you what will happen in April — might be "things starting to land", "needing to make some important decisions", or "needing to pay attention to physical condition".',
+      'May: The "critical month" before mid-year. This card tells you May\'s energy — might be "breakthrough in career", "important progress in relationships", or "needing to make a major choice".',
+      'June: The wrap-up of the first half and the setup for the second half. This card tells you June\'s theme — might be "efforts from the first half start to show results", "needing to plan for the second half", or "needing to pay attention to family/interpersonal relationships".',
+      'July: The official start of the second half. This card tells you July\'s energy — might be "entering a new phase", "good timing for travel/learning", or "needing to give yourself a break".',
+      'August: The peak of summer energy. This card tells you what will happen in August — might be "creativity exploding", "frequent social activities", or "needing to pay attention to financial issues".',
+      'September: The beginning of autumn, the harvest season. This card tells you September\'s theme — might be "previous efforts start to pay off", "needing to do some organizing and summarizing", or "good timing for learning/further education".',
+      'October: The beginning of the fourth quarter. This card tells you October\'s energy — might be "important progress in career/studies", "new changes in interpersonal relationships", or "needing to sprint for the year-end".',
+      'November: The "deep adjustment period" before year-end. This card tells you what will happen in November — might be "needing to face some deep issues", "starting to settle and reflect inside", or "preparing for next year".',
+      'December: The closing month of the whole year. This card tells you December\'s theme — might be "a satisfactory wrap-up", "needing to let go of some things", or "accumulating energy for the new year". Note: December\'s energy will affect next year\'s opening.'
+    ],
+    category: 'advanced', difficulty: 'medium', recommended: true, loadingText: '正在展开年度预测牌阵...',
+    loadingTextEn: 'Unfolding the Year Ahead spread...',
+    usage: '适合在新年、生日或任何你想为未来12个月做规划的时刻使用。逐月解读，帮你把握全年节奏。',
+    usageEn: 'Suitable for use at New Year, birthdays, or any time you want to plan for the next 12 months. Monthly reading to help you grasp the rhythm of the whole year.'
+  },
   // ============ 新增前世今生牌阵 ============
   pastlife: {
     name: '前世今生',
@@ -997,6 +1037,7 @@ const I18N = {
     deck_angel: '天使塔罗',
     deck_healing: '治愈塔罗',
     deck_osho: '奥修禅卡',
+    deck_stellar: '星辰塔罗',
     label_lang: '语言：',
     inst_start: '选择牌阵开始你的魔法之旅',
     inst_click: '点击卡牌查看正/逆位解读',
@@ -1045,6 +1086,8 @@ const I18N = {
     spread_souljourney_desc: '9张牌 · 灵性成长与灵魂课题',
     spread_zodiac_name: '星座牌阵',
     spread_zodiac_desc: '12张牌 · 12宫位全面分析',
+    spread_yearahead_name: '年度预测',
+    spread_yearahead_desc: '12张牌 · 逐月运势指引',
     spread_pastlife_name: '前世今生',
     spread_pastlife_desc: '5张牌 · 灵魂因果探索',
     spread_health_name: '健康牌阵',
@@ -1113,6 +1156,7 @@ const I18N = {
     monthly_tip: '适合月初或任意时间抽取，了解未来一个月各方面的运势走向和需要注意的事项。',
     souljourney_tip: '适合在灵性成长、内心探索、人生转折点时使用，帮助连接高我、看清灵魂课题与成长方向。',
     zodiac_tip: '对应黄道12宫位，全面分析生活各个领域。适合年度运势解读、全面了解自己或某人。',
+    yearahead_tip: '适合新年、生日或任何想为未来12个月做规划的时刻使用。逐月解读，帮你把握全年节奏。',
     pastlife_tip: '探索前世对今生的影响，理解灵魂课题与成长方向。适合灵性探索。',
     health_tip: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
     family_tip: '适合分析家庭关系、亲子关系、家庭氛围，帮助改善家庭和谐。',
@@ -1363,6 +1407,7 @@ const I18N = {
     deck_angel: 'Angel',
     deck_healing: 'Healing Tarot',
     deck_osho: 'Osho Zen',
+    deck_stellar: 'Stellar Tarot',
     label_lang: 'Language:',
     inst_start: 'Choose a spread to begin your magical journey',
     inst_click: 'Tap cards to view upright / reversed meaning',
@@ -1557,6 +1602,8 @@ const I18N = {
     lifepurpose_tip: 'For life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.',
     spread_zodiac_name: 'Zodiac Spread',
     spread_zodiac_desc: '12 cards · Comprehensive life analysis',
+    spread_yearahead_name: 'Year Ahead',
+    spread_yearahead_desc: '12 cards · Monthly fortune guidance',
     spread_pastlife_name: 'Past Life',
     spread_pastlife_desc: '5 cards · Soul karma exploration',
     spread_health_name: 'Health Spread',
@@ -1576,6 +1623,7 @@ const I18N = {
     spread_declutter_desc: '4 cards · Release attachment & cleanse',
     declutter_tip: 'Suitable when you are torn about letting go of someone/something, or want to clear your energy field.',
     zodiac_tip: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading.',
+    yearahead_tip: 'Suitable for New Year, birthdays, or any time you want to plan for the next 12 months. Monthly reading to help you grasp the rhythm of the whole year.',
     pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',
     health_tip: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.',
     family_tip: 'Suitable for analyzing family relationships, parent-child relationships, family atmosphere. Helps improve family harmony.',
