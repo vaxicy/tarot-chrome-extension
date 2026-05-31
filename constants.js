@@ -432,6 +432,31 @@ const SPREADS = {
     usage: '适合低自尊、讨好型人格、总是寻求外界认可的人，帮助建立健康的自我价值感。',
     usageEn: 'Suitable for people with low self-esteem, people-pleasing tendencies, or those constantly seeking external validation. Helps build healthy self-worth.'
   },
+  // ============ 内在小孩疗愈牌阵 ============
+  innerchild: {
+    name: '内在小孩疗愈',
+    nameEn: 'Inner Child Healing',
+    positions: ['内在小孩状态', '童年的印记', '需要被看见的', '疗愈方式', '成长方向'],
+    positionsEn: ['Inner Child State', 'Childhood Imprint', 'What Needs to be Seen', 'Healing Method', 'Growth Direction'],
+    positionMeanings: [
+      '内在小孩状态：你内心那个小孩现在的情绪和需求。是害怕的、委屈的、还是充满好奇的？这张牌帮你看见——你心里住着一个怎样的小孩。',
+      '童年的印记：哪些经历塑造了现在的你。可能是某次被忽视、某次被夸奖、或者某个一直没被满足的期待——这张牌把你童年"未完成的作业"捞出来。',
+      '需要被看见的：内在小孩一直想让你注意到的事。可能是"其实我很痛"、"我一直在假装坚强"，或者"我也需要被抱抱"——这张牌是内在小孩发给你的求救信号，别已读不回。',
+      '疗愈方式：怎样温柔地照顾自己。可能是"给自己写一封安慰信"、"去找内在的小孩对话"，或者"做一件小时候一直想做但没做的事"——看牌面告诉你什么。',
+      '成长方向：疗愈后你会成为什么样的人。这张牌给你希望——当你开始照顾内在小孩，你的性格、人际关系、甚至命运，都会慢慢变好。'
+    ],
+    positionMeaningsEn: [
+      'Inner Child State: The current emotions and needs of the child within you. Are they scared, wronged, or full of curiosity? This card helps you see — what kind of child lives in your heart.',
+      'Childhood Imprint: Which experiences shaped who you are now. Might be a time you were ignored, a time you were praised, or an expectation that was never fulfilled — this card pulls out the "unfinished homework" from your childhood.',
+      'What Needs to be Seen: What your inner child has always wanted you to notice. Might be "actually I hurt a lot", "I\'ve been pretending to be strong", or "I also need a hug" — this card is the distress signal your inner child sent you, don\'t leave it on read.',
+      'Healing Method: How to gently take care of yourself. Might be "write a comfort letter to yourself", "go have a dialogue with your inner child", or "do something you always wanted to do as a child but never got to" — see what the card tells you.',
+      'Growth Direction: What kind of person you\'ll become after healing. This card gives you hope — when you start taking care of your inner child, your personality, relationships, and even destiny will slowly get better.'
+    ],
+    category: 'self', difficulty: 'medium', recommended: true, loadingText: '正在连接内在小孩...',
+    loadingTextEn: 'Connecting with your inner child...',
+    usage: '适合总是自我批评、情绪容易失控、想修复童年影响、或感觉内心有个空洞的人。帮助你重新养育自己的内在小孩。',
+    usageEn: 'Suitable for people who always self-criticize, have volatile emotions, want to heal childhood impacts, or feel an inner void. Helps you re-parent your inner child.'
+  },
   year: {
     name: '年运牌阵',
     nameEn: 'Yearly Spread',
@@ -719,6 +744,33 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Side Hustle Exploration spread...',
     usage: '适合想搞副业赚钱、但不确定方向是否合适、担心投入产出比时使用。帮助你找到最适合自己的副业方向。',
     usageEn: 'Suitable for when you want to start a side hustle to earn money, but are unsure if the direction is right, or worry about ROI. Helps you find the side hustle direction that suits you best.'
+  },
+  // ============ 创业可行性牌阵 ============
+  startup: {
+    name: '创业可行性',
+    nameEn: 'Startup Feasibility Spread',
+    positions: ['创业动机与内在驱动力', '市场环境与外部机遇', '你的核心优势', '潜在风险与障碍', '资源支持', '结果预测与建议'],
+    positionsEn: ['Startup Motivation & Inner Drive', 'Market Environment & External Opportunities', 'Your Core Strengths', 'Potential Risks & Obstacles', 'Resource Support', 'Outcome Prediction & Advice'],
+    positionMeanings: [
+      '创业动机与内在驱动力：你"为什么"想创业？这张牌帮你看到深层动机——是"想要自由"、"想证明自己"，还是"看到了真实的市场机会"？动机决定你能走多远。如果逆位，说明动机可能不够纯粹，或者你其实还没准备好承担创业的风险。',
+      '市场环境与外部机遇：现在创业，外部条件支持吗？这张牌告诉你市场大环境——是"风口上"、"竞争激烈需要差异化"，还是"市场还没准备好"？正位预示外部环境有利；逆位则提醒你需要更谨慎地评估市场需求。',
+      '你的核心优势：你"有什么"可以支撑创业？这张牌揭示你的核心竞争力——可能是技术能力、人脉资源、行业经验，或者超强的执行力。如果逆位，说明你可能对自己的优势还不够自信，或者优势需要进一步提升才能支撑创业。',
+      '潜在风险与障碍：创业路上"最大的坑"是什么？这张牌帮你预判风险——可能是资金不足、合伙人问题、市场需求误判，或者你自己的心理瓶颈。逆位说明风险可能被低估；正位则预示你对风险有清晰认知，这是好事。',
+      '资源支持：你"不是一个人"在战斗。这张牌告诉你有哪些资源可以依靠——可能是家人支持、投资人兴趣、政府扶持政策，或者你自己的积蓄。逆位说明资源可能比你想的少，需要提前储备；正位则预示资源较为充足，可以更有信心地推进。',
+      '结果预测与建议：如果现在启动创业，大概会怎样？这张牌给出结果预测和下一步建议。可能是"时机未到，先积累经验和资源"、"可以小步试错，别一下子all in"，或者"现在就是最好的时机，勇敢出发吧"——看牌面告诉你什么。'
+    ],
+    positionMeaningsEn: [
+      'Startup Motivation & Inner Drive: "Why" do you want to start a business? This card helps you see the deep motivation — is it "wanting freedom", "wanting to prove yourself", or "seeing a real market opportunity"? Motivation determines how far you can go. If reversed, it suggests the motivation may not be pure enough, or you may not be ready to bear the risks of entrepreneurship.',
+      'Market Environment & External Opportunities: If you start a business now, does the external condition support it? This card tells you the general market environment — is it "on the trend", "fierce competition requiring differentiation", or "the market is not ready yet"? Upright indicates favorable external environment; reversed suggests you need to more carefully assess market demand.',
+      'Your Core Strengths: What do you "have" that can support entrepreneurship? This card reveals your core competitiveness — might be technical ability, network resources, industry experience, or exceptional execution ability. If reversed, it suggests you may not be confident enough in your strengths, or your strengths need further improvement to support entrepreneurship.',
+      'Potential Risks & Obstacles: What is the "biggest pitfall" on the entrepreneurial path? This card helps you anticipate risks — might be insufficient funding, partner issues, misjudgment of market demand, or your own psychological bottlenecks. Reversed means risks may be underestimated; upright indicates you have clear awareness of risks, which is a good thing.',
+      'Resource Support: You are "not fighting alone". This card tells you what resources you can rely on — might be family support, investor interest, government support policies, or your own savings. Reversed means resources may be less than you think, need to reserve in advance; upright indicates resources are relatively sufficient, you can move forward with more confidence.',
+      'Outcome Prediction & Advice: If you start a business now, what will probably happen? This card gives outcome prediction and next-step advice. Might be "timing is not yet right, first accumulate experience and resources", "can test with small steps, don\'t all in at once", or "now is the best timing, set off bravely" — see what the card tells you.'
+    ],
+    category: 'career', difficulty: 'hard', recommended: true, loadingText: '正在展开创业可行性牌阵...',
+    loadingTextEn: 'Unfolding the Startup Feasibility spread...',
+    usage: '适合想要创业、评估创业可行性、了解创业风险与机会、或决定是否辞职创业时使用。帮你从多个维度全面评估创业决策。',
+    usageEn: 'Suitable for when you want to start a business, assess startup feasibility, understand startup risks and opportunities, or decide whether to quit your job to start a business. Helps you comprehensively evaluate your startup decision from multiple dimensions.'
   },
   // ============ 新增命运走向牌阵 ============
   fatewheel: {
@@ -1187,6 +1239,41 @@ const SPREADS = {
     usage: '适合情感疗愈、关系修复、放下怨恨、或想要与自己和解时使用。宽恕是给自己的礼物。',
     usageEn: 'Suitable for emotional healing, relationship repair, letting go of resentment, or wanting to reconcile with yourself. Forgiveness is a gift to yourself.'
   },
+  // ============ 生命之树牌阵 ============
+  treetoflife: {
+    name: '生命之树',
+    nameEn: 'Tree of Life Spread',
+    positions: ['① 王冠 Kether', '② 智慧 Chochmah', '③ 理解 Binah', '④ 慈悲 Chesed', '⑤ 严厉 Geburah', '⑥ 美丽 Tiphareth', '⑦ 胜利 Netzach', '⑧ 荣耀 Hod', '⑨ 基础 Yesod', '⑩ 王国 Malkuth'],
+    positionsEn: ['① Kether (Crown)', '② Chochmah (Wisdom)', '③ Binah (Understanding)', '④ Chesed (Mercy)', '⑤ Geburah (Severity)', '⑥ Tiphareth (Beauty)', '⑦ Netzach (Victory)', '⑧ Hod (Glory)', '⑨ Yesod (Foundation)', '⑩ Malkuth (Kingdom)'],
+    positionMeanings: [
+      '① 王冠 Kether：灵性源头与最高意志。这张牌告诉你「你此生最高的召唤是什么」——那是超越小我欲望的、灵魂层面的方向。如果逆位，说明你可能正在抗拒自己的天命，或者用世俗标准定义「成功」。正位则预示你与源头连接顺畅，正在正确的道路上。',
+      '② 智慧 Chochmah：直觉、灵感与「闪电般的领悟」。这张牌揭示你「最深层的直觉在告诉你什么」——可能是某个一直出现的想法、突然的灵感，或者内心深处「一直知道但没行动」的真相。逆位说明你可能过度理性分析而屏蔽了直觉；正位则预示灵感正在涌入，适合创造性工作。',
+      '③ 理解 Binah：接收、孕育与「容器的智慧」。这张牌告诉你「如何把灵感落地」——你需要什么样的容器（时间、空间、关系、结构）来承接你的灵感？逆位说明你可能承接了太多、容器已经溢出；正位则预示你正在学会「有智慧地接收」，而非盲目接受一切。',
+      '④ 慈悲 Chesed：扩展、慷慨与「无条件的爱」。这张牌揭示你「在哪些方面可以给予和扩展」——可能是对他人的宽容、对自己梦想的投入，或者打开心扉接受帮助。逆位说明你可能过度扩张、承诺太多而力不从心；正位则预示你正处于一个丰盛的给予期，爱在流动。',
+      '⑤ 严厉 Geburah：边界、纪律与「必要的收缩」。这张牌告诉你「哪里需要设立边界或做减法」——可能是对他人的过度妥协、对自己目标的分散投入，或者需要说「不」的时刻。逆位说明你可能过于严厉、自我批判过重；正位则预示你正在建立健康的边界，保护自己的能量。',
+      '⑥ 美丽 Tiphareth：平衡、整合与「真实的自我」。这张牌是生命之树的中心，揭示「你此刻最核心的自我状态」——你是否活在自己的真相里？是否在平衡中？逆位说明你可能为了迎合他人而偏离了自己的中心；正位则预示你正在活出真实的自己，内在和谐正在建立。',
+      '⑦ 胜利 Netzach：情感、欲望与「行动的驱动力」。这张牌告诉你「你的情感能量正在推动你走向哪里」——是爱、是渴望、是愤怒、还是某种深层的热情？逆位说明情感可能失控或被压抑；正位则预示你的情感能量充沛且正向，正在推动你走向胜利。',
+      '⑧ 荣耀 Hod：思维、沟通与「理性的力量」。这张牌揭示你「如何用思维和语言构建现实」——你的信念系统、沟通方式、以及你对世界的解释。逆位说明你可能陷入过度分析或沟通不畅；正位则预示你的思维清晰、沟通能力良好，正在用理性力量构建你想要的现实。',
+      '⑨ 基础 Yesod：潜意识、梦境与「内在根基」。这张牌告诉你「你的潜意识里正在发生什么」——可能是反复出现的梦境、直觉的预感，或者那些你没意识到但一直在驱动你的信念。逆位说明潜意识里可能有未被清理的旧模式；正位则预示你的内在根基稳固，潜意识正在为你提供支持。',
+      '⑩ 王国 Malkuth：物质现实、身体与「落地的结果」。这张牌揭示「你目前在物质层面最需要注意什么」——健康、财务、工作环境、身体状态等。这是生命之树最底端的质点，所有上方的能量最终都要在这里落地。逆位说明物质层面可能有失衡需要关注；正位则预示你的物质生活正在与灵性方向对齐，落地顺畅。'
+    ],
+    positionMeaningsEn: [
+      '① Kether (Crown): Spiritual source and highest will. This card tells you "what is your highest calling in this life" — that direction beyond the small ego\'s desires, the soul-level orientation. Reversed suggests you may be resisting your destiny or defining "success" by worldly standards. Upright indicates smooth connection with source, you are on the right path.',
+      '② Chochmah (Wisdom): Intuition, inspiration, and "lightning-like realization". This card reveals "what your deepest intuition is telling you" — might be a recurring idea, sudden inspiration, or the truth you "have always known but not acted upon". Reversed means you may be over-analyzing and blocking intuition; upright indicates inspiration is flowing in, good for creative work.',
+      '③ Binah (Understanding): Reception, gestation, and "the wisdom of the container". This card tells you "how to ground your inspiration" — what kind of container (time, space, relationship, structure) do you need to receive your inspiration? Reversed means you may be receiving too much, the container is overflowing; upright indicates you are learning "wise reception" rather than blindly accepting everything.',
+      '④ Chesed (Mercy): Expansion, generosity, and "unconditional love". This card reveals "where you can give and expand" — might be tolerance toward others, investment in your own dreams, or opening your heart to receive help. Reversed means you may be over-extending, promising too much; upright indicates you are in a abundant giving period, love is flowing.',
+      '⑤ Geburah (Severity): Boundaries, discipline, and "necessary contraction". This card tells you "where you need to set boundaries or subtract" — might be over-compromising with others, scattered investment in your goals, or the moment to say "no". Reversed means you may be too harsh, overly self-critical; upright indicates you are building healthy boundaries, protecting your energy.',
+      '⑥ Tiphareth (Beauty): Balance, integration, and "authentic self". This card is the center of the Tree of Life, revealing "what is your core self state right now" — are you living in your truth? Are you in balance? Reversed means you may be deviating from your center to please others; upright indicates you are living as your authentic self, inner harmony is being established.',
+      '⑦ Netzach (Victory): Emotion, desire, and "the driving force of action". This card tells you "where is your emotional energy propelling you" — is it love, craving, anger, or some deep passion? Reversed means emotions may be out of control or suppressed; upright indicates your emotional energy is abundant and positive, propelling you toward victory.',
+      '⑧ Hod (Glory): Thinking, communication, and "the power of reason". This card reveals "how you use thought and language to construct reality" — your belief system, communication style, and your interpretation of the world. Reversed means you may be trapped in over-analysis or poor communication; upright indicates your thinking is clear, communication skills are good, you are using rational power to build the reality you want.',
+      '⑨ Yesod (Foundation): Subconscious, dreams, and "inner foundation". This card tells you "what is happening in your subconscious" — might be recurring dreams, intuitive premonitions, or those beliefs that are driving you without you realizing it. Reversed means there may be uncleaned old patterns in the subconscious; upright indicates your inner foundation is solid, your subconscious is providing you support.',
+      '⑩ Malkuth (Kingdom): Material reality, body, and "grounded results". This card reveals "what you need to pay most attention to in the material layer right now" — health, finances, work environment, physical condition, etc. This is the lowest sphere of the Tree, all energy above must finally ground here. Reversed means there may be imbalance in the material layer needing attention; upright indicates your material life is aligning with your spiritual direction, grounding is smooth.'
+    ],
+    category: 'advanced', difficulty: 'hard', recommended: true, loadingText: '正在展开生命之树...',
+    loadingTextEn: 'Unfolding the Tree of Life...',
+    usage: '适合灵性探索、人生阶段转折、想要从「灵性-物质」全层级理解自己当前状态时使用。生命之树从卡巴拉智慧出发，帮你看到能量从灵性源头到物质现实的完整通道。',
+    usageEn: 'Suitable for spiritual exploration, life transitions, or when you want to understand your current state from the full "spiritual-material" spectrum. The Tree of Life is based on Kabbalah wisdom, helping you see the complete channel of energy from spiritual source to material reality.'
+  },
   // ============ 断舍离牌阵 ============
   declutter: {
     name: '断舍离',
@@ -1234,6 +1321,29 @@ const SPREADS = {
     loadingTextEn: 'Optimizing daily habits...',
     usage: '适合想要优化日常习惯、建立新习惯、或打破顽固行为模式时使用。帮助你从能量层面理解习惯并找到优化方案。',
     usageEn: 'Suitable for when you want to optimize daily habits, build new habits, or break stubborn behavior patterns. Helps you understand habits from an energy level and find optimization plans.'
+  },
+  // ============ 四季牌阵 ============
+  seasons: {
+    name: '四季牌阵',
+    nameEn: 'Four Seasons Spread',
+    positions: ['春 · 能量开启与播种', '夏 · 成长高峰与绽放', '秋 · 收获成果与反思', '冬 · 沉淀休养与内省'],
+    positionsEn: ['Spring · Energy Awakening & Sowing', 'Summer · Growth Peak & Blossoming', 'Autumn · Harvest & Reflection', 'Winter · Rest & Introspection'],
+    positionMeanings: [
+      '春 · 能量开启与播种：这一季你的核心能量是什么？有哪些事情适合在此时「播种」、启动、或勇敢尝试？这张牌告诉你春天的主题。',
+      '夏 · 成长高峰与绽放：这一季能量达到高峰，哪些领域会快速成长？哪里需要你全情投入、放大成果？这张牌揭示盛夏的课题。',
+      '秋 · 收获成果与反思：这一季你会有哪些收获？哪些事情需要「收割」、整理、或放下？这张牌告诉你秋天的能量焦点。',
+      '冬 · 沉淀休养与内省：这一季适合慢下来、内省、休息与整合。哪方面需要你收回能量、深度沉淀？这张牌揭示寒冬的课题。'
+    ],
+    positionMeaningsEn: [
+      'Spring: What is your core energy this season? What is ready to be sown, initiated, or courageously attempted? This card tells you the theme of spring.',
+      'Summer: Energy peaks this season — which areas will grow rapidly? Where do you need to fully commit and amplify results? This card reveals the lesson of midsummer.',
+      'Autumn: What will you harvest this season? What needs to be reaped, sorted, or released? This card tells you the energy focus of autumn.',
+      'Winter: This season is for slowing down, introspection, rest, and integration. Which aspect needs you to withdraw energy and deeply consolidate? This card reveals the lesson of deep winter.'
+    ],
+    category: 'fortune', difficulty: 'medium', recommended: true, loadingText: '正在展开四季牌阵...',
+    loadingTextEn: 'Unfolding the Four Seasons spread...',
+    usage: '适合在年初、换季时，或想要从宏观时间维度规划全年时使用。帮你把握每个季节的能量主题与行动重点。',
+    usageEn: 'Suitable at the beginning of the year, at seasonal transitions, or when you want to plan the year from a macro time dimension. Helps you grasp each season\'s energy theme and action focus.'
   }
 };
 
@@ -1375,12 +1485,21 @@ const I18N = {
     spread_forgiveness_name: '宽恕牌阵',
     spread_forgiveness_desc: '5张牌 · 情感疗愈与自我和解',
     forgiveness_tip: '适合情感疗愈、关系修复、放下怨恨、或想要与自己和解时使用。宽恕是给自己的礼物。',
+    spread_treetoflife_name: '生命之树',
+    spread_treetoflife_desc: '10张牌 · 灵性-物质能量通道',
+    treetoflife_tip: '适合灵性探索、人生阶段转折，或想要从「灵性源头→物质现实」全层级理解自己当前状态时使用。',
     spread_declutter_name: '断舍离',
     spread_declutter_desc: '4张牌 · 放下执念与清理',
     declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
     spread_habit_name: '日常习惯优化',
     spread_habit_desc: '5张牌 · 优化日常习惯与行为模式',
     habit_tip: '适合想要优化日常习惯、建立新习惯、或打破顽固行为模式时使用。',
+    spread_seasons_name: '四季牌阵',
+    spread_seasons_desc: '4张牌 · 春夏秋冬能量指引',
+    seasons_tip: '适合在年初、换季时，或想要从宏观时间维度规划全年时使用。',
+    spread_startup_name: '创业可行性',
+    spread_startup_desc: '6张牌 · 创业方向与风险评估',
+    startup_tip: '适合想要创业、评估创业可行性、了解创业风险与机会、或决定是否辞职创业时使用。',
     spread_decisiontree_name: '决策树牌阵',
     spread_decisiontree_desc: '6张牌 · 短期与长期结果分析',
     decisiontree_tip: '适合面临重要决策时，全面分析不同选择的短期和长期影响，帮助你做出最明智的决定。',
@@ -1536,6 +1655,9 @@ const I18N = {
     spread_selfworth_name: '自我价值牌阵',
     spread_selfworth_desc: '6张牌 · 建立健康的自我价值感',
     selfworth_tip: '适合低自尊、讨好型人格、总是寻求外界认可的人，帮助建立健康的自我价值感。',
+    spread_innerchild_name: '内在小孩疗愈',
+    spread_innerchild_desc: '5张牌 · 重新养育自己的内在小孩',
+    innerchild_tip: '适合总是自我批评、情绪容易失控、想修复童年影响、或感觉内心有个空洞的人。帮助你重新养育自己的内在小孩。',
     year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     spread_proscons_name: '利弊分析',
     spread_proscons_desc: '4张牌 · 支持与反对因素分析',
@@ -1885,6 +2007,9 @@ const I18N = {
     spread_selfworth_name: 'Self-Worth Spread',
     spread_selfworth_desc: '6 cards · Build healthy self-worth',
     selfworth_tip: 'For people with low self-esteem, people-pleasing tendencies, or those constantly seeking external validation. Helps build healthy self-worth.',
+    spread_innerchild_name: 'Inner Child Healing',
+    spread_innerchild_desc: '5 cards · Re-parent your inner child',
+    innerchild_tip: 'For those who always self-criticize, have volatile emotions, want to heal childhood impacts, or feel an inner void. Helps you re-parent your inner child.',
     year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.',
     spread_proscons_name: 'Pros & Cons',
     spread_proscons_desc: '4 cards · Analyze pros and cons',
@@ -1926,12 +2051,21 @@ const I18N = {
     spread_forgiveness_name: 'Forgiveness',
     spread_forgiveness_desc: '5 cards · Emotional healing & self-reconciliation',
     forgiveness_tip: 'Suitable for emotional healing, relationship repair, letting go of resentment, or wanting to reconcile with yourself. Forgiveness is a gift to yourself.',
+    spread_treetoflife_name: 'Tree of Life',
+    spread_treetoflife_desc: '10 cards · Spiritual-Material energy channel',
+    treetoflife_tip: 'Suitable for spiritual exploration, life transitions, or when you want to understand your current state from the full "spiritual source → material reality" spectrum.',
     spread_declutter_name: 'Declutter & Let Go',
     spread_declutter_desc: '4 cards · Release attachment & cleanse',
     declutter_tip: 'Suitable when you are torn about letting go of someone/something, or want to clear your energy field.',
     spread_habit_name: 'Daily Habit Optimization',
     spread_habit_desc: '5 cards · Optimize habits & behavior',
     habit_tip: 'Suitable for optimizing daily habits, building new habits, or breaking stubborn behavior patterns.',
+    spread_seasons_name: 'Four Seasons',
+    spread_seasons_desc: '4 cards · Seasonal energy guidance',
+    seasons_tip: 'Suitable at the beginning of the year, at seasonal transitions, or when planning the year from a macro time dimension.',
+    spread_startup_name: 'Startup Feasibility',
+    spread_startup_desc: '6 cards · Startup direction & risk assessment',
+    startup_tip: 'Suitable for evaluating startup feasibility, understanding startup risks and opportunities, or deciding whether to quit your job to start a business.',
     zodiac_tip: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading.',
     yearahead_tip: 'Suitable for New Year, birthdays, or any time you want to plan for the next 12 months. Monthly reading to help you grasp the rhythm of the whole year.',
     pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',

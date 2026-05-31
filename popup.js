@@ -15,13 +15,8 @@
       this.currentLang = 'zh';
       this.soundEnabled = true;  // 音效/触觉开关（与 toggleSound 同步）
 
-      // 洗牌缓存
-      this.shuffledDeckCache = null;
-      this.lastShuffleDeck = null;
-
-      // 自定义牌意
+      // 自定义牌意缓存（从 deckManager 同步）
       this.customMeanings = {};
-      this.CUSTOM_MEANINGS_KEY = 'tarot_custom_meanings';
 
       // 英文牌意 fallback 缓存（rider-waite 映射）
       this.riderWaiteMap = new Map();
@@ -41,23 +36,16 @@
     }
 
     // ============ 自定义牌意管理 ============
+    // 使用 deckManager 统一管理
     async loadCustomMeanings() {
-      return new Promise((resolve) => {
-        chrome.storage.local.get(this.CUSTOM_MEANINGS_KEY, (result) => {
-          this.customMeanings = result[this.CUSTOM_MEANINGS_KEY] || {};
-          resolve(this.customMeanings);
-        });
-      });
+      this.customMeanings = await deckManager.loadCustomMeanings();
+      return this.customMeanings;
     }
 
     async saveCustomMeaning(cardId, type, text) {
-      if (!this.customMeanings[cardId]) this.customMeanings[cardId] = {};
-      this.customMeanings[cardId][type] = text;
-      const data = {};
-      data[this.CUSTOM_MEANINGS_KEY] = this.customMeanings;
-      return new Promise((resolve) => {
-        chrome.storage.local.set(data, resolve);
-      });
+      await deckManager.saveCustomMeaning(cardId, type, text);
+      // 同步本地缓存
+      this.customMeanings = await deckManager.loadCustomMeanings();
     }
 
     getMeaningText(card, isReversed) {
@@ -323,13 +311,8 @@
 
     // ============ 洗牌缓存 ============
     getShuffledDeck() {
-      if (this.shuffledDeckCache && this.lastShuffleDeck === this.currentDeck) {
-        return this.shuffledDeckCache;
-      }
       const cardsData = this.getDeckData();
-      this.shuffledDeckCache = this.shuffle(cardsData.slice());
-      this.lastShuffleDeck = this.currentDeck;
-      return this.shuffledDeckCache;
+      return this.shuffle(cardsData.slice());
     }
 
     // ============ 获取当前牌组数据 ============
@@ -1182,6 +1165,7 @@
         case 'year':
         case 'creative':
         case 'finance':
+        case 'innerchild':
           adviceCard = cards[4] || null;
           break;
         case 'declutter':
@@ -1213,6 +1197,15 @@
         case 'lovepattern':
         case 'habit':
           adviceCard = cards[4] || null; // 5张牌，建议在第5张（索引4）
+          break;
+        case 'seasons':
+          adviceCard = cards[3] || null; // 4张牌，建议在第4张（索引3）
+          break;
+        case 'treetoflife':
+          adviceCard = cards[5] || null; // 10张牌，建议在第6张 Tiphareth（索引5）
+          break;
+        case 'startup':
+          adviceCard = cards[5] || null; // 6张牌，建议在第6张（索引5）
           break;
         case 'lifepurpose':
           adviceCard = cards[7] || null;
@@ -1252,7 +1245,9 @@
         'horseshoe': 1, 'timeflow': 1, 'fatewheel': 0, 'monthly': 0,
         'souljourney': 0, 'zodiac': 0, 'pastlife': 0, 'health': 0,
         'family': 0, 'weekly': 0, 'proscons': 0, 'travel': 0, 'yesno': 0,
-        'creative': 0, 'finance': 0, 'declutter': 0, 'lovepattern': 0
+        'creative': 0, 'finance': 0, 'declutter': 0, 'lovepattern': 0,
+        'treetoflife': 5,
+        'startup': 0  // 创业动机是当前核心位置（索引0）
       };
       const currentIdx = currentIdxMap[mode] !== undefined ? currentIdxMap[mode] : (cards.length > 1 ? 1 : -1);
       if (currentIdx >= 0 && cards[currentIdx] && cards[currentIdx].card.suit === 'major') {
@@ -1295,6 +1290,13 @@
             text += ' 阴影牌阵建议：你排斥的他人特质，往往正是你拒绝承认的自己。下次当你对某人感到强烈反感时，问问自己："这是我吗？"';
           } else {
             text += ' Shadow spread advice: The traits you dislike in others are often exactly what you refuse to acknowledge in yourself. Next time you feel strong dislike toward someone, ask yourself: "Is this me?"';
+          }
+          break;
+        case 'innerchild':
+          if (!isEn) {
+            text += ' 内在小孩牌阵建议：你心里住着一个小孩，他/她一直在等你看见。今天对自己说一句："我看见你了，你很安全。"';
+          } else {
+            text += ' Inner Child Healing spread advice: There is a child living in your heart, who has been waiting for you to see them. Today, say to yourself: "I see you, you are safe."';
           }
           break;
         case 'lifepurpose':
@@ -1447,6 +1449,27 @@
             text += ' 日常习惯优化牌阵建议：习惯的改变需要21天以上的持续行动，不要期待一夜之间脱胎换骨。关注"身份认同"而非"目标"——不是"我要养成读书习惯"，而是"我是一个爱读书的人"。';
           } else {
             text += ' Daily Habit Optimization spread advice: Habit change requires more than 21 days of consistent action. Focus on "identity" rather than "goal" — not "I want to build a reading habit", but "I am a person who loves reading".';
+          }
+          break;
+        case 'seasons':
+          if (!isEn) {
+            text += ' 四季牌阵建议：每个季节有它自己的节奏——春天不要催芽，夏天不要怕绽放，秋天不要拒绝凋零，冬天不要害怕沉睡。顺着季节走，而非逆着它。';
+          } else {
+            text += ' Four Seasons spread advice: Each season has its own rhythm — do not rush the sprout in spring, do not fear blossoming in summer, do not reject withering in autumn, do not fear deep sleep in winter. Flow with the season, not against it.';
+          }
+          break;
+        case 'treetoflife':
+          if (!isEn) {
+            text += ' 生命之树牌阵建议：生命之树不是「从下往上爬」，而是「从上往下活」——先从灵性源头（Kether）连接，再让能量自然流到物质现实（Malkuth）。如果你的 Malkuth 有问题，先回头看 Kether 是否还连接着。';
+          } else {
+            text += ' Tree of Life spread advice: The Tree of Life is not "climbed from bottom to top", but "lived from top to bottom" — first connect with the spiritual source (Kether), then let energy naturally flow down to material reality (Malkuth). If your Malkuth has issues, first check whether you are still connected to Kether.';
+          }
+          break;
+        case 'startup':
+          if (!isEn) {
+            text += ' 创业可行性牌阵建议：创业不是「等准备好了再开始」，而是「在行动中准备」。如果牌面显示风险较高，可以先做副业试水，再决定是否全职创业。';
+          } else {
+            text += ' Startup Feasibility spread advice: Entrepreneurship is not "wait until fully prepared then start", but "prepare while acting". If the cards show high risk, you can first test the water with a side hustle, then decide whether to go full-time.';
           }
           break;
         default:
@@ -2669,6 +2692,156 @@
           break;
         }
 
+        // ---- 四季牌阵 ----
+        case 'seasons': {
+          const spring = cards[0], summer = cards[1], autumn = cards[2], winter = cards[3];
+          if (!isEn) {
+            text += '四季牌阵从宏观时间维度为你揭示一年的能量节奏。';
+            if (spring.isReversed) {
+              text += '「春」逆位，说明年初/春季可能起步不顺，或播种的方向需要调整。不要急于在春天就看到结果。';
+            } else {
+              text += '「春」正位，春季是充满潜力的播种期，适合启动新项目、设定年度意图。';
+            }
+            if (summer.card.suit === 'wands' || summer.card.suit === 'fire') {
+              text += ' 「夏」是火元素，夏季能量爆棚，适合全力推进、放大成果，但注意别 burnout。';
+            } else if (summer.card.suit === 'swords') {
+              text += ' 「夏」是风元素，夏季头脑清晰，适合决策、沟通和攻克难题。';
+            }
+            if (autumn.isReversed) {
+              text += ' 「秋」逆位，提醒你不要执着于特定的「收获」样子——有时候放手的果实比紧握的更甜。';
+            } else {
+              text += ' 「秋」正位，秋季是丰收的季节，适合总结、感恩和分享成果。';
+            }
+            if (winter.card.suit === 'major') {
+              text += ' 「冬」是大阿卡那牌，冬季将带来灵魂层面的深度整合，休息本身就是一种成长。';
+            } else if (winter.card.suit === 'pentacles') {
+              text += ' 「冬」是星币牌，冬季适合务实规划、巩固基础，为下一个春天储备能量。';
+            }
+          } else {
+            text += 'The Four Seasons spread reveals the energy rhythm of your year from a macro time dimension. ';
+            if (spring.isReversed) {
+              text += ' "Spring" is reversed — the start may be bumpy, or the sowing direction needs adjustment.';
+            }
+            if (winter.card.suit === 'major') {
+              text += ' "Winter" is a Major Arcana card — deep soul integration happens in winter. Rest itself is a form of growth.';
+            }
+          }
+          break;
+        }
+
+        // ---- 生命之树 ----
+        case 'treetoflife': {
+          const kether = cards[0], chochmah = cards[1], binah = cards[2];
+          const chesed = cards[3], geburah = cards[4], tiphareth = cards[5];
+          const netzach = cards[6], hod = cards[7], yesod = cards[8], malkuth = cards[9];
+          if (!isEn) {
+            text += '生命之树牌阵从卡巴拉十大质点揭示你从灵性源头到物质现实的完整能量通道。';
+            // 顶端三角：Kether-Chochmah-Binah
+            if (kether.isReversed) {
+              text += ' 「王冠 Kether」逆位，说明你可能正在抗拒自己的最高召唤，或者用世俗标准定义"成功"，与灵性源头连接不畅。';
+            } else {
+              text += ' 「王冠 Kether」正位，预示你与灵性源头连接顺畅，正在聆听灵魂层面的方向。';
+            }
+            if (chochmah.card.suit === 'wands' || chochmah.card.suit === 'fire') {
+              text += ' 「智慧 Chochmah」是火元素，你的直觉能量充沛，灵感正在涌入，适合创造性工作。';
+            } else if (chochmah.isReversed) {
+              text += ' 「智慧 Chochmah」逆位，说明你可能过度理性分析而屏蔽了直觉，试着放下"想通"，先"感受"。';
+            }
+            if (binah.isReversed) {
+              text += ' 「理解 Binah」逆位，提醒你可能承接了太多、容器已经溢出，需要学会"有智慧地拒绝"。';
+            }
+            // 中柱：Chesed-Geburah-Tiphareth
+            if (chesed.isReversed && !geburah.isReversed) {
+              text += ' 「慈悲 Chesed」逆位而「严厉 Geburah」正位，说明你需要更多边界和纪律，而非无差别的扩张。';
+            } else if (!chesed.isReversed && geburah.isReversed) {
+              text += ' 「慈悲 Chesed」正位而「严厉 Geburah」逆位，说明你可能对自己/他人过于严厉，需要多一点宽容和慈悲。';
+            }
+            if (tiphareth.card.suit === 'major') {
+              text += ' 「美丽 Tiphareth」（生命之树中心）是大阿卡那牌，说明你此刻正在经历重要的自我整合，内在和谐正在建立。';
+            }
+            // 底部：Netzach-Hod-Yesod-Malkuth
+            if (netzach.isReversed && !hod.isReversed) {
+              text += ' 「胜利 Netzach」逆位而「荣耀 Hod」正位，情感能量可能需要收敛，理性思维正在帮你建立结构。';
+            }
+            if (yesod.isReversed) {
+              text += ' 「基础 Yesod」逆位，提醒你潜意识里可能有未被清理的旧模式，或者梦境/直觉在试图告诉你什么——留意你的梦。';
+            }
+            if (malkuth.isReversed) {
+              text += ' 「王国 Malkuth」逆位，物质层面（健康/财务/工作环境）可能有失衡需要关注，灵性能量需要更好地落地。';
+            } else {
+              text += ' 「王国 Malkuth」正位，物质生活正在与灵性方向对齐，落地顺畅。';
+            }
+          } else {
+            text += 'The Tree of Life spread reveals your complete energy channel from spiritual source to material reality through the ten sefirot. ';
+            if (kether.isReversed) {
+              text += 'Kether reversed suggests you may be resisting your highest calling or defining "success" by worldly standards. ';
+            }
+            if (chochmah.isReversed) {
+              text += 'Chochmah reversed suggests over-analysis may be blocking your intuition. ';
+            }
+            if (tiphareth.card.suit === 'major') {
+              text += 'Tiphareth (center of the Tree) is a Major Arcana card — you are in an important period of self-integration. ';
+            }
+            if (malkuth.isReversed) {
+              text += 'Malkuth reversed suggests imbalance in the material layer (health/finance/work) needing attention. ';
+            }
+          }
+          break;
+        }
+
+        // ---- 创业可行性 ----
+        case 'startup': {
+          const motivation = cards[0], market = cards[1], strength = cards[2];
+          const risk = cards[3], resource = cards[4], outcome = cards[5];
+          if (!isEn) {
+            text += '创业可行性牌阵从六个维度全面评估你的创业计划。';
+            // 创业动机
+            if (motivation.isReversed) {
+              text += ' 「创业动机」逆位，说明你的创业动机可能不够纯粹——也许是「不想上班」、「想证明自己」或「看到别人在创业所以也想」。这些动机本身不是错，但需要更深的「我想解决什么问题」来支撑。';
+            } else {
+              text += ' 「创业动机」正位，说明你的创业动机清晰且有力量。你不是因为「不想上班」而创业，而是因为「有一个想实现的愿景」。';
+            }
+            // 市场环境
+            if (market.card.suit === 'pentacles') {
+              text += ' 「市场环境」是星币牌，说明市场需求真实存在，且有盈利空间。是个好信号。';
+            } else if (market.card.suit === 'swords') {
+              text += ' 「市场环境」是宝剑牌，说明市场竞争激烈或需要精密的策略。不要盲目进入，先做足功课。';
+            }
+            // 核心优势
+            if (strength.card.suit === 'wands' || strength.card.suit === 'fire') {
+              text += ' 「核心优势」是火元素，你的竞争力在于行动力、创新力或领导力。适合做「第一个吃螃蟹的人」类型的创业。';
+            } else if (strength.card.suit === 'cups' || strength.card.suit === 'water') {
+              text += ' 「核心优势」是水元素，你的竞争力在于用户体验、情感连接或社群运营。适合做「有温度」的生意。';
+            }
+            // 风险
+            if (risk.isReversed) {
+              text += ' 「潜在风险」逆位，提醒你不要低估风险。创业路上最大的风险往往不是「钱不够」，而是「创始人认知不够」。';
+            }
+            // 资源支持
+            if (resource.card.suit === 'major') {
+              text += ' 「资源支持」是大阿卡那牌，说明你有一股超出个人能力的力量在支持这个创业——可能是贵人、时代趋势，或者你前世带来的福报。';
+            }
+            // 结果预测
+            if (outcome.isReversed) {
+              text += ' 「结果预测」逆位，不是「一定会失败」的意思，而是「需要更多准备和调整」。把逆位当作「提前预警」，而非「判决书」。';
+            } else {
+              text += ' 「结果预测」正位，预示创业计划整体可行。但正位不代表「躺赢」——创业永远需要全力以赴。';
+            }
+          } else {
+            text += 'The Startup Feasibility spread comprehensively evaluates your startup plan from six dimensions. ';
+            if (motivation.isReversed) {
+              text += '"Startup Motivation" is reversed — your motivation may not be pure enough. ';
+            }
+            if (market.card.suit === 'pentacles') {
+              text += '"Market Environment" is a Pentacles card — real market demand exists. ';
+            }
+            if (outcome.isReversed) {
+              text += '"Outcome Prediction" reversed — not "certain failure", but "needs more preparation". ';
+            }
+          }
+          break;
+        }
+
         // ---- 命运之轮 ----
         case 'fatewheel':
           if (!isEn) {
@@ -2929,8 +3102,6 @@
       const modeToggle = document.querySelector('.mode-btn.active');
       const currentMode = modeToggle ? modeToggle.dataset.mode : 'standard';
 
-      console.log('[Debug] 当前解读模式:', currentMode); // 调试日志
-
       const cards = this.currentCards;
       const mode = this.currentMode;
       const spreadName = this.getLocalizedSpreadName(mode);
@@ -2938,23 +3109,20 @@
 
       // 根据模式生成不同内容
       if (currentMode === 'simple') {
-        console.log('[Debug] 生成简单解读');
         return this.generateSimpleReading(cards, mode);
       }
 
       if (currentMode === 'standard') {
-        console.log('[Debug] 生成标准解读');
         return this.generateStandardReading(cards, mode, positions);
       }
 
       // 深度模式：显式检查 + 独立方法调用
       if (currentMode === 'deep') {
-        console.log('[Debug] 生成深度解读');
         return await this.generateDeepReading(cards, mode, positions, spreadName);
       }
 
       // 兜底：如果模式未知，使用标准模式
-      console.warn('[Debug] 未知模式，使用标准模式:', currentMode);
+      console.warn('未知模式，使用标准模式:', currentMode);
       return this.generateStandardReading(cards, mode, positions);
     }
 
@@ -3061,7 +3229,10 @@
           pastlife:   { prefix: '【前世今生】', theme: '跨生命的灵魂课题', advice: '化解前世的未完成课题' },
           health:     { prefix: '【健康指引】', theme: '身心健康的根本因素', advice: '关注身心整合的疗愈' },
           finance:    { prefix: '【财务决策】', theme: '财务风险与机会的能量分析', advice: '综合考虑风险与收益后行动' },
-          declutter:  { prefix: '【断舍离】', theme: '放下执念与清理能量场', advice: '识别真正需要释放的对象' }
+          declutter:  { prefix: '【断舍离】', theme: '放下执念与清理能量场', advice: '识别真正需要释放的对象' },
+          seasons:    { prefix: '【四季指引】', theme: '春夏秋冬的能量主题与行动重点', advice: '把握每个季节的能量节奏' },
+          treetoflife:{ prefix: '【生命之树】', theme: '灵性源头到物质现实的能量通道', advice: '从十个质点理解完整自我' },
+          startup:    { prefix: '【创业可行性】', theme: '创业动机、风险与机会的全方位评估', advice: '综合评估后做出明智决策' }
         },
         en: {
           single:     { prefix: '[Daily Guidance]', theme: 'Focus on current energy', advice: 'Take this card as core guidance' },
@@ -3092,7 +3263,10 @@
           pastlife:   { prefix: '[Past Life]', theme: 'Cross-life soul lessons', advice: 'Resolve unfinished past-life lessons' },
           health:     { prefix: '[Health]', theme: 'Root causes of body-mind health', advice: 'Focus on body-mind integrative healing' },
           finance:    { prefix: '[Finance]', theme: 'Energy analysis of financial risk and opportunity', advice: 'Act after comprehensive consideration of risk and return' },
-          declutter:  { prefix: '[Declutter]', theme: 'Letting go of attachments and clearing energy field', advice: 'Identify what truly needs to be released' }
+          declutter:  { prefix: '[Declutter]', theme: 'Letting go of attachments and clearing energy field', advice: 'Identify what truly needs to be released' },
+          seasons:    { prefix: '[Four Seasons]', theme: 'Energy themes and action focus of the four seasons', advice: 'Grasp the energy rhythm of each season' },
+          treetoflife:{ prefix: '[Tree of Life]', theme: 'Energy channel from spiritual source to material reality', advice: 'Understand the complete self through ten sefirot' },
+          startup:    { prefix: '[Startup Feasibility]', theme: 'Comprehensive assessment of startup motivation, risks & opportunities', advice: 'Make smart decisions after comprehensive evaluation' }
         }
       };
       return ctx[isEn ? 'en' : 'zh'][mode] || ctx[isEn ? 'en' : 'zh']['single'];
@@ -4182,7 +4356,6 @@
         const isReversed = Math.random() < 0.5;
         result.push({ card: item, isReversed: isReversed });
       }
-      this.shuffledDeckCache = deck;
       return result;
     }
 
@@ -4509,6 +4682,11 @@
       this.drawStandardSpread('year', 60, 96);
     }
 
+    // ============ 四季牌阵 ============
+    drawSeasons() {
+      this.drawStandardSpread('seasons', 55, 88);
+    }
+
     // ============ 新增决策分析牌阵 ============
     // ============ 利弊分析牌阵 ============
     drawProscons() {
@@ -4566,6 +4744,11 @@
       this.drawStandardSpread('souljourney', 50, 80);
     }
 
+    // ============ 内在小孩疗愈牌阵 ============
+    drawInnerchild() {
+      this.drawStandardSpread('innerchild', 60, 96);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -4620,6 +4803,8 @@
         case 'family':    this.drawFamily(); break;
         // 新增：一周运势牌阵
         case 'weekly':    this.drawWeekly(); break;
+        // 新增：四季牌阵
+        case 'seasons':  this.drawSeasons(); break;
         // 新增：灵感创作牌阵
         case 'creative':  this.drawCreative(); break;
         // 新增：财务投资牌阵
@@ -4630,12 +4815,18 @@
         case 'office':     this.drawOffice(); break;
         // 新增：自我价值牌阵
         case 'selfworth': this.drawSelfworth(); break;
+        // 新增：内在小孩疗愈牌阵
+        case 'innerchild': this.drawInnerchild(); break;
         // 新增：梦境解读牌阵
         case 'dream':      this.drawDream(); break;
         // 新增：失物寻找牌阵
         case 'lost':      this.drawLost(); break;
         // 新增：宽恕牌阵
         case 'forgiveness': this.drawForgiveness(); break;
+        // 新增：生命之树牌阵
+        case 'treetoflife': this.drawTreetoflife(); break;
+        // 新增：创业可行性牌阵
+        case 'startup': this.drawStartup(); break;
         // 新增：日常习惯优化牌阵
         case 'habit': this.drawHabit(); break;
       }
@@ -4701,6 +4892,11 @@
       this.drawStandardSpread('forgiveness', 60, 96);
     }
 
+    // ============ 新增生命之树牌阵 ============
+    drawTreetoflife() {
+      this.drawStandardSpread('treetoflife', 50, 85);
+    }
+
     // ============ 新增高我连接指引牌阵 ============
     drawHigherself() {
       this.drawStandardSpread('higherself', 55, 88);
@@ -4714,6 +4910,11 @@
     // ============ 新增日常习惯优化牌阵 ============
     drawHabit() {
       this.drawStandardSpread('habit', 60, 96);
+    }
+
+    // ============ 新增创业可行性牌阵 ============
+    drawStartup() {
+      this.drawStandardSpread('startup', 55, 88);
     }
 
     // ============ 新增友谊牌阵 ============
@@ -4769,8 +4970,6 @@
     // ============ 切换牌组 ============
     changeDeck(deckType) {
       this.currentDeck = deckType;
-      this.shuffledDeckCache = null;
-      this.lastShuffleDeck = null;
       if (typeof deckManager !== 'undefined') {
         deckManager.currentDeckName = deckType;
         deckManager.clearShuffleCache();
@@ -5369,7 +5568,6 @@
           history.unshift(record);
           if (history.length > 50) history.splice(50);
           chrome.storage.local.set({ history: history }, () => {
-            console.log('历史记录已保存');
             resolve();
           });
         });
@@ -6362,7 +6560,6 @@
       const listEl = document.getElementById('numgen-history-list');
       if (listEl) listEl.innerHTML = '';
       this.loadNumgenHistory();
-      console.log('命运数字历史已清空');
     }
 
     copyNumgenNumber() {
@@ -6767,7 +6964,6 @@
         this.updateCategoryCounts();  // 动态计算分类数量
         this.updateFortuneDate();
 
-        console.log('Tarot App 初始化完成');
       } catch (err) {
         console.error('初始化错误:', err);
       }
@@ -6874,11 +7070,9 @@
       }, true);
 
       const spreadBtns = document.querySelectorAll('.spread-btn, .spread-card');
-      console.log('绑定事件，找到', spreadBtns.length, '个牌阵按钮');
       spreadBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
           const spread = e.currentTarget.dataset.spread;
-          console.log('点击牌阵:', spread);
           try {
             switch (spread) {
               case 'single':     this.drawSingle(); break;
@@ -6928,6 +7122,8 @@
               case 'family':    this.drawFamily(); break;
               // 新增：一周运势牌阵
               case 'weekly':    this.drawWeekly(); break;
+              // 新增：四季牌阵
+              case 'seasons':  this.drawSeasons(); break;
               // 新增：灵感创作牌阵
               case 'creative':  this.drawCreative(); break;
               // 新增：财务投资牌阵
@@ -6938,14 +7134,18 @@
               case 'office':     this.drawOffice(); break;
               // 新增：自我价值牌阵
               case 'selfworth': this.drawSelfworth(); break;
+              // 新增：内在小孩疗愈牌阵
+              case 'innerchild': this.drawInnerchild(); break;
               // 新增：梦境解读牌阵
               case 'dream':      this.drawDream(); break;
               // 新增：失物寻找牌阵
               case 'lost':      this.drawLost(); break;
         // 新增：宽恕牌阵
         case 'forgiveness': this.drawForgiveness(); break;
-        // 新增：日常习惯优化牌阵
-        case 'habit': this.drawHabit(); break;
+        // 新增：生命之树牌阵
+        case 'treetoflife': this.drawTreetoflife(); break;
+        // 新增：创业可行性牌阵
+        case 'startup': this.drawStartup(); break;
         // 新增：友谊牌阵
               case 'friendship': this.drawFriendship(); break;
               // 新增：情感模式探索牌阵
@@ -7691,6 +7891,17 @@
           html += '</div>';
           html += this.diagramCard(3, positions[2], '26px');
           html += this.diagramCard(4, positions[3], '26px');
+          html += '</div>';
+          break;
+
+        case 'innerchild':
+          // 内在小孩牌阵：心形纵向布局
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">';
+          html += this.diagramCard(1, positions[0], '26px');
+          html += this.diagramCard(2, positions[1], '26px');
+          html += this.diagramCard(3, positions[2], '30px');
+          html += this.diagramCard(4, positions[3], '26px');
+          html += this.diagramCard(5, positions[4], '26px');
           html += '</div>';
           break;
 

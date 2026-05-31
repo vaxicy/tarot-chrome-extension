@@ -235,6 +235,11 @@ deckManager.registerDeck('stellar', function () {
   return Promise.resolve(typeof stellarCards !== 'undefined' ? stellarCards : []);
 }, { nameZh: '星辰塔罗', nameEn: 'Stellar Tarot', description: '星辰主题塔罗牌 - 宇宙、占星、星空美学' });
 
+// 导出供 popup.js 使用
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = deckManager;
+}
+
 
 
 
