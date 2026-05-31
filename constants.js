@@ -405,6 +405,33 @@ const SPREADS = {
     usage: '适合想要深入了解自己、进行心理成长或整合阴影面的人。',
     usageEn: 'Suitable for people who want to deeply understand themselves, engage in psychological growth, or integrate their shadow side.'
   },
+  // ============ 新增自我价值牌阵 ============
+  selfworth: {
+    name: '自我价值牌阵',
+    nameEn: 'Self-Worth Spread',
+    positions: ['你的核心价值', '自我怀疑的来源', '他人对你的影响', '需要建立的边界', '如何提升自我价值感', '建议'],
+    positionsEn: ['Your Core Value', 'Source of Self-Doubt', 'Others\' Influence', 'Boundaries to Establish', 'How to Improve Self-Worth', 'Advice'],
+    positionMeanings: [
+      '你的核心价值：你天生就值得被爱和被尊重的理由。这张牌帮你记起自己的闪光点，那些你习以为常却很珍贵的特质。',
+      '自我怀疑的来源：那些"我不行"、"我不配"的声音从哪来？可能是童年的批评、过去的失败、或者总是拿自己和别人比较。',
+      '他人对你的影响：哪些人的评价让你动摇？可能是父母的高期待、朋友的无心之言、或者社交媒体的完美假象。这张牌帮你看见"谁在影响你的价值感"。',
+      '需要建立的边界：为了保护你的自我价值，你该对什么说"不"？可能是别人的情绪勒索、过度付出、或者总是寻求外界认可。',
+      '如何提升自我价值感：塔罗给你的具体建议。可能是"每天对自己说一句肯定语"、"停止和别人比较"、"做一件你一直害怕做的事"——看牌面告诉你什么。',
+      '建议：综合以上的整体指引。可能是"先从小事开始肯定自己"、"去找个咨询师聊聊"，或者"你已经足够好了，停下来休息吧"。'
+    ],
+    positionMeaningsEn: [
+      'Your Core Value: The reasons why you are inherently worthy of love and respect. This card helps you remember your sparkle — those qualities you take for granted but are precious.',
+      'Source of Self-Doubt: Where do those "I\'m not good enough", "I don\'t deserve it" voices come from? Might be childhood criticism, past failures, or constantly comparing yourself to others.',
+      'Others\' Influence: Whose opinions make you waver? Might be parents\' high expectations, friends\' casual comments, or social media\'s perfect facades. This card helps you see "who is affecting your sense of worth".',
+      'Boundaries to Establish: To protect your self-worth, what should you say "no" to? Might be others\' emotional manipulation, over-giving, or constantly seeking external validation.',
+      'How to Improve Self-Worth: The Tarot\'s concrete advice for you. Might be "say one affirmation to yourself every day", "stop comparing yourself to others", "do something you\'ve been afraid to do" — see what the card tells you.',
+      'Advice: Overall guidance integrating all of the above. Might be "start by affirming yourself in small ways", "go talk to a counselor", or "you are already good enough, stop and rest".'
+    ],
+    category: 'self', difficulty: 'medium', recommended: true, loadingText: '正在展开自我价值牌阵...',
+    loadingTextEn: 'Unfolding the Self-Worth spread...',
+    usage: '适合低自尊、讨好型人格、总是寻求外界认可的人，帮助建立健康的自我价值感。',
+    usageEn: 'Suitable for people with low self-esteem, people-pleasing tendencies, or those constantly seeking external validation. Helps build healthy self-worth.'
+  },
   year: {
     name: '年运牌阵',
     nameEn: 'Yearly Spread',
@@ -480,6 +507,33 @@ const SPREADS = {
     loadingTextEn: 'Analyzing pros and cons...',
     usage: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致，比二选一牌阵更聚焦单一问题。',
     usageEn: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread, more focused on a single issue than the Choice spread.'
+  },
+  // ============ 新增十字路口牌阵 ============
+  crossroads: {
+    name: '十字路口牌阵',
+    nameEn: 'Crossroads Spread',
+    positions: ['当前处境', '选择A的结果', '选择B的结果', '选择C的结果', '被忽略的选项', '建议'],
+    positionsEn: ['Current Situation', 'Outcome A', 'Outcome B', 'Outcome C', 'Overlooked Option', 'Advice'],
+    positionMeanings: [
+      '当前处境：你站在十字路口的哪一条路上？这张牌帮你看到"你到底卡在哪里"，以及"为什么这几个选择都让你纠结"。',
+      '选择A的结果：如果走A路，接下来会发生什么？这张牌揭示A路的风景——可能是鲜花满地，也可能是荆棘密布。',
+      '选择B的结果：如果走B路呢？和A路对比一下，哪条路让你心里更踏实？注意：你以为最好的路，牌面不一定这么认为。',
+      '选择C的结果：很多人只有两个选项，但其实往往有第三条路。这张牌帮你看到"被你忽略的那个选项"可能带来的结果。',
+      '被忽略的选项：你一直没考虑到的可能性。可能是"先哪条路都不走，等一等"，也可能是"自己开出一条新路"。这张牌告诉你：选择不只有A和B。',
+      '建议：塔罗对你这个决策的指引。可能是"勇敢选A"，也可能是"再等等，现在不是做决定的时候"——看牌面告诉你什么。'
+    ],
+    positionMeaningsEn: [
+      'Current Situation: Which path of the crossroads are you standing on? This card helps you see "where you are actually stuck" and "why all these choices are giving you a hard time".',
+      'Outcome A: If you take path A, what will happen next? This card reveals the scenery of path A — might be flowers all over the ground, or might be thorns everywhere.',
+      'Outcome B: What if you take path B? Compare it with path A — which one makes your heart feel more at ease? Note: The path you think is best may not be what the cards say.',
+      'Outcome C: Many people only have two options, but there is often a third path. This card helps you see the possible outcome of "that option you overlooked".',
+      'Overlooked Option: The possibility you haven\'t considered. Might be "don\'t take any path yet, wait a bit", or might be "blaze a new trail yourself". This card tells you: the choices are not only A and B.',
+      'Advice: The Tarot\'s guidance for your decision. Might be "bravely choose A", or might be "wait a bit more, now is not the time to decide" — see what the card tells you.'
+    ],
+    category: 'decision', difficulty: 'medium', recommended: false, loadingText: '正在展开十字路口牌阵...',
+    loadingTextEn: 'Unfolding the Crossroads spread...',
+    usage: '适合面临三个或以上选择、感觉每个方向都有利弊时使用，帮助看到被忽略的第四种选择。',
+    usageEn: 'Suitable when facing three or more choices, or when every direction seems to have pros and cons. Helps see the overlooked fourth option.'
   },
   // ============ 新增决策树牌阵 ============
   decisiontree: {
@@ -1312,6 +1366,9 @@ const I18N = {
     yesno_tip: '当你对一个决定犹豫不决，只想得到一个"是"或"否"的指引时使用。',
     jobchange_tip: '适合正在考虑换工作、转行或跳槽的人，帮助做出更明智的职业决策。',
     shadow_tip: '适合想要深入了解自己、进行心理成长或整合阴影面的人。',
+    spread_selfworth_name: '自我价值牌阵',
+    spread_selfworth_desc: '6张牌 · 建立健康的自我价值感',
+    selfworth_tip: '适合低自尊、讨好型人格、总是寻求外界认可的人，帮助建立健康的自我价值感。',
     year_tip: '适合新年或生日时抽取，了解一整年的运势走向和各领域的发展。',
     spread_proscons_name: '利弊分析',
     spread_proscons_desc: '4张牌 · 支持与反对因素分析',
@@ -1320,6 +1377,9 @@ const I18N = {
     spread_lifepurpose_name: '人生使命',
     spread_lifepurpose_desc: '8张牌 · 探索天命与人生方向',
     proscons_tip: '适合需要对某件事做简单的利弊分析时使用，比是否牌阵更细致。',
+    spread_crossroads_name: '十字路口牌阵',
+    spread_crossroads_desc: '6张牌 · 多选项深度分析',
+    crossroads_tip: '适合面临三个或以上选择、感觉每个方向都有利弊时使用，帮助看到被忽略的第四种选择。',
     lifepurpose_tip: '适合在人生转折点、迷茫期或想要寻找人生意义和方向时使用，帮助探索天命与使命。',
     // 牌意
     btn_custom_meaning: '自定义牌意',
@@ -1646,6 +1706,9 @@ const I18N = {
     yesno_tip: 'When you are hesitant about a decision and just want a "yes" or "no" guidance.',
     jobchange_tip: 'For those considering job change, career switch, or job hopping, helps make wiser career decisions.',
     shadow_tip: 'For those who want to understand themselves deeply, do psychological growth or integrate shadow self.',
+    spread_selfworth_name: 'Self-Worth Spread',
+    spread_selfworth_desc: '6 cards · Build healthy self-worth',
+    selfworth_tip: 'For people with low self-esteem, people-pleasing tendencies, or those constantly seeking external validation. Helps build healthy self-worth.',
     year_tip: 'Draw at New Year or birthday to understand the year\'s fortune trend and development in all areas.',
     spread_proscons_name: 'Pros & Cons',
     spread_proscons_desc: '4 cards · Analyze pros and cons',
@@ -1655,6 +1718,9 @@ const I18N = {
     spread_lifepurpose_name: 'Life Purpose',
     spread_lifepurpose_desc: '8 cards · Explore destiny & life direction',
     proscons_tip: 'Suitable for when you need to do a simple pros and cons analysis of something. More detailed than the Yes/No spread.',
+    spread_crossroads_name: 'Crossroads Spread',
+    spread_crossroads_desc: '6 cards · Multi-option deep analysis',
+    crossroads_tip: 'Suitable when facing three or more choices, or when every direction seems to have pros and cons. Helps see the overlooked fourth option.',
     lifepurpose_tip: 'For life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.',
     spread_zodiac_name: 'Zodiac Spread',
     spread_zodiac_desc: '12 cards · Comprehensive life analysis',

@@ -1204,7 +1204,8 @@
         case 'family':
         case 'weekly':
         case 'decisiontree':
-          adviceCard = cards[5] || null; // 决策树牌阵的建议在第6张（索引5）
+        case 'crossroads':
+          adviceCard = cards[5] || null; // 十字路口/决策树牌阵的建议在第6张（索引5）
           break;
         case 'lifepurpose':
           adviceCard = cards[7] || null;
@@ -2300,9 +2301,24 @@
             }
           } else {
             text += 'The Pros & Cons spread helps you rationally weigh all aspects of a decision. ';
-            if (cards[0].isReversed) {
-              text += 'The "Pros" card is reversed — the reasons supporting this action may not be as sufficient as you think.';
+          }
+          break;
+
+        // ---- 十字路口牌阵 ----
+        case 'crossroads':
+          if (!isEn) {
+            text += '十字路口牌阵帮助你看到多个选择背后的全貌，以及被忽略的第四种可能。';
+            if (cards[1].isReversed && cards[2].isReversed) {
+              text += ' 选择A和B都逆位，说明这两个方向目前都有较大阻碍，或许被忽略的选项C才是真正的出路。';
             }
+            if (cards[4].isReversed) {
+              text += ' 「被忽略的选项」逆位，提醒你：你以为没有选择，其实是你不敢看见其他可能。';
+            }
+            if (cards[5].isReversed) {
+              text += ' 「建议」逆位，提醒你现在可能还不是做决定的最佳时机，先沉淀一下再行动。';
+            }
+          } else {
+            text += 'The Crossroads spread helps you see the full picture behind multiple choices, and the overlooked fourth possibility. ';
           }
           break;
 
@@ -4129,6 +4145,11 @@
       this.drawStandardSpread('shadow', 60, 96);
     }
 
+    // ============ 自我价值牌阵 ============
+    drawSelfworth() {
+      this.drawStandardSpread('selfworth', 60, 96);
+    }
+
     // ============ 年运牌阵 ============
     drawYear() {
       this.drawStandardSpread('year', 60, 96);
@@ -4138,6 +4159,11 @@
     // ============ 利弊分析牌阵 ============
     drawProscons() {
       this.drawStandardSpread('proscons', 70, 110);
+    }
+
+    // ============ 十字路口牌阵 ============
+    drawCrossroads() {
+      this.drawStandardSpread('crossroads', 60, 96);
     }
 
     // ============ 新增旅行牌阵 ============
@@ -4192,8 +4218,9 @@
         case 'jobchange': this.drawJobchange(); break;
         case 'shadow':    this.drawShadow(); break;
         case 'year':      this.drawYear(); break;
-        // 新增：利弊分析、人生使命
+        // 新增：利弊分析、十字路口、人生使命
         case 'proscons':   this.drawProscons(); break;
+        case 'crossroads':  this.drawCrossroads(); break;
         case 'lifepurpose': this.drawLifepurpose(); break;
         // 新增：决策树牌阵
         case 'decisiontree': this.drawDecisiontree(); break;
@@ -4225,6 +4252,8 @@
         case 'declutter': this.drawDeclutter(); break;
         // 新增：办公室人际牌阵
         case 'office':     this.drawOffice(); break;
+        // 新增：自我价值牌阵
+        case 'selfworth': this.drawSelfworth(); break;
         // 新增：梦境解读牌阵
         case 'dream':      this.drawDream(); break;
         // 新增：失物寻找牌阵
@@ -6477,8 +6506,9 @@
               case 'jobchange': this.drawJobchange(); break;
               case 'shadow':    this.drawShadow(); break;
               case 'year':      this.drawYear(); break;
-              // 新增：利弊分析、人生使命
+              // 新增：利弊分析、十字路口、人生使命
               case 'proscons':   this.drawProscons(); break;
+              case 'crossroads': this.drawCrossroads(); break;
               case 'lifepurpose': this.drawLifepurpose(); break;
               // 新增：决策树牌阵
               case 'decisiontree': this.drawDecisiontree(); break;
@@ -6510,6 +6540,8 @@
               case 'declutter': this.drawDeclutter(); break;
               // 新增：办公室人际牌阵
               case 'office':     this.drawOffice(); break;
+              // 新增：自我价值牌阵
+              case 'selfworth': this.drawSelfworth(); break;
               // 新增：梦境解读牌阵
               case 'dream':      this.drawDream(); break;
               // 新增：失物寻找牌阵
@@ -6858,6 +6890,7 @@
         'action': ['行动', '怎么做', '建议', 'action', 'how', 'advice', 'what to do'],
         'mind': ['内心', '想法', '自我', '成长', 'inner', 'self', 'growth', 'mind'],
         'shadow': ['阴影', '恐惧', '潜意识', 'shadow', 'fear', 'subconscious'],
+        'selfworth': ['价值', '自尊', '自信', '配得', '认可', '讨好', '自卑', 'self-worth', 'esteem', 'confidence', 'worthy', 'validation', 'people-pleasing'],
         'year': ['年运', '今年', '明年', '年度', 'year', 'annual', 'yearly']
       };
 
@@ -6981,6 +7014,39 @@
           html += '</div>';
           html += '<div style="display:flex;justify-content:center;margin-top:4px;">';
           html += this.diagramCard(5, positions[4], '26px');
+          html += '</div>';
+          break;
+
+        // 新增：十字路口牌阵图示
+        case 'crossroads':
+          // 布局：上方当前处境，中间三路对比，下方建议
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">';
+          // 第一行：当前处境
+          html += this.diagramCard(1, positions[0], '28px');
+          // 第二行：三路结果对比
+          html += '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[1] || '选择A') + '</span>';
+          html += this.diagramCard(2, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[2] || '选择B') + '</span>';
+          html += this.diagramCard(3, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[3] || '选择C') + '</span>';
+          html += this.diagramCard(4, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第三行：被忽略的选项 + 建议
+          html += '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:2px;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += this.diagramCard(5, positions[4], '24px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += this.diagramCard(6, positions[5], '24px');
+          html += '</div>';
+          html += '</div>';
           html += '</div>';
           break;
 
