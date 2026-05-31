@@ -1205,7 +1205,14 @@
         case 'weekly':
         case 'decisiontree':
         case 'crossroads':
-          adviceCard = cards[5] || null; // 十字路口/决策树牌阵的建议在第6张（索引5）
+          adviceCard = cards[5] || null; // 6张牌，建议在第6张（索引5）
+          break;
+        case 'higherself':
+          adviceCard = cards[5] || null; // 6张牌，建议在第6张（索引5）
+          break;
+        case 'lovepattern':
+        case 'habit':
+          adviceCard = cards[4] || null; // 5张牌，建议在第5张（索引4）
           break;
         case 'lifepurpose':
           adviceCard = cards[7] || null;
@@ -1245,7 +1252,7 @@
         'horseshoe': 1, 'timeflow': 1, 'fatewheel': 0, 'monthly': 0,
         'souljourney': 0, 'zodiac': 0, 'pastlife': 0, 'health': 0,
         'family': 0, 'weekly': 0, 'proscons': 0, 'travel': 0, 'yesno': 0,
-        'creative': 0, 'finance': 0, 'declutter': 0
+        'creative': 0, 'finance': 0, 'declutter': 0, 'lovepattern': 0
       };
       const currentIdx = currentIdxMap[mode] !== undefined ? currentIdxMap[mode] : (cards.length > 1 ? 1 : -1);
       if (currentIdx >= 0 && cards[currentIdx] && cards[currentIdx].card.suit === 'major') {
@@ -1433,6 +1440,13 @@
             text += ' 断舍离牌阵建议：断舍离不是"丢弃一切"，而是"留下真正重要的"。如果某样东西让你犹豫，说明你还需要它——真正的放下是自然而然的。';
           } else {
             text += ' Declutter spread advice: Decluttering is not "throwing away everything", but "keeping what truly matters". If something makes you hesitate, you still need it — true letting go happens naturally.';
+          }
+          break;
+        case 'habit':
+          if (!isEn) {
+            text += ' 日常习惯优化牌阵建议：习惯的改变需要21天以上的持续行动，不要期待一夜之间脱胎换骨。关注"身份认同"而非"目标"——不是"我要养成读书习惯"，而是"我是一个爱读书的人"。';
+          } else {
+            text += ' Daily Habit Optimization spread advice: Habit change requires more than 21 days of consistent action. Focus on "identity" rather than "goal" — not "I want to build a reading habit", but "I am a person who loves reading".';
           }
           break;
         default:
@@ -2322,6 +2336,42 @@
           }
           break;
 
+        // ---- 去留抉择牌阵 ----
+        case 'stayleave':
+          if (!isEn) {
+            text += '去留抉择牌阵帮助你看清「留下」与「离开」各自的真相，找到内心真正的答案。';
+            if (cards[0].isReversed && cards[1].isReversed) {
+              text += ' 留下和离开的理由都逆位，说明你既不清楚为什么要留，也不清楚为什么要走——先别急着做决定，先弄清楚自己的心意。';
+            }
+            if (cards[2].isReversed && cards[3].isReversed) {
+              text += ' 留下和离开的结果都逆位，说明无论选哪条路，短期内都会有不适应和挑战，但这不代表你选错了。';
+            }
+            if (cards[4].isReversed) {
+              text += ' 「内心真正的答案」逆位，说明你内心其实已经有答案了，只是你还在逃避面对它。';
+            }
+          } else {
+            text += 'The Stay or Leave spread helps you see the truth of "staying" and "leaving", and find the true answer of your heart. ';
+          }
+          break;
+
+        // ---- 新技能学习牌阵 ----
+        case 'skill':
+          if (!isEn) {
+            text += '新技能学习牌阵帮助你判断是否该学某项新技能，以及最佳的学习时机。';
+            if (cards[0].isReversed) {
+              text += ' 「学习动机」逆位，说明你的动机可能不够纯粹——可能是跟风、逃避现实，或者想证明自己。想清楚"为什么学"再开始。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「可能遇到的困难」逆位，说明学习过程不会太顺利，可能会遇到挫折和瓶颈，但逆位也意味着这些困难是可以克服的。';
+            }
+            if (cards[4].isReversed) {
+              text += ' 「是否现在开始的建议」逆位，提醒你现在可能还不是最佳时机，建议先把手头的事做完，或者等一段时间再开始。';
+            }
+          } else {
+            text += 'The New Skill Learning spread helps you decide whether to learn a new skill, and the best timing to start. ';
+          }
+          break;
+
         // ---- 旅行牌阵 ----
         case 'travel':
           if (!isEn) {
@@ -2339,6 +2389,24 @@
             if (cards[0].isReversed) {
               text += 'The "Overall Travel Energy" is reversed — the trip may not go exactly as planned, but surprises may also appear.';
             }
+          }
+          break;
+
+        // ---- 副业探索牌阵 ----
+        case 'sidehustle':
+          if (!isEn) {
+            text += '副业探索牌阵帮助你找到最适合自己的副业方向，看清投入产出和最佳行动步骤。';
+            if (cards[0].isReversed) {
+              text += ' 「适合的副业方向」逆位，说明你对自己的定位还不够清晰，建议先探索再决定方向，不要盲目跟风。';
+            }
+            if (cards[2].isReversed) {
+              text += ' 「最大障碍」逆位，说明最大的障碍来自内心——可能是害怕失败、怕被熟人看到，或者"还没准备好"的自我设限。';
+            }
+            if (cards[4].isReversed) {
+              text += ' 「下一步行动建议」逆位，提醒你现在可能还不是最佳启动时机，建议先做好主业稳住，再考虑副业。';
+            }
+          } else {
+            text += 'The Side Hustle Exploration spread helps you find the side hustle direction that suits you best, and clarifies ROI and next action steps. ';
           }
           break;
 
@@ -2551,11 +2619,55 @@
               text += ' "Advice" is a Cups card — be gentle with your emotions during decluttering, allow yourself to grieve, but do not look back.';
             } else if (cards[3].card.suit === 'pentacles') {
               text += ' "Advice" is a Pentacles card — decluttering needs to be gradual, start with the easiest objects.';
-            } else if (cards[3].card.suit === 'wands') {
+            } else             if (cards[3].card.suit === 'wands') {
               text += ' "Advice" is a Wands card — decluttering requires decisive action, do not hesitate repeatedly.';
             }
           }
           break;
+
+        // ---- 日常习惯优化牌阵 ----
+        case 'habit': {
+          const status = cards[0], motivation = cards[1], optimize = cards[2], gains = cards[3], advice = cards[4];
+          if (!isEn) {
+            text += '日常习惯优化牌阵帮助你从能量层面理解并优化习惯。';
+            if (status.isReversed) {
+              text += '「当前习惯状态」逆位，说明你对自己的习惯可能有认知偏差——你以为的"好习惯"可能正在消耗你，或者你低估了某些习惯的负面影响。';
+            } else {
+              text += '「当前习惯状态」正位，你对当前习惯的认知比较清晰，这为进一步优化打下了好基础。';
+            }
+            if (motivation.card.suit === 'cups') {
+              text += ' 「习惯背后的动机」是圣杯牌，说明这个习惯与情感需求有关——可能是用习惯来缓解焦虑、填补空虚，或寻求安慰。';
+            } else if (motivation.card.suit === 'pentacles') {
+              text += ' 「习惯背后的动机」是星币牌，说明这个习惯与物质或现实需求有关——可能是为了提高效率、节省时间，或获得实际回报。';
+            } else if (motivation.card.suit === 'swords') {
+              text += ' 「习惯背后的动机」是宝剑牌，说明这个习惯与思维模式有关——可能是为了理清思路、保持理性，或逃避情绪。';
+            } else if (motivation.card.suit === 'wands') {
+              text += ' 「习惯背后的动机」是权杖牌，说明这个习惯与行动力或激情有关——可能是为了激发创造力、保持活力，或逃避无聊。';
+            }
+            if (optimize.isReversed) {
+              text += ' 「需要优化的部分」逆位，说明优化点可能不在习惯本身，而在你对自己习惯的"态度"——也许是自我要求太高，导致习惯难以坚持。';
+            }
+            if (gains.card.suit === 'major') {
+              text += ' 「优化后的收获」是大阿卡那牌，说明优化这个习惯将带来灵魂层面的成长，而不仅仅是效率或健康上的提升。';
+            }
+            if (advice.card.suit === 'pentacles') {
+              text += ' 「行动建议」是星币牌，建议从微小、具体、可量化的改变开始，而非一次性大改造。';
+            } else if (advice.card.suit === 'wands') {
+              text += ' 「行动建议」是权杖牌，建议用新鲜感和挑战性来助力习惯养成——比如换个环境、找个伙伴一起。';
+            }
+          } else {
+            text += 'The Daily Habit Optimization spread helps you understand and optimize habits from an energy level. ';
+            if (status.isReversed) {
+              text += ' "Current Habit Status" is reversed — you may have a cognitive bias about your habits.';
+            }
+            if (motivation.card.suit === 'cups') {
+              text += ' "Motivation Behind Habit" is a Cups card — this habit is related to emotional needs.';
+            } else if (motivation.card.suit === 'swords') {
+              text += ' "Motivation Behind Habit" is a Swords card — this habit is related to thinking patterns.';
+            }
+          }
+          break;
+        }
 
         // ---- 命运之轮 ----
         case 'fatewheel':
@@ -2620,6 +2732,33 @@
           }
           break;
 
+        // ---- 高我连接指引 ----
+        case 'higherself':
+          if (!isEn) {
+            text += '高我连接指引牌阵帮助你连接更高自我的视角，获得超越小我的智慧指引。';
+            if (cards[0].card.suit === 'major') {
+              text += '「当下灵魂状态」是大阿卡那牌，说明你此刻的灵魂状态与重要的灵性课题相关，高我的信号正在试图引起你的注意。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「高我想传递的核心讯息」逆位，说明你可能正在抗拒或听不见高我的声音，小我的噪音太大了。试着安静下来，高我的讯息往往以直觉、梦境或突如其来的灵感的形式出现。';
+            }
+            if (cards[3].card.suit === 'swords') {
+              text += ' 「需要放下的执着」是宝剑牌，说明你紧抓着不放的，很可能是某个「我认为应该怎样」的信念或执念。放下它，高我的指引才能进来。';
+            }
+            if (cards[4].card.suit === 'cups' || cards[4].card.suit === 'wands') {
+              text += ' 「高我指引的下一步」是情感或行动导向的牌，说明高我给你的下一步不是「想出来」的，而是「感受出来」或「直接去做」的。别想太多，跟着感觉走。';
+            }
+          } else {
+            text += 'The Higher Self Guidance spread helps you connect with the perspective of your Higher Self and receive wisdom beyond the small ego. ';
+            if (cards[0].card.suit === 'major') {
+              text += 'Your "Current Soul State" is a Major Arcana card, indicating your soul state is related to important spiritual lessons, and Higher Self signals are trying to get your attention.';
+            }
+            if (cards[1].isReversed) {
+              text += ' "Core Message from Higher Self" is reversed — you may be resisting or unable to hear the Higher Self\'s voice; the ego\'s noise is too loud. Try to quiet down; Higher Self messages often come as intuition, dreams, or sudden inspiration.';
+            }
+          }
+          break;
+
         // ---- 星座牌阵（12宫位）----
         case 'zodiac':
           if (!isEn) {
@@ -2658,6 +2797,30 @@
             text += 'The Past Life spread helps you understand soul lessons across time. ';
             if (cards[0].card.suit === 'major') {
               text += 'Your "Past Life Identity" is a Major Arcana card, indicating your past life was connected to important soul archetypes.';
+            }
+          }
+          break;
+
+        // ---- 情感模式探索 ----
+        case 'lovepattern':
+          if (!isEn) {
+            text += '情感模式探索牌阵帮助你看见自己在感情中反复上演的剧本，从而找到疗愈与改变的方向。';
+            if (cards[0].card.suit === 'major') {
+              text += ' 「我重复的情感模式」是大阿卡那牌，说明这个模式与你的灵魂课题深度相关，不是普通的"脾气不好"，而是需要认真面对的内在议题。';
+            }
+            if (cards[1].isReversed) {
+              text += ' 「模式的根源」逆位，说明你可能不愿意面对这个根源——也许是因为太痛了，也许是因为"承认了就等于要改变"，而你还没准备好。';
+            }
+            if (cards[3].card.suit === 'cups' || cards[3].card.suit === 'swords') {
+              text += ' 「需要疗愈的部分」是圣杯或宝剑牌，说明你最需要疗愈的是情感创伤或思维模式——可能需要释放某个"我不值得被爱"的核心信念。';
+            }
+            if (cards[4].card.suit === 'wands' || cards[4].card.suit === 'pentacles') {
+              text += ' 「建立健康关系的新方向」是权杖或星币牌，说明新的方向需要你采取行动（权杖）或建立实际的自我价值感（星币），不能只靠"想通"。';
+            }
+          } else {
+            text += 'The Love Pattern Exploration spread helps you see the repeating script in your love life, so you can find the direction for healing and change. ';
+            if (cards[0].card.suit === 'major') {
+              text += ' "My Repeated Love Pattern" is a Major Arcana card, indicating this pattern is deeply connected to your soul lesson — not just a "bad temper", but an inner issue that needs serious facing.';
             }
           }
           break;
@@ -2935,32 +3098,157 @@
       return ctx[isEn ? 'en' : 'zh'][mode] || ctx[isEn ? 'en' : 'zh']['single'];
     }
 
-    // 生成核心洞察（一句话，含牌阵定位）
+    // 生成核心洞察（一句话，含牌阵定位）—— 增强版，避免重复
     generateCoreInsight(cards, isEn, mode) {
       const uprightCount = cards.filter(c => !c.isReversed).length;
       const total = cards.length;
       const ratio = uprightCount / total;
       const ctx = this.getSpreadContext(mode, isEn);
 
+      // 计算更多牌面特征
+      const majorCount = cards.filter(c => c.card.suit === 'major').length;
+      const hasMajor = majorCount > 0;
+
+      // 主导元素
+      const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
+      cards.forEach(c => {
+        const s = c.card.suit;
+        if (s === 'wands' || s === 'fire') elements.wands++;
+        else if (s === 'cups' || s === 'water') elements.cups++;
+        else if (s === 'swords' || s === 'clouds') elements.swords++;
+        else if (s === 'pentacles' || s === 'rainbow') elements.pentacles++;
+      });
+      let dominantEl = 'mixed';
+      let maxEl = 0;
+      for (const el in elements) {
+        if (elements[el] > maxEl) { maxEl = elements[el]; dominantEl = el; }
+      }
+      const isMixedElements = Object.values(elements).filter(v => v > 0).length >= 3;
+
+      // 首尾牌
+      const firstCard = cards[0];
+      const lastCard = cards[cards.length - 1];
+
+      // 随机选择器
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
       let base = '';
+
       if (isEn) {
-        if (ratio >= 0.7) base = 'The energy is generally positive. Move forward with confidence.';
-        else if (ratio <= 0.3) base = 'Challenges exist, but they are guiding you to grow.';
-        else base = 'Mixed energies. Balance and integration are key.';
+        if (ratio >= 0.8) {
+          const variants = [
+            'The energy is flowing smoothly — a good time to advance your plans with confidence.',
+            'The cards show a clear positive current. Ride the wave while it lasts.',
+            'Overall momentum is on your side. This is a window for bold action.'
+          ];
+          if (hasMajor) variants.push('Major Arcana appear — this is not just luck, but a meaningful moment of growth.');
+          base = pick(variants);
+        } else if (ratio <= 0.2) {
+          const variants = [
+            'Resistance is strong right now, but resistance is also the fastest path to growth.',
+            'The cards suggest a pause and recalibration. Temporary setbacks are rerouting you.',
+            'Challenges cluster together because this matters. Face them with patience.'
+          ];
+          if (dominantEl === 'swords') variants.push('Mental blocks dominate — step back from overthinking and trust your gut.');
+          base = pick(variants);
+        } else {
+          const variants = [];
+          if (dominantEl === 'wands') {
+            variants.push('Abundant fire energy — you have the drive, now focus it on one target.');
+            variants.push('Passion is high but direction needs tuning. Do not let the wheel spin in place.');
+          } else if (dominantEl === 'cups') {
+            variants.push('Emotions are flowing — relationships and intuition are the central theme now.');
+            variants.push('Water energy dominates — feel fully, but do not let feelings make the decision alone.');
+          } else if (dominantEl === 'swords') {
+            variants.push('The mind is active, perhaps too active. Clarity beats cleverness right now.');
+            variants.push('Air energy is strong — it is time to subtract options, not collect more.');
+          } else if (dominantEl === 'pentacles') {
+            variants.push('Practical matters call for attention. Slow and steady wins this race.');
+            variants.push('Earth energy grounds the reading — build the foundation before adding the roof.');
+          }
+          if (isMixedElements) {
+            variants.push('Multiple elements are speaking — you are in a complex transition. Anchor to one priority.');
+            variants.push('Diverse energies swirl together. You do not need to resolve everything at once.');
+          }
+          if (hasMajor) {
+            variants.push('Major Arcana highlight a soul-level lesson — this runs deeper than it looks.');
+            variants.push('The wheel is turning. Major cards remind you: some shifts are invitations, not accidents.');
+          }
+          if (!firstCard.isReversed && lastCard.isReversed) {
+            variants.push('A smooth start meets a cautious finish — maintain discipline all the way through.');
+          } else if (firstCard.isReversed && !lastCard.isReversed) {
+            variants.push('A rough opening leads to a brighter close — persistence is the bridge.');
+          } else if (!firstCard.isReversed && !lastCard.isReversed) {
+            variants.push('Energy flows positively from first to last — a cycle you can complete in one breath.');
+          }
+          variants.push('Tension and ease coexist. Sail when the wind blows; repair the sail when it stops.');
+          variants.push('No absolute good or bad here — only energy that fits the moment. Flow, do not force.');
+          variants.push('Different currents cross here. Pick the one that resonates most deeply with you.');
+          base = pick(variants);
+        }
       } else {
-        if (ratio >= 0.7) base = '整体能量偏积极，可以信心满满地前进。';
-        else if (ratio <= 0.3) base = '存在挑战，但这些挑战正在引导你成长。';
-        else base = '能量好坏参半，平衡与整合是关键。';
+        if (ratio >= 0.8) {
+          const variants = [
+            '整体能量通畅，天时地利人和，适合大胆推进计划。',
+            '牌面整体积极向上，当前是行动的黄金时机。',
+            '能量场非常清晰，阻碍较少，你可以放手去做。'
+          ];
+          if (hasMajor) variants.push('大阿卡那牌高亮灵魂课题，这是一个重要的成长窗口。');
+          base = pick(variants);
+        } else if (ratio <= 0.2) {
+          const variants = [
+            '当前能量较为阻滞，但阻力往往是最快的成长催化剂。',
+            '牌面提示需要调整方向，暂时的停顿是为了更好的出发。',
+            '挑战集中出现，说明这件事对你意义非凡，值得认真对待。'
+          ];
+          if (dominantEl === 'swords') variants.push('思维层面的卡点需要被看见——放下过度分析，回归内心直觉。');
+          base = pick(variants);
+        } else {
+          const variants = [];
+          if (dominantEl === 'wands') {
+            variants.push('行动力充沛，但方向需要校准。热情是好的燃料，但别让轮子空转。');
+            variants.push('火元素主导——你有足够的能量推动事情，关键是聚焦在一个点上。');
+          } else if (dominantEl === 'cups') {
+            variants.push('情感能量丰富，关系与直觉是当下的核心议题。');
+            variants.push('水元素主导——情绪正在流动，允许自己感受，但别让情绪替你做决定。');
+          } else if (dominantEl === 'swords') {
+            variants.push('思维活跃但可能过度分析，清晰比聪明更重要。');
+            variants.push('风元素主导——信息量大，适合做减法，而非继续收集更多选项。');
+          } else if (dominantEl === 'pentacles') {
+            variants.push('物质与现实的议题突出，务实是当前最可靠的策略。');
+            variants.push('土元素主导——慢即是快，扎实的基础比花哨的技巧更持久。');
+          }
+          if (isMixedElements) {
+            variants.push('多元素交织，说明你正处于一个复杂的过渡期——不需要立刻理清一切，先稳住核心。');
+            variants.push('能量多样且活跃，生活多个面向同时震动，优先处理最紧迫的那一件。');
+          }
+          if (hasMajor) {
+            variants.push('大阿卡那牌出现，暗示这件事不只是表面问题，而是灵魂层面的功课。');
+            variants.push('命运之轮正在转动，大阿卡那牌提醒你：有些变化不是偶然，是成长的邀请。');
+          }
+          if (!firstCard.isReversed && lastCard.isReversed) {
+            variants.push('开局顺利但收尾需要谨慎——前期的势头很好，但别在最后关头松懈。');
+          } else if (firstCard.isReversed && !lastCard.isReversed) {
+            variants.push('先苦后甜的格局——当下的困难是过程而非终点，坚持到后面会看到转机。');
+          } else if (!firstCard.isReversed && !lastCard.isReversed) {
+            variants.push('从头到尾能量流动顺畅，这是一个可以一鼓作气完成的周期。');
+          }
+          variants.push('能量有张有弛，顺境时乘风破浪，逆境时修船补网，都是必要的节奏。');
+          variants.push('牌面没有绝对的好坏，只有适合当下的能量。顺势而为，而非逆流硬撑。');
+          variants.push('各种能量交织在一起，这不是混乱，而是丰富的可能性。选择你最有共鸣的那条路。');
+          base = pick(variants);
+        }
       }
 
       return ctx.prefix + ' ' + base;
     }
 
-    // 生成一句话建议（含牌阵特色）
+    // 生成一句话建议（含牌阵特色）—— 增强版，避免重复
     generateOneLineAdvice(cards, isEn, mode) {
       const ctx = this.getSpreadContext(mode, isEn);
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-      // 根据主导元素给出建议
+      // 主导元素
       const elements = { wands: 0, cups: 0, swords: 0, pentacles: 0 };
       cards.forEach(c => {
         if (c.card.suit === 'wands') elements.wands++;
@@ -2968,25 +3256,83 @@
         else if (c.card.suit === 'swords') elements.swords++;
         else if (c.card.suit === 'pentacles') elements.pentacles++;
       });
-
       const dominant = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
 
-      const adviceMap = {
-        zh: {
-          wands: '💡 建议：主动行动，抓住机会，但别忘记计划。' + ctx.advice,
-          cups: '💡 建议：倾听内心，表达情感，让直觉引导你。' + ctx.advice,
-          swords: '💡 建议：理性分析，清晰沟通，避免冲动决策。' + ctx.advice,
-          pentacles: '💡 建议：脚踏实地，关注实际，耐心积累成果。' + ctx.advice
-        },
-        en: {
-          wands: '💡 Advice: Take action, seize opportunities, but don\'t forget to plan. ' + ctx.advice,
-          cups: '💡 Advice: Listen to your heart, express emotions, let intuition guide you. ' + ctx.advice,
-          swords: '💡 Advice: Analyze rationally, communicate clearly, avoid impulsive decisions. ' + ctx.advice,
-          pentacles: '💡 Advice: Stay grounded, focus on practicalities, accumulate results patiently. ' + ctx.advice
-        }
-      };
+      // 正逆位比例
+      const uprightCount = cards.filter(c => !c.isReversed).length;
+      const ratio = uprightCount / cards.length;
 
-      return adviceMap[isEn ? 'en' : 'zh'][dominant] || '';
+      // 首尾牌
+      const firstCard = cards[0];
+      const lastCard = cards[cards.length - 1];
+
+      if (isEn) {
+        const pool = [];
+        // 基于主导元素的建议变体
+        if (dominant === 'wands') {
+          pool.push('💡 Advice: Strike while the iron is hot, but aim before you swing. ' + ctx.advice);
+          pool.push('💡 Advice: Your energy is high — channel it into one meaningful target. ' + ctx.advice);
+        } else if (dominant === 'cups') {
+          pool.push('💡 Advice: Feel deeply, then act from that feeling. Emotion is your compass today. ' + ctx.advice);
+          pool.push('💡 Advice: Someone may need your empathy, or you may need your own. ' + ctx.advice);
+        } else if (dominant === 'swords') {
+          pool.push('💡 Advice: Write it down, sleep on it, then decide. Clarity comes from distance. ' + ctx.advice);
+          pool.push('💡 Advice: Not everything needs to be solved today. Let some questions breathe. ' + ctx.advice);
+        } else if (dominant === 'pentacles') {
+          pool.push('💡 Advice: One small solid step beats a giant shaky leap. ' + ctx.advice);
+          pool.push('💡 Advice: Invest in what compounds — skills, relationships, health. ' + ctx.advice);
+        }
+        // 基于正逆位比例
+        if (ratio >= 0.8) {
+          pool.push('💡 Advice: Momentum is rare — use it to clear the hardest task first. ' + ctx.advice);
+        } else if (ratio <= 0.2) {
+          pool.push('💡 Advice: When nothing works, rest is the most productive thing you can do. ' + ctx.advice);
+        }
+        // 基于首尾牌
+        if (firstCard.isReversed && !lastCard.isReversed) {
+          pool.push('💡 Advice: The beginning may frustrate you, but the ending rewards patience. ' + ctx.advice);
+        } else if (!firstCard.isReversed && lastCard.isReversed) {
+          pool.push('💡 Advice: Do not relax too early — stay alert until the finish line. ' + ctx.advice);
+        }
+        // 兜底
+        if (pool.length === 0) {
+          pool.push('💡 Advice: Trust the process. Even confusion is a form of information. ' + ctx.advice);
+        }
+        return pick(pool);
+      } else {
+        const pool = [];
+        // 基于主导元素的建议变体
+        if (dominant === 'wands') {
+          pool.push('💡 建议：趁热打铁，但出手前先瞄准。' + ctx.advice);
+          pool.push('💡 建议：你的能量很高——把它导入一个有意义的目标。' + ctx.advice);
+        } else if (dominant === 'cups') {
+          pool.push('💡 建议：深深感受，然后从感受中行动。情绪是你今天的罗盘。' + ctx.advice);
+          pool.push('💡 建议：有人可能需要你的共情，或者你需要你自己的。' + ctx.advice);
+        } else if (dominant === 'swords') {
+          pool.push('💡 建议：写下来，睡一觉，再决定。距离带来清晰。' + ctx.advice);
+          pool.push('💡 建议：不是每件事都需要今天解决。让一些问题透透气。' + ctx.advice);
+        } else if (dominant === 'pentacles') {
+          pool.push('💡 建议：一个扎实的小步，胜过摇晃的大跳。' + ctx.advice);
+          pool.push('💡 建议：投资于复利的事物——技能、关系、健康。' + ctx.advice);
+        }
+        // 基于正逆位比例
+        if (ratio >= 0.8) {
+          pool.push('💡 建议：势头难得——趁能量高先把最难的任务干掉。' + ctx.advice);
+        } else if (ratio <= 0.2) {
+          pool.push('💡 建议：什么都做不成的时候，休息就是你最能做的事。' + ctx.advice);
+        }
+        // 基于首尾牌
+        if (firstCard.isReversed && !lastCard.isReversed) {
+          pool.push('💡 建议：开头可能让你沮丧，但结局会奖励耐心。' + ctx.advice);
+        } else if (!firstCard.isReversed && lastCard.isReversed) {
+          pool.push('💡 建议：别太早放松——保持警觉直到冲过终点线。' + ctx.advice);
+        }
+        // 兜底
+        if (pool.length === 0) {
+          pool.push('💡 建议：相信过程。哪怕是困惑，也是一种信息。' + ctx.advice);
+        }
+        return pick(pool);
+      }
     }
 
     // ============ 标准解读生成（5段式，含牌阵感知 + 牌面组合 + 能量趋势）============
@@ -3439,7 +3785,9 @@
         souljourney:['连接内在高我的声音与指引', '接纳灵魂深处需要整合的阴影'],
         zodiac:     ['关注重点宫位显示的领域讯息', '综合十二宫位全面了解自己'],
         pastlife:   ['理解前世未完成课题对今生的影响', '以慈悲心化解前世的业力模式'],
-        health:     ['关注身心健康的根本能量因素', '必要时寻求专业医疗建议']
+        health:     ['关注身心健康的根本能量因素', '必要时寻求专业医疗建议'],
+        higherself: ['安静下来，聆听内在高我的声音', '放下小我的执着与恐惧'],
+        lovepattern: ['看见自己在感情中的重复模式', '疗愈内在伤口，建立健康关系模式']
       };
       return map[mode] || [];
     }
@@ -3473,7 +3821,9 @@
         souljourney:['Connect with the voice and guidance of your higher self', 'Embrace the shadows deep in your soul that need integration'],
         zodiac:     ['Focus on messages from key house positions', 'Comprehensively understand yourself through twelve houses'],
         pastlife:   ['Understand the impact of past-life unfinished lessons on this life', 'Resolve past-life karmic patterns with compassion'],
-        health:     ['Focus on root energy factors of body-mind health', 'Seek professional medical advice when necessary']
+        health:     ['Focus on root energy factors of body-mind health', 'Seek professional medical advice when necessary'],
+        higherself: ['Quiet down, listen to the inner voice of Higher Self', 'Let go of ego\'s attachments and fears'],
+        lovepattern: ['See your repeated patterns in love', 'Heal inner wounds, build healthy relationship patterns']
       };
       return map[mode] || [];
     }
@@ -3514,7 +3864,9 @@
         fatewheel:  '命运之轮有升有降，顺境时勿骄，逆境时勿馁',
         zodiac:     '十二宫位信息量大，建议分次深入理解',
         pastlife:   '前世解读属于灵性探索，请以开放心态看待',
-        health:     '健康解读不能替代专业医疗诊断，如有不适请及时就医'
+        health:     '健康解读不能替代专业医疗诊断，如有不适请及时就医',
+        higherself: '高我指引以直觉形式呈现，请在安静状态下聆听',
+        lovepattern: '情感模式探索可能触及深层创伤，请温柔对待自己'
       };
       return map[mode] || '';
     }
@@ -3534,7 +3886,9 @@
         fatewheel:  'The Wheel of Fortune has ups and downs; don\'t be proud in good times, don\'t be discouraged in bad times',
         zodiac:     'Twelve houses have rich information; it is recommended to understand deeply in stages',
         pastlife:   'Past-life reading is spiritual exploration; please view it with an open mind',
-        health:     'Health reading cannot replace professional medical diagnosis; please seek medical attention if unwell'
+        health:     'Health reading cannot replace professional medical diagnosis; please seek medical attention if unwell',
+        higherself: 'Higher Self guidance comes as intuition; please listen in a quiet state',
+        lovepattern: 'Love pattern exploration may touch deep wounds; please treat yourself gently'
       };
       return map[mode] || '';
     }
@@ -4166,9 +4520,24 @@
       this.drawStandardSpread('crossroads', 60, 96);
     }
 
+    // ============ 去留抉择牌阵 ============
+    drawStayleave() {
+      this.drawStandardSpread('stayleave', 60, 96);
+    }
+
     // ============ 新增旅行牌阵 ============
     drawTravel() {
       this.drawStandardSpread('travel', 60, 96);
+    }
+
+    // ============ 新增新技能学习牌阵 ============
+    drawSkill() {
+      this.drawStandardSpread('skill', 60, 96);
+    }
+
+    // ============ 新增副业探索牌阵 ============
+    drawSidehustle() {
+      this.drawStandardSpread('sidehustle', 60, 96);
     }
 
     // ============ 新增自我成长牌阵 ============
@@ -4218,9 +4587,12 @@
         case 'jobchange': this.drawJobchange(); break;
         case 'shadow':    this.drawShadow(); break;
         case 'year':      this.drawYear(); break;
-        // 新增：利弊分析、十字路口、人生使命
+        // 新增：利弊分析、十字路口、去留抉择、新技能学习、副业探索、人生使命
         case 'proscons':   this.drawProscons(); break;
         case 'crossroads':  this.drawCrossroads(); break;
+        case 'stayleave':   this.drawStayleave(); break;
+        case 'skill':       this.drawSkill(); break;
+        case 'sidehustle':  this.drawSidehustle(); break;
         case 'lifepurpose': this.drawLifepurpose(); break;
         // 新增：决策树牌阵
         case 'decisiontree': this.drawDecisiontree(); break;
@@ -4238,6 +4610,10 @@
     case 'zodiac':    this.drawZodiac(); break;
         // 新增：前世今生牌阵
         case 'pastlife': this.drawPastlife(); break;
+        // 新增：高我连接指引牌阵
+        case 'higherself': this.drawHigherself(); break;
+        // 新增：情感模式探索牌阵
+        case 'lovepattern': this.drawLovepattern(); break;
         // 新增：健康牌阵
         case 'health':    this.drawHealth(); break;
         // 新增：家庭关系牌阵
@@ -4260,6 +4636,8 @@
         case 'lost':      this.drawLost(); break;
         // 新增：宽恕牌阵
         case 'forgiveness': this.drawForgiveness(); break;
+        // 新增：日常习惯优化牌阵
+        case 'habit': this.drawHabit(); break;
       }
     }
 
@@ -4321,6 +4699,21 @@
     // ============ 新增宽恕牌阵 ============
     drawForgiveness() {
       this.drawStandardSpread('forgiveness', 60, 96);
+    }
+
+    // ============ 新增高我连接指引牌阵 ============
+    drawHigherself() {
+      this.drawStandardSpread('higherself', 55, 88);
+    }
+
+    // ============ 新增情感模式探索牌阵 ============
+    drawLovepattern() {
+      this.drawStandardSpread('lovepattern', 55, 88);
+    }
+
+    // ============ 新增日常习惯优化牌阵 ============
+    drawHabit() {
+      this.drawStandardSpread('habit', 60, 96);
     }
 
     // ============ 新增友谊牌阵 ============
@@ -6506,9 +6899,12 @@
               case 'jobchange': this.drawJobchange(); break;
               case 'shadow':    this.drawShadow(); break;
               case 'year':      this.drawYear(); break;
-              // 新增：利弊分析、十字路口、人生使命
+              // 新增：利弊分析、十字路口、去留抉择、新技能学习、副业探索、人生使命
               case 'proscons':   this.drawProscons(); break;
               case 'crossroads': this.drawCrossroads(); break;
+              case 'stayleave':  this.drawStayleave(); break;
+              case 'skill':      this.drawSkill(); break;
+              case 'sidehustle': this.drawSidehustle(); break;
               case 'lifepurpose': this.drawLifepurpose(); break;
               // 新增：决策树牌阵
               case 'decisiontree': this.drawDecisiontree(); break;
@@ -6546,12 +6942,18 @@
               case 'dream':      this.drawDream(); break;
               // 新增：失物寻找牌阵
               case 'lost':      this.drawLost(); break;
-              // 新增：宽恕牌阵
-              case 'forgiveness': this.drawForgiveness(); break;
-              // 新增：友谊牌阵
+        // 新增：宽恕牌阵
+        case 'forgiveness': this.drawForgiveness(); break;
+        // 新增：日常习惯优化牌阵
+        case 'habit': this.drawHabit(); break;
+        // 新增：友谊牌阵
               case 'friendship': this.drawFriendship(); break;
+              // 新增：情感模式探索牌阵
+              case 'lovepattern': this.drawLovepattern(); break;
               // 新增：年度预测牌阵
               case 'yearahead': this.drawYearahead(); break;
+              // 新增：高我连接指引牌阵
+              case 'higherself': this.drawHigherself(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -7050,6 +7452,105 @@
           html += '</div>';
           break;
 
+        // 新增：新技能学习牌阵图示
+        case 'skill':
+          // 布局：上方动机与产出对比，中间困难与前景对比，下方建议
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">';
+          // 第一行：动机 vs 投入产出
+          html += '<div style="display:flex;gap:10px;justify-content:center;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[0] || '学习动机') + '</span>';
+          html += this.diagramCard(1, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[1] || '投入产出比') + '</span>';
+          html += this.diagramCard(2, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第二行：困难 vs 前景
+          html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:4px;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[2] || '可能遇到的困难') + '</span>';
+          html += this.diagramCard(3, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[3] || '学成后的前景') + '</span>';
+          html += this.diagramCard(4, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第三行：建议
+          html += '<div style="display:flex;justify-content:center;margin-top:6px;">';
+          html += this.diagramCard(5, positions[4], '26px');
+          html += '</div>';
+          html += '</div>';
+          break;
+
+        // 新增：去留抉择牌阵图示
+        case 'stayleave':
+          // 布局：上方留/走理由对比，中间两种结果对比，下方内心答案
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">';
+          // 第一行：留/走理由对比
+          html += '<div style="display:flex;gap:10px;justify-content:center;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[0] || '留下的理由') + '</span>';
+          html += this.diagramCard(1, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[1] || '离开的理由') + '</span>';
+          html += this.diagramCard(2, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第二行：两种结果对比
+          html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:4px;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[2] || '如果留下') + '</span>';
+          html += this.diagramCard(3, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[3] || '如果离开') + '</span>';
+          html += this.diagramCard(4, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第三行：内心答案
+          html += '<div style="display:flex;justify-content:center;margin-top:6px;">';
+          html += this.diagramCard(5, positions[4], '26px');
+          html += '</div>';
+          html += '</div>';
+          break;
+
+        // 新增：副业探索牌阵图示
+        case 'sidehustle':
+          // 布局：上方方向+资源，中间障碍+预期，下方建议
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">';
+          // 第一行：方向 vs 资源
+          html += '<div style="display:flex;gap:10px;justify-content:center;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[0] || '适合的副业方向') + '</span>';
+          html += this.diagramCard(1, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[1] || '启动资源') + '</span>';
+          html += this.diagramCard(2, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第二行：障碍 vs 预期
+          html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:4px;">';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[2] || '最大障碍') + '</span>';
+          html += this.diagramCard(3, '', '22px');
+          html += '</div>';
+          html += '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">';
+          html += '<span style="font-size:11px;color:var(--color-gold);">' + (positions[3] || '投入产出预期') + '</span>';
+          html += this.diagramCard(4, '', '22px');
+          html += '</div>';
+          html += '</div>';
+          // 第三行：建议
+          html += '<div style="display:flex;justify-content:center;margin-top:6px;">';
+          html += this.diagramCard(5, positions[4], '26px');
+          html += '</div>';
+          html += '</div>';
+          break;
+
         // 新增：决策树牌阵图示
         case 'decisiontree':
           // 布局：上方当前决策，中间A/B选择对比，下方建议
@@ -7231,6 +7732,26 @@
           html += '<div style="display:grid;grid-template-columns:repeat(3,auto);gap:3px;justify-content:center;">';
           for (let i = 0; i < positions.length; i++) {
             html += this.diagramCard(i + 1, positions[i], '24px');
+          }
+          html += '</div>';
+          break;
+
+        case 'higherself':
+          // 高我连接指引：纵向一列，突出第2张（核心讯息）和第5张（下一步）
+          html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            const h = (i === 1 || i === 4) ? '30px' : '24px';
+            html += this.diagramCard(i + 1, positions[i], h);
+          }
+          html += '</div>';
+          break;
+
+        case 'lovepattern':
+          // 情感模式探索：纵向一列，突出第1张（重复模式）
+          html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
+          for (let i = 0; i < positions.length; i++) {
+            const h = (i === 0) ? '30px' : '24px';
+            html += this.diagramCard(i + 1, positions[i], h);
           }
           html += '</div>';
           break;

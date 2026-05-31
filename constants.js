@@ -535,6 +535,31 @@ const SPREADS = {
     usage: '适合面临三个或以上选择、感觉每个方向都有利弊时使用，帮助看到被忽略的第四种选择。',
     usageEn: 'Suitable when facing three or more choices, or when every direction seems to have pros and cons. Helps see the overlooked fourth option.'
   },
+  // ============ 新增去留抉择牌阵 ============
+  stayleave: {
+    name: '去留抉择牌阵',
+    nameEn: 'Stay or Leave Spread',
+    positions: ['留下的理由', '离开的理由', '如果留下会怎样', '如果离开会怎样', '内心真正的答案'],
+    positionsEn: ['Reasons to Stay', 'Reasons to Leave', 'If You Stay', 'If You Leave', 'True Answer of Heart'],
+    positionMeanings: [
+      '留下的理由：你为什么想留下？这张牌帮你把"留下的原因"都列出来——可能是安全感、熟悉感，也可能是还没准备好的恐惧。',
+      '离开的理由：你为什么想离开？这张牌告诉你"真正让你想走"的原因——可能是成长受限、能量耗尽，或者内心已经给出了答案。',
+      '如果留下会怎样：选择留下的话，接下来3-6个月你的状态会怎样？这张牌揭示留下后的真实风景——可能有稳定，也可能有 stagnation（停滞）。',
+      '如果离开会怎样：选择离开的话，接下来3-6个月会怎样？这张牌告诉你离开后的可能结果——可能是新生，也可能是你没预料到的挑战。',
+      '内心真正的答案：抛开所有"应该"和"别人怎么说"，你内心最深处真正想要的是什么？这张牌是你的内心在对你说话，仔细听。'
+    ],
+    positionMeaningsEn: [
+      'Reasons to Stay: Why do you want to stay? This card helps you list all the "reasons for staying" — might be sense of security, familiarity, or maybe the fear of not being ready yet.',
+      'Reasons to Leave: Why do you want to leave? This card tells you the real reason that makes you want to go — might be growth being limited, energy being drained, or your heart has already given you the answer.',
+      'If You Stay: If you choose to stay, what will your state be like in the next 3-6 months? This card reveals the true scenery after staying — might be stability, or might be stagnation.',
+      'If You Leave: If you choose to leave, what will happen in the next 3-6 months? This card tells you the possible outcome after leaving — might be a new beginning, or challenges you didn\'t expect.',
+      'True Answer of Heart: Putting aside all the "should"s and "what others say", what does the deepest part of your heart truly want? This card is your inner self speaking to you — listen carefully.'
+    ],
+    category: 'decision', difficulty: 'medium', recommended: false, loadingText: '正在展开去留抉择牌阵...',
+    loadingTextEn: 'Unfolding the Stay or Leave spread...',
+    usage: '适合面临「要走还是要留」的经典困境，如离职、分手、搬家、结束一段关系等人生重大去留决策。',
+    usageEn: 'Suitable for the classic dilemma of "stay or leave", such as quitting a job, breaking up, moving, ending a relationship, and other major life stay/leave decisions.'
+  },
   // ============ 新增决策树牌阵 ============
   decisiontree: {
     name: '决策树牌阵',
@@ -669,6 +694,31 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Office Interpersonal spread...',
     usage: '适合想了解办公室人际关系、改善同事关系、了解上司看法等场景。帮助你更好地 navigate 职场人际。',
     usageEn: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc. Helps you better navigate workplace interpersonal dynamics.'
+  },
+  // ============ 新增副业探索牌阵 ============
+  sidehustle: {
+    name: '副业探索牌阵',
+    nameEn: 'Side Hustle Exploration Spread',
+    positions: ['适合的副业方向', '启动资源', '最大障碍', '投入产出预期', '下一步行动建议'],
+    positionsEn: ['Suitable Side Hustle Direction', 'Startup Resources', 'Biggest Obstacle', 'ROI Expectation', 'Next Action Advice'],
+    positionMeanings: [
+      '适合的副业方向：你适合搞什么副业？这张牌告诉你"和你能量最匹配"的方向——可能是写作、设计、咨询、摆摊、做自媒体……别跟风，找最适合你的。',
+      '启动资源：你手上"已经有什么"可以用来搞副业？这张牌帮你看到被你忽略的资源——可能是你的技能、人脉、或者业余时间。',
+      '最大障碍：搞副业路上"最大的那只拦路虎"是什么？这张牌告诉你阻碍的本质——可能是没时间、怕失败、或者"主业太累根本不想动"。',
+      '投入产出预期：如果认真搞这个副业，大概能怎样？这张牌告诉你可能的收益——可能是"赚点零花钱"，也可能是"未来可以转正成主业"。',
+      '下一步行动建议：塔罗说"现在该怎么做"。可能是"先利用周末试水一个月"、"先去了解一下市场需求"，或者"现在不是好时机，先把自己主业稳住"——看牌面告诉你什么。'
+    ],
+    positionMeaningsEn: [
+      'Suitable Side Hustle Direction: What side hustle are you suitable for? This card tells you the direction that "best matches your energy" — might be writing, design, consulting, street vending, content creation... Don\'t follow trends, find what suits you best.',
+      'Startup Resources: What do you already have that can be used for a side hustle? This card helps you see resources you\'ve ignored — might be your skills, network, or spare time.',
+      'Biggest Obstacle: What is the "biggest roadblock" on the path of side hustling? This card tells you the nature of the obstacle — might be no time, fear of failure, or "main job is too exhausting to even move".',
+      'ROI Expectation: If you seriously do this side hustle, what might happen? This card tells you the possible returns — might be "earn some pocket money", or might be "can turn into main job in the future".',
+      'Next Action Advice: What the Tarot says about "what to do now". Might be "use weekends to test the water for a month first", "go understand market demand first", or "now is not a good time, first stabilize your main job" — see what the card tells you.'
+    ],
+    category: 'career', difficulty: 'medium', recommended: false, loadingText: '正在展开副业探索牌阵...',
+    loadingTextEn: 'Unfolding the Side Hustle Exploration spread...',
+    usage: '适合想搞副业赚钱、但不确定方向是否合适、担心投入产出比时使用。帮助你找到最适合自己的副业方向。',
+    usageEn: 'Suitable for when you want to start a side hustle to earn money, but are unsure if the direction is right, or worry about ROI. Helps you find the side hustle direction that suits you best.'
   },
   // ============ 新增命运走向牌阵 ============
   fatewheel: {
@@ -906,6 +956,31 @@ const SPREADS = {
     usage: '关注身心健康，探寻身体与情绪的根本原因，给出疗愈方向。仅作辅助参考，不能替代专业医疗建议。',
     usageEn: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.'
   },
+  // ============ 新增新技能学习牌阵 ============
+  skill: {
+    name: '新技能学习牌阵',
+    nameEn: 'New Skill Learning Spread',
+    positions: ['学习动机', '投入产出比', '可能遇到的困难', '学成后的前景', '是否现在开始的建议'],
+    positionsEn: ['Learning Motivation', 'ROI (Return on Investment)', 'Possible Difficulties', 'Prospects After Mastery', 'Advice on Whether to Start Now'],
+    positionMeanings: [
+      '学习动机：你"为什么"想学这个？这张牌帮你看到动机的真相——是真正热爱，还是跟风、逃避、或者想证明自己？动机越纯粹，学得越轻松。',
+      '投入产出比：花时间学这个"值不值"？这张牌告诉你这个技能对你的实际价值——可能是"学会了工资翻倍"，也可能是"学了用处不大，但过程很快乐"。',
+      '可能遇到的困难：学的过程中会碰到什么"坎"？这张牌帮你提前看到障碍——可能是"没时间"、"太难坚持"、"学完找不到地方用"。提前知道，就不容易被打到。',
+      '学成后的前景：如果坚持学完，会怎样？这张牌告诉你学会后的可能性——可能是"打开新职业方向"、"认识一群志同道合的人"，或者"只是多了一项让自己开心的小技能"。',
+      '是否现在开始的建议：塔罗说"现在是不是好时机"？可能是"立刻开始，别等了"、"先把手头事做完再开始"，或者"这个技能现在市场需求不高，可以等等"——看牌面告诉你什么。'
+    ],
+    positionMeaningsEn: [
+      'Learning Motivation: "Why" do you want to learn this? This card helps you see the truth of your motivation — is it genuine love, or following trends, escaping, or wanting to prove yourself? The purer the motivation, the easier the learning.',
+      'ROI (Return on Investment): Is it "worth it" to spend time learning this? This card tells you the actual value of this skill to you — might be "learn it and your salary doubles", or "not very useful after learning, but the process is very joyful".',
+      'Possible Difficulties: What "hurdles" will you encounter in the learning process? This card helps you see obstacles in advance — might be "no time", "too hard to persist", "no place to use it after learning". Knowing in advance makes you less likely to be defeated.',
+      'Prospects After Mastery: If you persist and finish learning, what will happen? This card tells you the possibilities after mastery — might be "open up a new career direction", "meet a group of like-minded people", or "just one more small skill that makes yourself happy".',
+      'Advice on Whether to Start Now: What the Tarot says about "is now a good time"? Might be "start immediately, don\'t wait", "finish what\'s on hand first before starting", or "the market demand for this skill is not high now, you can wait a bit" — see what the card tells you.'
+    ],
+    category: 'life', difficulty: 'medium', recommended: false, loadingText: '正在展开新技能学习牌阵...',
+    loadingTextEn: 'Unfolding the New Skill Learning spread...',
+    usage: '适合纠结是否要学某项新技能、报课程、考证书前使用，帮助看清学习动机、投入产出和最佳时机。',
+    usageEn: 'Suitable for when hesitating whether to learn a new skill, sign up for a course, or get a certificate. Helps clarify learning motivation, ROI, and best timing.'
+  },
   // ============ 新增家庭关系牌阵 ============
   family: {
     name: '家庭关系',
@@ -955,6 +1030,31 @@ const SPREADS = {
     loadingTextEn: 'Unfolding the Friendship spread...',
     usage: '适合分析友谊现状、修复疏远关系、判断是否值得深交。真正的朋友是人生的礼物。',
     usageEn: 'Suitable for analyzing friendship status, repairing distanced relationships, judging whether someone is worth getting close to. True friends are life\'s gifts.'
+  },
+  // ============ 新增情感模式探索牌阵 ============
+  lovepattern: {
+    name: '情感模式探索',
+    nameEn: 'Love Pattern Exploration Spread',
+    positions: ['我重复的情感模式', '模式的根源', '如何影响关系', '需要疗愈的部分', '建立健康关系的新方向'],
+    positionsEn: ['My Repeated Love Pattern', 'Root of the Pattern', 'How It Affects Relationships', 'Part That Needs Healing', 'New Direction for Healthy Relationship'],
+    positionMeanings: [
+      '我重复的情感模式：你在感情里「总是这样」的是什么？这张牌帮你看到那个反复出现的剧本——可能是「总是吸引回避型的人」、「总是在关系里讨好」，或者「总是害怕被抛弃」。看见，是改变的第一步。',
+      '模式的根源：这个模式「从哪里来」？这张牌告诉你根源——可能是童年依恋模式、某段过去的创伤、或者你从家庭里学到的「爱本来就是这样」。理解根源，才能松绑。',
+      '如何影响关系：这个模式「怎样搞砸你的关系」？这张牌告诉你它在关系里的具体表现——可能是「一吵架就冷战」、「总是怀疑对方不爱我」，或者「一亲密就想逃」。看清它，才有选择。',
+      '需要疗愈的部分：这个模式背后「最痛的那个点」是什么？这张牌帮你看到需要被看见、被疗愈的核心伤口——可能是「不值得被爱」、「我只能靠付出来换取爱」，或者「真实表达是不安全的」。',
+      '建立健康关系的新方向：如果你真的「松动了这个模式」，新的关系会长什么样？这张牌给你方向——可能是「学会设立边界」、「允许自己被爱而不必讨好」，或者「选择安全型依恋的人」。'
+    ],
+    positionMeaningsEn: [
+      'My Repeated Love Pattern: What do you "always do" in relationships? This card helps you see the repeating script — might be "always attracting avoidant people", "always pleasing in relationships", or "always fearing abandonment". Seeing is the first step to change.',
+      'Root of the Pattern: Where does this pattern "come from"? This card tells you the root — might be childhood attachment patterns, a past trauma, or what you learned about "how love is supposed to be" from your family. Understand the root to untie the knot.',
+      'How It Affects Relationships: How does this pattern "sabotage your relationships"? This card tells you its specific manifestation — might be "goes cold-war at every fight", "always suspects the partner doesn\'t love me", or "wants to run as soon as it gets intimate". Only by seeing it do you have a choice.',
+      'Part That Needs Healing: What is the "most painful point" behind this pattern? This card helps you see the core wound that needs to be seen and healed — might be "not worthy of being loved", "I can only earn love by giving", or "expressing my true self is not safe".',
+      'New Direction for Healthy Relationship: If you really "loosen this pattern", what would a new relationship look like? This card gives you direction — might be "learn to set boundaries", "allow yourself to be loved without pleasing", or "choose someone with secure attachment".'
+    ],
+    category: 'relationship', difficulty: 'medium', recommended: true, loadingText: '正在探索情感模式...',
+    loadingTextEn: 'Exploring love patterns...',
+    usage: '适合想要理解自己在感情中重复模式、疗愈情感创伤、建立更健康关系模式的人。',
+    usageEn: 'Suitable for those who want to understand their repeated patterns in love, heal emotional wounds, and build healthier relationship patterns.'
   },
   // ============ 新增一周运势牌阵 ============
   weekly: {
@@ -1009,6 +1109,33 @@ const SPREADS = {
     loadingTextEn: 'Connecting to creative inspiration...',
     usage: '适合创作者卡文、寻找灵感方向、或想要突破创作瓶颈时使用。也适用于任何需要创意发想的情境。',
     usageEn: 'Suitable for creators facing writer\'s block, seeking inspiration direction, or wanting to break through creative bottlenecks. Also applicable to any situation requiring creative ideas.'
+  },
+  // ============ 高我连接指引牌阵 ============
+  higherself: {
+    name: '高我连接指引',
+    nameEn: 'Higher Self Guidance Spread',
+    positions: ['当下灵魂状态', '高我想传递的核心讯息', '小我/头脑的干扰', '需要放下的执着', '高我指引的下一步', '整合后的成长方向'],
+    positionsEn: ['Current Soul State', 'Core Message from Higher Self', 'Ego/Mind Interference', 'Attachment to Release', 'Next Step from Higher Self', 'Growth Direction After Integration'],
+    positionMeanings: [
+      '当下灵魂状态：你灵魂的「现在进行时」是什么状态？这张牌告诉你此刻你的能量频率——是在「高我在线、清晰通透」，还是在「小我当道、混乱纠结」？',
+      '高我想传递的核心讯息：如果你的高我（Higher Self）能直接对你说话，ta 最想让你「听见」的是什么？这张牌是来自更高维度的指引，往往是最核心的答案。',
+      '小我/头脑的干扰：是什么「声音」在盖过高我的声音？这张牌告诉你头脑里的恐惧、执念、旧故事是什么——正是这些噪音让你听不见真正的指引。',
+      '需要放下的执着：高我说「你紧抓着不放的那个东西，该松手了」，那是什么？这张牌帮你看到你最深的执着——可能是某个身份、某段关系、某种「必须怎样」的信念。',
+      '高我指引的下一步：高我说「接下来，往这个方向走」。这张牌给你具体的行动指引——不是头脑分析的「应该」，而是灵魂真正「想要」的方向。',
+      '整合后的成长方向：当你真的「听见了高我」并且「放下了执着」，你会变成什么样？这张牌告诉你整合后的新状态——可能是「更信任自己了」、「不再向外求认同了」，或者「终于活出了自己的频率」。'
+    ],
+    positionMeaningsEn: [
+      'Current Soul State: What is your soul\'s "present continuous" state right now? This card tells you your current energy frequency — are you "higher self online, clear and通透", or "ego in charge, confused and conflicted"?',
+      'Core Message from Higher Self: If your Higher Self could speak to you directly, what would they most want you to "hear"? This card is guidance from a higher dimension, often the core answer.',
+      'Ego/Mind Interference: What "voice" is drowning out the Higher Self\'s voice? This card tells you the fears, attachments, and old stories in your mind — these are the noises that keep you from hearing true guidance.',
+      'Attachment to Release: Higher Self says "that thing you\'re clinging to, it\'s time to let go" — what is it? This card helps you see your deepest attachment — maybe an identity, a relationship, or a belief of "how things must be".',
+      'Next Step from Higher Self: Higher Self says "next, move in this direction". This card gives you concrete action guidance — not the "should" from mental analysis, but the direction your soul truly "wants".',
+      'Growth Direction After Integration: When you truly "hear the Higher Self" and "let go of attachments", what will you become? This card tells you the new state after integration — maybe "trusting yourself more", "no longer seeking external validation", or "finally living at your own frequency".'
+    ],
+    category: 'spiritual', difficulty: 'medium', recommended: true, loadingText: '正在连接高我指引...',
+    loadingTextEn: 'Connecting to Higher Self guidance...',
+    usage: '适合在重大抉择、迷茫期、或想要获得超越小我的智慧指引时使用。帮助连接高我、听见内在真实声音。',
+    usageEn: 'Suitable for major decisions, confused periods, or when wanting to receive wisdom guidance beyond the small self. Helps connect with Higher Self and hear the true inner voice.'
   },
   // ============ 财务投资牌阵 ============
   finance: {
@@ -1082,6 +1209,31 @@ const SPREADS = {
     loadingTextEn: 'Clearing your energy field...',
     usage: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场、或做「放下」决策时使用。',
     usageEn: 'Suitable when you are torn about letting go of someone/something/a lifestyle, want to clear your energy field, or need to make a "letting go" decision.'
+  },
+  // ============ 日常习惯优化牌阵 ============
+  habit: {
+    name: '日常习惯优化',
+    nameEn: 'Daily Habit Optimization Spread',
+    positions: ['当前习惯状态', '习惯背后的动机', '需要优化的部分', '优化后的收获', '行动建议'],
+    positionsEn: ['Current Habit Status', 'Motivation Behind Habit', 'Parts Needing Optimization', 'Gains After Optimization', 'Action Advice'],
+    positionMeanings: [
+      '当前习惯状态：你"现在每天都在做"的事到底是什么状态？这张牌帮你看到习惯的真实面貌——是"自动运行的有益习惯"、"消耗能量的坏习惯"，还是"一直想改但改不掉的模式"？',
+      '习惯背后的动机：你"为什么"会有这个习惯？这张牌告诉你深层动机——可能是"寻求安全感"、"缓解焦虑"，或者"从小被植入的程序"。理解动机，才能真正改变。',
+      '需要优化的部分：这个习惯里"哪部分"最需要从优化？这张牌帮你精准定位——可能是"时间点不对"、"强度太高坚持不了"，或者"缺少触发机制"。',
+      '优化后的收获：如果你真的"优化了这个习惯"，生活会怎么样？这张牌告诉你优化后的收获——可能是"精力变好了"、"效率提升了"，或者"终于不再被习惯绑架了"。',
+      '行动建议：塔罗说"该怎么优化这个习惯"。可能是"先从微习惯开始"、"找一个 accountability partner"，或者"把新习惯绑在旧习惯上"——看牌面告诉你什么。'
+    ],
+    positionMeaningsEn: [
+      'Current Habit Status: What is the true state of those things you "do every day" right now? This card helps you see the habit\'s true face — is it "automatically running beneficial habit", "energy-draining bad habit", or "a pattern you\'ve always wanted to change but can\'t"?',
+      'Motivation Behind Habit: "Why" do you have this habit? This card tells you the deep motivation — might be "seeking security", "relieving anxiety", or "a program implanted since childhood". Only by understanding the motivation can you truly change.',
+      'Parts Needing Optimization: Which part of this habit most needs optimization? This card helps you precisely locate — might be "wrong timing", "intensity too high to persist", or "lacking trigger mechanism".',
+      'Gains After Optimization: If you really "optimized this habit", what would life be like? This card tells you the gains after optimization — might be "energy became better", "efficiency improved", or "finally no longer enslaved by habits".',
+      'Action Advice: What the Tarot says about "how to optimize this habit". Might be "start with tiny habits", "find an accountability partner", or "hook the new habit to an old habit" — see what the card tells you.'
+    ],
+    category: 'life', difficulty: 'medium', recommended: false, loadingText: '正在优化日常习惯...',
+    loadingTextEn: 'Optimizing daily habits...',
+    usage: '适合想要优化日常习惯、建立新习惯、或打破顽固行为模式时使用。帮助你从能量层面理解习惯并找到优化方案。',
+    usageEn: 'Suitable for when you want to optimize daily habits, build new habits, or break stubborn behavior patterns. Helps you understand habits from an energy level and find optimization plans.'
   }
 };
 
@@ -1201,6 +1353,9 @@ const I18N = {
     spread_friendship_name: '友谊牌阵',
     spread_friendship_desc: '5张牌 · 友情分析与修复',
     friendship_tip: '适合分析友谊现状、修复疏远关系、判断是否值得深交。真正的朋友是人生的礼物。',
+    spread_lovepattern_name: '情感模式探索',
+    spread_lovepattern_desc: '5张牌 · 探索重复情感模式与疗愈',
+    lovepattern_tip: '适合想要理解自己在感情中重复模式、疗愈情感创伤、建立更健康关系模式的人。',
     spread_weekly_name: '一周运势',
     spread_weekly_desc: '7张牌 · 本周每日运势指南',
     spread_creative_name: '灵感创作',
@@ -1214,15 +1369,24 @@ const I18N = {
     spread_office_name: '办公室人际牌阵',
     spread_office_desc: '6张牌 · 职场人际关系分析',
     office_tip: '适合想了解办公室人际关系、改善同事关系、了解上司看法等场景。',
+    spread_sidehustle_name: '副业探索牌阵',
+    spread_sidehustle_desc: '5张牌 · 副业方向探索',
+    sidehustle_tip: '适合想搞副业赚钱、但不确定方向是否合适、担心投入产出比时使用。帮助你找到最适合自己的副业方向。',
     spread_forgiveness_name: '宽恕牌阵',
     spread_forgiveness_desc: '5张牌 · 情感疗愈与自我和解',
     forgiveness_tip: '适合情感疗愈、关系修复、放下怨恨、或想要与自己和解时使用。宽恕是给自己的礼物。',
     spread_declutter_name: '断舍离',
     spread_declutter_desc: '4张牌 · 放下执念与清理',
     declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
+    spread_habit_name: '日常习惯优化',
+    spread_habit_desc: '5张牌 · 优化日常习惯与行为模式',
+    habit_tip: '适合想要优化日常习惯、建立新习惯、或打破顽固行为模式时使用。',
     spread_decisiontree_name: '决策树牌阵',
     spread_decisiontree_desc: '6张牌 · 短期与长期结果分析',
     decisiontree_tip: '适合面临重要决策时，全面分析不同选择的短期和长期影响，帮助你做出最明智的决定。',
+    spread_stayleave_name: '去留抉择牌阵',
+    spread_stayleave_desc: '5张牌 · 走还是留',
+    stayleave_tip: '适合面临「要走还是要留」的经典困境，如离职、分手、搬家、结束一段关系等人生重大去留决策。',
     spread_dream_name: '梦境解读',
     spread_dream_desc: '5张牌 · 潜意识与梦境分析',
     dream_tip: '适合做了印象深刻、反复出现或令你困惑的梦之后使用。',
@@ -1272,6 +1436,9 @@ const I18N = {
     family_tip: '适合分析家庭关系、亲子关系、家庭氛围，帮助改善家庭和谐。',
     weekly_tip: '适合周日或周一抽取，了解未来一周每天的运势走向，提前做好规划与准备。',
     creative_tip: '适合创作者卡文、寻找灵感方向、或想要突破创作瓶颈时使用。',
+    spread_higherself_name: '高我连接指引',
+    spread_higherself_desc: '6张牌 · 连接高我听见内在声音',
+    higherself_tip: '适合在重大抉择、迷茫期、或想要获得超越小我的智慧指引时使用。帮助连接高我、听见内在真实声音。',
     fortune_overall: '★ 综合运势',
     fortune_dimensions: '➡ 各维度评分',
     fortune_lucky_info: '💫 幸运信息',
@@ -1381,6 +1548,9 @@ const I18N = {
     spread_crossroads_desc: '6张牌 · 多选项深度分析',
     crossroads_tip: '适合面临三个或以上选择、感觉每个方向都有利弊时使用，帮助看到被忽略的第四种选择。',
     lifepurpose_tip: '适合在人生转折点、迷茫期或想要寻找人生意义和方向时使用，帮助探索天命与使命。',
+    spread_skill_name: '新技能学习牌阵',
+    spread_skill_desc: '5张牌 · 学习动机与前景',
+    skill_tip: '适合纠结是否要学某项新技能、报课程、考证书前使用，帮助看清学习动机、投入产出和最佳时机。',
     // 牌意
     btn_custom_meaning: '自定义牌意',
     cards_count_label: '张牌',
@@ -1603,9 +1773,15 @@ const I18N = {
     spread_decisiontree_name: 'Decision Tree Spread',
     spread_decisiontree_desc: '6 cards · Short & Long-term Analysis',
     decisiontree_tip: 'Suitable for important decisions, comprehensively analyze the short-term and long-term impacts of different choices, helping you make the wisest decision.',
+    spread_stayleave_name: 'Stay or Leave Spread',
+    spread_stayleave_desc: '5 cards · Stay or Go',
+    stayleave_tip: 'Suitable for the classic dilemma of "stay or leave", such as quitting a job, breaking up, moving, ending a relationship, and other major life stay/leave decisions.',
     spread_office_name: 'Office Interpersonal',
     spread_office_desc: '6 cards · Workplace relationship analysis',
     office_tip: 'Suitable for understanding office relationships, improving colleague relationships, understanding your supervisor\'s view, etc.',
+    spread_sidehustle_name: 'Side Hustle Exploration',
+    spread_sidehustle_desc: '5 cards · Side hustle direction exploration',
+    sidehustle_tip: 'Suitable for when you want to start a side hustle to earn money, but are unsure if the direction is right or worry about ROI. Helps you find the side hustle direction that suits you best.',
     spread_lost_name: 'Lost Item',
     spread_lost_desc: '5 cards · Locate lost item & search clues',
     lost_tip: 'Suitable for use after losing an item. Helps locate the lost item and determine if it can be found.',
@@ -1722,6 +1898,9 @@ const I18N = {
     spread_crossroads_desc: '6 cards · Multi-option deep analysis',
     crossroads_tip: 'Suitable when facing three or more choices, or when every direction seems to have pros and cons. Helps see the overlooked fourth option.',
     lifepurpose_tip: 'For life turning points, confused periods, or when wanting to find the meaning and direction of life. Helps explore destiny and mission.',
+    spread_skill_name: 'New Skill Learning Spread',
+    spread_skill_desc: '5 cards · Motivation & Prospects',
+    skill_tip: 'Suitable for when hesitating whether to learn a new skill, sign up for a course, or get a certificate. Helps clarify learning motivation, ROI, and best timing.',
     spread_zodiac_name: 'Zodiac Spread',
     spread_zodiac_desc: '12 cards · Comprehensive life analysis',
     spread_yearahead_name: 'Year Ahead',
@@ -1736,6 +1915,9 @@ const I18N = {
     spread_weekly_desc: '7 cards · Daily fortune guide for the week',
     spread_creative_name: 'Creative Inspiration',
     spread_creative_desc: '5 cards · Break through creative block',
+    spread_higherself_name: 'Higher Self Guidance',
+    spread_higherself_desc: '6 cards · Connect with Higher Self & hear inner voice',
+    higherself_tip: 'Suitable for major decisions, confused periods, or when wanting to receive wisdom guidance beyond the small self. Helps connect with Higher Self and hear the true inner voice.',
     spread_finance_name: 'Finance & Investment',
     spread_finance_desc: '5 cards · Financial decision guidance',
     weekly_tip: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week.',
@@ -1747,6 +1929,9 @@ const I18N = {
     spread_declutter_name: 'Declutter & Let Go',
     spread_declutter_desc: '4 cards · Release attachment & cleanse',
     declutter_tip: 'Suitable when you are torn about letting go of someone/something, or want to clear your energy field.',
+    spread_habit_name: 'Daily Habit Optimization',
+    spread_habit_desc: '5 cards · Optimize habits & behavior',
+    habit_tip: 'Suitable for optimizing daily habits, building new habits, or breaking stubborn behavior patterns.',
     zodiac_tip: 'Corresponding to the 12 astrological houses, comprehensively analyzes all areas of life. Suitable for annual fortune reading.',
     yearahead_tip: 'Suitable for New Year, birthdays, or any time you want to plan for the next 12 months. Monthly reading to help you grasp the rhythm of the whole year.',
     pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',
@@ -1755,6 +1940,9 @@ const I18N = {
     spread_friendship_name: 'Friendship Spread',
     spread_friendship_desc: '5 cards · Friendship analysis & repair',
     friendship_tip: 'Suitable for analyzing friendship status, repairing distanced relationships, judging whether someone is worth getting close to. True friends are life\'s gifts.',
+    spread_lovepattern_name: 'Love Pattern Exploration',
+    spread_lovepattern_desc: '5 cards · Explore repeated love patterns & healing',
+    lovepattern_tip: 'Suitable for those who want to understand their repeated patterns in love, heal emotional wounds, and build healthier relationship patterns.',
     // Card meaning
     btn_custom_meaning: 'Custom Meaning',
     cards_count_label: 'cards',
