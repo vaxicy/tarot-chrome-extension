@@ -877,6 +877,31 @@ const SPREADS = {
     usage: '适合分析家庭关系、亲子关系、家庭氛围等问题，帮助改善家庭和谐。',
     usageEn: 'Suitable for analyzing family relationships, parent-child relationships, family atmosphere, etc. Helps improve family harmony.'
   },
+  // ============ 新增友谊牌阵 ============
+  friendship: {
+    name: '友谊牌阵',
+    nameEn: 'Friendship Spread',
+    positions: ['这段友谊的现状', '对方的想法', '隐藏的问题', '如何改善', '友谊的未来'],
+    positionsEn: ['Current State of This Friendship', 'The Other Person\'s Thoughts', 'Hidden Problem', 'How to Improve', 'Future of Friendship'],
+    positionMeanings: [
+      '这段友谊的现状：你们现在"到底是什么关系"？这张牌告诉你这段友谊的真实状态——是"互相滋养"、 "一方付出更多"，还是"已经慢慢疏远但谁都没说"。',
+      '对方的想法：你的朋友"到底怎么看你"？这张牌帮你看到对方心里的真实想法——可能不是你以为的那样。注意：这张牌说的是"对方的能量"，不是"对方嘴上说的"。',
+      '隐藏的问题：这段友谊里"没人提但一直在"的问题是什么？可能是"每次都是我主动"、 "价值观越来越不同"，或者"有第三个人在影响这段关系"。这张牌把它捞出来。',
+      '如何改善：塔罗说"该怎么让这段友谊更好"。可能是"主动约一次见面"、"开诚布公谈一次"，或者"接受有些人只能陪你走一段路"——看牌面告诉你什么。',
+      '友谊的未来：如果保持现在的状态，这段友谊会怎么发展？这张牌告诉你趋势——可能是"会越来越好"、"慢慢淡掉"，或者"经历一次考验后更深"？记住：牌说的是趋势，不是命中注定。'
+    ],
+    positionMeaningsEn: [
+      'Current State of This Friendship: "What is your relationship actually like right now"? This card tells you the true state of this friendship — is it "mutually nourishing", "one person gives more", or "already slowly drifting apart but neither has said it".',
+      'The Other Person\'s Thoughts: "How does your friend actually see you"? This card helps you see the other person\'s true thoughts in their heart — might not be what you thought. Note: This card tells you "the other person\'s energy", not "what the other person says out loud".',
+      'Hidden Problem: What is the problem in this friendship that "no one mentions but it\'s always there"? Might be "I\'m always the one who initiates", "values are increasingly different", or "a third person is affecting this relationship". This card pulls it out.',
+      'How to Improve: What the Tarot says about "how to make this friendship better". Might be "take initiative to meet once", "have an honest talk", or "accept that some people can only walk a part of the journey with you" — see what the card tells you.',
+      'Future of Friendship: If things stay as they are, how will this friendship develop? This card tells you the trend — might be "will get better and better", "slowly fade away", or "become deeper after a test"? Remember: the card tells you a trend, not destiny.'
+    ],
+    category: 'relationship', difficulty: 'medium', recommended: false, loadingText: '正在展开友谊牌阵...',
+    loadingTextEn: 'Unfolding the Friendship spread...',
+    usage: '适合分析友谊现状、修复疏远关系、判断是否值得深交。真正的朋友是人生的礼物。',
+    usageEn: 'Suitable for analyzing friendship status, repairing distanced relationships, judging whether someone is worth getting close to. True friends are life\'s gifts.'
+  },
   // ============ 新增一周运势牌阵 ============
   weekly: {
     name: '一周运势',
@@ -955,6 +980,31 @@ const SPREADS = {
     loadingTextEn: 'Analyzing financial situation...',
     usage: '适合投资理财决策、大额消费、买房/买车等财务决策前使用。帮助你从能量层面看清财务风险与机会。',
     usageEn: 'Suitable for investment decisions, large purchases, buying a house/car, etc. Helps you see financial risks and opportunities from an energy perspective.'
+  },
+  // ============ 宽恕牌阵 ============
+  forgiveness: {
+    name: '宽恕牌阵',
+    nameEn: 'Forgiveness Spread',
+    positions: ['我需要宽恕什么', '我需要被宽恕什么', '宽恕的障碍', '宽恕的礼物', '下一步'],
+    positionsEn: ['What I Need to Forgive', 'What I Need to Be Forgiven For', 'Obstacle to Forgiveness', 'Gift of Forgiveness', 'Next Step'],
+    positionMeanings: [
+      '我需要宽恕什么：你心里"一直没放下"的那个人/那件事是什么？这张牌帮你看到你需要释放的愤怒、怨恨或未完成的情绪。宽恕不是"原谅对方的行为"，而是"放自己自由"。',
+      '我需要被宽恕什么：你对自己"一直过不去"的那件事是什么？可能是"我说过的话"、"我做过的选择"，或者"我没能成为那个理想的自己"。这张牌帮你看到你的自责，以及你值得被自己宽恕。',
+      '宽恕的障碍：为什么"一直放不下"？这张牌告诉你阻碍宽恕的原因——可能是"觉得宽恕等于纵容"、"怕放下后就不再被伤害"，或者"我还没准备好让他/她/它离开我的心"。',
+      '宽恕的礼物：如果你真的"放下了"，你会收到什么？这张牌告诉你宽恕后的内在状态——可能是"突然轻松了"、"心变大了，能装下更多爱"，或者"终于能睡个好觉了"。宽恕是给你自己的礼物，不是给对方的。',
+      '下一步：塔罗说"该怎么开始宽恕"。可能是"给那个人写一封不寄出的信"、"对着镜子对自己说\'我宽恕你\'"，或者"去做一件一直因为愧疚而不敢做的事"——看牌面告诉你什么。'
+    ],
+    positionMeaningsEn: [
+      'What I Need to Forgive: What is that person/thing you "haven\'t been able to let go of" in your heart? This card helps you see the anger, resentment, or unfinished emotions you need to release. Forgiveness is not "excusing the other\'s behavior", it\'s "setting yourself free".',
+      'What I Need to Be Forgiven For: What is that thing you "can\'t get past" with yourself? Might be "words I said", "choices I made", or "not being able to become that ideal version of myself". This card helps you see your self-blame, and that you deserve to be forgiven by yourself.',
+      'Obstacle to Forgiveness: Why "can\'t you let go"? This card tells you the reason blocking forgiveness — might be "feeling forgiveness equals indulgence", "afraid that after letting go you won\'t be hurt again", or "I\'m not ready to let him/her/it leave my heart yet".',
+      'Gift of Forgiveness: If you really "let go", what would you receive? This card tells you the inner state after forgiveness — might be "suddenly feeling light", "heart expanded, can hold more love", or "finally able to sleep well". Forgiveness is a gift to yourself, not to the other person.',
+      'Next Step: What the Tarot says about "how to start forgiving". Might be "write a letter to that person that you won\'t send", "say to yourself in the mirror \'I forgive you\'", or "go do something you\'ve been afraid to do because of guilt" — see what the card tells you.'
+    ],
+    category: 'advanced', difficulty: 'medium', recommended: false, loadingText: '正在展开宽恕牌阵...',
+    loadingTextEn: 'Unfolding the Forgiveness spread...',
+    usage: '适合情感疗愈、关系修复、放下怨恨、或想要与自己和解时使用。宽恕是给自己的礼物。',
+    usageEn: 'Suitable for emotional healing, relationship repair, letting go of resentment, or wanting to reconcile with yourself. Forgiveness is a gift to yourself.'
   },
   // ============ 断舍离牌阵 ============
   declutter: {
@@ -1094,6 +1144,9 @@ const I18N = {
     spread_health_desc: '5张牌 · 身心疗愈指引',
     spread_family_name: '家庭关系',
     spread_family_desc: '5张牌 · 家庭和谐分析',
+    spread_friendship_name: '友谊牌阵',
+    spread_friendship_desc: '5张牌 · 友情分析与修复',
+    friendship_tip: '适合分析友谊现状、修复疏远关系、判断是否值得深交。真正的朋友是人生的礼物。',
     spread_weekly_name: '一周运势',
     spread_weekly_desc: '7张牌 · 本周每日运势指南',
     spread_creative_name: '灵感创作',
@@ -1107,6 +1160,9 @@ const I18N = {
     spread_office_name: '办公室人际牌阵',
     spread_office_desc: '6张牌 · 职场人际关系分析',
     office_tip: '适合想了解办公室人际关系、改善同事关系、了解上司看法等场景。',
+    spread_forgiveness_name: '宽恕牌阵',
+    spread_forgiveness_desc: '5张牌 · 情感疗愈与自我和解',
+    forgiveness_tip: '适合情感疗愈、关系修复、放下怨恨、或想要与自己和解时使用。宽恕是给自己的礼物。',
     spread_declutter_name: '断舍离',
     spread_declutter_desc: '4张牌 · 放下执念与清理',
     declutter_tip: '适合纠结是否要舍弃某人/某物/某种生活方式、想要清理能量场时使用。',
@@ -1619,6 +1675,9 @@ const I18N = {
     weekly_tip: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week.',
     finance_tip: 'Suitable for investment decisions, large purchases, buying a house/car, etc. Helps you see financial risks and opportunities.',
     creative_tip: 'Suitable for creators facing writer\'s block, seeking inspiration direction, or wanting to break through creative bottlenecks.',
+    spread_forgiveness_name: 'Forgiveness',
+    spread_forgiveness_desc: '5 cards · Emotional healing & self-reconciliation',
+    forgiveness_tip: 'Suitable for emotional healing, relationship repair, letting go of resentment, or wanting to reconcile with yourself. Forgiveness is a gift to yourself.',
     spread_declutter_name: 'Declutter & Let Go',
     spread_declutter_desc: '4 cards · Release attachment & cleanse',
     declutter_tip: 'Suitable when you are torn about letting go of someone/something, or want to clear your energy field.',
@@ -1627,6 +1686,9 @@ const I18N = {
     pastlife_tip: 'Explore the influence of past lives on this life, understand soul lessons and growth direction. Suitable for spiritual exploration.',
     health_tip: 'Focus on physical and mental health, explore the root causes of body and emotions, and give healing directions. For reference only, cannot replace professional medical advice.',
     family_tip: 'Suitable for analyzing family relationships, parent-child relationships, family atmosphere. Helps improve family harmony.',
+    spread_friendship_name: 'Friendship Spread',
+    spread_friendship_desc: '5 cards · Friendship analysis & repair',
+    friendship_tip: 'Suitable for analyzing friendship status, repairing distanced relationships, judging whether someone is worth getting close to. True friends are life\'s gifts.',
     // Card meaning
     btn_custom_meaning: 'Custom Meaning',
     cards_count_label: 'cards',

@@ -4229,6 +4229,8 @@
         case 'dream':      this.drawDream(); break;
         // 新增：失物寻找牌阵
         case 'lost':      this.drawLost(); break;
+        // 新增：宽恕牌阵
+        case 'forgiveness': this.drawForgiveness(); break;
       }
     }
 
@@ -4285,6 +4287,16 @@
     // ============ 新增失物寻找牌阵 ============
     drawLost() {
       this.drawStandardSpread('lost', 55, 88);
+    }
+
+    // ============ 新增宽恕牌阵 ============
+    drawForgiveness() {
+      this.drawStandardSpread('forgiveness', 60, 96);
+    }
+
+    // ============ 新增友谊牌阵 ============
+    drawFriendship() {
+      this.drawStandardSpread('friendship', 60, 96);
     }
 
     // ============ 新增年度预测牌阵 ============
@@ -6502,6 +6514,10 @@
               case 'dream':      this.drawDream(); break;
               // 新增：失物寻找牌阵
               case 'lost':      this.drawLost(); break;
+              // 新增：宽恕牌阵
+              case 'forgiveness': this.drawForgiveness(); break;
+              // 新增：友谊牌阵
+              case 'friendship': this.drawFriendship(); break;
               // 新增：年度预测牌阵
               case 'yearahead': this.drawYearahead(); break;
             }
