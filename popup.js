@@ -3166,8 +3166,8 @@
         return await this.generateDeepReading(cards, mode, positions, spreadName);
       }
 
+
       // 兜底：如果模式未知，使用标准模式
-      console.warn('未知模式，使用标准模式:', currentMode);
       return this.generateStandardReading(cards, mode, positions);
     }
 
@@ -3202,12 +3202,11 @@
               html += '<div style="margin-top:20px;">' + extendedReading + '</div>';
             }
           } catch (extErr) {
-            console.warn('扩展解读生成失败，跳过:', extErr);
+            // 扩展解读生成失败，跳过
           }
         }
 
       } catch (deepErr) {
-        console.error('深度解读生成失败:', deepErr);
         html += '<div class="reading-section error">';
         html += '<div class="reading-section-title">❌ ' + (this.currentLang === 'en' ? 'Error' : '错误') + '</div>';
         html += '<div class="reading-section-body"><p style="color:red;">' + (this.currentLang === 'en' 
@@ -4235,7 +4234,6 @@
       cards.forEach((item) => {
         let energy = 0;
         if (!item.card || item.card.id == null) {
-          console.warn('[analyzeEnergyIntensity] 卡牌数据异常:', item);
           return; // 跳过异常数据
         }
         // 安全获取牌面数字（兼容 id 为数字或字符串的情况）
@@ -5605,7 +5603,6 @@
     async saveToHistory() {
       // 授权检查：免费用户不能保存历史记录
       if (!this.isPro) {
-        console.log('History save skipped: not licensed');
         return;
       }
       if (!this.currentCards || this.currentCards.length === 0) return;
@@ -7019,7 +7016,7 @@
             const riderDeck = await deckManager.getDeck('rider');
             this.riderWaiteMap = new Map(riderDeck.map((c) => [c.id, c]));
           } catch (e) {
-            console.warn('预加载 rider-waite 牌组失败:', e);
+            // 预加载失败，不影响主流程
           }
         }
 
@@ -7045,7 +7042,7 @@
         this.updateLicenseButton();  // 更新授权按钮显示
 
       } catch (err) {
-        console.error('初始化错误:', err);
+        // 初始化错误已处理
       }
     }
 
@@ -7086,7 +7083,6 @@
             if (result.tarot_license_type === 'yearly' && result.tarot_license_expire && now > result.tarot_license_expire) {
               // 年付已过期，清除授权
               await this.clearLicense();
-              console.log('授权已过期');
             } else {
               // 授权有效
               this.isPro = true;
@@ -7114,11 +7110,6 @@
 
     // 验证授权码（调用服务器）
     async verifyLicense(code) {
-      // 管理员测试授权码（本地免验证）
-      if (code === 'TEST-ADMIN-2026') {
-        return { valid: true, type: 'lifetime', expireDate: null };
-      }
-
       const serverUrl = CONFIG.LICENSE_SERVER;
       
       try {
@@ -7136,7 +7127,6 @@
         const result = await response.json();
         return result;
       } catch (error) {
-        console.error('授权验证失败:', error);
         return { valid: false, error: 'network' };
       }
     }
@@ -7145,11 +7135,6 @@
     async checkLicenseRemote() {
       if (!this.licenseCode) {
         return false;
-      }
-
-      // 管理员测试码跳过远程验证
-      if (this.licenseCode === 'TEST-ADMIN-2026') {
-        return true;
       }
 
       const serverUrl = CONFIG.LICENSE_SERVER;
@@ -7175,7 +7160,6 @@
         
         return true;
       } catch (error) {
-        console.error('远程授权检查失败:', error);
         // 网络错误时不清除本地授权，允许离线使用
         return true;
       }
@@ -7297,7 +7281,6 @@
       
       html += `<div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">`;
       html += `<button id="license-unbind-btn" class="license-verify-btn" style="background:rgba(231,76,60,0.8);" data-i18n-key="license_unbind">解绑此设备</button>`;
-      html += `<button id="license-clear-btn" class="license-verify-btn" style="background:rgba(108,117,125,0.8);" data-i18n-key="license_clear">清除授权（测试）</button>`;
       html += `</div>`;
       html += `</div>`;
       
@@ -7309,17 +7292,6 @@
       if (unbindBtn) {
         unbindBtn.addEventListener('click', () => {
           this.unbindLicense();
-        });
-      }
-
-      // 绑定清除授权（测试）按钮
-      const clearBtn = document.getElementById('license-clear-btn');
-      if (clearBtn) {
-        clearBtn.addEventListener('click', async () => {
-          await this.clearLicense();
-          this.showLicenseModal();
-          this.updateLicenseButton();
-          this.showToast(this.currentLang === 'en' ? 'License cleared (local only)' : '授权已清除（仅本地）');
         });
       }
     }
@@ -7677,7 +7649,6 @@
               case 'chakra': this.drawChakra(); break;
             }
           } catch (err) {
-            console.error('抽牌错误:', err);
             alert(this.t('alert_draw_error') + err.message);
           }
         });
@@ -8584,7 +8555,6 @@
             };
             resolve(analysis);
           } catch (e) {
-            console.error('分析历史记录出错:', e);
             resolve(null);
           }
         });

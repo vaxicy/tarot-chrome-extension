@@ -107,12 +107,7 @@ const LICENSES = {
   'TAROT-WERQ-YYY4-H9J3-WUXR': { type: 'lifetime', maxDevices: 3, usedDevices: [], note: '正式授权', createdAt: '2026-06-01' },
   'TAROT-YPBN-KTNF-9XDL-SJ4T': { type: 'lifetime', maxDevices: 3, usedDevices: [], note: '正式授权', createdAt: '2026-06-01' },
   'TAROT-WKBT-GFEF-WU8R-9CPV': { type: 'lifetime', maxDevices: 3, usedDevices: [], note: '正式授权', createdAt: '2026-06-01' },
-  'TAROT-CUSA-FPR4-F5GD-T9TR': { type: 'lifetime', maxDevices: 3, usedDevices: [], note: '正式授权', createdAt: '2026-06-01' },
-
-  // ========== 测试授权码 ==========
-  'TEST-ADMIN-2026': { type: 'lifetime', maxDevices: 999, usedDevices: [], note: '管理员测试码', createdAt: '2026-06-01' },
-  'TAROT-DEMO-0001': { type: 'lifetime', maxDevices: 3, usedDevices: [], note: '演示授权码', createdAt: '2026-01-01' },
-  'TAROT-PRO-2026': { type: 'yearly', maxDevices: 1, usedDevices: [], note: '2026年度授权', createdAt: '2026-01-01', expireDate: '2027-01-01' }
+  'TAROT-CUSA-FPR4-F5GD-T9TR': { type: 'lifetime', maxDevices: 3, usedDevices: [], note: '正式授权', createdAt: '2026-06-01' }
 };
 
 // 生成简单设备ID（基于浏览器指纹）

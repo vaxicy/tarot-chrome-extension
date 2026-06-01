@@ -8,11 +8,14 @@
 This Chrome Extension ("Magic Tarot", "the Extension") is committed to protecting your privacy. This privacy policy explains how we handle information when you use our extension.
 
 ### Information Collection
-This Extension **does not collect, transmit, or store** any personal information on external servers. Specifically:
+This Extension **does not collect or store** any personal information on external servers. Specifically:
 
 - **No Personal Data Collection**: We do not collect names, email addresses, or any personally identifiable information.
 - **No Tracking**: We do not use analytics, tracking cookies, or any form of user behavior monitoring.
-- **No External Communication**: The Extension operates entirely locally and does not send data to external servers.
+- **Limited External Communication**: The Extension operates primarily locally. External communication only occurs when:
+  - Verifying license codes (connects to `tarot-license.huangzero2004.workers.dev`)
+  - Processing payments (redirects to `ifdian.net` for purchases)
+  - No personal data is transmitted during these communications
 
 ### Data Storage
 All data is stored **locally** on your device using Chrome's `storage` API:
@@ -54,11 +57,14 @@ https://github.com/vaxicy/tarot-chrome-extension/issues
 本 Chrome 扩展程序（"魔法塔罗牌"，简称"本扩展"）致力于保护您的隐私。本隐私政策说明了我们在您使用扩展程序时如何处理信息。
 
 ### 信息收集
-本扩展程序**不收集、不传输、也不在外部服务器上存储**任何个人信息。具体包括：
+本扩展程序**不收集或存储**任何个人信息在外部服务器上。具体包括：
 
 - **无个人数据收集**：我们不收集姓名、电子邮件地址或任何可识别个人身份的信息。
 - **无跟踪**：我们不使用分析工具、跟踪 Cookie 或任何形式的用户行为监控。
-- **无外部通信**：扩展程序完全在本地运行，不向外部服务器发送数据。
+- **有限的外部通信**：扩展程序主要在本地运行。仅在以下情况下进行外部通信：
+  - 验证授权码时（连接到 `tarot-license.huangzero2004.workers.dev`）
+  - 处理支付时（重定向到 `ifdian.net` 进行购买）
+  - 这些通信过程中不传输个人数据
 
 ### 数据存储
 所有数据都**本地**存储在您的设备上，使用 Chrome 的 `storage` API：
