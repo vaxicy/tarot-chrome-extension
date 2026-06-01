@@ -1189,6 +1189,35 @@ const SPREADS = {
     usage: '适合在重大抉择、迷茫期、或想要获得超越小我的智慧指引时使用。帮助连接高我、听见内在真实声音。',
     usageEn: 'Suitable for major decisions, confused periods, or when wanting to receive wisdom guidance beyond the small self. Helps connect with Higher Self and hear the true inner voice.'
   },
+  // ============ 脉轮平衡牌阵 ============
+  chakra: {
+    name: '脉轮平衡',
+    nameEn: 'Chakra Balance Spread',
+    positions: ['海底轮（根基/安全感）', '生殖轮（情绪/创造力）', '太阳神经丛（意志/力量感）', '心轮（爱/接纳）', '喉轮（表达/真实）', '眉心轮（直觉/洞察）', '顶轮（灵性/宇宙意识）'],
+    positionsEn: ['Root Chakra (Grounding/Security)', 'Sacral Chakra (Emotion/Creativity)', 'Solar Plexus (Willpower/Strength)', 'Heart Chakra (Love/Acceptance)', 'Throat Chakra (Expression/Truth)', 'Third Eye (Intuition/Insight)', 'Crown Chakra (Spirituality/Cosmic Consciousness)'],
+    positionMeanings: [
+      '海底轮（根基/安全感）：你的安全感根基稳不稳？这张牌告诉你——是「脚踏实地、有安全感」，还是「焦虑不安、总觉得会被抽走地毯」？如果逆位，说明你的根基需要重新扎根。',
+      '生殖轮（情绪/创造力）：你的情绪流动顺畅吗？创造力是在「源源不断涌出来」，还是在「堵塞、干涸」？这张牌告诉你情绪体当前的流动状态，以及创造力是否被压抑了。',
+      '太阳神经丛（意志/力量感）：你的个人力量在线吗？这张牌告诉你——是「充满自信、敢于做决定」，还是「总觉得自己不够好、把力量交给别人」？逆位提示你需要拿回自己的力量。',
+      '心轮（爱/接纳）：你的心是「打开的」还是「关上的」？这张牌告诉你爱的能力——是「能爱自己也能爱别人」，还是「害怕受伤所以不敢打开」？这是疗愈关系最重要的位置。',
+      '喉轮（表达/真实）：你能「说出真实」吗？这张牌告诉你——是「敢于表达真实想法」，还是「习惯性沉默、用假声音说话」？如果逆位，说明你需要练习说真话。',
+      '眉心轮（直觉/洞察）：你的直觉力清晰吗？这张牌告诉你——是「能接收到内在指引」，还是「太依赖逻辑、把直觉当成幻想」？逆位提示你该关掉大脑、打开第三只眼了。',
+      '顶轮（灵性/宇宙意识）：你和宇宙/高我的连接通畅吗？这张牌告诉你——是「感受到与万物合一」，还是「感觉孤独、与源头断线了」？这是灵性成长的核心位置。'
+    ],
+    positionMeaningsEn: [
+      'Root Chakra (Grounding/Security): Is your sense of security stable? This card tells you — are you "grounded and secure", or "anxious, always feeling like the rug could be pulled out from under you"? If reversed, your foundation needs re-grounding.',
+      'Sacral Chakra (Emotion/Creativity): Is your emotional flow smooth? Is creativity "flowing out continuously", or is it "blocked and dried up"? This card tells you the current flow state of your emotional body, and whether creativity is being suppressed.',
+      'Solar Plexus (Willpower/Strength): Is your personal power online? This card tells you — are you "full of confidence, daring to make decisions", or "always feeling not good enough, giving your power to others"? Reversed suggests you need to reclaim your own power.',
+      'Heart Chakra (Love/Acceptance): Is your heart "open" or "closed"? This card tells you about your capacity to love — are you "able to love yourself and others", or "afraid of getting hurt so you don\'t dare to open up"? This is the most important position for healing relationships.',
+      'Throat Chakra (Expression/Truth): Can you "speak your truth"? This card tells you — do you "dare to express your true thoughts", or "habitually stay silent, speak with a fake voice"? If reversed, it suggests you need to practice telling the truth.',
+      'Third Eye (Intuition/Insight): Is your intuition clear? This card tells you — can you "receive inner guidance", or are you "too reliant on logic, treating intuition as fantasy"? Reversed suggests it\'s time to turn off the brain and open the third eye.',
+      'Crown Chakra (Spirituality/Cosmic Consciousness): Is your connection with the universe/Higher Self smooth? This card tells you — do you "feel oneness with all things", or "feel lonely, disconnected from the source"? This is the core position for spiritual growth.'
+    ],
+    category: 'spiritual', difficulty: 'medium', recommended: true, loadingText: '正在检测脉轮能量...',
+    loadingTextEn: 'Checking chakra energy...',
+    usage: '适合感觉能量堵塞、情绪失衡、想了解自己灵性成长状态的人。帮助发现哪个脉轮需要关注，并提供平衡建议。',
+    usageEn: 'Suitable for those feeling energy blockages, emotional imbalance, or wanting to understand their spiritual growth status. Helps identify which chakra needs attention and provides balancing advice.'
+  },
   // ============ 财务投资牌阵 ============
   finance: {
     name: '财务投资',
@@ -1558,6 +1587,9 @@ const I18N = {
     spread_higherself_name: '高我连接指引',
     spread_higherself_desc: '6张牌 · 连接高我听见内在声音',
     higherself_tip: '适合在重大抉择、迷茫期、或想要获得超越小我的智慧指引时使用。帮助连接高我、听见内在真实声音。',
+    spread_chakra_name: '脉轮平衡',
+    spread_chakra_desc: '7张牌 · 检测脉轮能量与平衡建议',
+    chakra_tip: '适合感觉能量堵塞、情绪失衡、想了解自己灵性成长状态的人。帮助发现哪个脉轮需要关注，并提供平衡建议。',
     fortune_overall: '★ 综合运势',
     fortune_dimensions: '➡ 各维度评分',
     fortune_lucky_info: '💫 幸运信息',
@@ -2043,6 +2075,9 @@ const I18N = {
     spread_higherself_name: 'Higher Self Guidance',
     spread_higherself_desc: '6 cards · Connect with Higher Self & hear inner voice',
     higherself_tip: 'Suitable for major decisions, confused periods, or when wanting to receive wisdom guidance beyond the small self. Helps connect with Higher Self and hear the true inner voice.',
+    spread_chakra_name: 'Chakra Balance',
+    spread_chakra_desc: '7 cards · Check chakra energy & balancing advice',
+    chakra_tip: 'Suitable for those feeling energy blockages, emotional imbalance, or wanting to understand their spiritual growth status. Helps identify which chakra needs attention and provides balancing advice.',
     spread_finance_name: 'Finance & Investment',
     spread_finance_desc: '5 cards · Financial decision guidance',
     weekly_tip: 'Suitable for drawing on Sunday or Monday to understand the fortune trend for each day of the coming week.',

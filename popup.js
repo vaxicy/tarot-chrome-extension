@@ -1207,6 +1207,9 @@
         case 'startup':
           adviceCard = cards[5] || null; // 6张牌，建议在第6张（索引5）
           break;
+        case 'chakra':
+          adviceCard = cards[3] || null; // 7张牌，建议在第4张 心轮（索引3）
+          break;
         case 'lifepurpose':
           adviceCard = cards[7] || null;
           break;
@@ -1470,6 +1473,13 @@
             text += ' 创业可行性牌阵建议：创业不是「等准备好了再开始」，而是「在行动中准备」。如果牌面显示风险较高，可以先做副业试水，再决定是否全职创业。';
           } else {
             text += ' Startup Feasibility spread advice: Entrepreneurship is not "wait until fully prepared then start", but "prepare while acting". If the cards show high risk, you can first test the water with a side hustle, then decide whether to go full-time.';
+          }
+          break;
+        case 'chakra':
+          if (!isEn) {
+            text += ' 脉轮平衡牌阵建议：如果你的海底轮逆位，先从「脚踏实地」开始——每天做一件让自己有安全感的小事。如果心轮逆位，练习对自己说「我值得被爱」。脉轮疗愈不是一次性的，而是日常的自我关照。';
+          } else {
+            text += ' Chakra Balance spread advice: If your Root Chakra is reversed, start with "grounding" — do one small thing every day that makes you feel secure. If your Heart Chakra is reversed, practice saying to yourself "I am worthy of love". Chakra healing is not a one-time fix, but daily self-care.';
           }
           break;
         default:
@@ -2953,6 +2963,34 @@
           }
           break;
 
+        // ---- 脉轮平衡 ----
+        case 'chakra': {
+          const root = cards[0], sacral = cards[1], solar = cards[2];
+          const heart = cards[3], throat = cards[4], thirdEye = cards[5], crown = cards[6];
+          if (!isEn) {
+            text += '脉轮平衡牌阵从七个能量中心检测你的身心状态。';
+            const blocked = cards.filter(c => c.isReversed).length;
+            if (blocked >= 4) {
+              text += ' 超过4个脉轮逆位，说明你的能量体整体较为堵塞，建议从海底轮（牌1）开始，逐步扎根、稳定，再往上升。';
+            } else if (blocked === 0) {
+              text += ' 所有脉轮正位，能量通畅，你的身心状态非常健康，保持当前的生活节奏和灵修练习即可。';
+            }
+            if (heart.isReversed) {
+              text += ' 「心轮」逆位需要特别关注——心轮是上下脉轮的连接点，心轮堵了，上下能量都无法流通。';
+            }
+            if (crown.card.suit === 'major') {
+              text += ' 「顶轮」是大阿卡那牌，说明你与高我的连接正处于一个重要阶段，灵性成长正在加速。';
+            }
+          } else {
+            text += 'The Chakra Balance spread checks your energy body through seven energy centers. ';
+            const blocked = cards.filter(c => c.isReversed).length;
+            if (blocked >= 4) {
+              text += 'With ' + blocked + ' or more chakras reversed, your energy body is quite blocked. Suggest starting from the Root Chakra (card 1) to re-ground before working upward.';
+            }
+          }
+          break;
+        }
+
         // ---- 前世今生 ----
         case 'pastlife':
           if (!isEn) {
@@ -3961,7 +3999,8 @@
         pastlife:   ['理解前世未完成课题对今生的影响', '以慈悲心化解前世的业力模式'],
         health:     ['关注身心健康的根本能量因素', '必要时寻求专业医疗建议'],
         higherself: ['安静下来，聆听内在高我的声音', '放下小我的执着与恐惧'],
-        lovepattern: ['看见自己在感情中的重复模式', '疗愈内在伤口，建立健康关系模式']
+        lovepattern: ['看见自己在感情中的重复模式', '疗愈内在伤口，建立健康关系模式'],
+        chakra: ['从海底轮开始检测能量堵塞', '针对堵塞的脉轮做针对性疗愈']
       };
       return map[mode] || [];
     }
@@ -3997,7 +4036,8 @@
         pastlife:   ['Understand the impact of past-life unfinished lessons on this life', 'Resolve past-life karmic patterns with compassion'],
         health:     ['Focus on root energy factors of body-mind health', 'Seek professional medical advice when necessary'],
         higherself: ['Quiet down, listen to the inner voice of Higher Self', 'Let go of ego\'s attachments and fears'],
-        lovepattern: ['See your repeated patterns in love', 'Heal inner wounds, build healthy relationship patterns']
+        lovepattern: ['See your repeated patterns in love', 'Heal inner wounds, build healthy relationship patterns'],
+        chakra: ['Check energy blockages starting from Root Chakra', 'Do targeted healing for blocked chakras']
       };
       return map[mode] || [];
     }
@@ -4040,7 +4080,8 @@
         pastlife:   '前世解读属于灵性探索，请以开放心态看待',
         health:     '健康解读不能替代专业医疗诊断，如有不适请及时就医',
         higherself: '高我指引以直觉形式呈现，请在安静状态下聆听',
-        lovepattern: '情感模式探索可能触及深层创伤，请温柔对待自己'
+        lovepattern: '情感模式探索可能触及深层创伤，请温柔对待自己',
+        chakra: '脉轮解读属于能量层面参考，如有身体不适请及时就医'
       };
       return map[mode] || '';
     }
@@ -4062,7 +4103,8 @@
         pastlife:   'Past-life reading is spiritual exploration; please view it with an open mind',
         health:     'Health reading cannot replace professional medical diagnosis; please seek medical attention if unwell',
         higherself: 'Higher Self guidance comes as intuition; please listen in a quiet state',
-        lovepattern: 'Love pattern exploration may touch deep wounds; please treat yourself gently'
+        lovepattern: 'Love pattern exploration may touch deep wounds; please treat yourself gently',
+        chakra: 'Chakra reading is for energy reference only; please seek medical attention if unwell'
       };
       return map[mode] || '';
     }
@@ -4749,6 +4791,11 @@
       this.drawStandardSpread('innerchild', 60, 96);
     }
 
+    // ============ 脉轮平衡牌阵 ============
+    drawChakra() {
+      this.drawStandardSpread('chakra', 55, 88);
+    }
+
     // ============ 重新占卜 ============
     reshuffle() {
       switch (this.currentMode) {
@@ -4829,6 +4876,8 @@
         case 'startup': this.drawStartup(); break;
         // 新增：日常习惯优化牌阵
         case 'habit': this.drawHabit(); break;
+        // 新增：脉轮平衡牌阵
+        case 'chakra': this.drawChakra(); break;
       }
     }
 
@@ -7154,6 +7203,8 @@
               case 'yearahead': this.drawYearahead(); break;
               // 新增：高我连接指引牌阵
               case 'higherself': this.drawHigherself(); break;
+              // 新增：脉轮平衡牌阵
+              case 'chakra': this.drawChakra(); break;
             }
           } catch (err) {
             console.error('抽牌错误:', err);
@@ -7925,6 +7976,15 @@
           html += '<div style="display:flex;flex-direction:column;gap:3px;align-items:center;">';
           for (let i = 0; i < positions.length; i++) {
             html += this.diagramCard(i + 1, positions[i], i === 6 ? '32px' : '26px');
+          }
+          html += '</div>';
+          break;
+
+        case 'chakra':
+          // 脉轮平衡：从下到上纵向排列（海底轮在下，顶轮在上）
+          html += '<div style="display:flex;flex-direction:column-reverse;align-items:center;gap:2px;">';
+          for (let i = 0; i < positions.length; i++) {
+            html += this.diagramCard(i + 1, positions[i], i === 3 ? '32px' : '26px');
           }
           html += '</div>';
           break;
