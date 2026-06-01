@@ -185,11 +185,12 @@ body::before {
 .top-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 8px;
   width: 100%;
   margin-bottom: 12px;
   padding: 0 4px;
+  flex-wrap: wrap;
 }
 
 .toolbar-selects {
@@ -5982,4 +5983,303 @@ button:active {
   background: rgba(26, 15, 64, 0.3);
   border-radius: 8px;
   border: 1px solid rgba(255, 215, 0, 0.08);
+}
+
+/* ============ 授权码验证样式 ============ */
+.license-btn {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--color-gold);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.license-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.1));
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.license-btn.pro-active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.15));
+  border-color: var(--color-gold);
+  cursor: default;
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.license-btn.pro-active:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* 授权弹窗 */
+.license-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+.license-modal-content {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.license-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.license-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.license-modal-close {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.3s ease;
+}
+
+.license-modal-close:hover {
+  color: var(--color-gold);
+}
+
+.license-input-group {
+  margin-bottom: 12px;
+}
+
+.license-input-label {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.license-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.license-input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.15);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.license-input::placeholder {
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.license-verify-btn {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+  border: none;
+  border-radius: 8px;
+  color: var(--color-primary-dark);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.license-verify-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+}
+
+.license-verify-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.license-status {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  display: none;
+}
+
+.license-status.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.license-status.success {
+  background: rgba(46, 204, 113, 0.15);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  color: #2ecc71;
+}
+
+.license-status.error {
+  background: rgba(231, 76, 60, 0.15);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: #e74c3c;
+}
+
+.license-status.info {
+  background: rgba(52, 152, 219, 0.15);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  color: #3498db;
+}
+
+.license-purchase-link {
+  display: block;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  color: var(--color-gold);
+  text-decoration: none;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.license-purchase-link:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.license-info-text {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.license-pro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+  color: var(--color-primary-dark);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  animation: proBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes proBadgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 215, 0, 0); }
+}
+
+/* 付费牌阵锁定标记 */
+.spread-card[data-pro="true"]:not(.pro-active)::after,
+.spread-btn[data-pro="true"]:not(.pro-active)::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: inherit;
+  z-index: 3;
+  pointer-events: none;
+  transition: none;
+}
+
+
+
+/* 禁用未解锁卡片的 hover 动态效果，保持静态模糊 */
+.spread-card[data-pro="true"]:not(.pro-active):hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(255, 215, 0, 0.15);
+  background: rgba(30, 20, 70, 0.7);
+  transition: none;
+}
+
+/* 禁用未解锁列表按钮的 hover 动态效果 */
+.spread-btn[data-pro="true"]:not(.pro-active):hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(255, 215, 0, 0.15);
+  background: rgba(30, 20, 70, 0.7);
+  transition: none;
+}
+
+.spread-btn[data-pro="true"]:not(.pro-active):hover::before {
+  left: auto;
+}
+
+/* 锁定图标 */
+.spread-card[data-pro="true"]:not(.pro-active) .spread-card-icon,
+.spread-btn[data-pro="true"]:not(.pro-active) .spread-icon {
+  opacity: 0.4;
+}
+
+/* 授权后移除锁定样式 */
+.pro-active[data-pro="true"]::after,
+.pro-active[data-pro="true"]::before {
+  display: none;
+}
+
+.pro-active[data-pro="true"] .spread-card-icon,
+.pro-active[data-pro="true"] .spread-icon {
+  opacity: 1;
+}
+
+/* 工具栏中的授权按钮位置 */
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>魔法塔罗牌 - 获取授权码</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #e0e0e0;
+    }
+    .container {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #f9d423, #ff4e50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: #999;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .price {
+      font-size: 48px;
+      font-weight: bold;
+      color: #f9d423;
+      margin: 20px 0;
+    }
+    .price span {
+      font-size: 18px;
+      color: #999;
+    }
+    .features {
+      text-align: left;
+      margin: 25px 0;
+      padding: 0 20px;
+    }
+    .features li {
+      list-style: none;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .features li::before {
+      content: "✨ ";
+    }
+    .qr-section {
+      margin: 30px 0;
+    }
+    .qr-section h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #ccc;
+    }
+    .qr-codes {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .qr-item {
+      text-align: center;
+    }
+    .qr-placeholder {
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.05);
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      color: #999;
+      font-size: 13px;
+    }
+    .qr-item p {
+      font-size: 13px;
+      color: #aaa;
+    }
+    .steps {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      text-align: left;
+    }
+    .steps h3 {
+      font-size: 15px;
+      margin-bottom: 12px;
+      color: #f9d423;
+    }
+    .steps ol {
+      padding-left: 20px;
+      font-size: 13px;
+      line-height: 2;
+      color: #bbb;
+    }
+    .contact {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 13px;
+      color: #999;
+    }
+    .contact a {
+      color: #f9d423;
+      text-decoration: none;
+    }
+    .note {
+      font-size: 12px;
+      color: #666;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔮 魔法塔罗牌</h1>
+    <p class="subtitle">永久授权 · 全功能解锁</p>
+    
+    <div class="price">
+      ¥19<span>/终身</span>
+    </div>
+    
+    <ul class="features">
+      <li>解锁全部 5 套精美牌组</li>
+      <li>无限次牌阵占卜</li>
+      <li>保存占卜历史记录</li>
+      <li>永久授权，一次购买终身使用</li>
+      <li>后续更新全部免费</li>
+    </ul>
+    
+    <div class="qr-section">
+      <h3>📱 扫码支付</h3>
+      <div class="qr-codes">
+        <div class="qr-item">
+          <div class="qr-placeholder">
+            <p>微信收款码</p>
+            <p>👇 替换此图</p>
+          </div>
+          <p>微信支付</p>
+        </div>
+        <div class="qr-item">
+          <div class="qr-placeholder">
+            <p>支付宝收款码</p>
+            <p>👇 替换此图</p>
+          </div>
+          <p>支付宝支付</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="steps">
+      <h3>📝 获取授权码步骤</h3>
+      <ol>
+        <li>扫码支付 <strong>¥19</strong></li>
+        <li>截图支付记录</li>
+        <li>添加微信 <strong>你的微信号</strong> 发送截图</li>
+        <li>我会立即发送授权码给你</li>
+        <li>在扩展中输入授权码即可永久使用</li>
+      </ol>
+    </div>
+    
+    <div class="contact">
+      <p>📧 如有问题请联系：</p>
+      <p>微信：<strong>你的微信号</strong></p>
+      <p>邮箱：<strong>your@email.com</strong></p>
+    </div>
+    
+    <p class="note">
+      ⏰ 通常在 12 小时内回复，白天回复更快哦~
+    </p>
+  </div>
+</body>
+</html>
