@@ -17,7 +17,6 @@
     }
   },
   "permissions": ["storage"],
-  "host_permissions": ["https://tarot-license.huangzero2004.workers.dev/*", "https://ifdian.net/item/*"],
   "web_accessible_resources": [
     {
       "resources": ["icons/*/*.png", "icons/*/*.svg", "icons/*.png"],

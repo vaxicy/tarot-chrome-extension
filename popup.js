@@ -15,13 +15,6 @@
       this.currentLang = 'zh';
       this.soundEnabled = true;  // 音效/触觉开关（与 toggleSound 同步）
 
-      // 授权状态
-      this.isPro = false;
-      this.licenseCode = null;
-      this.licenseType = null;
-      this.licenseExpireDate = null;
-      this.deviceId = null;
-
       // 自定义牌意缓存（从 deckManager 同步）
       this.customMeanings = {};
 
@@ -5023,14 +5016,6 @@
 
     // ============ 切换牌组 ============
     changeDeck(deckType) {
-      // 授权检查：免费用户只能使用 magic 牌组
-      if (!this.isPro && deckType !== 'magic') {
-        this.showToast(this.currentLang === 'en' ? 'Please purchase a license to unlock all decks' : '请先获取授权码以解锁全部牌组');
-        // 强制切换回 magic
-        const deckSelect = document.getElementById('deck-select');
-        if (deckSelect) deckSelect.value = 'magic';
-        return;
-      }
       this.currentDeck = deckType;
       if (typeof deckManager !== 'undefined') {
         deckManager.currentDeckName = deckType;
@@ -5601,10 +5586,6 @@
 
     // ============ 历史记录功能 ============
     async saveToHistory() {
-      // 授权检查：免费用户不能保存历史记录
-      if (!this.isPro) {
-        return;
-      }
       if (!this.currentCards || this.currentCards.length === 0) return;
 
       const spreadName = this.getLocalizedSpreadName(this.currentMode);
@@ -5641,13 +5622,6 @@
     }
 
     loadHistory() {
-      // 授权检查：免费用户不能查看历史记录
-      if (!this.isPro) {
-        const historyList = document.getElementById('history-list');
-        const historyPanel = document.getElementById('history-panel');
-        if (historyList) historyList.innerHTML = '<div class="history-empty">' + (this.currentLang === 'en' ? 'Please purchase a license to view history' : '请先获取授权码以查看历史记录') + '</div>';
-        return;
-      }
       chrome.storage.local.get({ history: [] }, (result) => {
         const history = result.history;
         const historyList = document.getElementById('history-list');
@@ -7027,9 +7001,6 @@
           if (btn) btn.classList.toggle('muted', !this.soundEnabled);
         });
 
-        // 检查授权状态
-        await this.checkLicense();
-
         this.showPage('welcome-page');
         this.bindEvents();
         this.initSpreadSearch();
@@ -7039,381 +7010,32 @@
         this.initCategoryCollapse();
         this.updateCategoryCounts();  // 动态计算分类数量
         this.updateFortuneDate();
-        this.updateLicenseButton();  // 更新授权按钮显示
+
+        // 初始化捐赠链接与事件
+        const paypalLink = document.getElementById('donate-paypal-link');
+        if (paypalLink && typeof CONFIG !== 'undefined' && CONFIG.PAYPAL_ME_URL) {
+          paypalLink.href = CONFIG.PAYPAL_ME_URL;
+        }
+        const wechatBtn = document.getElementById('donate-wechat-btn');
+        const qrModal = document.getElementById('donate-qr-modal');
+        const qrClose = document.getElementById('donate-qr-close');
+        if (wechatBtn && qrModal) {
+          wechatBtn.addEventListener('click', () => qrModal.classList.remove('hidden'));
+        }
+        if (qrClose && qrModal) {
+          qrClose.addEventListener('click', () => qrModal.classList.add('hidden'));
+        }
+        if (qrModal) {
+          qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) qrModal.classList.add('hidden');
+          });
+        }
 
       } catch (err) {
         // 初始化错误已处理
       }
     }
 
-    // ============ 授权管理 ============
-    // 生成设备ID（基于浏览器指纹）
-    generateDeviceId() {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      ctx.textBaseline = 'top';
-      ctx.font = '14px Arial';
-      ctx.fillText('magic-tarot-device-id', 2, 2);
-      const fingerprint = canvas.toDataURL();
-      
-      // 简单哈希
-      let hash = 0;
-      for (let i = 0; i < fingerprint.length; i++) {
-        const char = fingerprint.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // 转换为32位整数
-      }
-      
-      return 'DEV' + Math.abs(hash).toString(36).toUpperCase().substring(0, 12);
-    }
-
-    // 检查本地授权状态
-    async checkLicense() {
-      return new Promise((resolve) => {
-        chrome.storage.local.get({
-          tarot_pro: false,
-          tarot_license_code: null,
-          tarot_license_type: null,
-          tarot_license_expire: null,
-          tarot_device_id: null
-        }, async (result) => {
-          if (result.tarot_pro && result.tarot_license_code) {
-            // 有本地授权记录，验证是否过期
-            const now = Date.now();
-            if (result.tarot_license_type === 'yearly' && result.tarot_license_expire && now > result.tarot_license_expire) {
-              // 年付已过期，清除授权
-              await this.clearLicense();
-            } else {
-              // 授权有效
-              this.isPro = true;
-              this.licenseCode = result.tarot_license_code;
-              this.licenseType = result.tarot_license_type;
-              this.licenseExpireDate = result.tarot_license_expire;
-              this.deviceId = result.tarot_device_id || this.generateDeviceId();
-              
-              // 如果有设备ID，保存到存储
-              if (!result.tarot_device_id) {
-                chrome.storage.local.set({ tarot_device_id: this.deviceId });
-              }
-            }
-          } else {
-            // 没有授权，生成设备ID
-            this.deviceId = result.tarot_device_id || this.generateDeviceId();
-            if (!result.tarot_device_id) {
-              chrome.storage.local.set({ tarot_device_id: this.deviceId });
-            }
-          }
-          resolve();
-        });
-      });
-    }
-
-    // 验证授权码（调用服务器）
-    async verifyLicense(code) {
-      const serverUrl = CONFIG.LICENSE_SERVER;
-      
-      try {
-        const response = await fetch(`${serverUrl}/verify?code=${encodeURIComponent(code)}&deviceId=${encodeURIComponent(this.deviceId)}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error('Network error');
-        }
-        
-        const result = await response.json();
-        return result;
-      } catch (error) {
-        return { valid: false, error: 'network' };
-      }
-    }
-
-    // 检查授权状态（启动时调用服务器验证）
-    async checkLicenseRemote() {
-      if (!this.licenseCode) {
-        return false;
-      }
-
-      const serverUrl = CONFIG.LICENSE_SERVER;
-      
-      try {
-        const response = await fetch(`${serverUrl}/check?code=${encodeURIComponent(this.licenseCode)}&deviceId=${encodeURIComponent(this.deviceId)}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (!response.ok) {
-          return false;
-        }
-        
-        const result = await response.json();
-        if (!result.valid) {
-          // 授权失效，清除本地记录
-          await this.clearLicense();
-          return false;
-        }
-        
-        return true;
-      } catch (error) {
-        // 网络错误时不清除本地授权，允许离线使用
-        return true;
-      }
-    }
-
-    // 激活授权
-    async activateLicense(code) {
-      const result = await this.verifyLicense(code);
-      
-      if (!result.valid) {
-        return result;
-      }
-      
-      // 保存授权信息
-      this.isPro = true;
-      this.licenseCode = code;
-      this.licenseType = result.type;
-      this.licenseExpireDate = result.expireDate || null;
-      
-      await new Promise((resolve) => {
-        chrome.storage.local.set({
-          tarot_pro: true,
-          tarot_license_code: code,
-          tarot_license_type: result.type,
-          tarot_license_expire: result.expireDate || null,
-          tarot_device_id: this.deviceId
-        }, resolve);
-      });
-      
-      return { success: true, type: result.type, expireDate: result.expireDate };
-    }
-
-    // 清除授权
-    async clearLicense() {
-      this.isPro = false;
-      this.licenseCode = null;
-      this.licenseType = null;
-      this.licenseExpireDate = null;
-      
-      await new Promise((resolve) => {
-        chrome.storage.local.remove([
-          'tarot_pro',
-          'tarot_license_code',
-          'tarot_license_type',
-          'tarot_license_expire'
-        ], resolve);
-      });
-    }
-
-    // 更新授权按钮显示
-    updateLicenseButton() {
-      const licenseBtn = document.getElementById('license-btn');
-      const licenseBtnText = document.getElementById('license-btn-text');
-
-      if (!licenseBtn) return;
-
-      if (this.isPro) {
-        licenseBtn.classList.add('pro-active');
-        const typeText = this.licenseType === 'lifetime'
-          ? (this.currentLang === 'en' ? 'Lifetime' : '永久')
-          : (this.currentLang === 'en' ? 'Yearly' : '年付');
-        licenseBtnText.textContent = `PRO (${typeText})`;
-        // 授权后移除所有付费牌阵的锁定标记
-        document.querySelectorAll('[data-pro="true"]').forEach(btn => {
-          btn.classList.add('pro-active');
-        });
-      } else {
-        licenseBtn.classList.remove('pro-active');
-        licenseBtnText.textContent = this.t('btn_license');
-        // 未授权时恢复锁定标记
-        document.querySelectorAll('[data-pro="true"]').forEach(btn => {
-          btn.classList.remove('pro-active');
-        });
-      }
-    }
-
-    // 显示授权弹窗
-    showLicenseModal() {
-      const modal = document.getElementById('license-modal');
-      const inputArea = document.getElementById('license-input-area');
-      const statusArea = document.getElementById('license-status-area');
-      const purchaseLink = document.getElementById('license-purchase-link');
-      
-      if (!modal) return;
-      
-      modal.classList.remove('hidden');
-      
-      if (this.isPro) {
-        // 已授权，显示授权信息
-        inputArea.classList.add('hidden');
-        statusArea.classList.remove('hidden');
-        this.showLicenseStatus();
-      } else {
-        // 未授权，显示输入界面
-        inputArea.classList.remove('hidden');
-        statusArea.classList.add('hidden');
-        const input = document.getElementById('license-input');
-        if (input) input.value = '';
-      }
-      
-      // 设置购买链接（替换为你的实际购买链接）
-      if (purchaseLink) {
-        purchaseLink.href = CONFIG.PURCHASE_URL;
-      }
-    }
-
-    // 显示授权状态
-    showLicenseStatus() {
-      const statusDiv = document.getElementById('license-status-text');
-      if (!statusDiv) return;
-      
-      let html = `<div class="license-status success show">`;
-      html += `<div>✅ ${this.t('license_status_pro').replace('{type}', this.t('license_type_' + this.licenseType))}</div>`;
-      
-      if (this.licenseType === 'yearly' && this.licenseExpireDate) {
-        const dateStr = new Date(this.licenseExpireDate).toLocaleDateString(this.currentLang === 'en' ? 'en-US' : 'zh-CN');
-        html += `<div style="margin-top:6px;font-size:11px;">${this.t('license_status_expires').replace('{date}', dateStr)}</div>`;
-      }
-      
-      html += `<div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">`;
-      html += `<button id="license-unbind-btn" class="license-verify-btn" style="background:rgba(231,76,60,0.8);" data-i18n-key="license_unbind">解绑此设备</button>`;
-      html += `</div>`;
-      html += `</div>`;
-      
-      statusDiv.className = 'license-status success show';
-      statusDiv.innerHTML = html;
-      
-      // 绑定解绑按钮
-      const unbindBtn = document.getElementById('license-unbind-btn');
-      if (unbindBtn) {
-        unbindBtn.addEventListener('click', () => {
-          this.unbindLicense();
-        });
-      }
-    }
-
-    // 解绑设备
-    async unbindLicense() {
-      if (!confirm(this.currentLang === 'en' ? 'Are you sure to unbind this device?' : '确定要解绑此设备吗？')) {
-        return;
-      }
-      
-      const serverUrl = CONFIG.LICENSE_SERVER;
-      
-      try {
-        const response = await fetch(`${serverUrl}/unbind`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            code: this.licenseCode,
-            deviceId: this.deviceId
-          })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-          await this.clearLicense();
-          this.showLicenseModal();  // 刷新界面
-          this.updateLicenseButton();
-          this.showToast(this.currentLang === 'en' ? 'Device unbound' : '设备已解绑');
-        } else {
-          this.showToast(result.error || (this.currentLang === 'en' ? 'Unbind failed' : '解绑失败'));
-        }
-      } catch (error) {
-        this.showToast(this.t('license_error_network'));
-      }
-    }
-
-    // 处理授权码输入
-    async handleLicenseVerify() {
-      const input = document.getElementById('license-input');
-      const verifyBtn = document.getElementById('license-verify-btn');
-      const statusDiv = document.getElementById('license-status-text');
-      
-      if (!input || !verifyBtn) return;
-      
-      const code = input.value.trim();
-      if (!code) {
-        this.showLicenseStatusMessage(statusDiv, 'error', this.currentLang === 'en' ? 'Please enter license key' : '请输入授权码');
-        return;
-      }
-      
-      // 禁用按钮，显示加载
-      verifyBtn.disabled = true;
-      const btnText = verifyBtn.querySelector('.btn-text');
-      const btnLoading = verifyBtn.querySelector('.btn-loading');
-      if (btnText) btnText.classList.add('hidden');
-      if (btnLoading) btnLoading.classList.remove('hidden');
-      
-      // 调用验证
-      const result = await this.activateLicense(code);
-      
-      // 恢复按钮
-      verifyBtn.disabled = false;
-      if (btnText) btnText.classList.remove('hidden');
-      if (btnLoading) btnLoading.classList.add('hidden');
-      
-      if (result.success) {
-        // 验证成功
-        this.showLicenseStatusMessage(statusDiv, 'success', this.t('license_success'));
-        setTimeout(() => {
-          this.showLicenseModal();  // 刷新界面
-          this.updateLicenseButton();
-        }, 1500);
-      } else {
-        // 验证失败
-        let errorMsg = this.t('license_error_invalid');
-        if (result.error === 'network') {
-          errorMsg = this.t('license_error_network');
-        } else if (result.error === '授权已过期，请续费') {
-          errorMsg = this.t('license_error_expired');
-        } else if (result.error.includes('已绑定')) {
-          const maxMatch = result.error.match(/(\d+)/);
-          const max = maxMatch ? maxMatch[1] : '3';
-          errorMsg = this.t('license_error_device_limit').replace('{max}', max);
-        }
-        this.showLicenseStatusMessage(statusDiv, 'error', errorMsg);
-      }
-    }
-
-    // 显示授权状态消息
-    showLicenseStatusMessage(statusDiv, type, message) {
-      if (!statusDiv) return;
-      
-      statusDiv.className = `license-status ${type} show`;
-      statusDiv.textContent = message;
-      
-      // 3秒后自动隐藏
-      setTimeout(() => {
-        statusDiv.classList.remove('show');
-      }, 3000);
-    }
-
-    // 检查功能权限（用于限制高级功能）
-    checkFeatureAccess(featureName) {
-      // 定义需要授权的功能
-      const proFeatures = [
-        'save_history',      // 保存历史记录
-        'unlimited_spreads', // 无限制牌阵
-        'detailed_reading',  // 详细解读
-        'custom_spread',     // 自定义牌阵
-        'all_decks'          // 所有牌组
-      ];
-      
-      if (proFeatures.includes(featureName)) {
-        return this.isPro;
-      }
-      
-      // 免费功能
-      return true;
-    }
 
     // Toast 提示
     showToast(message, duration = 2000) {
@@ -7532,35 +7154,6 @@
       spreadBtns.forEach((btn) => {
         btn.addEventListener('click', async (e) => {
           const spread = e.currentTarget.dataset.spread;
-
-          // 检查是否为付费牌阵（data-pro="true" 且未授权）
-          if (!this.isPro && e.currentTarget.dataset.pro === 'true') {
-            this.showToast(this.currentLang === 'en' ? 'Please purchase a license to use this spread' : '请先获取授权码以使用此牌阵');
-            return;
-          }
-
-          // 检查每日占卜次数限制（免费用户）
-          if (!this.isPro && CONFIG.FEATURES.maxFreeSpreads > 0) {
-            const today = new Date().toLocaleDateString();
-            const result = await new Promise((resolve) => {
-              chrome.storage.local.get({ _freeSpreadCount: {}, _freeSpreadDate: '' }, resolve);
-            });
-            let count = result._freeSpreadCount || {};
-            let date = result._freeSpreadDate || '';
-            if (date !== today) {
-              count = {};
-              date = today;
-            }
-            const todayCount = count[date] || 0;
-            if (todayCount >= CONFIG.FEATURES.maxFreeSpreads) {
-              this.showToast(this.currentLang === 'en' ? `Free limit reached (${CONFIG.FEATURES.maxFreeSpreads}/day). Get license for unlimited.` : `今日免费次数已用完（${CONFIG.FEATURES.maxFreeSpreads}次/天），获取授权码以解除限制`);
-              return;
-            }
-            count[date] = todayCount + 1;
-            await new Promise((resolve) => {
-              chrome.storage.local.set({ _freeSpreadCount: count, _freeSpreadDate: date }, resolve);
-            });
-          }
 
           try {
             switch (spread) {
@@ -7683,13 +7276,7 @@
         'reshuffle-btn': () => this.reshuffle(),
         'reinterpret-btn': () => this.reshuffle(),
         'share-btn': () => this.shareResult(),
-        'history-btn': () => {
-          if (!this.isPro) {
-            this.showToast(this.currentLang === 'en' ? 'Please purchase a license to view history' : '请先获取授权码以查看历史记录');
-            return;
-          }
-          this.showHistoryPage();
-        },
+        'history-btn': () => this.showHistoryPage(),
         'history-back-btn': () => this.showPage('welcome-page'),
         'clear-history-btn': () => this.clearHistory(),
         'daily-fortune-btn': () => this.toggleDailyFortune(),
@@ -7707,13 +7294,7 @@
         'history-detail-back-btn': () => this.closeHistoryDetail(),
         'sound-toggle-btn': () => this.toggleSound(),
         'copy-result-btn': () => this.copyResult(),
-        'fav-btn': () => {
-          if (!this.isPro) {
-            this.showToast(this.currentLang === 'en' ? 'Please purchase a license to use favorites' : '请先获取授权码以使用收藏夹');
-            return;
-          }
-          this.showFavorites();
-        },
+        'fav-btn': () => this.showFavorites(),
         'fav-back-btn': () => this.showPage('welcome-page'),
         // 命运数字生成器
         'number-gen-btn': () => this.showNumberGenPage(),
@@ -7726,40 +7307,7 @@
         // 命运数字：复制、清除历史
         'numgen-copy-btn': () => this.copyNumgenNumber(),
         'numgen-clear-history-btn': () => this.clearNumgenHistory(),
-        // 授权管理
-        'license-btn': () => this.showLicenseModal(),
-        'license-modal-close': () => {
-          const modal = document.getElementById('license-modal');
-          if (modal) modal.classList.add('hidden');
-        },
-        'license-verify-btn': () => this.handleLicenseVerify(),
       };
-
-      // 授权码输入框回车键支持
-      const licenseInput = document.getElementById('license-input');
-      if (licenseInput) {
-        licenseInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            this.handleLicenseVerify();
-          }
-        });
-        
-        // 授权码自由输入，不做格式化和长度限制
-        licenseInput.addEventListener('input', (e) => {
-          // 保留原始输入，仅去除首尾空白
-          e.target.value = e.target.value.trim();
-        });
-      }
-
-      // 点击授权弹窗背景关闭
-      const licenseModal = document.getElementById('license-modal');
-      if (licenseModal) {
-        licenseModal.addEventListener('click', (e) => {
-          if (e.target === licenseModal) {
-            licenseModal.classList.add('hidden');
-          }
-        });
-      }
 
       Object.entries(buttonHandlers).forEach(([id, handler]) => {
         const btn = document.getElementById(id);

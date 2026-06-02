@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -53,9 +53,6 @@
                         </button>
                         <button id="fav-btn" type="button" class="toolbar-icon-btn" title="收藏夹">
                             <span>&#9733;</span>
-                        </button>
-                        <button id="license-btn" class="license-btn" type="button" title="授权管理">
-                            <span>&#128274;</span> <span id="license-btn-text" data-i18n-key="btn_license">授权</span>
                         </button>
                     </div>
                 </div>
@@ -718,6 +715,31 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 赞赏支持 -->
+                <div class="donate-section">
+                    <div class="donate-title" data-i18n-key="donate_title">☕ 支持开发者</div>
+                    <div class="donate-desc" data-i18n-key="donate_desc">如果这款扩展帮到了你，欢迎打赏一杯咖啡</div>
+                    <div class="donate-buttons">
+                        <button id="donate-wechat-btn" class="donate-btn donate-wechat" type="button">
+                            <span class="donate-btn-icon">💚</span>
+                            <span class="donate-btn-label" data-i18n-key="donate_wechat">微信赞赏</span>
+                        </button>
+                        <a id="donate-paypal-link" class="donate-btn donate-paypal" href="#" target="_blank">
+                            <span class="donate-btn-icon">🌐</span>
+                            <span class="donate-btn-label" data-i18n-key="donate_paypal">PayPal</span>
+                        </a>
+                    </div>
+                    <div id="donate-qr-modal" class="donate-qr-modal hidden">
+                        <div class="donate-qr-content">
+                            <button id="donate-qr-close" class="donate-qr-close" type="button">&#10005;</button>
+                            <div class="donate-qr-title" data-i18n-key="donate_wechat">微信赞赏</div>
+                            <img src="icons/donate-wechat.png" alt="WeChat Reward Code" class="donate-qr-img" />
+                            <div class="donate-qr-tip" data-i18n-key="donate_qr_tip">长按识别或截图保存</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -1039,56 +1061,7 @@
         <!-- 牌阵悬浮预览 -->
         <div id="spread-hover-preview" class="spread-hover-preview hidden"></div>
 
-        <!-- 授权管理弹窗 -->
-        <div id="license-modal" class="license-modal hidden">
-            <div class="license-modal-content">
-                <div class="license-modal-header">
-                    <div class="license-modal-title">
-                        <span>&#128274;</span>
-                        <span data-i18n-key="license_title">授权管理</span>
-                    </div>
-                    <button id="license-modal-close" class="license-modal-close" type="button">&#10005;</button>
-                </div>
 
-                <!-- 授权状态显示 -->
-                <div id="license-status-area">
-                    <div id="license-status-text" class="license-status"></div>
-                </div>
-
-                <!-- 授权码输入区域 -->
-                <div id="license-input-area">
-                    <div class="license-input-group">
-                        <label class="license-input-label" data-i18n-key="license_input_label">输入授权码</label>
-                        <input type="text" id="license-input" class="license-input"
-                               placeholder="XXXX-XXXX-XXXX" data-i18n-placeholder="license_input_placeholder"
-                               />
-                    </div>
-                    <button id="license-verify-btn" class="license-verify-btn" type="button">
-                        <span class="btn-text" data-i18n-key="license_verify">验证授权码</span>
-                        <span class="btn-loading hidden" data-i18n-key="license_verifying">验证中...</span>
-                    </button>
-                </div>
-
-                <!-- 购买链接 -->
-                <a href="#" id="license-purchase-link" class="license-purchase-link" target="_blank" data-i18n-key="license_purchase">
-                    &#128176; 获取授权码
-                </a>
-
-                <script>
-                  // 动态设置购买链接
-                  document.addEventListener('DOMContentLoaded', function() {
-                    const link = document.getElementById('license-purchase-link');
-                    if (link && typeof CONFIG !== 'undefined') {
-                      link.href = CONFIG.PURCHASE_URL;
-                    }
-                  });
-                </script>
-
-                <div class="license-info-text">
-                    <span data-i18n-key="license_info">授权码绑定设备，最多支持 3 台设备同时使用</span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="constants.js"></script>
