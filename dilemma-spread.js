@@ -70,9 +70,16 @@
       } catch (e) { return []; }
     }
 
+    function clearAllDilemmaHistory() {
+      if (!confirm((app && app.t && app.t('dilemma_confirm_clear')) || '确定要清空所有历史记录吗？')) return;
+      try { localStorage.removeItem(DILEMMA_HISTORY_KEY); } catch(e){}
+      renderDilemmaHistory();
+    }
+
     function renderDilemmaHistory() {
       var bar = document.getElementById('dilemma-history-bar');
       var tagsContainer = document.getElementById('dilemma-history-tags');
+      var clearBtn = document.getElementById('dilemma-history-clear');
       if (!bar || !tagsContainer) return;
       var list = loadDilemmaHistory();
       if (list.length === 0) {
@@ -80,22 +87,60 @@
         return;
       }
       tagsContainer.innerHTML = '';
-      list.forEach(function(item) {
+      // 显示清空按钮
+      if (clearBtn) clearBtn.classList.remove('hidden');
+      list.forEach(function(item, index) {
         var tag = document.createElement('div');
         tag.className = 'dilemma-history-tag';
+        tag.setAttribute('data-index', index);
+
+        var labelSpan = document.createElement('span');
+        labelSpan.className = 'dilemma-history-tag-label';
         var label = item.a + ' vs ' + item.b;
         if (label.length > 14) label = label.substring(0, 13) + '…';
-        tag.textContent = label;
-        tag.title = item.a + ' vs ' + item.b;
-        tag.addEventListener('click', function() {
+        labelSpan.textContent = label;
+        labelSpan.title = item.a + ' vs ' + item.b;
+
+        // 单击：填充到输入框
+        labelSpan.addEventListener('click', function() {
           var inputA = document.getElementById('dilemma-input-a');
           var inputB = document.getElementById('dilemma-input-b');
           if (inputA) inputA.value = item.a;
           if (inputB) inputB.value = item.b;
-          // 触发 input 事件让 glow 效果响应
           if (inputA) inputA.dispatchEvent(new Event('input'));
           if (inputB) inputB.dispatchEvent(new Event('input'));
         });
+
+        // 双击：填充并删除原记录（相当于编辑）
+        labelSpan.addEventListener('dblclick', function() {
+          var inputA = document.getElementById('dilemma-input-a');
+          var inputB = document.getElementById('dilemma-input-b');
+          if (inputA) inputA.value = item.a;
+          if (inputB) inputB.value = item.b;
+          if (inputA) inputA.dispatchEvent(new Event('input'));
+          if (inputB) inputB.dispatchEvent(new Event('input'));
+          // 删除原记录，用户修改后 blur 会自动保存为新记录
+          var stored = loadDilemmaHistory();
+          stored.splice(index, 1);
+          try { localStorage.setItem(DILEMMA_HISTORY_KEY, JSON.stringify(stored)); } catch(e){}
+          renderDilemmaHistory();
+        });
+
+        // 删除按钮
+        var delBtn = document.createElement('span');
+        delBtn.className = 'dilemma-history-tag-del';
+        delBtn.textContent = '×';
+        delBtn.title = '删除此记录';
+        delBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var stored = loadDilemmaHistory();
+          stored.splice(index, 1);
+          try { localStorage.setItem(DILEMMA_HISTORY_KEY, JSON.stringify(stored)); } catch(e){}
+          renderDilemmaHistory();
+        });
+
+        tag.appendChild(labelSpan);
+        tag.appendChild(delBtn);
         tagsContainer.appendChild(tag);
       });
       bar.classList.remove('hidden');
@@ -668,6 +713,13 @@
       if (inputB && !inputB._bound) {
         inputB.addEventListener('blur', function() { saveDilemmaHistory(); renderDilemmaHistory(); });
         inputB._bound = true;
+      }
+
+      // 清空历史按钮
+      var clearBtn = document.getElementById('dilemma-history-clear');
+      if (clearBtn && !clearBtn._bound) {
+        clearBtn.addEventListener('click', clearAllDilemmaHistory);
+        clearBtn._bound = true;
       }
 
       // 再来一次

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>魔法塔罗牌</title>
+    <title>魔法塔罗牌 - 每日占卜 | Magic Tarot</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -25,7 +25,7 @@
         <section id="welcome-page" class="page">
             <div class="welcome-content">
                 <div class="welcome-icon">&#9889;</div>
-                <h1 data-i18n-key="welcome_title">魔法塔罗牌</h1>
+                <h1 data-i18n-key="welcome_title">魔法塔罗牌 - 每日占卜</h1>
                 <p class="welcome-subtitle" data-i18n-key="welcome_subtitle">探索魔法世界的命运指引</p>
 
                 <!-- 顶部工具栏 -->
@@ -47,13 +47,16 @@
                         </select>
                     </div>
                     <div class="toolbar-actions">
-                        <button id="sound-toggle-btn" class="toolbar-icon-btn" type="button" title="翻牌音效">&#128264;</button>
+                        <button id="sound-toggle-btn" class="toolbar-icon-btn" type="button" title="Sound: ON (click to mute)">🔊</button>
                         <button id="history-btn" type="button" class="toolbar-icon-btn" title="历史记录">
                             <span>&#128214;</span>
                         </button>
                         <button id="fav-btn" type="button" class="toolbar-icon-btn" title="收藏夹">
                             <span>&#9733;</span>
                         </button>
+                        <a id="feedback-email-link" class="toolbar-icon-btn" href="mailto:huangzero2004@gmail.com?subject=Magic%20Tarot%20Feedback" title="问题反馈 / Feedback" type="button" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+                            <span>&#128231;</span>
+                        </a>
                     </div>
                 </div>
 
@@ -77,7 +80,7 @@
                 <!-- 问题输入区域（牌阵智能推荐） -->
                 <div class="question-input-area">
                     <input type="text" id="spread-question-input" class="spread-question-input"
-                           placeholder="输入你的问题，获取牌阵推荐..." data-i18n-key="spread_question_placeholder" />
+                           placeholder="输入你的问题，获取牌阵推荐..." data-i18n-placeholder="spread_question_placeholder" />
                     <div id="recommended-spreads" class="recommended-spreads hidden"></div>
                 </div>
 
@@ -95,7 +98,7 @@
 
                 <!-- 牌阵搜索栏 -->
                 <div class="spread-search-bar">
-                    <input type="text" id="spread-search-input" class="spread-search-input" placeholder="搜索牌阵..." data-i18n-key="spread_search_placeholder" />
+                    <input type="text" id="spread-search-input" class="spread-search-input" placeholder="搜索牌阵..." data-i18n-placeholder="spread_search_placeholder" />
                     <button id="spread-search-clear" class="spread-search-clear hidden" type="button">&#10005;</button>
                 </div>
 
@@ -961,6 +964,7 @@
                 <div id="dilemma-history-bar" class="dilemma-history-bar hidden">
                     <div class="dilemma-history-label">&#128336; <span data-i18n-key="dilemma_history_label">历史</span></div>
                     <div id="dilemma-history-tags" class="dilemma-history-tags"></div>
+                    <button id="dilemma-history-clear" class="dilemma-history-clear hidden" type="button" title="清空历史">&#10005; 清空</button>
                 </div>
 
                 <!-- 让命运决定 -->

@@ -14,7 +14,7 @@ const CONFIG = {
   DEBUG: false,
 
   // 捐赠链接（PayPal.Me）
-  PAYPAL_ME_URL: 'https://paypal.me/zero88248'
+  PAYPAL_ME_URL: 'https://www.paypal.com/ncp/payment/29RYNBGDQV4N2'
 };
 
 // 导出配置（如果在 popup.js 中通过 script 标签引入，则自动全局可用）

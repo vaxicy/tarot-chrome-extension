@@ -5130,8 +5130,8 @@
     // ============ 翻牌音效 ============
     playFlipSound() {
       this.triggerHaptic();
-      chrome.storage.local.get({ tarot_sound: true }, (result) => {
-        if (!result.tarot_sound) return;
+      const doPlay = (enabled) => {
+        if (!enabled) return;
         try {
           const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
           const oscillator = audioCtx.createOscillator();
@@ -5146,14 +5146,25 @@
           oscillator.start(audioCtx.currentTime);
           oscillator.stop(audioCtx.currentTime + 0.2);
         } catch (e) {}
-      });
+      };
+      try {
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.get({ tarot_sound: true }, (result) => doPlay(result.tarot_sound));
+        } else {
+          let enabled = true;
+          try { enabled = JSON.parse(localStorage.getItem('tarot_sound')) !== false; } catch (e) {}
+          doPlay(enabled);
+        }
+      } catch (e) {
+        doPlay(true);
+      }
     }
 
     // ============ 魔法音效（运势结果弹出） ============
     playMagicSound() {
       this.triggerHaptic();
-      chrome.storage.local.get({ tarot_sound: true }, (result) => {
-        if (!result.tarot_sound) return;
+      const doPlay = (enabled) => {
+        if (!enabled) return;
         try {
           const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
           // 上行和弦：C-E-G 泛音
@@ -5171,7 +5182,18 @@
             osc.stop(audioCtx.currentTime + i * 0.12 + 0.6);
           });
         } catch (e) {}
-      });
+      };
+      try {
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.get({ tarot_sound: true }, (result) => doPlay(result.tarot_sound));
+        } else {
+          let enabled = true;
+          try { enabled = JSON.parse(localStorage.getItem('tarot_sound')) !== false; } catch (e) {}
+          doPlay(enabled);
+        }
+      } catch (e) {
+        doPlay(true);
+      }
     }
 
     // ============ 触觉反馈（按钮点击震动） ============
@@ -5183,14 +5205,47 @@
     }
 
     toggleSound() {
-      chrome.storage.local.get({ tarot_sound: true }, (result) => {
-        const newVal = !result.tarot_sound;
-        chrome.storage.local.set({ tarot_sound: newVal });
-        this.soundEnabled = newVal;
+      try {
+        const getStorage = (key, defaultVal) => {
+          return new Promise((resolve) => {
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+              chrome.storage.local.get({ [key]: defaultVal }, (result) => resolve(result[key]));
+            } else {
+              try { resolve(JSON.parse(localStorage.getItem(key) || JSON.stringify(defaultVal))); }
+              catch (e) { resolve(defaultVal); }
+            }
+          });
+        };
+        const setStorage = (key, val) => {
+          if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+            chrome.storage.local.set({ [key]: val });
+          } else {
+            try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+          }
+        };
+        (async () => {
+          const current = await getStorage('tarot_sound', true);
+          const newVal = !current;
+          setStorage('tarot_sound', newVal);
+          this.soundEnabled = newVal;
+          const btn = document.getElementById('sound-toggle-btn');
+          if (btn) {
+            btn.classList.toggle('muted', !newVal);
+            btn.textContent = newVal ? '🔊' : '🔇';
+            btn.title = newVal ? '音效：开启（点击关闭）' : '音效：关闭（点击开启）';
+          }
+          this.triggerHaptic();
+        })();
+      } catch (e) {
+        // fallback: 直接切换内存状态
+        this.soundEnabled = !this.soundEnabled;
         const btn = document.getElementById('sound-toggle-btn');
-        if (btn) btn.classList.toggle('muted', !newVal);
-        this.triggerHaptic();
-      });
+        if (btn) {
+          btn.classList.toggle('muted', !this.soundEnabled);
+          btn.textContent = this.soundEnabled ? '🔊' : '🔇';
+          btn.title = this.soundEnabled ? '音效：开启（点击关闭）' : '音效：关闭（点击开启）';
+        }
+      }
     }
 
     // ============ 每日运势功能 ============
@@ -6995,11 +7050,31 @@
         }
 
         // 恢复音效开关状态
-        chrome.storage.local.get({ tarot_sound: true }, (result) => {
-          this.soundEnabled = result.tarot_sound !== false;
+        try {
+          const updateBtn = (enabled) => {
+            this.soundEnabled = enabled;
+            const btn = document.getElementById('sound-toggle-btn');
+            if (btn) {
+              btn.classList.toggle('muted', !enabled);
+              btn.textContent = enabled ? '🔊' : '🔇';
+              btn.title = enabled ? 'Sound: ON (click to mute)' : 'Sound: OFF (click to unmute)';
+            }
+          };
+          if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+            chrome.storage.local.get({ tarot_sound: true }, (result) => updateBtn(result.tarot_sound !== false));
+          } else {
+            let enabled = true;
+            try { enabled = JSON.parse(localStorage.getItem('tarot_sound')) !== false; } catch (e) {}
+            updateBtn(enabled);
+          }
+        } catch (e) {
+          this.soundEnabled = true;
           const btn = document.getElementById('sound-toggle-btn');
-          if (btn) btn.classList.toggle('muted', !this.soundEnabled);
-        });
+          if (btn) {
+            btn.textContent = '🔊';
+            btn.title = 'Sound: ON (click to mute)';
+          }
+        }
 
         this.showPage('welcome-page');
         this.bindEvents();

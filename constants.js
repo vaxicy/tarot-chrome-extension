@@ -1422,7 +1422,7 @@ const MAJOR_ARCANA_ICONS = [
 // ============ 国际化字典 ============
 const I18N = {
   zh: {
-    welcome_title: '魔法塔罗牌',
+    welcome_title: '魔法塔罗牌 - 每日占卜',
     welcome_subtitle: '探索魔法世界的命运指引',
     label_deck: '选择牌组：',
     deck_magic: '魔法主题',
@@ -1446,6 +1446,7 @@ const I18N = {
     donate_desc: '如果这款扩展帮到了你，欢迎打赏一杯咖啡',
     donate_wechat: '微信赞赏',
     donate_paypal: 'PayPal',
+    feedback_email: '问题反馈',
     donate_qr_tip: '长按识别或截图保存',
     cat_simple: '入门经典',
     cat_relationship: '情感关系',
@@ -1667,6 +1668,7 @@ const I18N = {
     filter_all: '全部',
     filter_advanced: '复杂',
     filter_favorites: '★ 收藏',
+    spread_question_placeholder: '输入你的问题，获取牌阵推荐...',
     spread_search_placeholder: '搜索牌阵...',
     cat_self: '自我成长',
     spread_love_name: '恋人牌阵',
@@ -1866,6 +1868,7 @@ const I18N = {
     donate_desc: 'If this extension helped you, consider buying me a coffee',
     donate_wechat: 'WeChat Tip',
     donate_paypal: 'PayPal',
+    feedback_email: 'Feedback',
     donate_qr_tip: 'Long press to scan or save screenshot',
     cat_simple: 'Beginner Classic',
     cat_relationship: 'Love & Relationship',
@@ -2024,6 +2027,7 @@ const I18N = {
     filter_all: 'All',
     filter_advanced: 'Complex',
     filter_favorites: '★ Favorites',
+    spread_question_placeholder: 'Enter your question to get spread recommendations...',
     spread_search_placeholder: 'Search spreads...',
     cat_self: 'Self Growth',
     spread_love_name: 'Love Spread',

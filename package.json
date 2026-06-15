@@ -1,7 +1,7 @@
 {
   "name": "magic-tarot-extension",
   "version": "1.1",
-  "description": "魔法塔罗牌 - Chrome 扩展",
+  "description": "魔法塔罗牌 - 每日占卜 | Magic Tarot - Chrome 扩展",
   "scripts": {
     "build": "node build.js",
     "package": "node package.js"

@@ -2537,6 +2537,7 @@ button:active {
   border: 1px solid rgba(255, 215, 0, 0.1);
   border-radius: 8px;
   animation: numgenFadeIn 0.4s ease-out;
+  overflow: hidden;
 }
 
 .dilemma-history-bar.hidden {
@@ -2559,7 +2560,7 @@ button:active {
 
 .dilemma-history-tag {
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 2px 4px 2px 8px;
   background: rgba(255, 215, 0, 0.08);
   border: 1px solid rgba(255, 215, 0, 0.2);
   border-radius: 12px;
@@ -2567,15 +2568,65 @@ button:active {
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .dilemma-history-tag:hover {
   background: rgba(255, 215, 0, 0.18);
   border-color: var(--color-gold);
-  transform: translateY(-1px);
+}
+
+.dilemma-history-tag-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.dilemma-history-tag-del {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.dilemma-history-tag-del:hover {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.15);
+}
+
+.dilemma-history-clear {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: all 0.15s ease;
+}
+
+.dilemma-history-clear:hover {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.1);
+}
+
+.dilemma-history-clear.hidden {
+  display: none !important;
 }
 
 /* 让命运决定按钮 */
@@ -3622,7 +3673,21 @@ button:active {
 }
 
 .sound-toggle-btn.muted {
-  opacity: 0.5;
+  opacity: 0.6;
+  position: relative;
+}
+
+.sound-toggle-btn.muted::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background: #ff4444;
+  transform: rotate(-45deg);
+  border-radius: 1px;
+  box-shadow: 0 0 3px rgba(255, 68, 68, 0.6);
 }
 
 /* ============ 鐗岄樀鎼滅储鏍?============ */
@@ -6041,6 +6106,10 @@ button:active {
 
 .donate-paypal {
   color: #0070ba;
+}
+
+.donate-email {
+  color: #4285F4;
 }
 
 .donate-btn-icon {

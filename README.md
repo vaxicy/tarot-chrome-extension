@@ -1,4 +1,4 @@
-# 🔮 Magic Tarot Chrome Extension / 魔法塔罗牌 Chrome 扩展
+# 🔮 Magic Tarot Chrome Extension / 魔法塔罗牌 - 每日占卜 Chrome 扩展
 
 [English](#english) | [中文](#中文)
 
