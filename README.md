@@ -199,6 +199,7 @@ A comprehensive tarot divination Chrome extension bringing the wisdom of 8 tarot
 ```
 tarot-chrome-extension/
 ├── manifest.json              # Extension config (MV3)
+├── _locales/                  # Chrome Web Store i18n (en + zh_CN)
 ├── popup.html                 # Main UI (1083 lines)
 ├── popup.css                  # Stylesheet (135KB)
 ├── popup.js                   # Core logic (445KB)
@@ -467,6 +468,7 @@ For commercial use, please contact the author.
 ```
 tarot-chrome-extension/
 ├── manifest.json              # 扩展配置 (MV3)
+├── _locales/                  # Chrome 商店国际化 (en + zh_CN)
 ├── popup.html                 # 主界面 (1083 行)
 ├── popup.css                  # 样式表 (135KB)
 ├── popup.js                   # 核心逻辑 (445KB)

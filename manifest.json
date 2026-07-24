@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "魔法塔罗牌 - 每日占卜 | Magic Tarot",
+  "default_locale": "en",
+  "name": "__MSG_appName__",
+  "short_name": "__MSG_appShortName__",
   "version": "1.2.2",
-  "description": "探索魔法世界的命运指引 - 魔法主题塔罗牌占卜扩展",
+  "description": "__MSG_appDescription__",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -10,6 +12,7 @@
   },
   "action": {
     "default_popup": "popup.html",
+    "default_title": "__MSG_appName__",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
