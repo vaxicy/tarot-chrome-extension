@@ -6186,3 +6186,17 @@ button:active {
   font-size: 12px;
   color: var(--color-text-muted);
 }
+
+.donate-feedback {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 12px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.donate-feedback:hover {
+  color: #8ab4f8;
+  text-decoration: underline;
+}
