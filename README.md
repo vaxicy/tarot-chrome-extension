@@ -113,7 +113,7 @@ A comprehensive tarot divination Chrome extension bringing the wisdom of 8 tarot
 #### Advanced & Deep
 | Spread | Cards | Purpose |
 |--------|-------|---------|
-| **Celtic Cross** 🏆 | 10 | Comprehensive life reading (the classic) |
+| **Celtic Cross** | 10 | Comprehensive life reading (the classic) |
 | Horseshoe Spread | 7 | Detailed situation analysis |
 | Zodiac Spread | 12 | All 12 houses astrological influence |
 | Annual Prediction | 12 | 12-month detailed forecast |
@@ -143,14 +143,12 @@ A comprehensive tarot divination Chrome extension bringing the wisdom of 8 tarot
 #### Spiritual Growth
 | Spread | Cards | Purpose |
 |--------|-------|---------|
-| **Life Purpose** 🏆 | 8 | Find your life mission |
-| **Soul Journey** 🏆 | 9 | Spiritual path exploration |
+| **Life Purpose** | 8 | Find your life mission |
+| **Soul Journey** | 9 | Spiritual path exploration |
 | Past Lives | 5 | Karmic past life insights |
 | Creative Inspiration | 4 | Unlock creative potential |
 | Higher Self Connection | 5 | Connect with higher consciousness |
-| **Chakra Balance** 🏆 | 7 | 7 chakra energy alignment |
-
-> 🏆 Premium spreads (marked with `data-pro="true"`) — available via license activation
+| **Chakra Balance** | 7 | 7 chakra energy alignment |
 
 ### 🎲 Extra Tools
 
@@ -159,25 +157,6 @@ A comprehensive tarot divination Chrome extension bringing the wisdom of 8 tarot
 | **Daily Fortune** 🌅 | Auto-generated daily card with personalized interpretation |
 | **Lucky Number Generator** 🔢 | Generate random numbers within a custom range, with tarot interpretation |
 | **Dilemma Helper** 🤔 | Three ways to help with decisions: rock-paper-scissors, dice rolling, or tarot card draw |
-
-### 💳 Licensing
-
-Magic Tarot offers both free and premium tiers:
-
-| Feature | Free | Licensed |
-|---------|------|----------|
-| Basic spreads (20+) | ✅ | ✅ |
-| Premium spreads (20+) | ❌ | ✅ |
-| All 8 decks | ✅ | ✅ |
-| Daily fortune | ✅ | ✅ |
-| Lucky number generator | ✅ | ✅ |
-| Dilemma helper | ✅ | ✅ |
-| Reading history | ✅ | ✅ |
-| Custom card meanings | ✅ | ✅ |
-
-**Lifetime License**: ¥19 (≈$3 USD)
-
-Payment methods: WeChat Pay / Alipay / PayPal / 爱发电 (ifdian.net)
 
 ### 📦 Installation
 
@@ -213,9 +192,6 @@ Payment methods: WeChat Pay / Alipay / PayPal / 爱发电 (ifdian.net)
 | **Architecture** | Pure vanilla JavaScript, HTML5, CSS3 |
 | **Dependencies** | Zero external libraries or frameworks |
 | **Storage** | `chrome.storage.local` API |
-| **License Verification** | Cloudflare Workers (`tarot-license.huangzero2004.workers.dev`) |
-| **Payments** | 爱发电 (ifdian.net) + PayPal |
-| **Encryption** | PBKDF2 license code verification |
 | **Image Assets** | Node.js scripts (sharp + SVG) for card back/deck generation |
 
 ### 📁 Project Structure
@@ -285,7 +261,6 @@ node package-extension.js
 Magic Tarot respects your privacy:
 - **No data collection**: No personal information is collected or transmitted
 - **Local storage only**: All history, favorites, and settings stay on your device
-- **Limited external communication**: Only for license verification (Cloudflare Workers) and payment processing
 - **Single permission**: Only `storage` is required
 
 See [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) for full details.
@@ -406,7 +381,7 @@ For commercial use, please contact the author.
 #### 深度专题
 | 牌阵 | 张数 | 用途 |
 |------|------|------|
-| **凯尔特十字** 🏆 | 10 | 全面人生解读（经典牌阵） |
+| **凯尔特十字** | 10 | 全面人生解读（经典牌阵） |
 | 马蹄铁牌阵 | 7 | 详细情况分析 |
 | 星座牌阵 | 12 | 12 宫占星影响 |
 | 年度预测 | 12 | 12 月详细预测 |
@@ -436,14 +411,12 @@ For commercial use, please contact the author.
 #### 灵性成长
 | 牌阵 | 张数 | 用途 |
 |------|------|------|
-| **人生使命** 🏆 | 8 | 寻找人生使命 |
-| **灵魂旅程** 🏆 | 9 | 灵性道路探索 |
+| **人生使命** | 8 | 寻找人生使命 |
+| **灵魂旅程** | 9 | 灵性道路探索 |
 | 前世今生 | 5 | 业力前世洞察 |
 | 灵感创作 | 4 | 释放创造力 |
 | 高我连接 | 5 | 连接高我意识 |
-| **脉轮平衡** 🏆 | 7 | 7 脉轮能量调整 |
-
-> 🏆 高级牌阵（标注 `data-pro="true"`）— 需激活授权码解锁
+| **脉轮平衡** | 7 | 7 脉轮能量调整 |
 
 ### 🎲 附加工具
 
@@ -452,25 +425,6 @@ For commercial use, please contact the author.
 | **今日运势** 🌅 | 自动生成每日运势卡牌，附个性化解读 |
 | **命运数字生成器** 🔢 | 自定义区间生成幸运数字，附塔罗解读 |
 | **选择困难症助手** 🤔 | 猜拳决胜、摇骰子、塔罗抽牌三种方式帮你做决定 |
-
-### 💳 授权说明
-
-魔法塔罗牌提供免费和付费两种使用层级：
-
-| 功能 | 免费版 | 授权版 |
-|------|--------|--------|
-| 基础牌阵（20+ 种） | ✅ | ✅ |
-| 高级牌阵（20+ 种） | ❌ | ✅ |
-| 全部 8 套牌组 | ✅ | ✅ |
-| 今日运势 | ✅ | ✅ |
-| 命运数字生成器 | ✅ | ✅ |
-| 选择困难症助手 | ✅ | ✅ |
-| 占卜历史记录 | ✅ | ✅ |
-| 自定义牌意 | ✅ | ✅ |
-
-**终身授权**：¥19
-
-支付方式：微信支付 / 支付宝 / PayPal / 爱发电
 
 ### 📦 安装方法
 
@@ -506,9 +460,6 @@ For commercial use, please contact the author.
 | **架构** | 纯原生 JavaScript、HTML5、CSS3 |
 | **依赖** | 零外部库或框架 |
 | **存储** | `chrome.storage.local` API |
-| **授权验证** | Cloudflare Workers |
-| **支付** | 爱发电 + PayPal |
-| **加密** | PBKDF2 授权码验证 |
 | **图片资源** | Node.js 脚本（sharp + SVG）生成牌背/牌面 |
 
 ### 📁 项目结构
@@ -579,7 +530,6 @@ node package-extension.js
 
 - **不收集数据**：不收集或传输任何个人信息
 - **仅本地存储**：所有历史、收藏和设置均保存在你的设备上
-- **有限外部通信**：仅用于授权码验证（Cloudflare Workers）和支付处理
 - **单一权限**：仅需 `storage` 权限
 
 详见 [PRIVACY_POLICY.md](./PRIVACY_POLICY.md)。
