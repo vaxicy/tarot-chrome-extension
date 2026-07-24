@@ -1235,28 +1235,24 @@ def screenshot_5(lang="zh"):
     res_cx = right_x + (right_w - 82) // 2 + 41
     text_center(draw, (res_cx, res_y + 8), res_text, font_zh(16, True), fill=ACCENT_GOLD)
     
-    # ── Bottom Feature Highlights with uniform icon sizes ──
+    # ── Bottom Feature Highlights (text-only, no icons) ──
     feat_y = 445
     feat_title = "体验优化" if is_zh else "Experience"
     text_left(draw, (60, feat_y), feat_title, font_zh(18, True), fill=ACCENT_GOLD)
     
-    # Per-icon size overrides for visual uniformity (all appear ~26px)
-    ICON_VIZ_SIZE = {"speaker": 26, "clipboard": 26, "bookmark": 26,
-                     "globe": 26, "moon": 26, "lock": 26}
-    
     highlights = [
-        ('speaker', "翻牌音效开关", "Sound Effects Toggle"),
-        ('clipboard', "历史占卜记录", "Reading History"),
-        ('bookmark', "卡片收藏夹", "Card Favorites"),
-        ('globe', "中英双语界面", "Bilingual UI"),
-        ('moon', "深色魔法主题", "Dark Magical Theme"),
-        ('lock', "隐私安全本地", "Privacy & Local"),
+        ("翻牌音效开关", "Sound Effects Toggle"),
+        ("历史占卜记录", "Reading History"),
+        ("卡片收藏夹", "Card Favorites"),
+        ("中英双语界面", "Bilingual UI"),
+        ("深色魔法主题", "Dark Magical Theme"),
+        ("隐私安全本地", "Privacy & Local"),
     ]
     
-    hf_w, hf_h = 370, 80
+    hf_w, hf_h = 370, 70
     h_cols = 3
     h_gap_x, h_gap_y = 20, 15
-    for hi, (icon_name, zh_lbl, en_lbl) in enumerate(highlights):
+    for hi, (zh_lbl, en_lbl) in enumerate(highlights):
         hr = hi // h_cols
         hc = hi % h_cols
         hx = 60 + hc * (hf_w + h_gap_x)
@@ -1265,8 +1261,11 @@ def screenshot_5(lang="zh"):
         lbl = zh_lbl if is_zh else en_lbl
         draw_rounded_rect(draw, (hx, hy, hx + hf_w, hy + hf_h), radius=12,
                          fill="#1a0a30", outline="#3d1a66")
-        draw_icon(draw, hx + 27, hy + 40, icon_name, ICON_VIZ_SIZE.get(icon_name, 24))
-        text_left(draw, (hx + 52, hy + 26), lbl, font=font_zh(14), fill=TEXT_SUB)
+        # Center text vertically in card, no icon, larger font
+        cb = draw.textbbox((0, 0), lbl, font=font_zh(16))
+        lbl_h = cb[3] - cb[1]
+        text_center(draw, (hx + hf_w // 2, hy + (hf_h - lbl_h) // 2 + lbl_h // 2),
+                    lbl, font=font_zh(16), fill=TEXT_SUB)
     
     # ── Very bottom CTA with proper vertical centering ──
     cta_y = 705
