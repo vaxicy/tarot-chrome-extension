@@ -1052,6 +1052,20 @@
         <!-- 牌阵悬浮预览 -->
         <div id="spread-hover-preview" class="spread-hover-preview hidden"></div>
 
+        <!-- 扇形选牌层（模拟真实抽卡） -->
+        <div id="card-pick-overlay" class="card-pick-overlay hidden">
+            <button id="card-pick-close" class="card-pick-close" type="button" title="取消">&#10005;</button>
+            <div class="card-pick-header">
+                <div class="card-pick-title" data-i18n-key="card_pick_title">选择你的牌</div>
+                <div id="card-pick-progress" class="card-pick-progress">0 / 1</div>
+            </div>
+            <div id="card-pick-slots" class="card-pick-slots"></div>
+            <div id="card-pick-stage" class="card-pick-stage">
+                <div id="card-pick-fan"></div>
+            </div>
+            <div class="card-pick-hint" data-i18n-key="card_pick_hint">左右滑动浏览牌堆 · 点击抽牌</div>
+        </div>
+
 
     </div>
 

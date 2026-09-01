@@ -4399,135 +4399,313 @@
       return result;
     }
 
-    // ============ 单牌占卜 ============
-    drawSingle() {
-      this.showLoading(this.getLocalizedLoadingText('single'));
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.currentMode = 'single';
-          const drawn = this.drawCards(1);
-          const item = drawn[0];
-
-          const singlePos = this.currentLang === 'en' ? 'Daily Guidance' : '今日指引';
-          this.currentCards = [{ card: item.card, isReversed: item.isReversed, position: singlePos }];
-
-          const resultCards = document.getElementById('result-cards');
-          if (resultCards) {
-            resultCards.innerHTML = '';
-            resultCards.className = 'result-cards';
-            const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126, 0);
-            const innerCard = wrap.querySelector('.tarot-card');
-
-            wrap.addEventListener('click', (e) => {
-              e.stopPropagation();
-              innerCard.classList.toggle('flipped');
-              this.playFlipSound();
-              const rev = innerCard.classList.contains('flipped') ? !item.isReversed : item.isReversed;
-              this.showMeaning(item.card, rev, singlePos);
-
-              // 高亮对应的示意图小卡
-              const diagCards = document.querySelectorAll('.result-diagram-card');
-              diagCards.forEach(c => c.classList.remove('active'));
-              if (diagCards[0]) diagCards[0].classList.add('active');
-            });
-
-            setTimeout(() => {
-              innerCard.classList.add('flipped');
-              this.showMeaning(item.card, item.isReversed, singlePos);
-            }, 600);
-
-            resultCards.appendChild(wrap);
-          }
-
-
-          document.getElementById('page-title').textContent = this.getLocalizedSpreadName('single');
-          this.setDeckHint(this.currentLang === 'en' ? 'Tap card to toggle upright/reversed' : '点击卡牌可切换正/逆位解读');
-
-          const compSecSingle = document.getElementById('comprehensive-reading');
-          if (compSecSingle) compSecSingle.classList.add('hidden');
-
-          this.showPage('divination-page');
-          this.hideLoading();
-          this.saveToHistory();
-        });
+    // ============ 扇形选牌层（模拟真实抽卡） ============
+    // 打开全屏选牌层，用户从扇形摊开的牌堆中自行挑选 count 张。
+    // 返回 Promise<{card, isReversed}[]>；用户取消时 resolve(null)。
+    pickCards(count) {
+      return new Promise((resolve) => {
+        this.openCardPicker(count, resolve);
       });
     }
 
-    // ============ 通用多牌阵绘制函数 ============
-    drawStandardSpread(spreadType, cardW, cardH) {
-      const spread = SPREADS[spreadType];
-      if (!spread) { this.hideLoading(); return; }
-      this.showLoading(this.getLocalizedLoadingText(spreadType));
+    openCardPicker(count, onDone) {
+      const overlay = document.getElementById('card-pick-overlay');
+      const stage = document.getElementById('card-pick-stage');
+      const fan = document.getElementById('card-pick-fan');
+      const slotsEl = document.getElementById('card-pick-slots');
+      const progressEl = document.getElementById('card-pick-progress');
+      // 兜底：层结构缺失时退回纯随机抽牌
+      if (!overlay || !stage || !fan || !slotsEl || !progressEl) {
+        onDone(this.drawCards(count));
+        return;
+      }
+
+      // 洗牌 + 预分配正逆位（点击时锁定，挑哪张都真随机）
+      const deck = this.getShuffledDeck();
+      const items = deck.map(card => ({ card: card, isReversed: Math.random() < 0.5, el: null, taken: false }));
+      const state = { items: items, count: count, picked: [], rotation: 0, onDone: onDone, closed: false };
+      this._pickState = state;
+
+      // 进度与槽位
+      progressEl.textContent = '0 / ' + count;
+      slotsEl.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        s.className = 'card-pick-slot';
+        slotsEl.appendChild(s);
+      }
+
+      // 扇形布局：牌绕屏幕外下方圆心旋转展开
+      fan.innerHTML = '';
+      fan.style.transform = 'rotate(0deg)';
+      const n = items.length;
+      const perCard = Math.min(4, 130 / n);
+      const startAngle = -((n - 1) / 2) * perCard;
+      state.perCard = perCard;
+      state.maxRotation = Math.min(60, Math.max(20, ((n - 1) / 2) * perCard * 0.5));
+
+      items.forEach((item, i) => {
+        const holder = document.createElement('div');
+        holder.className = 'pick-card';
+        const angle = startAngle + i * perCard;
+        holder.dataset.angle = angle;
+        holder.style.zIndex = String(i);
+        const wrap = this.createCardEl(item.card, item.isReversed, false, 64, 100);
+        holder.appendChild(wrap);
+        item.el = holder;
+        holder.addEventListener('click', () => this._pickCard(state, item));
+        fan.appendChild(holder);
+      });
+
+      // 开场动画：先叠成一摞，下一帧逐张散开成扇形
+      const holders = fan.querySelectorAll('.pick-card');
+      holders.forEach((h) => {
+        h.style.transition = 'none';
+        h.style.transform = 'rotate(0deg)';
+        h.style.opacity = '0';
+      });
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          this.currentMode = spreadType;
-          const drawn = this.drawCards(spread.positions.length);
-          const positions = this.getLocalizedPositions(spreadType);
-          this.currentCards = [];
-
-          const resultCards = document.getElementById('result-cards');
-          if (resultCards) {
-            resultCards.innerHTML = '';
-            resultCards.className = 'result-cards ' + spreadType + '-spread-layout';
-          }
-
-          // 牌数自适应：牌越多卡片越小
-          const totalCards = drawn.length;
-          let baseW = cardW, baseH = cardH;
-          if (totalCards >= 10)      { baseW = Math.max(46, Math.round(cardW * 0.6)); baseH = Math.round(baseW * 1.55); }
-          else if (totalCards >= 8) { baseW = Math.max(50, Math.round(cardW * 0.75)); baseH = Math.round(baseW * 1.55); }
-          else if (totalCards >= 6) { baseW = Math.max(58, Math.round(cardW * 0.9)); baseH = Math.round(baseW * 1.55); }
-
-          for (let i = 0; i < drawn.length; i++) {
-            this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
-
-            let cW = baseW, cH = baseH;
-            if (spreadType === 'horseshoe' && i === 3) { cW = Math.round(baseW * 1.2); cH = Math.round(cW * 1.5); }
-
-            const wrap = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, cW, cH, i);
-            wrap.classList.add(spreadType + '-card-wrap');
-
-            if (spreadType === 'horseshoe' && i === 3) wrap.classList.add('horseshoe-center');
-
-            ((c, rev, pos, idx) => {
-              wrap.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.playFlipSound();
-                this.showMeaning(c, rev, pos);
-
-                // 高亮对应的示意图小卡
-                const diagCards = document.querySelectorAll('.result-diagram-card');
-                diagCards.forEach(card => card.classList.remove('active'));
-                if (diagCards[idx]) diagCards[idx].classList.add('active');
-              });
-            })(drawn[i].card, drawn[i].isReversed, positions[i], i);
-
-            if (resultCards) resultCards.appendChild(wrap);
-          }
-
-          this.renderResultSpreadDiagram(spreadType, positions);
-          this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
-
-          document.getElementById('page-title').textContent = this.getLocalizedSpreadName(spreadType);
-          this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌义');
-
-          const compContent = document.getElementById('comprehensive-content');
-          const compSection = document.getElementById('comprehensive-reading');
-          if (compContent && compSection) {
-            this.generateComprehensiveReading().then(reading => {
-              compContent.innerHTML = reading;
-              compSection.classList.remove('hidden');
-              compContent.classList.remove('hidden');
-              const tBtn = document.getElementById('toggle-reading-btn');
-              if (tBtn) tBtn.textContent = this.t('btn_collapse');
-            });
-          }
-
-          this.showPage('divination-page');
-          this.hideLoading();
-          this.saveToHistory();
+          holders.forEach((h, i) => {
+            h.style.transition = '';
+            h.style.transitionDelay = Math.round(i * 6) + 'ms';
+            h.style.transform = 'rotate(' + h.dataset.angle + 'deg)';
+            h.style.opacity = '1';
+          });
+          // 散开完成后清除逐张延迟，保证拖拽跟手
+          setTimeout(() => {
+            holders.forEach((h) => { h.style.transitionDelay = '0ms'; });
+          }, n * 6 + 400);
         });
       });
+
+      this._bindPickDrag(state, stage, fan);
+
+      const closeBtn = document.getElementById('card-pick-close');
+      closeBtn.onclick = () => this._closeCardPicker(null);
+
+      overlay.classList.remove('hidden', 'closing');
+    }
+
+    // 用户点击扇形中的某张牌
+    _pickCard(state, item) {
+      if (state.closed || item.taken) return;
+      item.taken = true;
+      state.picked.push({ card: item.card, isReversed: item.isReversed });
+      this.playFlipSound();
+
+      // 牌上浮放大后淡出
+      item.el.classList.add('picked');
+      setTimeout(() => { if (item.el.parentNode) item.el.parentNode.removeChild(item.el); }, 320);
+
+      // 槽位填充牌背
+      const slots = document.querySelectorAll('#card-pick-slots .card-pick-slot');
+      const slot = slots[state.picked.length - 1];
+      if (slot) {
+        const backId = this.currentDeck === 'magic' ? 'hp' : this.currentDeck;
+        slot.innerHTML = '<img src="icons/card-backs/card-back-' + backId + '.png" alt="" />';
+        slot.classList.add('filled');
+      }
+
+      document.getElementById('card-pick-progress').textContent = state.picked.length + ' / ' + state.count;
+
+      if (state.picked.length >= state.count) {
+        state.closed = true;
+        setTimeout(() => {
+          this._closeCardPicker(state.picked);
+        }, 550);
+      }
+    }
+
+    // 关闭选牌层；result 为空表示取消
+    _closeCardPicker(result) {
+      const overlay = document.getElementById('card-pick-overlay');
+      const state = this._pickState;
+      this._pickState = null;
+      if (!overlay) {
+        if (state && typeof state.onDone === 'function') state.onDone(result || null);
+        return;
+      }
+      overlay.classList.add('closing');
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('closing');
+        if (state && typeof state.onDone === 'function') state.onDone(result || null);
+      }, 380);
+    }
+
+    // 选牌层拖拽/滚轮浏览（绕同一圆心旋转扇形）
+    _bindPickDrag(state, stage, fan) {
+      if (stage._pickDragBound) return;
+      stage._pickDragBound = true;
+
+      let startX = 0;
+      let startRotation = 0;
+      let dragging = false;
+      let moved = false;
+
+      stage.addEventListener('pointerdown', (e) => {
+        if (!this._pickState) return;
+        dragging = true;
+        moved = false;
+        startX = e.clientX;
+        startRotation = this._pickState.rotation;
+      });
+
+      const applyRotation = (rot) => {
+        const st = this._pickState;
+        if (!st) return;
+        rot = Math.max(-st.maxRotation, Math.min(st.maxRotation, rot));
+        st.rotation = rot;
+        fan.style.transform = 'rotate(' + rot + 'deg)';
+      };
+
+      window.addEventListener('pointermove', (e) => {
+        if (!dragging || !this._pickState) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 6) moved = true;
+        applyRotation(startRotation + dx * 0.18);
+      });
+
+      window.addEventListener('pointerup', () => { dragging = false; });
+      window.addEventListener('pointercancel', () => { dragging = false; });
+
+      // 滚轮微调
+      stage.addEventListener('wheel', (e) => {
+        if (!this._pickState) return;
+        e.preventDefault();
+        applyRotation(this._pickState.rotation + e.deltaY * 0.05);
+      }, { passive: false });
+
+      // 拖拽后抑制误触点击（捕获阶段拦截）
+      stage.addEventListener('click', (e) => {
+        if (moved) {
+          e.stopPropagation();
+          e.preventDefault();
+          moved = false;
+        }
+      }, true);
+    }
+
+    // ============ 单牌占卜 ============
+    async drawSingle() {
+      this.currentMode = 'single';
+      const drawn = await this.pickCards(1);
+      if (!drawn) return; // 用户取消选牌
+      const item = drawn[0];
+
+      const singlePos = this.currentLang === 'en' ? 'Daily Guidance' : '今日指引';
+      this.currentCards = [{ card: item.card, isReversed: item.isReversed, position: singlePos }];
+
+      const resultCards = document.getElementById('result-cards');
+      if (resultCards) {
+        resultCards.innerHTML = '';
+        resultCards.className = 'result-cards';
+        const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126, 0);
+        const innerCard = wrap.querySelector('.tarot-card');
+
+        wrap.addEventListener('click', (e) => {
+          e.stopPropagation();
+          innerCard.classList.toggle('flipped');
+          this.playFlipSound();
+          const rev = innerCard.classList.contains('flipped') ? !item.isReversed : item.isReversed;
+          this.showMeaning(item.card, rev, singlePos);
+
+          // 高亮对应的示意图小卡
+          const diagCards = document.querySelectorAll('.result-diagram-card');
+          diagCards.forEach(c => c.classList.remove('active'));
+          if (diagCards[0]) diagCards[0].classList.add('active');
+        });
+
+        setTimeout(() => {
+          innerCard.classList.add('flipped');
+          this.showMeaning(item.card, item.isReversed, singlePos);
+        }, 600);
+
+        resultCards.appendChild(wrap);
+      }
+
+
+      document.getElementById('page-title').textContent = this.getLocalizedSpreadName('single');
+      this.setDeckHint(this.currentLang === 'en' ? 'Tap card to toggle upright/reversed' : '点击卡牌可切换正/逆位解读');
+
+      const compSecSingle = document.getElementById('comprehensive-reading');
+      if (compSecSingle) compSecSingle.classList.add('hidden');
+
+      this.showPage('divination-page');
+      this.saveToHistory();
+    }
+
+    // ============ 通用多牌阵绘制函数 ============
+    async drawStandardSpread(spreadType, cardW, cardH) {
+      const spread = SPREADS[spreadType];
+      if (!spread) return;
+      this.currentMode = spreadType;
+      const drawn = await this.pickCards(spread.positions.length);
+      if (!drawn) return; // 用户取消选牌
+      const positions = this.getLocalizedPositions(spreadType);
+      this.currentCards = [];
+
+      const resultCards = document.getElementById('result-cards');
+      if (resultCards) {
+        resultCards.innerHTML = '';
+        resultCards.className = 'result-cards ' + spreadType + '-spread-layout';
+      }
+
+      // 牌数自适应：牌越多卡片越小
+      const totalCards = drawn.length;
+      let baseW = cardW, baseH = cardH;
+      if (totalCards >= 10)      { baseW = Math.max(46, Math.round(cardW * 0.6)); baseH = Math.round(baseW * 1.55); }
+      else if (totalCards >= 8) { baseW = Math.max(50, Math.round(cardW * 0.75)); baseH = Math.round(baseW * 1.55); }
+      else if (totalCards >= 6) { baseW = Math.max(58, Math.round(cardW * 0.9)); baseH = Math.round(baseW * 1.55); }
+
+      for (let i = 0; i < drawn.length; i++) {
+        this.currentCards.push({ card: drawn[i].card, isReversed: drawn[i].isReversed, position: positions[i] });
+
+        let cW = baseW, cH = baseH;
+        if (spreadType === 'horseshoe' && i === 3) { cW = Math.round(baseW * 1.2); cH = Math.round(cW * 1.5); }
+
+        const wrap = this.createCardEl(drawn[i].card, drawn[i].isReversed, true, cW, cH, i);
+        wrap.classList.add(spreadType + '-card-wrap');
+
+        if (spreadType === 'horseshoe' && i === 3) wrap.classList.add('horseshoe-center');
+
+        ((c, rev, pos, idx) => {
+          wrap.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.playFlipSound();
+            this.showMeaning(c, rev, pos);
+
+            // 高亮对应的示意图小卡
+            const diagCards = document.querySelectorAll('.result-diagram-card');
+            diagCards.forEach(card => card.classList.remove('active'));
+            if (diagCards[idx]) diagCards[idx].classList.add('active');
+          });
+        })(drawn[i].card, drawn[i].isReversed, positions[i], i);
+
+        if (resultCards) resultCards.appendChild(wrap);
+      }
+
+      this.renderResultSpreadDiagram(spreadType, positions);
+      this.showMeaning(drawn[0].card, drawn[0].isReversed, positions[0]);
+
+      document.getElementById('page-title').textContent = this.getLocalizedSpreadName(spreadType);
+      this.setDeckHint(this.currentLang === 'en' ? 'Tap a card to see its meaning' : '点击卡牌查看对应牌义');
+
+      const compContent = document.getElementById('comprehensive-content');
+      const compSection = document.getElementById('comprehensive-reading');
+      if (compContent && compSection) {
+        this.generateComprehensiveReading().then(reading => {
+          compContent.innerHTML = reading;
+          compSection.classList.remove('hidden');
+          compContent.classList.remove('hidden');
+          const tBtn = document.getElementById('toggle-reading-btn');
+          if (tBtn) tBtn.textContent = this.t('btn_collapse');
+        });
+      }
+
+      this.showPage('divination-page');
+      this.saveToHistory();
     }
 
     // ============ 三牌占卜 ============
@@ -4536,9 +4714,10 @@
     }
 
     // ============ 凯尔特十字占卜 ============
-    drawCeltic() {
+    async drawCeltic() {
       this.currentMode = 'celtic';
-      const drawn = this.drawCards(10);
+      const drawn = await this.pickCards(10);
+      if (!drawn) return; // 用户取消选牌
       const positions = this.getLocalizedPositions('celtic');
       this.currentCards = [];
 
