@@ -1786,16 +1786,6 @@ button:active {
 .result-cards .tarot-card:nth-child(2) { animation-delay: 0.3s; }
 .result-cards .tarot-card:nth-child(3) { animation-delay: 0.5s; }
 
-/* ============ 鍝嶅簲寮忓井锟?============ */
-@media (max-height: 600px) {
-  :root {
-    --popup-height: 500px;
-  }
-  .welcome-icon { font-size: 36px; margin-bottom: 8px; }
-  .welcome-content h1 { font-size: 18px; }
-  .instructions { padding: 10px 12px; margin-bottom: 16px; }
-}
-
 /* ============ 灏忓睆鍗＄墝閫傞厤 ============ */
 @media (max-width: 420px) {
   .result-cards .tarot-card {
