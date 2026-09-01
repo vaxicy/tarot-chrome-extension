@@ -5072,7 +5072,7 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
           await navigator.clipboard.writeText(text);
-          alert(this.t('alert_copy_success'));
+          this.showToast(this.t('alert_copy_success'));
         } catch (e) {
           this.fallbackCopyToClipboard(text);
         }
@@ -5090,9 +5090,9 @@
       textarea.select();
       try {
         document.execCommand('copy');
-        alert(this.t('alert_copy_success'));
+        this.showToast(this.t('alert_copy_success'));
       } catch (e) {
-        alert(this.t('alert_copy_fail'));
+        this.showToast(this.t('alert_copy_fail'));
       }
       document.body.removeChild(textarea);
     }
@@ -5713,7 +5713,7 @@
           if (delBtn) {
             const delIdx = parseInt(delBtn.dataset.deleteIdx, 10);
             const confirmMsg = this.currentLang === 'en' ? 'Delete this record?' : '确定删除这条记录吗？';
-            if (confirm(confirmMsg)) {
+            this.showConfirm(confirmMsg, () => {
               chrome.storage.local.get({ history: [] }, (result) => {
                 const h = result.history;
                 h.splice(delIdx, 1);
@@ -5721,7 +5721,7 @@
                   this.loadHistory();
                 });
               });
-            }
+            });
             return;
           }
           // 查看详情
@@ -5785,11 +5785,11 @@
 
     clearHistory() {
       const msg = this.currentLang === 'en' ? 'Are you sure you want to clear all history?' : '确定要清空所有历史记录吗？';
-      if (confirm(msg)) {
+      this.showConfirm(msg, () => {
         chrome.storage.local.set({ history: [] }, () => {
           this.loadHistory();
         });
-      }
+      });
     }
 
     showHistoryPage() {
@@ -5874,6 +5874,41 @@
       this._toastTimer = setTimeout(() => {
         toast.classList.remove('show');
       }, duration);
+    }
+
+    // ============ 自定义确认弹窗（替代原生 confirm） ============
+    showConfirm(msg, onConfirm) {
+      let overlay = document.getElementById('custom-confirm-overlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'custom-confirm-overlay';
+        overlay.className = 'custom-confirm-overlay hidden';
+        overlay.innerHTML =
+          '<div class="custom-confirm-box">' +
+            '<div class="custom-confirm-msg"></div>' +
+            '<div class="custom-confirm-actions">' +
+              '<button type="button" class="custom-confirm-cancel secondary-btn" data-i18n-key="btn_cancel">取消</button>' +
+              '<button type="button" class="custom-confirm-ok primary-btn">确定</button>' +
+            '</div>' +
+          '</div>';
+        document.body.appendChild(overlay);
+      }
+      overlay.querySelector('.custom-confirm-msg').textContent = msg;
+      const okBtn = overlay.querySelector('.custom-confirm-ok');
+      const cancelBtn = overlay.querySelector('.custom-confirm-cancel');
+      const close = () => {
+        overlay.classList.add('hidden');
+        okBtn.removeEventListener('click', onOk);
+        cancelBtn.removeEventListener('click', onCancel);
+        overlay.removeEventListener('click', onBackdrop);
+      };
+      const onOk = () => { close(); if (typeof onConfirm === 'function') onConfirm(); };
+      const onCancel = () => { close(); };
+      const onBackdrop = (e) => { if (e.target === overlay) onCancel(); };
+      okBtn.addEventListener('click', onOk);
+      cancelBtn.addEventListener('click', onCancel);
+      overlay.addEventListener('click', onBackdrop);
+      overlay.classList.remove('hidden');
     }
 
     // ============ 命运数字：加载/保存常驻结果 ============
@@ -6044,13 +6079,11 @@
       const gameArea = document.getElementById('dilemma-game-area');
       const resultDiv = document.getElementById('dilemma-result');
       const readingDiv = document.getElementById('dilemma-reading');
-      const redoBtn = document.getElementById('dilemma-redo-btn');
       if (inputA) inputA.value = '';
       if (inputB) inputB.value = '';
       if (gameArea) gameArea.classList.add('hidden');
       if (resultDiv) resultDiv.classList.add('hidden');
       if (readingDiv) readingDiv.classList.add('hidden');
-      if (redoBtn) redoBtn.classList.add('hidden');
       this.showPage('dilemma-page');
       if (typeof renderDilemmaHistory === 'function') renderDilemmaHistory();
     }
@@ -6072,17 +6105,17 @@
       const qty = parseInt(qtyInput ? qtyInput.value : '1', 10);
 
       if (isNaN(min) || isNaN(max) || max <= min) {
-        alert(this.t('numgen_error_range'));
+        this.showToast(this.t('numgen_error_range'));
         return;
       }
       if (isNaN(qty) || qty < 1 || qty > 100) {
-        alert(this.t('numgen_error_quantity') || '生成数量无效（1-100）');
+        this.showToast(this.t('numgen_error_quantity') || '生成数量无效（1-100）');
         return;
       }
 
       const rangeSize = max - min + 1;
       if (qty > rangeSize) {
-        alert(this.t('numgen_error_quantity'));
+        this.showToast(this.t('numgen_error_quantity'));
         return;
       }
 
@@ -6661,11 +6694,12 @@
 
     clearNumgenHistory() {
       const msg = this.currentLang === 'en' ? 'Clear all number generation history?' : '确定清空所有命运数字历史记录吗？';
-      if (!confirm(msg)) return;
-      localStorage.removeItem('numgen_history');
-      const listEl = document.getElementById('numgen-history-list');
-      if (listEl) listEl.innerHTML = '';
-      this.loadNumgenHistory();
+      this.showConfirm(msg, () => {
+        localStorage.removeItem('numgen_history');
+        const listEl = document.getElementById('numgen-history-list');
+        if (listEl) listEl.innerHTML = '';
+        this.loadNumgenHistory();
+      });
     }
 
     copyNumgenNumber() {
@@ -6778,12 +6812,8 @@
           // 生成位置列表 HTML
       const localizedPositions = this.getLocalizedPositions(key);
       let positionsHtml = '<div class="hover-positions">';
-      const showCount = Math.min(localizedPositions.length, 5);
-      for (let i = 0; i < showCount; i++) {
+      for (let i = 0; i < localizedPositions.length; i++) {
         positionsHtml += '<div class="hover-pos"><span class="hover-pos-num">' + (i + 1) + '.</span> ' + localizedPositions[i] + '</div>';
-      }
-      if (localizedPositions.length > showCount) {
-        positionsHtml += '<div class="hover-more">+' + (localizedPositions.length - showCount) + '...</div>';
       }
       positionsHtml += '</div>';
 
@@ -7328,7 +7358,7 @@
               case 'chakra': this.drawChakra(); break;
             }
           } catch (err) {
-            alert(this.t('alert_draw_error') + err.message);
+            this.showToast(this.t('alert_draw_error') + err.message);
           }
         });
       });

@@ -662,10 +662,12 @@ body::before {
   z-index: 2000;
   background: linear-gradient(135deg, #1a0f40 0%, #2d1b69 100%);
   border: 1px solid var(--color-gold);
-  border-radius: 10px;
-  padding: 14px 16px;
-  max-width: 260px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 12px rgba(255,215,0,0.15);
+  border-radius: 12px;
+  padding: 16px 18px;
+  max-width: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.55), 0 0 14px rgba(255,215,0,0.18);
   pointer-events: none;
   animation: fadeIn 0.15s ease;
 }
@@ -675,10 +677,11 @@ body::before {
 }
 
 .spread-hover-preview .hover-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
 }
 
 .spread-hover-preview .hover-meta {
@@ -689,7 +692,7 @@ body::before {
 }
 
 .spread-hover-preview .hover-meta-tag {
-  font-size: 14px;
+  font-size: 13px;
   padding: 1px 6px;
   border-radius: 8px;
   border: 1px solid rgba(255,215,0,0.3);
@@ -698,7 +701,7 @@ body::before {
 }
 
 .spread-hover-preview .hover-usage {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--color-text);
   line-height: 1.5;
 }
@@ -977,6 +980,64 @@ body::before {
 
 .spread-detail-modal.hidden {
   display: none !important;
+}
+
+/* ============ 自定义确认弹窗（替代原生 confirm） ============ */
+.custom-confirm-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  animation: fadeIn 0.18s ease;
+}
+
+.custom-confirm-overlay.hidden {
+  display: none !important;
+}
+
+.custom-confirm-box {
+  background: linear-gradient(135deg, #1a0f40 0%, #2d1b69 100%);
+  border: 1px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 22px 22px 18px;
+  max-width: 320px;
+  width: 86%;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+  text-align: center;
+  animation: popIn 0.18s ease;
+}
+
+.custom-confirm-msg {
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 4px 0 18px;
+  word-break: break-word;
+}
+
+.custom-confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.custom-confirm-actions .custom-confirm-cancel,
+.custom-confirm-actions .custom-confirm-ok {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 0;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .spread-detail-content {
@@ -4617,32 +4678,6 @@ button:active {
   position: relative;
 }
 
-.dilemma-redo-inline {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 2;
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: rgba(26, 15, 64, 0.8);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  color: var(--color-gold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dilemma-redo-inline:hover {
-  background: rgba(255, 215, 0, 0.15);
-  border-color: var(--color-gold);
-  transform: scale(1.1);
-}
-
 .dilemma-result-game {
   width: 100%;
   background: rgba(26, 15, 64, 0.6);
@@ -4805,32 +4840,6 @@ button:active {
   flex: 1;
 }
 
-.dilemma-reading-redo {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
-  font-size: 14px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  background: rgba(26, 15, 64, 0.8);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  color: var(--color-gold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dilemma-reading-redo:hover {
-  background: rgba(255, 215, 0, 0.15);
-  border-color: var(--color-gold);
-  transform: translateY(-50%) scale(1.1);
-}
-
 .dilemma-reading-content {
   font-size: 16px;
   color: var(--color-text);
@@ -4872,18 +4881,6 @@ button:active {
   border-radius: 8px;
   font-size: 17px;
   text-align: center;
-}
-
-.dilemma-redo-main {
-  background: rgba(255, 215, 0, 0.12) !important;
-  border: 1px solid var(--color-gold) !important;
-  color: var(--color-gold) !important;
-  font-weight: 700 !important;
-}
-
-.dilemma-redo-main:hover {
-  background: rgba(255, 215, 0, 0.25) !important;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
 }
 
 /* 鍢庣綏瑙ｈ瀹瑰櫒 */
@@ -5384,26 +5381,19 @@ button:active {
 }
 
 .hover-pos {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-muted);
-  line-height: 1.4;
-  padding: 2px 4px;
-  border-radius: 3px;
+  line-height: 1.45;
+  padding: 3px 6px;
+  border-radius: 4px;
   background: rgba(255, 215, 0, 0.05);
+  word-break: break-word;
 }
 
 .hover-pos-num {
   color: var(--color-gold);
   font-weight: 700;
-  margin-right: 3px;
-}
-
-.hover-more {
-  font-size: 14px;
-  color: var(--color-gold);
-  font-weight: 700;
-  text-align: center;
-  padding: 2px;
+  margin-right: 4px;
 }
 
 /* ============ 牌阵示意图：按牌阵形状排列 ============ */
