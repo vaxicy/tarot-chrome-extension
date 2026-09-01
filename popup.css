@@ -5932,27 +5932,11 @@ button:active {
   75% { transform: scale(1.25); }
 }
 
-/* 响应式优化：小屏幕适配 */
-@media (max-width: 420px) {
-  :root {
-    --popup-width: 100vw;
-    --popup-height: 100vh;
-  }
-  
-  .popup-wrapper {
-    padding: 8px;
-  }
-  
-  .tarot-card {
-    width: 70px;
-    height: 110px;
-  }
-  
-  .result-cards .tarot-card {
-    width: 80px;
-    height: 125px;
-  }
-}
+/* 注意：禁止为 popup 添加 @media (max-width: Npx) + 100vw/100vh 响应式规则！
+   popup 窗口宽度由内容决定，而 max-width:420px 在正常 420px 宽度下也会命中；
+   一旦命中并把 --popup-width 改成 100vw，body 宽高变成镜像视口，
+   形成"窗口=内容=视口"循环依赖 → popup 塌缩到最小宽度并闪烁抖动（2026-09-01 踩坑）。
+   卡牌尺寸已由 popup.js 按布局动态计算内联设置，无需 CSS 媒体查询兜底。 */
 
 /* ============ 扩展解读开关样式 ============ */
 .extended-toggle {
