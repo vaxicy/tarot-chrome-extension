@@ -15,9 +15,6 @@
       this.currentLang = 'zh';
       this.soundEnabled = true;  // 音效/触觉开关（与 toggleSound 同步）
 
-      // 自定义牌意缓存（从 deckManager 同步）
-      this.customMeanings = {};
-
       // 英文牌意 fallback 缓存（rider-waite 映射）
       this.riderWaiteMap = new Map();
 
@@ -35,26 +32,9 @@
       return text;
     }
 
-    // ============ 自定义牌意管理 ============
-    // 使用 deckManager 统一管理
-    async loadCustomMeanings() {
-      this.customMeanings = await deckManager.loadCustomMeanings();
-      return this.customMeanings;
-    }
-
-    async saveCustomMeaning(cardId, type, text) {
-      await deckManager.saveCustomMeaning(cardId, type, text);
-      // 同步本地缓存
-      this.customMeanings = await deckManager.loadCustomMeanings();
-    }
-
     getMeaningText(card, isReversed) {
       const type = isReversed ? 'reversed' : 'upright';
-      // 优先使用自定义牌意
-      if (this.customMeanings[card.id] && this.customMeanings[card.id][type]) {
-        return this.customMeanings[card.id][type];
-      }
-      // 其次使用当前牌组的多语言 translations
+      // 使用当前牌组的多语言 translations
       if (card.translations && card.translations[this.currentLang]) {
         const trans = card.translations[this.currentLang][type];
         if (trans) return trans;
@@ -498,28 +478,9 @@
         html += '<div class="meaning-position"><span class="meaning-position-label">' + (this.currentLang === 'en' ? 'Position: ' : '位置含义：') + '</span>' + positionMeaning + '</div>';
       }
       html += '<div class="meaning-text">' + meaning + '</div>';
-      html += '<button class="custom-meaning-btn" data-card-id="' + card.id + '" data-type="' + (isReversed ? 'reversed' : 'upright') + '">' + this.t('btn_custom_meaning') + '</button>';
       html += '</div>';
 
       container.innerHTML = html;
-
-      // 绑定自定义牌意按钮
-      const btn = container.querySelector('.custom-meaning-btn');
-      if (btn) {
-        btn.addEventListener('click', async () => {
-          const cardId = btn.dataset.cardId;
-          const type = btn.dataset.type;
-          const currentText = this.getMeaningText(card, isReversed);
-          const promptText = this.currentLang === 'en'
-            ? ('Enter custom ' + (type === 'upright' ? 'upright' : 'reversed') + ' meaning:')
-            : ('请输入自定义' + (type === 'upright' ? '正位' : '逆位') + '牌意：');
-          const newText = prompt(promptText, currentText);
-          if (newText !== null) {
-            await this.saveCustomMeaning(cardId, type, newText);
-            this.showMeaning(card, isReversed, position);
-          }
-        });
-      }
     }
 
     // ============ 综合解读 - 分析整体主题 ============
@@ -4609,9 +4570,10 @@
         const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126, 0);
         const innerCard = wrap.querySelector('.tarot-card');
 
-        // 结果固定：点击无音效、不切换正逆位、不刷新解读（除非重新抽牌）
+        // 结果固定：点击可翻牌（视觉动画），无音效、不切换正逆位、不刷新解读
         wrap.addEventListener('click', (e) => {
           e.stopPropagation();
+          innerCard.classList.toggle('flipped');
           this.showMeaning(item.card, item.isReversed, singlePos);
         });
 
@@ -4673,7 +4635,9 @@
         ((c, rev, pos, idx) => {
           wrap.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.playFlipSound();
+            // 点击可翻牌（视觉动画），但解读固定不变（结果锁定）
+            const cardEl = wrap.querySelector('.tarot-card');
+            if (cardEl) cardEl.classList.toggle('flipped');
             this.showMeaning(c, rev, pos);
 
             // 高亮对应的示意图小卡
@@ -4750,6 +4714,8 @@
         ((c, rev, pos, idx) => {
           wrap.addEventListener('click', (e) => {
             e.stopPropagation();
+            const cardEl = wrap.querySelector('.tarot-card');
+            if (cardEl) cardEl.classList.toggle('flipped');
             this.showMeaning(c, rev, pos);
 
             // 高亮对应的示意图小卡
@@ -4781,6 +4747,8 @@
         ((c, rev, pos, idx) => {
           wrap2.addEventListener('click', (e) => {
             e.stopPropagation();
+            const cardEl = wrap2.querySelector('.tarot-card');
+            if (cardEl) cardEl.classList.toggle('flipped');
             this.showMeaning(c, rev, pos);
 
             // 高亮对应的示意图小卡
@@ -6134,6 +6102,8 @@
       body.classList.add('ai-loading');
       body.textContent = isEn ? 'The stars are aligning…' : '星辰推演中…';
       section.classList.remove('hidden');
+      // 记录解读进行中（popup 关闭重开时可识别中断状态）
+      this.saveAIReading(question, '', 'loading');
 
       try {
         const base = this.normalizeBase(slot.baseUrl);
@@ -6167,7 +6137,7 @@
         const clean = this.stripMarkdown(text.trim());
         body.classList.remove('ai-loading');
         body.textContent = clean;
-        this.saveAIReading(question, clean);
+        this.saveAIReading(question, clean, 'done');
       } catch (e) {
         body.classList.remove('ai-loading');
         body.textContent = (isEn ? 'AI interpretation failed: ' : 'AI 解读失败：') + (e.message || e);
@@ -6219,10 +6189,10 @@
       try { localStorage.removeItem('tarot_live_session'); } catch (e) {}
     }
 
-    // AI 解读结果缓存（重新抽牌时清除）
-    saveAIReading(question, output) {
+    // AI 解读结果缓存（重新抽牌时清除）；state: 'loading' | 'done'
+    saveAIReading(question, output, state) {
       try {
-        localStorage.setItem('tarot_ai_reading', JSON.stringify({ question: question || '', output: output }));
+        localStorage.setItem('tarot_ai_reading', JSON.stringify({ question: question || '', output: output || '', state: state || 'done' }));
       } catch (e) {}
     }
 
@@ -6252,7 +6222,8 @@
           ((c, rev, pos, idx) => {
             wrap.addEventListener('click', (e) => {
               e.stopPropagation();
-              this.playFlipSound();
+              const cardEl = wrap.querySelector('.tarot-card');
+              if (cardEl) cardEl.classList.toggle('flipped');
               this.showMeaning(c, rev, pos);
               const diagCards = document.querySelectorAll('.result-diagram-card');
               diagCards.forEach(card => card.classList.remove('active'));
@@ -6271,16 +6242,25 @@
 
       this.showPage('divination-page');
       await this.updateAISectionVisibility();
-      // 恢复 AI 解读缓存
+      // 恢复 AI 解读缓存（中断的解读给出提示）
       let ai = null;
       try { ai = JSON.parse(localStorage.getItem('tarot_ai_reading') || 'null'); } catch (e) {}
-      if (ai && ai.output) {
+      if (ai && (ai.output || ai.state === 'loading')) {
         const contentWrap = document.getElementById('ai-reading-content');
         const body = document.getElementById('ai-reading-body');
         const qInput = document.getElementById('ai-question-input');
         if (contentWrap) contentWrap.classList.remove('hidden');
-        if (body) body.textContent = ai.output;
         if (qInput) qInput.value = ai.question || '';
+        if (body) {
+          if (ai.output) {
+            body.textContent = ai.output;
+          } else {
+            body.classList.remove('ai-loading');
+            body.textContent = isEn
+              ? 'The previous interpretation was interrupted when the popup was closed. Tap the button above to regenerate it.'
+              : '上次的 AI 解读因弹窗关闭而中断，点击上方按钮可重新生成。';
+          }
+        }
       }
       return true;
     }
@@ -7427,9 +7407,6 @@
         if (typeof tarotCards === 'undefined') {
           throw new Error('tarot-cards.js 未正确加载');
         }
-
-        // 加载自定义牌意
-        await this.loadCustomMeanings();
 
         // 加载语言偏好
         await new Promise((resolve) => {

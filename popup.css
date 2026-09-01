@@ -3928,26 +3928,6 @@ button:active {
   border-top: 1px solid rgba(255, 215, 0, 0.1);
 }
 
-/* ============ 鑷畾涔夌墝鎰忔寜锟?============ */
-.custom-meaning-btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 5px 14px;
-  font-size: 15px;
-  color: var(--color-gold);
-  background: rgba(255, 215, 0, 0.08);
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.custom-meaning-btn:hover {
-  background: rgba(255, 215, 0, 0.18);
-  border-color: var(--color-gold);
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
-}
-
 /* ============ 璇█閫夋嫨锟?============ */
 .deck-selector select#lang-select {
   background: rgba(255, 255, 255, 0.08);

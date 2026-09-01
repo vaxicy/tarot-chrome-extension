@@ -1735,7 +1735,6 @@ const I18N = {
     spread_skill_desc: '5张牌 · 学习动机与前景',
     skill_tip: '适合纠结是否要学某项新技能、报课程、考证书前使用，帮助看清学习动机、投入产出和最佳时机。',
     // 牌意
-    btn_custom_meaning: '自定义牌意',
     cards_count_label: '张牌',
     // 综合解读标题
     theme_title: '★ 整体主题',
@@ -2171,7 +2170,6 @@ const I18N = {
     spread_lovepattern_desc: '5 cards · Explore repeated love patterns & healing',
     lovepattern_tip: 'Suitable for those who want to understand their repeated patterns in love, heal emotional wounds, and build healthier relationship patterns.',
     // Card meaning
-    btn_custom_meaning: 'Custom Meaning',
     cards_count_label: 'cards',
     // Comprehensive reading titles
     theme_title: '★ Overall Theme',

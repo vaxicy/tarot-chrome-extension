@@ -258,23 +258,18 @@ def small_promo():
     draw_rr(draw, (box_x, box_y, box_x + box_w, box_y + box_h),
             radius=14, fill="#15082b", outline=CARD_BORDER, width=1)
 
-    ICONS_F = {
-        "sun": _draw_sun, "think": _draw_think_bubble,
-        "cards": _draw_cards_icon, "check": _draw_checkmark_circle,
-    }
-    # 4 rows: icon + bilingual text
+    # 4 rows: dot + bilingual text
     rows = [
-        ("sun", "今日运势 Daily Fortune"),
-        ("think", "选择困难助手 · Dilemma Helper"),
-        ("cards", "真实抽卡自选牌 · Real Card Picking"),
-        ("check", "AI 智能解读 · AI Interpretation"),
+        "今日运势 Daily Fortune",
+        "选择困难助手 · Dilemma Helper",
+        "真实抽卡自选牌 · Real Card Picking",
+        "AI 智能解读 · AI Interpretation",
     ]
     fy = box_y + 16
-    # Per-icon sizes for visual uniformity
-    ICON_VSZ = {"sun": 13, "think": 20, "cards": 20, "check": 20}
-    for ic, label in rows:
-        vs = ICON_VSZ.get(ic, 18)
-        ICONS_F[ic](draw, box_x + 26, fy + max(vs, 14) // 2, vs, ACCENT_GOLD)
+    for label in rows:
+        dot_r = 4
+        cy = fy + 11
+        draw.ellipse([box_x + 26 - dot_r, cy - dot_r, box_x + 26 + dot_r, cy + dot_r], fill=ACCENT_GOLD)
         text_left(draw, (box_x + 46, fy + 1), label, font_zh(13), fill=TEXT_SUB)
         fy += 25
 
@@ -317,21 +312,21 @@ def large_promo():
             radius=8, fill="#15082b")
     text_left(draw, (mock_x + 18, mock_y + 17), "魔法主题 · Mystic Theme", font_zh(12), fill=TEXT_SUB)
 
-    # Tool cards - use tarot card icons instead of dice
+    # Tool cards - 统一金色圆点
     tc_y = mock_y + 56
     tc_w = (mock_w - 30) // 3
     mock_tools = [
-        ("sun", "今日 Today"),
-        ("cards", "命运 Lucky"),
-        ("think", "难题 Dilemma"),
+        "今日 Today",
+        "命运 Lucky",
+        "难题 Dilemma",
     ]
-    MT = {"sun": _draw_sun, "cards": _draw_cards_icon, "think": _draw_think_bubble}
-    # Per-icon size for uniform appearance in small mockup cards
-    MOCK_ICON_SZ = {"sun": 20, "cards": 22, "think": 20}
-    for ti, (ic, lbl) in enumerate(mock_tools):
+    for ti, lbl in enumerate(mock_tools):
         tx = mock_x + 12 + ti * (tc_w + 5)
         draw_rr(draw, (tx, tc_y, tx + tc_w - 5, tc_y + 60), radius=8, fill=CARD_BG)
-        MT[ic](draw, tx + (tc_w - 5) // 2, tc_y + 22, MOCK_ICON_SZ.get(ic, 22), ACCENT_GOLD)
+        dot_r = 7
+        cx = tx + (tc_w - 5) // 2
+        cy = tc_y + 24
+        draw.ellipse([cx - dot_r, cy - dot_r, cx + dot_r, cy + dot_r], fill=ACCENT_GOLD)
         text_center(draw, (tx + (tc_w - 5) // 2, tc_y + 46), lbl, font_zh(11), fill=TEXT_SUB)
 
     # Spread list
@@ -347,7 +342,10 @@ def large_promo():
     for si, (ic, name, cnt) in enumerate(mock_spreads):
         sy = sl_y + si * 48
         draw_rr(draw, (mock_x + 12, sy, mock_x + mock_w - 12, sy + 42), radius=8, fill="#1e0e38")
-        SL[ic](draw, mock_x + 30, sy + 21, 18, ACCENT_GOLD)
+        # 统一金色圆点（替代大小不一的图标）
+        dot_r = 5
+        cy = sy + 21
+        draw.ellipse([mock_x + 30 - dot_r, cy - dot_r, mock_x + 30 + dot_r, cy + dot_r], fill=ACCENT_GOLD)
         text_left(draw, (mock_x + 48, sy + 12), name, font_zh(12), fill=TEXT_WHITE)
         text_left(draw, (mock_x + mock_w - 56, sy + 12), cnt, font_zh(12), fill=TEXT_SUB)
 
@@ -357,26 +355,25 @@ def large_promo():
     center_w = 480
     text_left(draw, (center_x, center_y), "核心功能 · Core Features", font_zh(20, True), fill=ACCENT_GOLD)
 
-    CF = {"sun": _draw_sun, "tarot": _draw_cards_icon, "think": _draw_think_bubble,
-          "cards": _draw_cards_icon, "sparkle": _draw_sparkle}
-    # 统一视觉尺寸：sun 参数=半径且核心圆只占 0.9r；sparkle 尖到中心距离=半径(直径=2×size)
-    # 目标：所有图标视觉直径 ~24px
-    CF_SZ = {"sun": 14, "tarot": 24, "think": 22, "cards": 24, "sparkle": 12}
+    # 统一金色圆点（替代大小不一的图标），圆圈底保留作为视觉容器
     features_main = [
-        ("sun", "今日运势 Daily Fortune", "AI 深度解读每日命运 · AI-powered daily reading"),
-        ("cards", "真实抽卡 · 自选牌 Real Card Picking", "整副摊开滑动选牌 · Fan, swipe & pick"),
-        ("think", "选择困难症 · Dilemma Helper", "让命运帮你做决定 · Let fate decide for you"),
-        ("sparkle", "AI 智能解读 · AI Interpretation", "支持硅基流动 / OpenAI · BYO AI provider"),
+        ("今日运势 Daily Fortune", "AI 深度解读每日命运 · AI-powered daily reading"),
+        ("真实抽卡 · 自选牌 Real Card Picking", "整副摊开滑动选牌 · Fan, swipe & pick"),
+        ("选择困难症 · Dilemma Helper", "让命运帮你做决定 · Let fate decide for you"),
+        ("AI 智能解读 · AI Interpretation", "支持硅基流动 / OpenAI · BYO AI provider"),
     ]
     feat_y = center_y + 38
-    for i, (ic, name, desc) in enumerate(features_main):
+    for i, (name, desc) in enumerate(features_main):
         fh = 72
         fx = center_x
         fy = feat_y + i * (fh + 10)
         draw_rr(draw, (fx, fy, fx + center_w, fy + fh), radius=12,
                 fill="#15082b", outline="#2a1548")
         draw.ellipse([fx + 16, fy + 14, fx + 52, fy + 50], fill="#2a1548", outline=ACCENT_PURPLE, width=1)
-        CF[ic](draw, fx + 34, fy + 32, CF_SZ[ic], ACCENT_GOLD)
+        dot_r = 8
+        cx = fx + 34
+        cy = fy + 32
+        draw.ellipse([cx - dot_r, cy - dot_r, cx + dot_r, cy + dot_r], fill=ACCENT_GOLD)
         text_left(draw, (fx + 64, fy + 16), name, font_zh(14, True), fill=TEXT_WHITE)
         text_left(draw, (fx + 64, fy + 42), desc, font_zh(12), fill=TEXT_SUB)
 
@@ -385,22 +382,23 @@ def large_promo():
     right_y = 150
     text_left(draw, (right_x, right_y), "特色亮点 · Highlights", font_zh(18, True), fill=ACCENT_GOLD)
 
-    RH = {"cards": _draw_cards_icon, "sparkle": _draw_sparkle,
-          "moon": _draw_moon, "lock": _draw_lock, "check": _draw_checkmark_circle}
     highlights = [
-        ("cards", "8 大主题牌组 · 8 Themed Decks"),
-        ("sparkle", "50+ 专业牌阵 · 50+ Pro Spreads"),
-        ("moon", "深色魔法主题 · Dark Magical UI"),
-        ("lock", "API Key 仅存本地 · Key Stored Locally"),
-        ("check", "全功能免费 · 无限制 · Fully Free · No Limits"),
+        "8 大主题牌组 · 8 Themed Decks",
+        "50+ 专业牌阵 · 50+ Pro Spreads",
+        "深色魔法主题 · Dark Magical UI",
+        "API Key 仅存本地 · Key Stored Locally",
+        "全功能免费 · 无限制 · Fully Free · No Limits",
     ]
     hy = right_y + 34
-    for hi, (ic, txt) in enumerate(highlights):
+    for hi, txt in enumerate(highlights):
         hh = 44
         hx = right_x
         hyy = hy + hi * (hh + 8)
         draw_rr(draw, (hx, hyy, hx + 370, hyy + hh), radius=10, fill="#1a0a30", outline="#2a1548")
-        RH[ic](draw, hx + 28, hyy + hh // 2, 22, ACCENT_GOLD)
+        dot_r = 6
+        cx = hx + 28
+        cy = hyy + hh // 2
+        draw.ellipse([cx - dot_r, cy - dot_r, cx + dot_r, cy + dot_r], fill=ACCENT_GOLD)
         text_left(draw, (hx + 52, hyy + hh // 2 - 9), txt, font_zh(12, True), fill=TEXT_WHITE)
 
     # Big CTA with correct vertical centering
