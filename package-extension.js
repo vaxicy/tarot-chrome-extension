@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const archiver = require('archiver').default || require('archiver');
+const { ZipArchive } = require('archiver');
 
 // 需要排除的文件和目录
 const EXCLUDE_PATTERNS = [
@@ -52,18 +52,21 @@ function shouldExclude(filePath) {
 }
 
 function createPackage() {
-  const output = fs.createWriteStream(path.join(__dirname, 'magic-tarot-v1.1.zip'));
-  const archive = archiver('zip', { zlib: { level: 9 } });
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, 'manifest.json'), 'utf8'));
+  const version = manifest.version;
+  const outputFilename = `magic-tarot-v${version}.zip`;
+  const output = fs.createWriteStream(path.join(__dirname, outputFilename));
+  const archive = new ZipArchive({ zlib: { level: 9 } });
 
   output.on('close', function() {
     console.log(`✅ 打包完成！`);
     console.log(`📦 文件大小: ${(archive.pointer() / 1024 / 1024).toFixed(2)} MB`);
-    console.log(`📁 输出文件: magic-tarot-v1.1.zip`);
+    console.log(`📁 输出文件: ${outputFilename}`);
     console.log(`\n🚀 下一步：`);
     console.log(`1. 访问 https://chrome.google.com/webstore/devconsole/`);
     console.log(`2. 登录开发者账号`);
     console.log(`3. 点击"上传新版本"或"新建项目"`);
-    console.log(`4. 上传 magic-tarot-v1.1.zip`);
+    console.log(`4. 上传 ${outputFilename}`);
   });
 
   archive.on('error', function(err) {

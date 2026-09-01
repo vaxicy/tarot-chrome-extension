@@ -173,6 +173,10 @@ body::before {
   text-shadow: 0 0 10px var(--color-gold), 0 0 20px var(--color-gold-dark);
   letter-spacing: 3px;
   margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .welcome-subtitle {
