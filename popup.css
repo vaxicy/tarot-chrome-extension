@@ -105,12 +105,45 @@ body::before {
   50% { opacity: 1; }
 }
 
-/* ============ 椤甸潰绠＄悊 ============ */
+/* ============ 页面管理 ============ */
 .page {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+}
+
+/* ============ 页面左上角返回按钮 ============ */
+#divination-page header,
+#settings-page header,
+#number-gen-page header,
+#dilemma-page header {
+  position: relative;
+}
+
+.page-back-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  border-radius: 999px;
+  color: var(--color-gold);
+  font-size: 14px;
+  line-height: 1;
+  padding: 5px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 5;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.page-back-btn:hover {
+  background: rgba(255, 215, 0, 0.18);
+  border-color: var(--color-gold);
 }
 
 /* ============ 鍔犺浇鍔ㄧ敾 ============ */
@@ -2228,9 +2261,9 @@ body::before {
   padding: 0 6px 6px;
 }
 
-/* 结果页操作按钮：2×2 等宽等高网格，防止窄 popup 下中文折行 */
+/* 结果页操作按钮：单行等宽等高网格（返回已移至左上角），防止窄 popup 下中文折行 */
 .action-buttons.action-grid button {
-  flex: 1 1 42%;
+  flex: 1 1 30%;
   min-width: 0;
   padding: 10px 8px;
   font-size: 15px;
@@ -3729,10 +3762,18 @@ button:active {
 }
 
 #history-page header h1 {
+  flex: 1;
+  text-align: center;
   font-size: 18px;
   color: var(--color-gold);
   letter-spacing: 2px;
   margin-bottom: 0;
+}
+
+/* 历史页 header 为 flex 布局：返回按钮作为普通子项，与标题同行 */
+#history-page .page-back-btn {
+  position: static;
+  flex-shrink: 0;
 }
 
 .clear-history-text-btn {

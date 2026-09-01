@@ -741,6 +741,7 @@
         <!-- 占卜页面 -->
         <section id="divination-page" class="page hidden">
             <header>
+                <button id="back-btn" type="button" class="page-back-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <h1 id="page-title">单牌占卜</h1>
                 <p id="step-hint" class="step-hint">正在为你抽取命运之牌...</p>
             </header>
@@ -799,7 +800,6 @@
 
             <!-- 操作按钮 -->
             <div class="action-buttons action-grid">
-                <button id="back-btn" type="button">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <button id="reshuffle-btn" type="button" data-i18n-key="btn_reshuffle">重新占卜</button>
                 <button id="share-btn" type="button" data-i18n-key="btn_share">分享结果</button>
                 <button id="copy-result-btn" type="button" data-i18n-key="btn_copy_result">复制结果</button>
@@ -809,6 +809,7 @@
         <!-- 历史记录页面 -->
         <section id="history-page" class="page hidden">
             <header>
+                <button id="history-back-btn" type="button" class="page-back-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <h1 data-i18n-key="history_title">历史记录</h1>
                 <button id="clear-history-btn" type="button" class="clear-history-text-btn" data-i18n-key="btn_clear_history">清空记录</button>
             </header>
@@ -826,15 +827,12 @@
                     <button id="history-detail-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back_to_list">返回列表</span></button>
                 </div>
             </div>
-
-            <div class="action-buttons">
-                <button id="history-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
-            </div>
         </section>
 
         <!-- 设置页面 -->
         <section id="settings-page" class="page hidden">
             <header>
+                <button id="settings-back-btn" type="button" class="page-back-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <h1 data-i18n-key="settings_title">&#9881; 设置</h1>
                 <p class="step-hint" data-i18n-key="settings_hint">配置 AI 智能解读</p>
             </header>
@@ -886,14 +884,12 @@
 
                 <div class="settings-privacy" data-i18n-key="settings_privacy">API Key 仅保存在本地浏览器，请求直接发往你所配置的服务商</div>
             </div>
-            <div class="action-buttons">
-                <button id="settings-back-btn" type="button">&#8592; <span data-i18n-key="btn_back">返回</span></button>
-            </div>
         </section>
 
         <!-- 命运数字生成器页面 -->
         <section id="number-gen-page" class="page hidden">
             <header>
+                <button id="numgen-back-btn" type="button" class="page-back-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <h1 data-i18n-key="numgen_title">命运数字生成器</h1>
                 <p class="step-hint" data-i18n-key="numgen_hint">让塔罗命运指引为你挑选幸运数字</p>
             </header>
@@ -982,13 +978,13 @@
                 <button id="numgen-regenerate-btn" type="button" class="secondary-btn hidden">
                     <span data-i18n-key="numgen_regenerate">重新生成</span>
                 </button>
-                <button id="numgen-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
             </div>
         </section>
 
         <!-- 选择困难症页面 -->
         <section id="dilemma-page" class="page hidden">
             <header>
+                <button id="dilemma-back-btn" type="button" class="page-back-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <h1 data-i18n-key="dilemma_title">选择困难症</h1>
                 <p class="step-hint" data-i18n-key="dilemma_hint">输入两个选项，用猜拳、摇骰子或塔罗帮你做决定</p>
             </header>
@@ -1085,7 +1081,6 @@
             </div>
 
             <div class="action-buttons">
-                <button id="dilemma-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <button id="dilemma-redo-btn" type="button" class="secondary-btn dilemma-redo-main hidden" data-i18n-key="dilemma_redo">再来一次</button>
             </div>
         </section>
