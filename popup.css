@@ -1967,11 +1967,25 @@ body::before {
 /* ============ 鎿嶄綔鎸夐挳 ============ */
 .action-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   flex-shrink: 0;
   margin-top: 14px;
-  padding-bottom: 6px;
+  padding: 0 6px 6px;
+}
+
+/* 结果页操作按钮：2×2 等宽等高网格，防止窄 popup 下中文折行 */
+.action-buttons.action-grid button {
+  flex: 1 1 42%;
+  min-width: 0;
+  padding: 10px 8px;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 button {
