@@ -45,11 +45,11 @@
                         </select>
                     </div>
                     <div class="toolbar-actions">
-                        <button id="sound-toggle-btn" class="toolbar-icon-btn" type="button" title="Sound: ON (click to mute)">🔊</button>
-                        <button id="history-btn" type="button" class="toolbar-icon-btn" title="历史记录">
+                        <button id="sound-toggle-btn" class="toolbar-icon-btn" type="button" data-tip="Sound: ON (click to mute)">🔊</button>
+                        <button id="history-btn" type="button" class="toolbar-icon-btn" data-tip="历史记录">
                             <span>&#128214;</span>
                         </button>
-                        <button id="settings-btn" type="button" class="toolbar-icon-btn" title="Settings">
+                        <button id="settings-btn" type="button" class="toolbar-icon-btn" data-tip="Settings">
                             <span>&#9881;</span>
                         </button>
                     </div>
@@ -786,6 +786,8 @@
 
             <!-- AI 智能解读区 -->
             <div id="ai-reading-section" class="ai-reading-section hidden">
+                <input type="text" id="ai-question-input" class="ai-question-input"
+                       placeholder="输入你的问题，AI 结合问题解读..." data-i18n-placeholder="ai_question_placeholder" />
                 <button id="ai-interpret-btn" type="button">&#10024; <span data-i18n-key="ai_interpret_btn">AI 智能解读</span></button>
                 <div id="ai-reading-content" class="ai-reading-content hidden">
                     <div class="ai-reading-header">
@@ -837,18 +839,6 @@
                 <p class="step-hint" data-i18n-key="settings_hint">配置 AI 智能解读</p>
             </header>
             <div class="settings-body">
-                <!-- AI 解读开关 -->
-                <div class="settings-card">
-                    <div class="settings-row">
-                        <span class="settings-label" data-i18n-key="settings_ai_enable">启用 AI 智能解读</span>
-                        <label class="settings-switch">
-                            <input type="checkbox" id="settings-ai-enabled" />
-                            <span class="settings-slider"></span>
-                        </label>
-                    </div>
-                    <div class="settings-desc" data-i18n-key="settings_ai_enable_desc">开启后，结果页可使用 AI 生成更深入的个性化解读</div>
-                </div>
-
                 <!-- AI 提供商配置 -->
                 <div id="settings-ai-config" class="settings-card">
                     <div class="settings-row">
@@ -878,6 +868,18 @@
                         <button id="settings-test-btn" type="button" data-i18n-key="settings_test">测试连接</button>
                         <span id="settings-test-status" class="settings-test-status"></span>
                     </div>
+                </div>
+
+                <!-- 隐私选项：不保存历史记录 -->
+                <div class="settings-card">
+                    <div class="settings-row">
+                        <span class="settings-label" data-i18n-key="settings_no_history">不保存历史记录</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="settings-no-history" />
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-desc" data-i18n-key="settings_no_history_desc">开启后，占卜结果不会写入历史记录</div>
                 </div>
 
                 <div class="settings-privacy" data-i18n-key="settings_privacy">API Key 仅保存在本地浏览器，请求直接发往你所配置的服务商</div>

@@ -352,6 +352,10 @@
       });
       const target = document.getElementById(pageId);
       if (target) target.classList.remove('hidden');
+      // 记住当前页面（关闭再打开恢复；占卜结果页依赖内存状态不记录）
+      if (pageId !== 'divination-page') {
+        try { localStorage.setItem('tarot_last_page', pageId); } catch (e) {}
+      }
       // 非占卜页面时隐藏牌阵布局可视化
       if (pageId !== 'divination-page') {
         const diag = document.getElementById('result-spread-diagram');
@@ -4604,10 +4608,9 @@
         const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126, 0);
         const innerCard = wrap.querySelector('.tarot-card');
 
-        // 结果固定：点击仅重播翻面动画，不切换正逆位、不刷新解读（除非重新抽牌）
+        // 结果固定：点击无音效、不切换正逆位、不刷新解读（除非重新抽牌）
         wrap.addEventListener('click', (e) => {
           e.stopPropagation();
-          this.playFlipSound();
           this.showMeaning(item.card, item.isReversed, singlePos);
         });
 
@@ -5387,7 +5390,7 @@
           if (btn) {
             btn.classList.toggle('muted', !newVal);
             btn.textContent = newVal ? '🔊' : '🔇';
-            btn.title = newVal ? '音效：开启（点击关闭）' : '音效：关闭（点击开启）';
+            btn.dataset.tip = newVal ? '音效：开启（点击关闭）' : '音效：关闭（点击开启）';
           }
           this.triggerHaptic();
         })();
@@ -5398,7 +5401,7 @@
         if (btn) {
           btn.classList.toggle('muted', !this.soundEnabled);
           btn.textContent = this.soundEnabled ? '🔊' : '🔇';
-          btn.title = this.soundEnabled ? '音效：开启（点击关闭）' : '音效：关闭（点击开启）';
+          btn.dataset.tip = this.soundEnabled ? '音效：开启（点击关闭）' : '音效：关闭（点击开启）';
         }
       }
     }
@@ -5797,6 +5800,9 @@
     // ============ 历史记录功能 ============
     async saveToHistory() {
       if (!this.currentCards || this.currentCards.length === 0) return;
+      // 用户开启"不保存历史记录"时跳过
+      const noHistory = await new Promise(r => chrome.storage.local.get({ tarot_no_history: false }, d => r(d.tarot_no_history)));
+      if (noHistory) return;
 
       const spreadName = this.getLocalizedSpreadName(this.currentMode);
       const deckName = this.getLocalizedDeckName(this.currentDeck);
@@ -6003,9 +6009,12 @@
       this.showPage('settings-page');
       const settings = await this.loadAISettings();
       this._aiSettings = settings;
-      document.getElementById('settings-ai-enabled').checked = settings.aiEnabled;
-      document.getElementById('settings-ai-config').classList.toggle('hidden', !settings.aiEnabled);
+      document.getElementById('settings-ai-config').classList.remove('hidden');
       this._applyProviderUI(settings.provider);
+      // 不保存历史开关
+      const noHistory = await new Promise(r => chrome.storage.local.get({ tarot_no_history: false }, d => r(d.tarot_no_history)));
+      const noHistoryEl = document.getElementById('settings-no-history');
+      if (noHistoryEl) noHistoryEl.checked = !!noHistory;
     }
 
     _applyProviderUI(provider) {
@@ -6026,7 +6035,6 @@
     async _persistSettingsFromUI() {
       const settings = this._aiSettings;
       if (!settings) return settings;
-      settings.aiEnabled = document.getElementById('settings-ai-enabled').checked;
       const slot = settings.providerConfigs[settings.provider];
       slot.apiKey = document.getElementById('settings-api-key').value.trim();
       slot.baseUrl = document.getElementById('settings-api-base').value.trim();
@@ -6086,10 +6094,6 @@
 
       const settings = await this.loadAISettings();
       const isEn = this.currentLang === 'en';
-      if (!settings.aiEnabled) {
-        this.showToast(isEn ? 'Enable AI interpretation in Settings first' : '请先在设置中启用 AI 智能解读');
-        return;
-      }
       const slot = settings.providerConfigs[settings.provider];
       if (!slot.apiKey) {
         this.showToast(isEn ? 'Set your API Key in Settings first' : '请先在设置中填写 API Key');
@@ -6099,7 +6103,8 @@
       // 组装解读上下文
       const cards = this.currentCards || [];
       if (cards.length === 0) return;
-      const question = (document.getElementById('spread-question-input') || {}).value || '';
+      const qInput = document.getElementById('ai-question-input');
+      const question = (qInput && qInput.value.trim()) || (document.getElementById('spread-question-input') || {}).value || '';
       const spreadName = document.getElementById('page-title').textContent || '';
       const revWord = (rev) => rev ? (isEn ? 'Reversed' : '逆位') : (isEn ? 'Upright' : '正位');
       const lines = cards.map((c, i) => {
@@ -6108,12 +6113,13 @@
           + this.getMeaningText(c.card, c.isReversed);
       });
 
+      // 通俗化：像朋友聊天，说人话，给具体建议
       const system = isEn
-        ? 'You are an experienced tarot reader. Write a cohesive, insightful interpretation (180-320 words) that weaves all drawn cards together in the context of the question and spread positions. Warm, practical, non-fatalistic tone. Plain text only, no markdown headers.'
-        : '你是一位经验丰富的塔罗解读师。请结合问题与牌阵位置，把抽到的牌串成一个连贯、有洞察力的整体解读（180-320字），语气温暖、务实、不宿命论。只输出纯文本，不要使用 markdown 标题。';
+        ? 'You are a friendly, down-to-earth tarot reader. Interpret the drawn cards in plain, conversational language (150-280 words) — like a close friend giving advice over coffee. NO mystical jargon, no vague "the universe whispers" fluff. Be direct: what the cards likely mean for the situation, and 2-3 concrete things the person can actually do today. If a question was provided, answer it specifically. Plain text only.'
+        : '你是一个接地气、说人话的塔罗解读师。请用通俗易懂、像朋友聊天的口吻解读（150-280字）。禁止玄学腔、云里雾里的表达（如"宇宙的低语""静水深处"这类话）。直接讲：这些牌对TA的情况大概意味着什么，再给2-3条今天就能做的具体建议。如果用户提了问题，要针对问题回答，不要泛泛而谈。只输出纯文本。';
       const user = (isEn
         ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
-        : '问题：' + (question || '（未提供）') + '\n牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
+        : (question ? '我的问题：' + question + '\n' : '') + '牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
 
       // UI 进入加载态
       btn.disabled = true;
@@ -6168,11 +6174,15 @@
       const section = document.getElementById('ai-reading-section');
       if (!section) return;
       const settings = await this.loadAISettings();
-      section.classList.toggle('hidden', !settings.aiEnabled);
+      // 配置了任一 provider 的 Key 即显示 AI 解读入口
+      const hasKey = Object.values(settings.providerConfigs).some(s => s.apiKey);
+      section.classList.toggle('hidden', !hasKey);
       const contentWrap = document.getElementById('ai-reading-content');
       const body = document.getElementById('ai-reading-body');
+      const qInput = document.getElementById('ai-question-input');
       if (contentWrap) contentWrap.classList.add('hidden');
       if (body) { body.textContent = ''; body.classList.remove('ai-loading'); }
+      if (qInput) qInput.value = '';
     }
 
     // ============ Toast 提示 ============
@@ -7356,7 +7366,7 @@
             if (btn) {
               btn.classList.toggle('muted', !enabled);
               btn.textContent = enabled ? '🔊' : '🔇';
-              btn.title = enabled ? 'Sound: ON (click to mute)' : 'Sound: OFF (click to unmute)';
+              btn.dataset.tip = enabled ? 'Sound: ON (click to mute)' : 'Sound: OFF (click to unmute)';
             }
           };
           if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
@@ -7371,11 +7381,17 @@
           const btn = document.getElementById('sound-toggle-btn');
           if (btn) {
             btn.textContent = '🔊';
-            btn.title = 'Sound: ON (click to mute)';
+            btn.dataset.tip = 'Sound: ON (click to mute)';
           }
         }
 
-        this.showPage('welcome-page');
+        // 恢复上次关闭时的页面（占卜结果页依赖内存状态，恢复到主页）
+        let lastPage = 'welcome-page';
+        try {
+          const saved = localStorage.getItem('tarot_last_page');
+          if (saved && saved !== 'divination-page' && document.getElementById(saved)) lastPage = saved;
+        } catch (e) {}
+        this.showPage(lastPage);
         this.bindEvents();
         this.initSpreadSearch();
         this.initSpreadFilter();
@@ -7698,14 +7714,11 @@
         if (btn) btn.addEventListener('click', handler);
       });
 
-      // 设置页：AI 开关 / 提供商切换
-      const aiEnabledEl = document.getElementById('settings-ai-enabled');
-      if (aiEnabledEl) {
-        aiEnabledEl.addEventListener('change', async () => {
-          if (!this._aiSettings) await this.showSettingsPage();
-          this._aiSettings.aiEnabled = aiEnabledEl.checked;
-          document.getElementById('settings-ai-config').classList.toggle('hidden', !aiEnabledEl.checked);
-          await this.saveAISettings(this._aiSettings);
+      // 设置页：提供商切换 / 不保存历史开关
+      const noHistoryEl = document.getElementById('settings-no-history');
+      if (noHistoryEl) {
+        noHistoryEl.addEventListener('change', () => {
+          chrome.storage.local.set({ tarot_no_history: noHistoryEl.checked });
         });
       }
       document.querySelectorAll('.settings-provider-btn').forEach(btn => {

@@ -144,6 +144,50 @@ body {
   background:#1a0f40;
 }
 .deck-card img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* 截图4：三大工具 */
+.tools-row { display:flex; gap:22px; justify-content:center; margin-top:30px; }
+.tool-big-card {
+  width:300px; border-radius:18px; padding:30px 22px; text-align:center;
+  background: rgba(26,15,64,0.72);
+  border:1.5px solid rgba(255,215,0,0.3);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
+}
+.tool-big-card .tbc-icon {
+  width:76px; height:76px; margin:0 auto 14px; border-radius:20px;
+  display:flex; align-items:center; justify-content:center; font-size:38px;
+  background:linear-gradient(135deg,#4a148c,#6a1b9a);
+  border:1.5px solid rgba(255,215,0,0.4);
+}
+.tool-big-card:nth-child(2) .tbc-icon { background:linear-gradient(135deg,#880e4f,#ad1457); }
+.tool-big-card:nth-child(3) .tbc-icon { background:linear-gradient(135deg,#1a237e,#3949ab); }
+.tool-big-card .tbc-name { font-size:24px; font-weight:800; color:#ffd700; letter-spacing:1px; }
+.tool-big-card .tbc-desc { font-size:16px; color:#c0b8d8; margin-top:10px; line-height:1.6; }
+
+/* 截图5：设置页 mock */
+.set-panel {
+  margin-top:26px; width:700px; border-radius:18px;
+  background: rgba(26,15,64,0.78);
+  border:1.5px solid rgba(255,215,0,0.35);
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  padding:26px 30px;
+}
+.set-row .set-cap { font-size:20px; font-weight:800; color:#fff; }
+.prov-row { display:flex; gap:12px; margin-top:14px; }
+.prov-btn {
+  flex:1; padding:12px 8px; text-align:center; border-radius:10px; font-size:17px; font-weight:700;
+  color:#c0b8d8; background:rgba(13,10,26,0.6); border:1.5px solid rgba(255,215,0,0.25);
+}
+.prov-btn.active { color:#ffd700; border-color:#ffd700; background:rgba(255,215,0,0.1); }
+.set-field {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:14px; padding:12px 16px; border-radius:10px;
+  background:rgba(13,10,26,0.6); border:1px solid rgba(255,215,0,0.22);
+}
+.set-field .set-label { font-size:16px; color:#c0b8d8; }
+.set-field .set-value { font-size:15px; color:#ffd700; font-family:Consolas,monospace; }
+.set-test { display:flex; align-items:center; gap:10px; margin-top:16px; font-size:16px; color:#7ee787; }
+.set-dot { width:12px; height:12px; border-radius:50%; background:#7ee787; box-shadow:0 0 10px rgba(126,231,135,0.7); }
 """
 
 def stars_html(n=90):
@@ -191,6 +235,24 @@ T = {
     "deck_names": [("单牌占卜", "1 张"), ("三牌阵", "3 张"), ("凯尔特十字", "10 张"), ("恋人牌阵", "7 张")],
     "tool1": "今日运势", "tool1sub": "9月2日 星期三",
     "tool2": "命运数字", "tool3": "选择困难症",
+    "s4_title": "三大实用工具",
+    "s4_sub": "占卜之外，还有更多日常小助手",
+    "s4_chip1": "操作简单 · 一键即用",
+    "s4_chip2": "中英双语界面",
+    "tools": [
+      ("☀️", "今日运势", "每天一张指引牌<br>开启元气满满的一天"),
+      ("🔢", "命运数字", "塔罗指引的幸运数字<br>抽奖选号好帮手"),
+      ("🤔", "选择困难症", "猜拳 / 摇骰子 / 塔罗抽牌<br>让命运帮你做决定"),
+    ],
+    "s5_title": "AI 智能解读 · 自由配置",
+    "s5_sub": "接入你自己的 AI 服务商，Key 仅存本地",
+    "set_cap": "AI 服务商",
+    "set_providers": ["硅基流动", "OpenAI", "自定义"],
+    "set_fields": [("API Key", "sk-••••••••••••"), ("模型", "deepseek-ai/DeepSeek-V3")],
+    "set_test": "连接成功 · 支持任意 OpenAI 兼容接口",
+    "s5_chip1": "Key 仅存本地",
+    "s5_chip2": "直连服务商",
+    "s5_chip3": "自定义端点",
   },
   "en": {
     "title": "Magic Tarot",
@@ -214,6 +276,24 @@ T = {
     "deck_names": [("Single Card", "1 card"), ("Three Card", "3 cards"), ("Celtic Cross", "10 cards"), ("Lovers Spread", "7 cards")],
     "tool1": "Daily Fortune", "tool1sub": "Wed, Sep 2",
     "tool2": "Lucky Number", "tool3": "Decider",
+    "s4_title": "Three Handy Tools",
+    "s4_sub": "More than tarot — daily helpers built in",
+    "s4_chip1": "Simple · One Tap Away",
+    "s4_chip2": "Bilingual EN & CN",
+    "tools": [
+      ("☀️", "Daily Fortune", "One guidance card a day<br>to start your morning right"),
+      ("🔢", "Lucky Numbers", "Tarot-guided lucky numbers<br>for draws and picks"),
+      ("🤔", "Decider", "Rock-paper-scissors / dice / tarot<br>Let fate decide for you"),
+    ],
+    "s5_title": "AI Readings · Your Config",
+    "s5_sub": "Bring your own AI provider — Key stays local",
+    "set_cap": "AI Provider",
+    "set_providers": ["SiliconFlow", "OpenAI", "Custom"],
+    "set_fields": [("API Key", "sk-••••••••••••"), ("Model", "deepseek-ai/DeepSeek-V3")],
+    "set_test": "Connected · Any OpenAI-compatible endpoint works",
+    "s5_chip1": "Key Stored Locally",
+    "s5_chip2": "Direct to Provider",
+    "s5_chip3": "Custom Endpoint",
   },
 }
 
@@ -270,7 +350,47 @@ def page3(t):
     <div class="chips">%s</div>
     """ % (t["s3_title"], t["s3_sub"], t["rc_title"], tags, t["ai_title"], t["ai_body"], provs)
 
-PAGES = [page1, page2, page3]
+def page4(t):
+    """三大实用工具介绍"""
+    cards = []
+    for icon, name, desc in t["tools"]:
+        cards.append('''
+        <div class="tool-big-card">
+          <div class="tbc-icon">%s</div>
+          <div class="tbc-name">%s</div>
+          <div class="tbc-desc">%s</div>
+        </div>''' % (icon, name, desc))
+    return """
+    <div class="header">
+      <h1 style="font-size:46px;">%s</h1>
+      <div class="slogan">%s</div>
+    </div>
+    <div class="tools-row">%s</div>
+    <div class="chips" style="margin-top:30px;"><div class="chip">%s</div><div class="chip">%s</div></div>
+    """ % (t["s4_title"], t["s4_sub"], "".join(cards), t["s4_chip1"], t["s4_chip2"])
+
+def page5(t):
+    """设置页 + 隐私介绍"""
+    provs = "".join('<div class="prov-btn%s">%s</div>' % (' active' if i == 0 else '', x)
+                    for i, x in enumerate(t["set_providers"]))
+    fields = "".join('<div class="set-field"><span class="set-label">%s</span><span class="set-value">%s</span></div>'
+                     % (k, v) for k, v in t["set_fields"])
+    return """
+    <div class="header">
+      <h1 style="font-size:46px;">%s</h1>
+      <div class="slogan">%s</div>
+    </div>
+    <div class="set-panel">
+      <div class="set-row"><span class="set-cap">%s</span></div>
+      <div class="prov-row">%s</div>
+      %s
+      <div class="set-test"><span class="set-dot"></span><span>%s</span></div>
+    </div>
+    <div class="chips" style="margin-top:24px;"><div class="chip">%s</div><div class="chip">%s</div><div class="chip">%s</div></div>
+    """ % (t["s5_title"], t["s5_sub"], t["set_cap"], provs, fields, t["set_test"],
+           t["s5_chip1"], t["s5_chip2"], t["s5_chip3"])
+
+PAGES = [page1, page2, page3, page4, page5]
 
 def main():
     with sync_playwright() as p:

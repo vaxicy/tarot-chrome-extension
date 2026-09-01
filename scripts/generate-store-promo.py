@@ -271,7 +271,7 @@ def small_promo():
     ]
     fy = box_y + 16
     # Per-icon sizes for visual uniformity
-    ICON_VSZ = {"sun": 11, "think": 18, "cards": 18, "check": 18}
+    ICON_VSZ = {"sun": 11, "think": 20, "cards": 20, "check": 20}
     for ic, label in rows:
         vs = ICON_VSZ.get(ic, 18)
         ICONS_F[ic](draw, box_x + 26, fy + max(vs, 14) // 2, vs, ACCENT_GOLD)
@@ -357,12 +357,15 @@ def large_promo():
     center_w = 480
     text_left(draw, (center_x, center_y), "核心功能 · Core Features", font_zh(20, True), fill=ACCENT_GOLD)
 
-    CF = {"sun": _draw_sun, "tarot": _draw_cards_icon, "think": _draw_think_bubble, "cards": _draw_cards_icon}
+    CF = {"sun": _draw_sun, "tarot": _draw_cards_icon, "think": _draw_think_bubble,
+          "cards": _draw_cards_icon, "sparkle": _draw_sparkle}
+    # 统一视觉尺寸：sun 第四参是半径(≈直径/2)，其余是直径；全部校准到 ~24px 视觉
+    CF_SZ = {"sun": 12, "tarot": 24, "think": 26, "cards": 24, "sparkle": 22}
     features_main = [
         ("sun", "今日运势 Daily Fortune", "AI 深度解读每日命运 · AI-powered daily reading"),
         ("cards", "真实抽卡 · 自选牌 Real Card Picking", "整副摊开滑动选牌 · Fan, swipe & pick"),
         ("think", "选择困难症 · Dilemma Helper", "让命运帮你做决定 · Let fate decide for you"),
-        ("cards", "AI 智能解读 · AI Interpretation", "支持硅基流动 / OpenAI · BYO AI provider"),
+        ("sparkle", "AI 智能解读 · AI Interpretation", "支持硅基流动 / OpenAI · BYO AI provider"),
     ]
     feat_y = center_y + 38
     for i, (ic, name, desc) in enumerate(features_main):
@@ -372,7 +375,7 @@ def large_promo():
         draw_rr(draw, (fx, fy, fx + center_w, fy + fh), radius=12,
                 fill="#15082b", outline="#2a1548")
         draw.ellipse([fx + 16, fy + 14, fx + 52, fy + 50], fill="#2a1548", outline=ACCENT_PURPLE, width=1)
-        CF[ic](draw, fx + 34, fy + 32, 22, ACCENT_GOLD)
+        CF[ic](draw, fx + 34, fy + 32, CF_SZ[ic], ACCENT_GOLD)
         text_left(draw, (fx + 64, fy + 16), name, font_zh(14, True), fill=TEXT_WHITE)
         text_left(draw, (fx + 64, fy + 42), desc, font_zh(12), fill=TEXT_SUB)
 

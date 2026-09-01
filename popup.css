@@ -28,7 +28,9 @@
 
 body {
   width: var(--popup-width);
-  height: var(--popup-height);
+  /* 响应式高度：窗口跟随页面内容变化（矮页面窗口变矮），
+     内容超出上限时由 .popup-wrapper 滚动 */
+  height: auto;
   max-height: var(--popup-height);
   /* 弹窗等比缩小到 300x386（420x540 的 0.714 倍）。
      用 zoom 做布局级缩放，字号/间距/卡牌全部等比，无需改动其余 ~6200 行样式。
@@ -46,7 +48,8 @@ body {
 
 .popup-wrapper {
   width: var(--popup-width);
-  height: 100%;
+  height: auto;
+  max-height: var(--popup-height);
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -618,9 +621,7 @@ body::before {
   flex-direction: column;
   gap: 12px;
   padding: 8px 4px 12px;
-  flex: 1;
   overflow-y: auto;
-  justify-content: safe center;
 }
 
 .settings-card {
@@ -791,9 +792,69 @@ body::before {
   opacity: 0.85;
 }
 
+/* ============ toolbar 自定义 tooltip ============ */
+.toolbar-icon-btn {
+  position: relative;
+}
+
+.toolbar-icon-btn::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-text);
+  background: linear-gradient(135deg, #1a0f40 0%, #2d1b69 100%);
+  border: 1px solid var(--color-gold);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 1200;
+}
+
+/* 右缘按钮 tooltip 右对齐防溢出 */
+.toolbar-actions .toolbar-icon-btn:last-child::after {
+  left: auto;
+  right: -6px;
+  transform: translateY(-4px);
+}
+
+.toolbar-icon-btn:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toolbar-actions .toolbar-icon-btn:last-child:hover::after {
+  transform: translateY(0);
+}
+
 /* ============ AI 智能解读区 ============ */
 .ai-reading-section {
   margin-top: 10px;
+}
+
+.ai-question-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--color-text);
+  background: rgba(13, 10, 26, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.ai-question-input:focus {
+  border-color: var(--color-gold);
 }
 
 #ai-interpret-btn {
@@ -4734,10 +4795,8 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: safe center;
   gap: 12px;
   padding: 8px 4px 12px;
-  flex: 1;
   overflow-y: auto;
 }
 
