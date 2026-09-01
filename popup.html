@@ -844,10 +844,12 @@
                     <div class="settings-row">
                         <span class="settings-label" data-i18n-key="settings_provider">AI 服务商</span>
                     </div>
-                    <div class="settings-provider-btns">
-                        <button type="button" class="settings-provider-btn" data-provider="siliconflow" data-i18n-key="settings_provider_siliconflow">硅基流动</button>
-                        <button type="button" class="settings-provider-btn" data-provider="openai" data-i18n-key="settings_provider_openai">OpenAI</button>
-                        <button type="button" class="settings-provider-btn" data-provider="custom" data-i18n-key="settings_provider_custom">自定义</button>
+                    <div class="settings-field" style="margin-top:8px;">
+                        <select id="settings-provider" class="settings-provider-select">
+                            <option value="siliconflow" data-i18n-key="settings_provider_siliconflow">硅基流动</option>
+                            <option value="openai" data-i18n-key="settings_provider_openai">OpenAI</option>
+                            <option value="custom" data-i18n-key="settings_provider_custom">自定义</option>
+                        </select>
                     </div>
 
                     <div class="settings-field">

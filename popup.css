@@ -695,32 +695,35 @@ body::before {
   transform: translateX(18px);
 }
 
-/* 提供商选择按钮 */
-.settings-provider-btns {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.settings-provider-btn {
-  flex: 1;
-  padding: 8px 4px;
-  font-size: 13px;
+/* 提供商下拉选择框 */
+.settings-provider-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--color-text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(255, 215, 0, 0.2);
+  color: var(--color-gold);
+  background: rgba(13, 10, 26, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.25);
   border-radius: 8px;
+  outline: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: 0;
+  transition: border-color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23ffd700' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 30px;
 }
 
-.settings-provider-btn.active {
-  color: var(--color-gold);
+.settings-provider-select:focus {
   border-color: var(--color-gold);
-  background: rgba(255, 215, 0, 0.1);
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+}
+
+.settings-provider-select option {
+  background: #1a0f40;
+  color: var(--color-text);
 }
 
 /* 输入字段 */

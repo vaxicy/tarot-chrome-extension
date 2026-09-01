@@ -271,7 +271,7 @@ def small_promo():
     ]
     fy = box_y + 16
     # Per-icon sizes for visual uniformity
-    ICON_VSZ = {"sun": 11, "think": 20, "cards": 20, "check": 20}
+    ICON_VSZ = {"sun": 13, "think": 20, "cards": 20, "check": 20}
     for ic, label in rows:
         vs = ICON_VSZ.get(ic, 18)
         ICONS_F[ic](draw, box_x + 26, fy + max(vs, 14) // 2, vs, ACCENT_GOLD)
@@ -359,8 +359,9 @@ def large_promo():
 
     CF = {"sun": _draw_sun, "tarot": _draw_cards_icon, "think": _draw_think_bubble,
           "cards": _draw_cards_icon, "sparkle": _draw_sparkle}
-    # 统一视觉尺寸：sun 第四参是半径(≈直径/2)，其余是直径；全部校准到 ~24px 视觉
-    CF_SZ = {"sun": 12, "tarot": 24, "think": 26, "cards": 24, "sparkle": 22}
+    # 统一视觉尺寸：sun 参数=半径且核心圆只占 0.9r；sparkle 尖到中心距离=半径(直径=2×size)
+    # 目标：所有图标视觉直径 ~24px
+    CF_SZ = {"sun": 14, "tarot": 24, "think": 22, "cards": 24, "sparkle": 12}
     features_main = [
         ("sun", "今日运势 Daily Fortune", "AI 深度解读每日命运 · AI-powered daily reading"),
         ("cards", "真实抽卡 · 自选牌 Real Card Picking", "整副摊开滑动选牌 · Fan, swipe & pick"),

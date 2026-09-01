@@ -173,12 +173,12 @@ body {
   padding:26px 30px;
 }
 .set-row .set-cap { font-size:20px; font-weight:800; color:#fff; }
-.prov-row { display:flex; gap:12px; margin-top:14px; }
-.prov-btn {
-  flex:1; padding:12px 8px; text-align:center; border-radius:10px; font-size:17px; font-weight:700;
-  color:#c0b8d8; background:rgba(13,10,26,0.6); border:1.5px solid rgba(255,215,0,0.25);
+.prov-select {
+  margin-top:14px; padding:13px 16px; border-radius:10px; font-size:18px; font-weight:700;
+  color:#ffd700; background:rgba(13,10,26,0.7); border:1.5px solid rgba(255,215,0,0.45);
+  display:flex; justify-content:space-between; align-items:center;
 }
-.prov-btn.active { color:#ffd700; border-color:#ffd700; background:rgba(255,215,0,0.1); }
+.prov-arrow { font-size:13px; color:#c0b8d8; }
 .set-field {
   display:flex; align-items:center; justify-content:space-between;
   margin-top:14px; padding:12px 16px; border-radius:10px;
@@ -371,8 +371,6 @@ def page4(t):
 
 def page5(t):
     """设置页 + 隐私介绍"""
-    provs = "".join('<div class="prov-btn%s">%s</div>' % (' active' if i == 0 else '', x)
-                    for i, x in enumerate(t["set_providers"]))
     fields = "".join('<div class="set-field"><span class="set-label">%s</span><span class="set-value">%s</span></div>'
                      % (k, v) for k, v in t["set_fields"])
     return """
@@ -382,12 +380,12 @@ def page5(t):
     </div>
     <div class="set-panel">
       <div class="set-row"><span class="set-cap">%s</span></div>
-      <div class="prov-row">%s</div>
+      <div class="prov-select">%s <span class="prov-arrow">▼</span></div>
       %s
       <div class="set-test"><span class="set-dot"></span><span>%s</span></div>
     </div>
     <div class="chips" style="margin-top:24px;"><div class="chip">%s</div><div class="chip">%s</div><div class="chip">%s</div></div>
-    """ % (t["s5_title"], t["s5_sub"], t["set_cap"], provs, fields, t["set_test"],
+    """ % (t["s5_title"], t["s5_sub"], t["set_cap"], t["set_providers"][0], fields, t["set_test"],
            t["s5_chip1"], t["s5_chip2"], t["s5_chip3"])
 
 PAGES = [page1, page2, page3, page4, page5]

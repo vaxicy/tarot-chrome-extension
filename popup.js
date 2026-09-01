@@ -352,7 +352,7 @@
       });
       const target = document.getElementById(pageId);
       if (target) target.classList.remove('hidden');
-      // 记住当前页面（关闭再打开恢复；占卜结果页依赖内存状态不记录）
+      // 记住当前页面；占卜结果页由会话快照（saveLiveSession）负责记录
       if (pageId !== 'divination-page') {
         try { localStorage.setItem('tarot_last_page', pageId); } catch (e) {}
       }
@@ -4413,6 +4413,7 @@
     }
 
     openCardPicker(count, onDone) {
+      this.clearAIReading(); // 新一轮选牌，清上轮 AI 解读缓存
       const overlay = document.getElementById('card-pick-overlay');
       const stage = document.getElementById('card-pick-stage');
       const fan = document.getElementById('card-pick-fan');
@@ -4631,6 +4632,7 @@
 
       this.showPage('divination-page');
       this.updateAISectionVisibility();
+      this.saveLiveSession();
       this.saveToHistory();
     }
 
@@ -4704,6 +4706,7 @@
 
       this.showPage('divination-page');
       this.updateAISectionVisibility();
+      this.saveLiveSession();
       this.saveToHistory();
     }
 
@@ -4814,6 +4817,7 @@
 
       this.showPage('divination-page');
       this.updateAISectionVisibility();
+      this.saveLiveSession();
       this.saveToHistory();
     }
 
@@ -4975,6 +4979,7 @@
 
     // ============ 重新占卜 ============
     reshuffle() {
+      this.clearAIReading(); // 新一轮占卜，清除上轮 AI 解读缓存
       switch (this.currentMode) {
         case 'single':     this.drawSingle(); break;
         case 'three':      this.drawThree(); break;
@@ -5156,6 +5161,8 @@
     // ============ 返回欢迎页 ============
     goBack() {
       this.currentCards = [];
+      this.clearLiveSession();
+      this.clearAIReading();
       const panel = document.getElementById('daily-fortune-panel');
       if (panel) panel.classList.add('hidden');
       this.showPage('welcome-page');
@@ -6019,9 +6026,8 @@
 
     _applyProviderUI(provider) {
       const settings = this._aiSettings;
-      document.querySelectorAll('.settings-provider-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.provider === provider);
-      });
+      const sel = document.getElementById('settings-provider');
+      if (sel) sel.value = provider;
       const slot = settings.providerConfigs[provider];
       document.getElementById('settings-api-key').value = slot.apiKey || '';
       document.getElementById('settings-api-base').value = slot.baseUrl || '';
@@ -6115,8 +6121,8 @@
 
       // 通俗化：像朋友聊天，说人话，给具体建议
       const system = isEn
-        ? 'You are a friendly, down-to-earth tarot reader. Interpret the drawn cards in plain, conversational language (150-280 words) — like a close friend giving advice over coffee. NO mystical jargon, no vague "the universe whispers" fluff. Be direct: what the cards likely mean for the situation, and 2-3 concrete things the person can actually do today. If a question was provided, answer it specifically. Plain text only.'
-        : '你是一个接地气、说人话的塔罗解读师。请用通俗易懂、像朋友聊天的口吻解读（150-280字）。禁止玄学腔、云里雾里的表达（如"宇宙的低语""静水深处"这类话）。直接讲：这些牌对TA的情况大概意味着什么，再给2-3条今天就能做的具体建议。如果用户提了问题，要针对问题回答，不要泛泛而谈。只输出纯文本。';
+        ? 'You are a friendly, down-to-earth tarot reader. Interpret the drawn cards in plain, conversational language (150-280 words) — like a close friend giving advice over coffee. NO mystical jargon, no vague "the universe whispers" fluff. Be direct: what the cards likely mean for the situation, and 2-3 concrete things the person can actually do today. If a question was provided, answer it specifically. STRICT plain text: no markdown at all (no ** bold, no # headings, no * bullets) — use "1. 2. 3." for lists.'
+        : '你是一个接地气、说人话的塔罗解读师。请用通俗易懂、像朋友聊天的口吻解读（150-280字）。禁止玄学腔、云里雾里的表达（如"宇宙的低语""静水深处"这类话）。直接讲：这些牌对TA的情况大概意味着什么，再给2-3条今天就能做的具体建议。如果用户提了问题，要针对问题回答，不要泛泛而谈。严格只输出纯文本：禁止一切 markdown 符号（如 ** 加粗、# 标题、* 列表），列表直接用「1. 2. 3.」开头即可。';
       const user = (isEn
         ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
         : (question ? '我的问题：' + question + '\n' : '') + '牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
@@ -6158,8 +6164,10 @@
         const text = data.choices && data.choices[0] && data.choices[0].message
           ? data.choices[0].message.content : '';
         if (!text) throw new Error('empty');
+        const clean = this.stripMarkdown(text.trim());
         body.classList.remove('ai-loading');
-        body.textContent = text.trim();
+        body.textContent = clean;
+        this.saveAIReading(question, clean);
       } catch (e) {
         body.classList.remove('ai-loading');
         body.textContent = (isEn ? 'AI interpretation failed: ' : 'AI 解读失败：') + (e.message || e);
@@ -6167,6 +6175,14 @@
         btn.disabled = false;
         btn.innerHTML = '&#10024; <span data-i18n-key="ai_interpret_btn">' + (isEn ? 'AI Interpretation' : 'AI 智能解读') + '</span>';
       }
+    }
+
+    // 清洗 AI 输出中的 markdown 标记（**粗体**、# 标题、`代码`）
+    stripMarkdown(text) {
+      return String(text || '')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/(^|\n)#{1,6}\s*/g, '$1')
+        .replace(/`([^`]+)`/g, '$1');
     }
 
     // 隐藏/显示结果页 AI 区块（每次抽牌后调用）
@@ -6183,6 +6199,90 @@
       if (contentWrap) contentWrap.classList.add('hidden');
       if (body) { body.textContent = ''; body.classList.remove('ai-loading'); }
       if (qInput) qInput.value = '';
+    }
+
+    // ============ 占卜会话快照（关闭 popup 后恢复结果页） ============
+    // 抽牌完成后保存；新一轮选牌（openCardPicker）与返回主页（goBack）时清除。
+    saveLiveSession() {
+      if (!this.currentCards || this.currentCards.length === 0) return;
+      try {
+        localStorage.setItem('tarot_live_session', JSON.stringify({
+          mode: this.currentMode,
+          cards: this.currentCards,
+          deckId: this.currentDeck
+        }));
+        localStorage.setItem('tarot_last_page', 'divination-page');
+      } catch (e) {}
+    }
+
+    clearLiveSession() {
+      try { localStorage.removeItem('tarot_live_session'); } catch (e) {}
+    }
+
+    // AI 解读结果缓存（重新抽牌时清除）
+    saveAIReading(question, output) {
+      try {
+        localStorage.setItem('tarot_ai_reading', JSON.stringify({ question: question || '', output: output }));
+      } catch (e) {}
+    }
+
+    clearAIReading() {
+      try { localStorage.removeItem('tarot_ai_reading'); } catch (e) {}
+    }
+
+    // 从快照恢复占卜结果页（通用网格渲染，点击看牌义）
+    async restoreLiveSession() {
+      let snap = null;
+      try {
+        snap = JSON.parse(localStorage.getItem('tarot_live_session') || 'null');
+      } catch (e) {}
+      if (!snap || !snap.cards || snap.cards.length === 0) return false;
+
+      this.currentMode = snap.mode;
+      this.currentDeck = snap.deckId || this.currentDeck;
+      this.currentCards = snap.cards;
+
+      const isEn = this.currentLang === 'en';
+      const resultCards = document.getElementById('result-cards');
+      if (resultCards) {
+        resultCards.innerHTML = '';
+        resultCards.className = 'result-cards';
+        snap.cards.forEach((entry, i) => {
+          const wrap = this.createCardEl(entry.card, entry.isReversed, true, 72, 112, i);
+          ((c, rev, pos, idx) => {
+            wrap.addEventListener('click', (e) => {
+              e.stopPropagation();
+              this.playFlipSound();
+              this.showMeaning(c, rev, pos);
+              const diagCards = document.querySelectorAll('.result-diagram-card');
+              diagCards.forEach(card => card.classList.remove('active'));
+              if (diagCards[idx]) diagCards[idx].classList.add('active');
+            });
+          })(entry.card, entry.isReversed, entry.position, i);
+          resultCards.appendChild(wrap);
+        });
+      }
+
+      document.getElementById('page-title').textContent = this.getLocalizedSpreadName(snap.mode);
+      this.setDeckHint(isEn ? 'Restored session — tap a card for its meaning' : '已恢复上次占卜 · 点击卡牌查看牌义');
+
+      const compSec = document.getElementById('comprehensive-reading');
+      if (compSec) compSec.classList.add('hidden');
+
+      this.showPage('divination-page');
+      await this.updateAISectionVisibility();
+      // 恢复 AI 解读缓存
+      let ai = null;
+      try { ai = JSON.parse(localStorage.getItem('tarot_ai_reading') || 'null'); } catch (e) {}
+      if (ai && ai.output) {
+        const contentWrap = document.getElementById('ai-reading-content');
+        const body = document.getElementById('ai-reading-body');
+        const qInput = document.getElementById('ai-question-input');
+        if (contentWrap) contentWrap.classList.remove('hidden');
+        if (body) body.textContent = ai.output;
+        if (qInput) qInput.value = ai.question || '';
+      }
+      return true;
     }
 
     // ============ Toast 提示 ============
@@ -7385,13 +7485,19 @@
           }
         }
 
-        // 恢复上次关闭时的页面（占卜结果页依赖内存状态，恢复到主页）
+        // 恢复上次关闭时的页面：占卜结果走会话快照，设置页走完整渲染
         let lastPage = 'welcome-page';
         try {
           const saved = localStorage.getItem('tarot_last_page');
-          if (saved && saved !== 'divination-page' && document.getElementById(saved)) lastPage = saved;
+          if (saved && document.getElementById(saved)) lastPage = saved;
         } catch (e) {}
-        this.showPage(lastPage);
+        let restored = false;
+        if (lastPage === 'divination-page') {
+          restored = await this.restoreLiveSession();
+        } else if (lastPage === 'settings-page') {
+          await this.showSettingsPage();
+        }
+        if (!restored) this.showPage(lastPage);
         this.bindEvents();
         this.initSpreadSearch();
         this.initSpreadFilter();
@@ -7721,15 +7827,16 @@
           chrome.storage.local.set({ tarot_no_history: noHistoryEl.checked });
         });
       }
-      document.querySelectorAll('.settings-provider-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
+      const providerSel = document.getElementById('settings-provider');
+      if (providerSel) {
+        providerSel.addEventListener('change', async () => {
           if (!this._aiSettings) return;
           await this._persistSettingsFromUI(); // 先写回旧 provider 的 slot
-          this._aiSettings.provider = btn.dataset.provider;
+          this._aiSettings.provider = providerSel.value;
           await this.saveAISettings(this._aiSettings);
-          this._applyProviderUI(btn.dataset.provider);
+          this._applyProviderUI(providerSel.value);
         });
-      });
+      }
       ['settings-api-key', 'settings-api-base', 'settings-model'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', () => { this._persistSettingsFromUI(); });
