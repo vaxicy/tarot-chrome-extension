@@ -231,6 +231,7 @@ body::after {
   color: #fff;
   transform: scale(1.15);
   opacity: 0.85;
+  box-shadow: none;
 }
 
 .page-back-icon {
