@@ -7172,15 +7172,18 @@
     initCategoryCollapse() {
       const categories = document.querySelectorAll('.spread-category');
 
-      // 恢复折叠状态
-      categories.forEach(cat => {
+      // 恢复折叠状态。
+      // 弹窗缩到 300x428 后，9 个分类全展开会让欢迎页过长，
+      // 因此无历史记录时默认「只展开第一个分类，其余折叠」；
+      // 用户手动展开/折叠过则以其 localStorage 记录为准。
+      categories.forEach((cat, index) => {
         const header = cat.querySelector('.spread-category-header');
         if (!header) return;
         const key = header.querySelector('.category-title')?.dataset?.i18nKey;
         if (!key) return;
 
-        // 从 localStorage 恢复状态（默认展开）
-        const collapsed = localStorage.getItem('tarot_cat_' + key) === 'true';
+        const stored = localStorage.getItem('tarot_cat_' + key);
+        const collapsed = stored === null ? index > 0 : stored === 'true';
         if (collapsed) {
           cat.classList.add('collapsed');
         }
@@ -7202,12 +7205,16 @@
             // 搜索时展开所有
             categories.forEach(cat => cat.classList.remove('collapsed'));
           } else {
-            // 搜索清空时恢复状态
-            categories.forEach(cat => {
+            // 搜索清空时恢复状态（与初始恢复同一套默认：无记录时只展开第一个）
+            categories.forEach((cat, index) => {
               const header = cat.querySelector('.spread-category-header');
               const key = header?.querySelector('.category-title')?.dataset?.i18nKey;
-              if (key && localStorage.getItem('tarot_cat_' + key) === 'true') {
+              if (!key) return;
+              const stored = localStorage.getItem('tarot_cat_' + key);
+              if (stored === null ? index > 0 : stored === 'true') {
                 cat.classList.add('collapsed');
+              } else {
+                cat.classList.remove('collapsed');
               }
             });
           }

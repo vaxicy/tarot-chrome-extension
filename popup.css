@@ -153,7 +153,16 @@ body::before {
 #welcome-page {
   justify-content: flex-start;
   align-items: center;
-  padding-top: 16px;
+  padding-top: 10px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#welcome-page::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .welcome-content {
@@ -163,9 +172,9 @@ body::before {
 }
 
 .welcome-icon {
-  font-size: 42px;
-  margin-bottom: 8px;
-  text-shadow: 0 0 20px var(--color-gold), 0 0 40px var(--color-gold-dark);
+  font-size: 34px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 18px var(--color-gold), 0 0 36px var(--color-gold-dark);
   animation: float 3s ease-in-out infinite;
 }
 
@@ -175,11 +184,11 @@ body::before {
 }
 
 .welcome-content h1 {
-  font-size: 22px;
+  font-size: 20px;
   color: var(--color-gold);
   text-shadow: 0 0 10px var(--color-gold), 0 0 20px var(--color-gold-dark);
   letter-spacing: 3px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -187,9 +196,9 @@ body::before {
 }
 
 .welcome-subtitle {
-  font-size: 17px;
+  font-size: 15px;
   color: var(--color-text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 /* ============ 椤堕儴宸ュ叿鏍忎笌宸ュ叿鍗＄墖 ============ */
@@ -863,13 +872,26 @@ body::before {
 }
 
 /* ============ 鐗岄樀绛涢€夋爮 ============ */
+/* 分类 chip 单行横向滚动：10 个 chip 若 wrap 会占 3-4 行（约 100-130px），
+   弹窗缩到 300x428 后改为横滚只占 1 行，省下的高度留给牌阵列表。
+   justify-content 用 flex-start：内容溢出时 center 会导致左侧被裁剪且滚不到。 */
 .spread-filter-bar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 6px;
   padding: 6px 0;
   margin-bottom: 2px;
-  justify-content: center;
+  justify-content: flex-start;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.spread-filter-bar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .spread-filter-btn {
@@ -884,6 +906,7 @@ body::before {
   transition: all 0.2s ease;
   white-space: nowrap;
   line-height: 1.4;
+  flex-shrink: 0;
 }
 
 .spread-filter-btn:hover {
