@@ -12,7 +12,7 @@
   --color-text: #E8E0F0;
   --color-text-muted: #A89CC8;
   --popup-width: 420px;
-  --popup-height: 600px;
+  --popup-height: 540px;
 }
 
 /* ============ 鍏ㄥ眬閲嶇疆 ============ */
@@ -29,7 +29,8 @@
 body {
   width: var(--popup-width);
   height: var(--popup-height);
-  /* 弹窗等比缩小到 300x428（420x600 的 0.714 倍）。
+  max-height: var(--popup-height);
+  /* 弹窗等比缩小到 300x386（420x540 的 0.714 倍）。
      用 zoom 做布局级缩放，字号/间距/卡牌全部等比，无需改动其余 ~6200 行样式。
      注意：zoom 只影响渲染，CSS 视口仍是 420x600，故媒体查询边界要按 420x600 判断。
      小字号已上调：10/11/12/13px -> 14/15/16/17px（档位差仍为 1px，层级不丢），
@@ -45,7 +46,7 @@ body {
 
 .popup-wrapper {
   width: var(--popup-width);
-  min-height: var(--popup-height);
+  height: 100%;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -862,7 +863,7 @@ body::before {
 .spread-category-body {
   overflow: hidden;
   transition: max-height 0.35s ease, opacity 0.3s ease;
-  max-height: 2000px;
+  max-height: 900px;
   opacity: 1;
 }
 

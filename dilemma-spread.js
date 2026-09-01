@@ -205,6 +205,7 @@
       var diceArea = document.getElementById('dilemma-dice-area');
       var redoBtn = document.getElementById('dilemma-redo-btn');
       var readingRedo = document.getElementById('dilemma-reading-redo');
+      var methodsEl = document.getElementById('dilemma-methods');
       if (resultDiv) { resultDiv.innerHTML = ''; resultDiv.classList.add('hidden'); }
       if (readingDiv) { readingDiv.classList.add('hidden'); }
       if (gameArea) gameArea.classList.add('hidden');
@@ -212,6 +213,8 @@
       if (diceArea) diceArea.classList.add('hidden');
       if (redoBtn) redoBtn.classList.add('hidden');
       if (readingRedo) readingRedo.classList.add('hidden');
+      // 重置时恢复「选择决定方式」区块（结果出现前才显示）
+      if (methodsEl) methodsEl.classList.remove('hidden');
     }
 
     function showResult(html) {
@@ -251,6 +254,9 @@
         }
       }
       if (redoBtn) redoBtn.classList.remove('hidden');
+      // 结果出现后隐藏「选择决定方式」区块（已有再来一次可重置）
+      var methodsEl = document.getElementById('dilemma-methods');
+      if (methodsEl) methodsEl.classList.add('hidden');
     }
 
     // ============ 塔罗抽牌与解读 ============

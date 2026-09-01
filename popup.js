@@ -5943,6 +5943,8 @@
         if (readingContent) {
           const digitalRoot = this.getDigitalRoot(saved.numbers[0]);
           readingContent.innerHTML = this.getNumberReading(saved.numbers, digitalRoot);
+          const readingDiv = document.getElementById('numgen-reading');
+          if (readingDiv) readingDiv.classList.remove('hidden');
         }
       } else {
         if (resultDiv) resultDiv.classList.add('hidden');
@@ -6199,6 +6201,8 @@
       const digitalRoot = this.getDigitalRoot(numbers[0]);
       if (readingEl) {
         readingEl.innerHTML = this.getNumberReading(numbers, digitalRoot);
+        const readingDiv = document.getElementById('numgen-reading');
+        if (readingDiv) readingDiv.classList.remove('hidden');
       }
 
       // 数字含义解读（1-78 范围内显示对应塔罗牌）
