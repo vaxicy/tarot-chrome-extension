@@ -266,8 +266,8 @@ def small_promo():
     rows = [
         ("sun", "今日运势 Daily Fortune"),
         ("think", "选择困难助手 · Dilemma Helper"),
-        ("cards", "8 套牌组 · 8 Themed Decks"),
-        ("check", "全功能免费 · Fully Free"),
+        ("cards", "真实抽卡自选牌 · Real Card Picking"),
+        ("check", "AI 智能解读 · AI Interpretation"),
     ]
     fy = box_y + 16
     # Per-icon sizes for visual uniformity
@@ -360,9 +360,9 @@ def large_promo():
     CF = {"sun": _draw_sun, "tarot": _draw_cards_icon, "think": _draw_think_bubble, "cards": _draw_cards_icon}
     features_main = [
         ("sun", "今日运势 Daily Fortune", "AI 深度解读每日命运 · AI-powered daily reading"),
-        ("cards", "命运数字 Lucky Numbers", "塔罗指引的幸运数字 · Tarot-guided lucky numbers"),
+        ("cards", "真实抽卡 · 自选牌 Real Card Picking", "整副摊开滑动选牌 · Fan, swipe & pick"),
         ("think", "选择困难症 · Dilemma Helper", "让命运帮你做决定 · Let fate decide for you"),
-        ("cards", "50+ 专业牌阵 · 50+ Spreads", "覆盖全场景的占卜牌阵 · All-scenario spreads"),
+        ("cards", "AI 智能解读 · AI Interpretation", "支持硅基流动 / OpenAI · BYO AI provider"),
     ]
     feat_y = center_y + 38
     for i, (ic, name, desc) in enumerate(features_main):
@@ -387,7 +387,7 @@ def large_promo():
         ("cards", "8 大主题牌组 · 8 Themed Decks"),
         ("sparkle", "50+ 专业牌阵 · 50+ Pro Spreads"),
         ("moon", "深色魔法主题 · Dark Magical UI"),
-        ("lock", "隐私安全 · 本地存储 · Privacy & Local"),
+        ("lock", "API Key 仅存本地 · Key Stored Locally"),
         ("check", "全功能免费 · 无限制 · Fully Free · No Limits"),
     ]
     hy = right_y + 34

@@ -531,53 +531,9 @@ body::before {
   display: none;
 }
 
-/* ============ 牌阵收藏按钮 ============ */
-.spread-fav-btn {
-  position: absolute;
-  top: 6px;
-  right: 32px;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: var(--color-text-muted);
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-  line-height: 1;
-  z-index: 3;
-}
-
-.spread-fav-btn:hover {
-  color: var(--color-gold);
-  transform: scale(1.2);
-}
-
-.spread-fav-btn.active {
-  color: var(--color-gold);
-}
-
-/* spread-card 中的收藏按钮 */
-.spread-card .spread-fav-btn {
-  top: 5px;
-  right: 5px;
-}
-
 /* 卡片中隐藏推荐徽章（已在"新手推荐"分类下） */
 .spread-card .recommended-badge {
   display: none;
-}
-
-/* spread-btn（列表项）中的收藏按钮 */
-.spread-btn .spread-fav-btn {
-  top: 50%;
-  right: 6px;
-  z-index: 4;
-  transform: translateY(calc(-50% + 11px));
 }
 
 /* spread-btn 中的推荐徽章 */
@@ -654,6 +610,239 @@ body::before {
   color: #F44336;
   background: rgba(244, 67, 54, 0.12);
   border: 1px solid rgba(244, 67, 54, 0.35);
+}
+
+/* ============ 设置页 ============ */
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 4px 12px;
+  flex: 1;
+  overflow-y: auto;
+  justify-content: safe center;
+}
+
+.settings-card {
+  background: rgba(26, 15, 64, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.settings-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.settings-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* 开关 */
+.settings-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.settings-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.settings-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
+  transition: 0.25s;
+}
+
+.settings-slider::before {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+.settings-switch input:checked + .settings-slider {
+  background: linear-gradient(135deg, #9C27B0, #E91E63);
+}
+
+.settings-switch input:checked + .settings-slider::before {
+  transform: translateX(18px);
+}
+
+/* 提供商选择按钮 */
+.settings-provider-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.settings-provider-btn {
+  flex: 1;
+  padding: 8px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0;
+}
+
+.settings-provider-btn.active {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+  background: rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+}
+
+/* 输入字段 */
+.settings-field {
+  margin-top: 12px;
+}
+
+.settings-field label {
+  display: block;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 5px;
+}
+
+.settings-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  font-size: 14px;
+  color: var(--color-text);
+  background: rgba(13, 10, 26, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.settings-field input:focus {
+  border-color: var(--color-gold);
+}
+
+.settings-field-hint {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* 测试连接 */
+.settings-test-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.settings-test-row button {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.settings-test-status {
+  font-size: 12px;
+  line-height: 1.4;
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-test-status.ok { color: #7ee787; }
+.settings-test-status.warn { color: #ffb84d; }
+.settings-test-status.error { color: #ff7b72; }
+.settings-test-status.loading { color: var(--color-text-muted); }
+
+.settings-privacy {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* ============ AI 智能解读区 ============ */
+.ai-reading-section {
+  margin-top: 10px;
+}
+
+#ai-interpret-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+#ai-interpret-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+.ai-reading-content {
+  margin-top: 10px;
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.15) 0%, rgba(26, 15, 64, 0.75) 100%);
+  border: 1px solid rgba(233, 30, 99, 0.35);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 0 18px rgba(233, 30, 99, 0.12);
+}
+
+.ai-reading-header {
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(233, 30, 99, 0.25);
+}
+
+.ai-reading-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #F8BBD0;
+  letter-spacing: 1px;
+}
+
+.ai-reading-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ai-reading-body.ai-loading {
+  color: var(--color-text-muted);
+  animation: fadeIn 0.8s ease infinite alternate;
 }
 
 /* ============ 扇形选牌层（模拟真实抽卡） ============ */
@@ -3675,155 +3864,6 @@ button:active {
   border-top: 1px solid rgba(255, 215, 0, 0.1);
 }
 
-/* ============ 鏀惰棌椤甸潰 ============ */
-#fav-page {
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 20px;
-}
-
-#fav-page header {
-  text-align: center;
-  margin-bottom: 16px;
-  flex-shrink: 0;
-}
-
-#fav-page header h1 {
-  font-size: 18px;
-  color: var(--color-gold);
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
-
-#fav-page .step-hint {
-  font-size: 16px;
-  color: var(--color-text-muted);
-}
-
-.fav-list {
-  width: 100%;
-  max-width: 380px;
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 4px 16px;
-}
-
-.fav-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.fav-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.fav-list::-webkit-scrollbar-thumb {
-  background: var(--color-gold-dark);
-  border-radius: 2px;
-}
-
-/* 绌虹姸鎬佸崟鐗逛紭鍖? */
-.fav-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 17px;
-  line-height: 1.7;
-  flex: 1;
-}
-
-.fav-empty-icon {
-  font-size: 48px;
-  line-height: 1;
-  opacity: 0.5;
-  margin-bottom: 4px;
-}
-
-.fav-empty-text {
-  max-width: 260px;
-}
-
-.fav-empty-hint {
-  font-size: 15px;
-  color: var(--color-text-muted);
-  opacity: 0.7;
-}
-
-/* 鏀惰棌鍗＄墖 */
-.fav-item {
-  background: rgba(26, 15, 64, 0.6);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.2s;
-  cursor: pointer;
-}
-
-.fav-item:hover {
-  background: rgba(255, 215, 0, 0.08);
-  border-color: var(--color-gold);
-  transform: translateX(2px);
-}
-
-.fav-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.fav-item-name {
-  flex: 1;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--color-gold);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 8px;
-}
-
-.fav-item-sub {
-  font-size: 15px;
-  color: var(--color-text-muted);
-  margin-top: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.fav-item-delete {
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  color: var(--color-text-muted);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.fav-item-delete:hover {
-  color: #F44336;
-  border-color: rgba(244, 67, 54, 0.4);
-  background: rgba(244, 67, 54, 0.08);
-}
-
 /* ============ 鑷畾涔夌墝鎰忔寜锟?============ */
 .custom-meaning-btn {
   display: inline-block;
@@ -4054,35 +4094,6 @@ button:active {
   color: var(--color-gold);
   border-color: var(--color-gold);
   background: rgba(255, 215, 0, 0.15);
-}
-
-.card-preview-fav {
-  position: absolute;
-  top: 10px;
-  right: 48px;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  color: var(--color-text-muted);
-  background: rgba(26, 15, 64, 0.8);
-  border: 1px solid var(--color-gold-dark);
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  z-index: 10;
-}
-
-.card-preview-fav:hover {
-  color: var(--color-gold);
-  border-color: var(--color-gold);
-  background: rgba(255, 215, 0, 0.15);
-}
-
-.card-preview-fav.active {
-  color: #ffd700;
 }
 
 .card-preview-body {
@@ -4723,6 +4734,7 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: safe center;
   gap: 12px;
   padding: 8px 4px 12px;
   flex: 1;
@@ -6099,29 +6111,6 @@ button:active {
   transform: scale(1.15) rotate(5deg);
   background: rgba(255, 215, 0, 0.15);
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
-}
-
-/* 收藏按钮动画 */
-.card-preview-fav,
-.spread-fav-btn {
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.card-preview-fav:hover,
-.spread-fav-btn:hover {
-  transform: scale(1.2);
-}
-
-.card-preview-fav.active,
-.spread-fav-btn.active {
-  animation: heartBeat 0.6s ease;
-}
-
-@keyframes heartBeat {
-  0%, 100% { transform: scale(1); }
-  25% { transform: scale(1.3); }
-  50% { transform: scale(1.1); }
-  75% { transform: scale(1.25); }
 }
 
 /* 注意：禁止为 popup 添加 @media (max-width: Npx) + 100vw/100vh 响应式规则！

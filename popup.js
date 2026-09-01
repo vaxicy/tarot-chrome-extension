@@ -4604,17 +4604,11 @@
         const wrap = this.createCardEl(item.card, item.isReversed, false, 80, 126, 0);
         const innerCard = wrap.querySelector('.tarot-card');
 
+        // 结果固定：点击仅重播翻面动画，不切换正逆位、不刷新解读（除非重新抽牌）
         wrap.addEventListener('click', (e) => {
           e.stopPropagation();
-          innerCard.classList.toggle('flipped');
           this.playFlipSound();
-          const rev = innerCard.classList.contains('flipped') ? !item.isReversed : item.isReversed;
-          this.showMeaning(item.card, rev, singlePos);
-
-          // 高亮对应的示意图小卡
-          const diagCards = document.querySelectorAll('.result-diagram-card');
-          diagCards.forEach(c => c.classList.remove('active'));
-          if (diagCards[0]) diagCards[0].classList.add('active');
+          this.showMeaning(item.card, item.isReversed, singlePos);
         });
 
         setTimeout(() => {
@@ -4627,12 +4621,13 @@
 
 
       document.getElementById('page-title').textContent = this.getLocalizedSpreadName('single');
-      this.setDeckHint(this.currentLang === 'en' ? 'Tap card to toggle upright/reversed' : '点击卡牌可切换正/逆位解读');
+      this.setDeckHint(this.currentLang === 'en' ? 'Result is fixed — reshuffle for a new draw' : '结果已固定 · 重新占卜可换牌');
 
       const compSecSingle = document.getElementById('comprehensive-reading');
       if (compSecSingle) compSecSingle.classList.add('hidden');
 
       this.showPage('divination-page');
+      this.updateAISectionVisibility();
       this.saveToHistory();
     }
 
@@ -4705,6 +4700,7 @@
       }
 
       this.showPage('divination-page');
+      this.updateAISectionVisibility();
       this.saveToHistory();
     }
 
@@ -4814,6 +4810,7 @@
       }
 
       this.showPage('divination-page');
+      this.updateAISectionVisibility();
       this.saveToHistory();
     }
 
@@ -5283,27 +5280,6 @@
       const text = (this.currentLang === 'en' ? 'Tarot Reading Result\n\n' : '塔罗牌占卜结果\n\n') +
         (meaningEl.innerText || meaningEl.textContent || '');
       this.copyToClipboard(text);
-    }
-
-    // ============ 收藏/取消收藏卡牌 ============
-    toggleFavorite() {
-      const favBtn = document.getElementById('card-preview-fav');
-      if (!favBtn || !favBtn._currentCard) return;
-      const card = favBtn._currentCard;
-      chrome.storage.local.get({ tarot_favorites: [] }, (result) => {
-        let favs = result.tarot_favorites || [];
-        const idx = favs.findIndex(c => c.id === card.id && c.deck === card.deck);
-        if (idx >= 0) {
-          favs.splice(idx, 1);
-          favBtn.textContent = '☆';
-          favBtn.classList.remove('active');
-        } else {
-          favs.push({ id: card.id, name: card.name, originalName: card.originalName || '', deck: card.deck });
-          favBtn.textContent = '★';
-          favBtn.classList.add('active');
-        }
-        chrome.storage.local.set({ tarot_favorites: favs });
-      });
     }
 
     // ============ 翻牌音效 ============
@@ -5976,70 +5952,227 @@
       this.showPage('history-page');
     }
 
-    // ============ 收藏夹功能 ============
-    showFavorites() {
-      this.loadFavorites();
-      this.showPage('fav-page');
+    // ============ AI 设置（按 provider 分 slot 存取） ============
+    AI_DEFAULTS = {
+      aiEnabled: false,
+      provider: 'siliconflow',
+      providerConfigs: {
+        siliconflow: { baseUrl: 'https://api.siliconflow.cn/v1', apiKey: '', model: 'deepseek-ai/DeepSeek-V3' },
+        openai:      { baseUrl: 'https://api.openai.com/v1',     apiKey: '', model: 'gpt-4o-mini' },
+        custom:      { baseUrl: 'https://api.openai.com/v1',     apiKey: '', model: 'gpt-4o-mini' }
+      }
+    };
+
+    loadAISettings() {
+      return new Promise((resolve) => {
+        chrome.storage.local.get({ tarot_ai_settings: null }, (result) => {
+          const stored = result.tarot_ai_settings || {};
+          const merged = JSON.parse(JSON.stringify(this.AI_DEFAULTS));
+          merged.aiEnabled = !!stored.aiEnabled;
+          if (stored.provider && merged.providerConfigs[stored.provider]) merged.provider = stored.provider;
+          if (stored.providerConfigs) {
+            Object.keys(merged.providerConfigs).forEach(p => {
+              const s = stored.providerConfigs[p] || {};
+              if (typeof s.apiKey === 'string') merged.providerConfigs[p].apiKey = s.apiKey;
+              if (typeof s.baseUrl === 'string' && s.baseUrl) merged.providerConfigs[p].baseUrl = s.baseUrl;
+              if (typeof s.model === 'string' && s.model) merged.providerConfigs[p].model = s.model;
+            });
+          }
+          resolve(merged);
+        });
+      });
     }
 
-    loadFavorites() {
-      const favList = document.getElementById('fav-list');
-      if (!favList) return;
-      chrome.storage.local.get({ tarot_favorites: [] }, (result) => {
-        const favs = result.tarot_favorites || [];
-        if (favs.length === 0) {
-          favList.innerHTML = '<div class="fav-empty"><div class="fav-empty-icon">&#9734;</div><div class="fav-empty-text">' + this.t('fav_empty') + '</div></div>';
+    saveAISettings(settings) {
+      return new Promise((resolve) => {
+        chrome.storage.local.set({ tarot_ai_settings: settings }, () => resolve());
+      });
+    }
+
+    // 规范化用户填的 Base URL：去尾斜杠 + 剥误填的子路径后缀
+    normalizeBase(input) {
+      let b = (input || '').trim().replace(/\/+$/, '');
+      if (!b) return 'https://api.openai.com/v1';
+      b = b.replace(/\/(chat|images|embeddings|audio)\/(completions|messages)$/i, '');
+      b = b.replace(/\/v1\/messages$/i, '');
+      return b;
+    }
+
+    // ============ 设置页 ============
+    async showSettingsPage() {
+      this.showPage('settings-page');
+      const settings = await this.loadAISettings();
+      this._aiSettings = settings;
+      document.getElementById('settings-ai-enabled').checked = settings.aiEnabled;
+      document.getElementById('settings-ai-config').classList.toggle('hidden', !settings.aiEnabled);
+      this._applyProviderUI(settings.provider);
+    }
+
+    _applyProviderUI(provider) {
+      const settings = this._aiSettings;
+      document.querySelectorAll('.settings-provider-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.provider === provider);
+      });
+      const slot = settings.providerConfigs[provider];
+      document.getElementById('settings-api-key').value = slot.apiKey || '';
+      document.getElementById('settings-api-base').value = slot.baseUrl || '';
+      document.getElementById('settings-model').value = slot.model || '';
+      const status = document.getElementById('settings-test-status');
+      status.textContent = '';
+      status.className = 'settings-test-status';
+    }
+
+    // 收集当前 UI 并持久化（切 provider 前先写回旧 slot）
+    async _persistSettingsFromUI() {
+      const settings = this._aiSettings;
+      if (!settings) return settings;
+      settings.aiEnabled = document.getElementById('settings-ai-enabled').checked;
+      const slot = settings.providerConfigs[settings.provider];
+      slot.apiKey = document.getElementById('settings-api-key').value.trim();
+      slot.baseUrl = document.getElementById('settings-api-base').value.trim();
+      slot.model = document.getElementById('settings-model').value.trim();
+      await this.saveAISettings(settings);
+      return settings;
+    }
+
+    // ============ 测试连接（GET /v1/models，不消耗 tokens） ============
+    async testAIConnection() {
+      const settings = await this._persistSettingsFromUI();
+      const slot = settings.providerConfigs[settings.provider];
+      const status = document.getElementById('settings-test-status');
+      const setStatus = (cls, text) => { status.className = 'settings-test-status ' + cls; status.textContent = text; };
+
+      const key = slot.apiKey;
+      if (!key) { setStatus('warn', this.t('settings_test_no_key')); return; }
+
+      const base = this.normalizeBase(slot.baseUrl);
+      setStatus('loading', this.t('settings_testing'));
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 15000);
+        const res = await fetch(base + '/models', {
+          headers: { 'Authorization': 'Bearer ' + key },
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        if (!res.ok) {
+          if (res.status === 401 || res.status === 403) setStatus('error', this.t('settings_test_bad_key'));
+          else if (res.status === 404) setStatus('error', this.t('settings_test_bad_url'));
+          else setStatus('error', 'HTTP ' + res.status);
           return;
         }
-        let html = '';
-        favs.forEach((card, idx) => {
-          html += '<div class="fav-item" data-fav-idx="' + idx + '">';
-          html += '<div class="fav-item-header">';
-          html += '<span class="fav-item-name">' + (card.name || card.originalName || 'Unknown') + '</span>';
-          html += '<button class="fav-item-delete" data-fav-delete-idx="' + idx + '" title="' + (this.currentLang === 'en' ? 'Remove' : '移除') + '">&#10005;</button>';
-          html += '</div>';
-          if (card.originalName && card.originalName !== card.name) {
-            html += '<div class="fav-item-sub">' + card.originalName + '</div>';
-          }
-          html += '</div>';
-        });
-        favList.innerHTML = html;
+        const data = await res.json().catch(() => ({}));
+        const list = data.models || data.data || data.list || (Array.isArray(data) ? data : []);
+        const models = list.map(m => (m && (m.id || m.name || m.model)) || '').filter(Boolean);
+        const model = slot.model;
+        const hasModel = !model || models.some(id => id.toLowerCase() === String(model).toLowerCase());
+        if (!hasModel) {
+          setStatus('warn', this.t('settings_test_model_missing'));
+        } else {
+          setStatus('ok', this.t('settings_test_ok'));
+        }
+      } catch (e) {
+        setStatus('error', this.t('settings_test_network'));
+      }
+    }
 
-        favList.onclick = (e) => {
-          const delBtn = e.target.closest('.fav-item-delete');
-          if (delBtn) {
-            const delIdx = parseInt(delBtn.dataset.favDeleteIdx, 10);
-            chrome.storage.local.get({ tarot_favorites: [] }, (result) => {
-              const currentFavs = result.tarot_favorites || [];
-              currentFavs.splice(delIdx, 1);
-              chrome.storage.local.set({ tarot_favorites: currentFavs }, () => {
-                this.loadFavorites();
-              });
-            });
-            return;
-          }
-          const item = e.target.closest('.fav-item');
-          if (item) {
-            const idx = parseInt(item.dataset.favIdx, 10);
-            const card = favs[idx];
-            if (card) {
-              const deckData = this.getDeckData();
-              const found = deckData.find(c => c.id === card.id);
-              if (found) {
-                this.showCardPreview(found);
-              } else {
-                this.showCardPreview({
-                  id: card.id,
-                  name: card.name || card.originalName,
-                  originalName: card.originalName,
-                  upright: this.currentLang === 'en' ? 'No data in current deck' : '当前牌组无此卡牌数据',
-                  reversed: this.currentLang === 'en' ? 'No data in current deck' : '当前牌组无此卡牌数据'
-                });
-              }
-            }
-          }
-        };
+    // ============ AI 智能解读 ============
+    async aiInterpret() {
+      const btn = document.getElementById('ai-interpret-btn');
+      const section = document.getElementById('ai-reading-section');
+      const contentWrap = document.getElementById('ai-reading-content');
+      const body = document.getElementById('ai-reading-body');
+      if (!btn || !section || !contentWrap || !body) return;
+
+      const settings = await this.loadAISettings();
+      const isEn = this.currentLang === 'en';
+      if (!settings.aiEnabled) {
+        this.showToast(isEn ? 'Enable AI interpretation in Settings first' : '请先在设置中启用 AI 智能解读');
+        return;
+      }
+      const slot = settings.providerConfigs[settings.provider];
+      if (!slot.apiKey) {
+        this.showToast(isEn ? 'Set your API Key in Settings first' : '请先在设置中填写 API Key');
+        return;
+      }
+
+      // 组装解读上下文
+      const cards = this.currentCards || [];
+      if (cards.length === 0) return;
+      const question = (document.getElementById('spread-question-input') || {}).value || '';
+      const spreadName = document.getElementById('page-title').textContent || '';
+      const revWord = (rev) => rev ? (isEn ? 'Reversed' : '逆位') : (isEn ? 'Upright' : '正位');
+      const lines = cards.map((c, i) => {
+        const name = deckManager.getCardName(c.card);
+        return (i + 1) + '. ' + (c.position ? '[' + c.position + '] ' : '') + name + ' (' + revWord(c.isReversed) + ')\n'
+          + this.getMeaningText(c.card, c.isReversed);
       });
+
+      const system = isEn
+        ? 'You are an experienced tarot reader. Write a cohesive, insightful interpretation (180-320 words) that weaves all drawn cards together in the context of the question and spread positions. Warm, practical, non-fatalistic tone. Plain text only, no markdown headers.'
+        : '你是一位经验丰富的塔罗解读师。请结合问题与牌阵位置，把抽到的牌串成一个连贯、有洞察力的整体解读（180-320字），语气温暖、务实、不宿命论。只输出纯文本，不要使用 markdown 标题。';
+      const user = (isEn
+        ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
+        : '问题：' + (question || '（未提供）') + '\n牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
+
+      // UI 进入加载态
+      btn.disabled = true;
+      btn.innerHTML = '&#8987; ' + (isEn ? 'Interpreting...' : '解读中...');
+      contentWrap.classList.remove('hidden');
+      body.classList.add('ai-loading');
+      body.textContent = isEn ? 'The stars are aligning…' : '星辰推演中…';
+      section.classList.remove('hidden');
+
+      try {
+        const base = this.normalizeBase(slot.baseUrl);
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 60000);
+        const res = await fetch(base + '/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + slot.apiKey
+          },
+          body: JSON.stringify({
+            model: slot.model,
+            messages: [
+              { role: 'system', content: system },
+              { role: 'user', content: user }
+            ],
+            temperature: 0.7
+          }),
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        if (!res.ok) {
+          const errText = await res.text().catch(() => '');
+          throw new Error('HTTP ' + res.status + (errText ? ': ' + errText.slice(0, 120) : ''));
+        }
+        const data = await res.json();
+        const text = data.choices && data.choices[0] && data.choices[0].message
+          ? data.choices[0].message.content : '';
+        if (!text) throw new Error('empty');
+        body.classList.remove('ai-loading');
+        body.textContent = text.trim();
+      } catch (e) {
+        body.classList.remove('ai-loading');
+        body.textContent = (isEn ? 'AI interpretation failed: ' : 'AI 解读失败：') + (e.message || e);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '&#10024; <span data-i18n-key="ai_interpret_btn">' + (isEn ? 'AI Interpretation' : 'AI 智能解读') + '</span>';
+      }
+    }
+
+    // 隐藏/显示结果页 AI 区块（每次抽牌后调用）
+    async updateAISectionVisibility() {
+      const section = document.getElementById('ai-reading-section');
+      if (!section) return;
+      const settings = await this.loadAISettings();
+      section.classList.toggle('hidden', !settings.aiEnabled);
+      const contentWrap = document.getElementById('ai-reading-content');
+      const body = document.getElementById('ai-reading-body');
+      if (contentWrap) contentWrap.classList.add('hidden');
+      if (body) { body.textContent = ''; body.classList.remove('ai-loading'); }
     }
 
     // ============ Toast 提示 ============
@@ -7092,79 +7225,9 @@
       preview.style.top = top + 'px';
     }
 
-    // ============ 牌阵收藏功能 ============
-    initSpreadFavorites() {
-      const FAV_KEY = 'tarot_spread_favorites';
-      const toggleBtns = () => {
-        chrome.storage.local.get({ [FAV_KEY]: [] }, (result) => {
-          const favs = result[FAV_KEY] || [];
-          document.querySelectorAll('.spread-fav-btn').forEach(btn => {
-            const key = btn.dataset.spreadKey;
-            btn.textContent = favs.includes(key) ? '★' : '☆';
-            btn.classList.toggle('active', favs.includes(key));
-            btn.title = favs.includes(key) ? (this.currentLang === 'en' ? 'Unfavorite' : '取消收藏') : (this.currentLang === 'en' ? 'Add to Favorites' : '收藏牌阵');
-          });
-        });
-      };
-
-      // 为所有牌阵按钮添加收藏按钮
-      document.querySelectorAll('[data-spread]').forEach(btn => {
-        const key = btn.dataset.spread;
-        if (!key) return;
-        // 避免重复添加
-        if (btn.querySelector('.spread-fav-btn')) return;
-
-        const favBtn = document.createElement('button');
-        favBtn.className = 'spread-fav-btn';
-        favBtn.dataset.spreadKey = key;
-        favBtn.type = 'button';
-        favBtn.textContent = '☆';
-        btn.appendChild(favBtn);
-      });
-
-      toggleBtns();
-
-      document.querySelectorAll('.spread-fav-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const key = btn.dataset.spreadKey;
-          chrome.storage.local.get({ [FAV_KEY]: [] }, (result) => {
-            let favs = result[FAV_KEY] || [];
-            if (favs.includes(key)) {
-              favs = favs.filter(k => k !== key);
-            } else {
-              favs.push(key);
-            }
-            const data = {};
-            data[FAV_KEY] = favs;
-            chrome.storage.local.set(data, () => {
-              toggleBtns();
-              // 如果当前正在按收藏筛选，刷新显示
-              const activeFilter = document.querySelector('.spread-filter-btn.active');
-              if (activeFilter && activeFilter.dataset.filter === 'favorites') {
-                this.applySpreadFilter('favorites');
-              }
-            });
-          });
-        });
-      });
-    }
-
     applySpreadFilter(filter) {
       const allBtns = document.querySelectorAll('[data-spread]');
       const categoryTitles = document.querySelectorAll('.spread-category-title');
-      const FAV_KEY = 'tarot_spread_favorites';
-
-      if (filter === 'favorites') {
-        chrome.storage.local.get({ [FAV_KEY]: [] }, (result) => {
-          const favs = result[FAV_KEY] || [];
-          allBtns.forEach(b => {
-            b.style.display = favs.includes(b.dataset.spread) ? '' : 'none';
-          });
-          categoryTitles.forEach(t => t.style.display = 'none');
-        });
-        return;
-      }
 
       // 其他筛选逻辑
       allBtns.forEach(b => {
@@ -7237,19 +7300,6 @@
           modal.classList.add('hidden');
         }
       };
-
-      // 更新收藏按钮状态
-      const favBtn = document.getElementById('card-preview-fav');
-      if (favBtn) {
-        chrome.storage.local.get({ tarot_favorites: [] }, (result) => {
-          const favs = result.tarot_favorites || [];
-          const isFav = favs.some(c => c.id === card.id && c.deck === this.currentDeck);
-          favBtn.textContent = isFav ? '★' : '☆';
-          favBtn.classList.toggle('active', isFav);
-          favBtn._currentCard = { id: card.id, name: deckManager.getCardName(card), deck: this.currentDeck, originalName: card.originalName || '' };
-        });
-        favBtn.onclick = () => { this.toggleFavorite(); };
-      }
 
       // 绑定 Esc 键关闭预览
       this._previewEscHandler = (e) => {
@@ -7331,7 +7381,6 @@
         this.initSpreadFilter();
         this.initSpreadHoverPreview();
         this.initPresetTooltip();
-        this.initSpreadFavorites();
         this.initCategoryCollapse();
         this.updateCategoryCounts();  // 动态计算分类数量
         this.updateFortuneDate();
@@ -7626,8 +7675,11 @@
         'history-detail-back-btn': () => this.closeHistoryDetail(),
         'sound-toggle-btn': () => this.toggleSound(),
         'copy-result-btn': () => this.copyResult(),
-        'fav-btn': () => this.showFavorites(),
-        'fav-back-btn': () => this.showPage('welcome-page'),
+        // 设置页
+        'settings-btn': () => this.showSettingsPage(),
+        'settings-back-btn': () => this.showPage('welcome-page'),
+        'settings-test-btn': () => this.testAIConnection(),
+        'ai-interpret-btn': () => this.aiInterpret(),
         // 命运数字生成器
         'number-gen-btn': () => this.showNumberGenPage(),
         'numgen-generate-btn': () => this.generateFateNumber(),
@@ -7644,6 +7696,30 @@
       Object.entries(buttonHandlers).forEach(([id, handler]) => {
         const btn = document.getElementById(id);
         if (btn) btn.addEventListener('click', handler);
+      });
+
+      // 设置页：AI 开关 / 提供商切换
+      const aiEnabledEl = document.getElementById('settings-ai-enabled');
+      if (aiEnabledEl) {
+        aiEnabledEl.addEventListener('change', async () => {
+          if (!this._aiSettings) await this.showSettingsPage();
+          this._aiSettings.aiEnabled = aiEnabledEl.checked;
+          document.getElementById('settings-ai-config').classList.toggle('hidden', !aiEnabledEl.checked);
+          await this.saveAISettings(this._aiSettings);
+        });
+      }
+      document.querySelectorAll('.settings-provider-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!this._aiSettings) return;
+          await this._persistSettingsFromUI(); // 先写回旧 provider 的 slot
+          this._aiSettings.provider = btn.dataset.provider;
+          await this.saveAISettings(this._aiSettings);
+          this._applyProviderUI(btn.dataset.provider);
+        });
+      });
+      ['settings-api-key', 'settings-api-base', 'settings-model'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', () => { this._persistSettingsFromUI(); });
       });
 
       // 综合解读切换
@@ -7779,11 +7855,6 @@
           // 更新按钮状态
           filterBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-
-          if (filter === 'favorites') {
-            this.applySpreadFilter('favorites');
-            return;
-          }
 
           // 筛选牌阵按钮
           spreadBtns.forEach(spreadBtn => {

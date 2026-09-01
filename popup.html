@@ -15,7 +15,6 @@
         <!-- 卡牌预览模态框 -->
         <div id="card-preview-modal" class="card-preview-modal hidden">
             <div class="card-preview-content">
-                <button id="card-preview-fav" class="card-preview-fav" type="button" title="收藏">☆</button>
                 <button id="card-preview-close" class="card-preview-close" type="button">&#10005;</button>
                 <div id="card-preview-body" class="card-preview-body"></div>
             </div>
@@ -50,8 +49,8 @@
                         <button id="history-btn" type="button" class="toolbar-icon-btn" title="历史记录">
                             <span>&#128214;</span>
                         </button>
-                        <button id="fav-btn" type="button" class="toolbar-icon-btn" title="收藏夹">
-                            <span>&#9733;</span>
+                        <button id="settings-btn" type="button" class="toolbar-icon-btn" title="Settings">
+                            <span>&#9881;</span>
                         </button>
                     </div>
                 </div>
@@ -107,7 +106,6 @@
                     <button class="spread-filter-btn" type="button" data-filter="career" data-i18n-key="cat_career">&#128188; 事业</button>
                     <button class="spread-filter-btn" type="button" data-filter="self" data-i18n-key="cat_self">&#127793; 自我成长</button>
                     <button class="spread-filter-btn" type="button" data-filter="spiritual" data-i18n-key="cat_spiritual">&#128302; 灵性成长</button>
-                    <button class="spread-filter-btn" type="button" data-filter="favorites" data-i18n-key="filter_favorites">&#9733; 收藏</button>
                 </div>
 
                 <!-- 牌阵选择 -->
@@ -786,12 +784,23 @@
                 <div id="comprehensive-content" class="comprehensive-content"></div>
             </div>
 
+            <!-- AI 智能解读区 -->
+            <div id="ai-reading-section" class="ai-reading-section hidden">
+                <button id="ai-interpret-btn" type="button">&#10024; <span data-i18n-key="ai_interpret_btn">AI 智能解读</span></button>
+                <div id="ai-reading-content" class="ai-reading-content hidden">
+                    <div class="ai-reading-header">
+                        <span class="ai-reading-title" data-i18n-key="ai_reading_title">&#10024; AI 深度解读</span>
+                    </div>
+                    <div id="ai-reading-body" class="ai-reading-body"></div>
+                </div>
+            </div>
+
             <!-- 操作按钮 -->
             <div class="action-buttons action-grid">
-                <button id="back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+                <button id="back-btn" type="button">&#8592; <span data-i18n-key="btn_back">返回</span></button>
                 <button id="reshuffle-btn" type="button" data-i18n-key="btn_reshuffle">重新占卜</button>
                 <button id="share-btn" type="button" data-i18n-key="btn_share">分享结果</button>
-                <button id="copy-result-btn" type="button" class="secondary-btn" data-i18n-key="btn_copy_result">复制结果</button>
+                <button id="copy-result-btn" type="button" data-i18n-key="btn_copy_result">复制结果</button>
             </div>
         </section>
 
@@ -821,15 +830,60 @@
             </div>
         </section>
 
-        <!-- 收藏页面 -->
-        <section id="fav-page" class="page hidden">
+        <!-- 设置页面 -->
+        <section id="settings-page" class="page hidden">
             <header>
-                <h1 data-i18n-key="fav_title">收藏夹</h1>
-                <p class="step-hint" data-i18n-key="fav_hint">你收藏的卡牌</p>
+                <h1 data-i18n-key="settings_title">&#9881; 设置</h1>
+                <p class="step-hint" data-i18n-key="settings_hint">配置 AI 智能解读</p>
             </header>
-            <div id="fav-list" class="fav-list"></div>
+            <div class="settings-body">
+                <!-- AI 解读开关 -->
+                <div class="settings-card">
+                    <div class="settings-row">
+                        <span class="settings-label" data-i18n-key="settings_ai_enable">启用 AI 智能解读</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="settings-ai-enabled" />
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-desc" data-i18n-key="settings_ai_enable_desc">开启后，结果页可使用 AI 生成更深入的个性化解读</div>
+                </div>
+
+                <!-- AI 提供商配置 -->
+                <div id="settings-ai-config" class="settings-card">
+                    <div class="settings-row">
+                        <span class="settings-label" data-i18n-key="settings_provider">AI 服务商</span>
+                    </div>
+                    <div class="settings-provider-btns">
+                        <button type="button" class="settings-provider-btn" data-provider="siliconflow" data-i18n-key="settings_provider_siliconflow">硅基流动</button>
+                        <button type="button" class="settings-provider-btn" data-provider="openai" data-i18n-key="settings_provider_openai">OpenAI</button>
+                        <button type="button" class="settings-provider-btn" data-provider="custom" data-i18n-key="settings_provider_custom">自定义</button>
+                    </div>
+
+                    <div class="settings-field">
+                        <label for="settings-api-key" data-i18n-key="settings_api_key">API Key</label>
+                        <input type="password" id="settings-api-key" autocomplete="off" placeholder="sk-..." />
+                    </div>
+                    <div class="settings-field">
+                        <label for="settings-api-base" data-i18n-key="settings_api_base">API 地址</label>
+                        <input type="text" id="settings-api-base" autocomplete="off" placeholder="https://api.siliconflow.cn/v1" />
+                        <div class="settings-field-hint" data-i18n-key="settings_api_base_hint">默认即可，系统会自动忽略误填的路径后缀</div>
+                    </div>
+                    <div class="settings-field">
+                        <label for="settings-model" data-i18n-key="settings_model">模型</label>
+                        <input type="text" id="settings-model" autocomplete="off" placeholder="deepseek-ai/DeepSeek-V3" />
+                    </div>
+
+                    <div class="settings-test-row">
+                        <button id="settings-test-btn" type="button" data-i18n-key="settings_test">测试连接</button>
+                        <span id="settings-test-status" class="settings-test-status"></span>
+                    </div>
+                </div>
+
+                <div class="settings-privacy" data-i18n-key="settings_privacy">API Key 仅保存在本地浏览器，请求直接发往你所配置的服务商</div>
+            </div>
             <div class="action-buttons">
-                <button id="fav-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+                <button id="settings-back-btn" type="button">&#8592; <span data-i18n-key="btn_back">返回</span></button>
             </div>
         </section>
 
