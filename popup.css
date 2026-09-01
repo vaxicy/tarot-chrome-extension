@@ -224,14 +224,30 @@ body::after {
   white-space: nowrap;
   z-index: 5;
   transition: background 0.2s, color 0.2s, transform 0.2s ease-out, opacity 0.2s ease-out;
+  outline: none;
+  overflow: hidden;
+}
+
+.page-back-btn:focus,
+.page-back-btn:focus-visible {
+  outline: none;
 }
 
 .page-back-btn:hover {
-  background: transparent;
+  background: none;
   color: #fff;
   transform: scale(1.15);
   opacity: 0.85;
   box-shadow: none;
+  outline: none;
+}
+
+.page-back-btn::before {
+  display: none;
+}
+
+.page-back-btn:hover::before {
+  display: none;
 }
 
 .page-back-icon {
