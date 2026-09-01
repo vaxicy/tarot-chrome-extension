@@ -760,6 +760,13 @@ body::after {
 }
 
 /* ============ 设置页 ============ */
+#settings-page header {
+  text-align: center;
+  flex-shrink: 0;
+  margin-bottom: 12px;
+  padding-left: 36px;
+  padding-right: 36px;
+}
 .settings-body {
   display: flex;
   flex-direction: column;
@@ -1720,6 +1727,8 @@ body::after {
   text-align: center;
   flex-shrink: 0;
   margin-bottom: 8px;
+  padding-left: 36px; /* 让标题居中时不撞到左上角 page-back-btn（28px + 8px 安全距） */
+  padding-right: 36px; /* 对称避免偏左 */
 }
 
 #divination-page header h1 {
@@ -4339,6 +4348,8 @@ button:active {
 #number-gen-page header {
   text-align: center;
   margin-bottom: 12px;
+  padding-left: 36px;
+  padding-right: 36px;
 }
 
 #number-gen-page header h1 {
@@ -4916,6 +4927,8 @@ button:active {
 #dilemma-page header {
   text-align: center;
   margin-bottom: 12px;
+  padding-left: 36px;
+  padding-right: 36px;
 }
 
 #dilemma-page header h1 {
