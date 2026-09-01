@@ -103,7 +103,7 @@ body::before {
   background-repeat: repeat;
   pointer-events: none;
   z-index: 0;
-  animation: starDriftUp 120s linear infinite;
+  animation: starDriftUp 40s linear infinite;
 }
 
 body::after {
@@ -140,7 +140,7 @@ body::after {
   pointer-events: none;
   z-index: 0;
   opacity: 0.65;
-  animation: starDriftDown 160s linear infinite,
+  animation: starDriftDown 55s linear infinite,
              starTwinkle 5s ease-in-out infinite;
 }
 
