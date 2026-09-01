@@ -187,37 +187,47 @@
       setTimeout(function() { if (container.parentNode) container.parentNode.removeChild(container); }, 1100);
     }
 
-    // ============ 让命运决定（随机方式） ============
-    function playRandomDecision() {
-      var texts = validateInputs();
-      if (!texts) return;
-      var methods = ['rps', 'dice', 'tarot'];
-      var method = methods[Math.floor(Math.random() * methods.length)];
-      // 先显示决定方式，再做决定
-      chooseMethod(method);
-    }
-
     function resetResultArea() {
       var resultDiv = document.getElementById('dilemma-result');
       var readingDiv = document.getElementById('dilemma-reading');
       var gameArea = document.getElementById('dilemma-game-area');
       var rpsArea = document.getElementById('dilemma-rps-area');
       var diceArea = document.getElementById('dilemma-dice-area');
+      var redoBtn = document.getElementById('dilemma-redo-btn');
+      var readingRedo = document.getElementById('dilemma-reading-redo');
       var methodsEl = document.getElementById('dilemma-methods');
       if (resultDiv) { resultDiv.innerHTML = ''; resultDiv.classList.add('hidden'); }
       if (readingDiv) { readingDiv.classList.add('hidden'); }
       if (gameArea) gameArea.classList.add('hidden');
       if (rpsArea) rpsArea.classList.add('hidden');
       if (diceArea) diceArea.classList.add('hidden');
+      if (redoBtn) redoBtn.classList.add('hidden');
+      if (readingRedo) readingRedo.classList.add('hidden');
       // 重置时恢复「选择决定方式」区块（结果出现前才显示）
       if (methodsEl) methodsEl.classList.remove('hidden');
     }
 
     function showResult(html) {
       var resultDiv = document.getElementById('dilemma-result');
+      var redoBtn = document.getElementById('dilemma-redo-btn');
+      var readingRedo = document.getElementById('dilemma-reading-redo');
       if (resultDiv) {
-        resultDiv.innerHTML = html;
+        // 非塔罗方式在结果卡片右上角添加「再来一次」按钮
+        var redoHtml = '';
+        if (redoBtn && currentMethod !== 'tarot') {
+          redoHtml = '<button type="button" class="dilemma-redo-inline" title="' + (app.t('dilemma_redo') || '再来一次') + '">&#128260;</button>';
+        }
+        resultDiv.innerHTML = redoHtml + html;
         resultDiv.classList.remove('hidden');
+
+        // 绑定内联再来一次按钮（非塔罗）
+        var inlineRedo = resultDiv.querySelector('.dilemma-redo-inline');
+        if (inlineRedo) {
+          inlineRedo.addEventListener('click', function() {
+            if (currentMethod === 'rps') { resetResultArea(); chooseMethod('rps'); }
+            else if (currentMethod === 'dice') { resetResultArea(); chooseMethod('dice'); }
+          });
+        }
 
         // 胜出时撒 confetti
         var winnerEl = resultDiv.querySelector('.dilemma-result-winner');
@@ -225,7 +235,16 @@
           setTimeout(function() { triggerConfetti(winnerEl); }, 200);
         }
       }
-      // 结果出现后隐藏「选择决定方式」区块
+      // 塔罗方式：显示解读区右上角的刷新按钮
+      if (readingRedo) {
+        if (currentMethod === 'tarot') {
+          readingRedo.classList.remove('hidden');
+        } else {
+          readingRedo.classList.add('hidden');
+        }
+      }
+      if (redoBtn) redoBtn.classList.remove('hidden');
+      // 结果出现后隐藏「选择决定方式」区块（已有再来一次可重置）
       var methodsEl = document.getElementById('dilemma-methods');
       if (methodsEl) methodsEl.classList.add('hidden');
     }
@@ -599,12 +618,15 @@
       var diceAnim = document.getElementById('dilemma-dice-animation');
       var resultDiv = document.getElementById('dilemma-result');
       var readingDiv = document.getElementById('dilemma-reading');
+      var redoBtn = document.getElementById('dilemma-redo-btn');
+      var readingRedo = document.getElementById('dilemma-reading-redo');
 
       // 重置所有区域
       if (resultDiv) { resultDiv.innerHTML = ''; resultDiv.classList.add('hidden'); }
       if (readingDiv) { readingDiv.classList.add('hidden'); }
       if (rpsAnim) { rpsAnim.classList.add('hidden'); rpsAnim.querySelector('.dilemma-rps-countdown').textContent = ''; }
       if (diceAnim) { diceAnim.classList.add('hidden'); }
+      if (readingRedo) readingRedo.classList.add('hidden');
 
       if (method === 'rps') {
         if (gameArea) gameArea.classList.remove('hidden');
@@ -620,6 +642,7 @@
         if (diceArea) diceArea.classList.add('hidden');
         playTarot();
       }
+      if (redoBtn) redoBtn.classList.remove('hidden');
     }
 
     // ============ 事件绑定 ============
@@ -669,13 +692,6 @@
         diceLow._bound = true;
       }
 
-      // 让命运决定
-      var fateBtn = document.getElementById('dilemma-fate-btn');
-      if (fateBtn && !fateBtn._bound) {
-        fateBtn.addEventListener('click', function() { playRandomDecision(); });
-        fateBtn._bound = true;
-      }
-
       // 输入框 blur 时保存历史并渲染
       var inputA = document.getElementById('dilemma-input-a');
       var inputB = document.getElementById('dilemma-input-b');
@@ -693,6 +709,26 @@
       if (clearBtn && !clearBtn._bound) {
         clearBtn.addEventListener('click', clearAllDilemmaHistory);
         clearBtn._bound = true;
+      }
+
+      // 再来一次
+      var redoBtn = document.getElementById('dilemma-redo-btn');
+      if (redoBtn && !redoBtn._bound) {
+        redoBtn.addEventListener('click', function() {
+          if (currentMethod === 'rps') { resetResultArea(); chooseMethod('rps'); }
+          else if (currentMethod === 'dice') { resetResultArea(); chooseMethod('dice'); }
+          else if (currentMethod === 'tarot') { resetResultArea(); chooseMethod('tarot'); }
+        });
+        redoBtn._bound = true;
+      }
+
+      // 塔罗解读区再来一次
+      var readingRedoBtn = document.getElementById('dilemma-reading-redo');
+      if (readingRedoBtn && !readingRedoBtn._bound) {
+        readingRedoBtn.addEventListener('click', function() {
+          if (currentMethod === 'tarot') { resetResultArea(); chooseMethod('tarot'); }
+        });
+        readingRedoBtn._bound = true;
       }
     }
 

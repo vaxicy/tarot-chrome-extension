@@ -961,13 +961,6 @@
                     <button id="dilemma-history-clear" class="dilemma-history-clear hidden" type="button" title="清空历史">&#10005; 清空</button>
                 </div>
 
-                <!-- 让命运决定 -->
-                <button id="dilemma-fate-btn" class="dilemma-fate-btn" type="button">
-                    <span class="dilemma-fate-icon">&#9884;</span>
-                    <span class="dilemma-fate-text" data-i18n-key="dilemma_fate_btn">让命运决定</span>
-                    <span class="dilemma-fate-sub" data-i18n-key="dilemma_fate_sub">随机用一种方式帮你做决定</span>
-                </button>
-
                 <!-- 决定方式（Tab 切换） -->
                 <div class="dilemma-methods">
                     <div class="dilemma-method-title" data-i18n-key="dilemma_choose_method">或选择具体方式</div>
@@ -1026,6 +1019,7 @@
                 <div id="dilemma-reading" class="dilemma-reading hidden">
                     <div class="dilemma-reading-header">
                         <div class="dilemma-reading-title" data-i18n-key="dilemma_tarot_reading">&#10024; 塔罗命运解读</div>
+                        <button id="dilemma-reading-redo" class="dilemma-reading-redo hidden" type="button" title="再来一次">&#128260;</button>
                     </div>
                     <div id="dilemma-card-slot" class="dilemma-card-slot"></div>
                     <div id="dilemma-reading-content" class="dilemma-reading-content"></div>
@@ -1034,6 +1028,7 @@
 
             <div class="action-buttons">
                 <button id="dilemma-back-btn" type="button" class="secondary-btn">&#8592; <span data-i18n-key="btn_back">返回</span></button>
+                <button id="dilemma-redo-btn" type="button" class="secondary-btn dilemma-redo-main hidden" data-i18n-key="dilemma_redo">再来一次</button>
             </div>
         </section>
 

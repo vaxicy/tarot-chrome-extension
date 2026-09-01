@@ -6079,11 +6079,13 @@
       const gameArea = document.getElementById('dilemma-game-area');
       const resultDiv = document.getElementById('dilemma-result');
       const readingDiv = document.getElementById('dilemma-reading');
+      const redoBtn = document.getElementById('dilemma-redo-btn');
       if (inputA) inputA.value = '';
       if (inputB) inputB.value = '';
       if (gameArea) gameArea.classList.add('hidden');
       if (resultDiv) resultDiv.classList.add('hidden');
       if (readingDiv) readingDiv.classList.add('hidden');
+      if (redoBtn) redoBtn.classList.add('hidden');
       this.showPage('dilemma-page');
       if (typeof renderDilemmaHistory === 'function') renderDilemmaHistory();
     }
@@ -6788,6 +6790,40 @@
     }
 
     // ============ 牌阵悬浮预览 ============
+    // ============ 预设按钮截断文本悬浮提示（自定义 tooltip） ============
+    initPresetTooltip() {
+      if (document.getElementById('numgen-tip')) return;
+      const tip = document.createElement('div');
+      tip.id = 'numgen-tip';
+      tip.className = 'numgen-tip hidden';
+      document.body.appendChild(tip);
+
+      const show = (btn) => {
+        // 仅在文本被截断时显示完整提示
+        if (btn.scrollWidth <= btn.clientWidth + 1) return;
+        tip.textContent = btn.textContent.trim();
+        const r = btn.getBoundingClientRect();
+        tip.classList.remove('hidden');
+        // 先显示以获得实际尺寸，再定位（默认在按钮上方居中）
+        const tw = tip.offsetWidth;
+        const th = tip.offsetHeight;
+        let left = r.left + r.width / 2 - tw / 2;
+        left = Math.max(6, Math.min(left, window.innerWidth - tw - 6));
+        let top = r.top - th - 8;
+        if (top < 6) top = r.bottom + 8; // 上方放不下则移到下方
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+      };
+      const hide = () => tip.classList.add('hidden');
+
+      document.querySelectorAll('.numgen-preset-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => show(btn));
+        btn.addEventListener('mouseleave', hide);
+      });
+      // 页面滚动/切换时隐藏
+      document.addEventListener('scroll', hide, true);
+    }
+
     initSpreadHoverPreview() {
       const preview = document.getElementById('spread-hover-preview');
       if (!preview) return;
@@ -7115,6 +7151,7 @@
         this.initSpreadSearch();
         this.initSpreadFilter();
         this.initSpreadHoverPreview();
+        this.initPresetTooltip();
         this.initSpreadFavorites();
         this.initCategoryCollapse();
         this.updateCategoryCounts();  // 动态计算分类数量
