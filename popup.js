@@ -4665,6 +4665,8 @@
           compContent.classList.remove('hidden');
           const tBtn = document.getElementById('toggle-reading-btn');
           if (tBtn) tBtn.textContent = this.t('btn_collapse');
+          // 解读异步生成完成后补写快照，确保关闭 popup 后能恢复
+          this.saveLiveSession();
         });
       }
 
@@ -4780,6 +4782,8 @@
           compContent.classList.remove('hidden');
           const tBtn = document.getElementById('toggle-reading-btn');
           if (tBtn) tBtn.textContent = this.t('btn_collapse');
+          // 解读异步生成完成后补写快照，确保关闭 popup 后能恢复
+          this.saveLiveSession();
         });
       }
 
@@ -6176,10 +6180,19 @@
     saveLiveSession() {
       if (!this.currentCards || this.currentCards.length === 0) return;
       try {
+        // 综合解读：若区块可见且有内容，把 HTML 一起入快照（单牌占卜本就隐藏，存 null）
+        const compSec = document.getElementById('comprehensive-reading');
+        const compContent = document.getElementById('comprehensive-content');
+        const modeBtn = document.querySelector('.mode-btn.active');
+        const readingVisible = compSec && compContent &&
+                               !compSec.classList.contains('hidden') &&
+                               compContent.innerHTML.trim().length > 0;
         localStorage.setItem('tarot_live_session', JSON.stringify({
           mode: this.currentMode,
           cards: this.currentCards,
-          deckId: this.currentDeck
+          deckId: this.currentDeck,
+          readingHTML: readingVisible ? compContent.innerHTML : null,
+          readingMode: modeBtn ? modeBtn.dataset.mode : null
         }));
         localStorage.setItem('tarot_last_page', 'divination-page');
       } catch (e) {}
@@ -6238,7 +6251,33 @@
       this.setDeckHint(isEn ? 'Restored session — tap a card for its meaning' : '已恢复上次占卜 · 点击卡牌查看牌义');
 
       const compSec = document.getElementById('comprehensive-reading');
-      if (compSec) compSec.classList.add('hidden');
+      const compContent = document.getElementById('comprehensive-content');
+      if (compSec && compContent) {
+        // 还原综合解读：有快照直接还原；无快照且非单牌阵则现场重新生成兜底
+        if (snap.readingHTML) {
+          // 先还原解读模式按钮（简单/标准/深度），保持与快照一致
+          if (snap.readingMode) {
+            document.querySelectorAll('.mode-btn').forEach(b =>
+              b.classList.toggle('active', b.dataset.mode === snap.readingMode));
+          }
+          compContent.innerHTML = snap.readingHTML;
+          compSec.classList.remove('hidden');
+          compContent.classList.remove('hidden');
+          const tBtn = document.getElementById('toggle-reading-btn');
+          if (tBtn) tBtn.textContent = this.t('btn_collapse');
+        } else if (snap.mode !== 'single') {
+          this.generateComprehensiveReading().then(reading => {
+            if (!reading) return;
+            compContent.innerHTML = reading;
+            compSec.classList.remove('hidden');
+            compContent.classList.remove('hidden');
+            const tBtn = document.getElementById('toggle-reading-btn');
+            if (tBtn) tBtn.textContent = this.t('btn_collapse');
+          });
+        } else {
+          compSec.classList.add('hidden');
+        }
+      }
 
       this.showPage('divination-page');
       await this.updateAISectionVisibility();
