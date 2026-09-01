@@ -227,7 +227,7 @@ body::after {
 }
 
 .page-back-btn:hover {
-  background: rgba(255, 215, 0, 0.1);
+  background: transparent;
   color: #fff;
   transform: scale(1.15);
   opacity: 0.85;
