@@ -1,4 +1,4 @@
-/* ============ CSS 鍙橀噺 ============ */
+﻿/* ============ CSS 鍙橀噺 ============ */
 :root {
   --color-primary: #2D1B69;
   --color-primary-light: #4A2F9F;
@@ -26,13 +26,9 @@
   display: none !important;
 }
 
-html,
 body {
   width: var(--popup-width);
-  min-width: var(--popup-width);
-  max-width: var(--popup-width);
   height: var(--popup-height);
-  min-height: var(--popup-height);
   font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
   background: var(--color-primary);
   color: var(--color-text);
@@ -42,8 +38,6 @@ body {
 
 .popup-wrapper {
   width: var(--popup-width);
-  min-width: var(--popup-width);
-  max-width: var(--popup-width);
   min-height: var(--popup-height);
   padding: 12px;
   display: flex;
@@ -289,20 +283,20 @@ body::before {
 }
 
 .tool-card-icon {
-  display: none;
+  font-size: 22px;
+  line-height: 1;
 }
 
 .tool-card-label {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 
 .tool-card-sub {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 400;
   color: var(--color-text-muted);
-  margin-top: 2px;
 }
 
 .tool-card-purple {
