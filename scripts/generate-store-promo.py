@@ -312,21 +312,21 @@ def large_promo():
             radius=8, fill="#15082b")
     text_left(draw, (mock_x + 18, mock_y + 17), "魔法主题 · Mystic Theme", font_zh(12), fill=TEXT_SUB)
 
-    # Tool cards - 统一金色圆点
+    # Tool cards - 每个专属图标 + 统一视觉尺寸（~22px）
     tc_y = mock_y + 56
     tc_w = (mock_w - 30) // 3
     mock_tools = [
-        "今日 Today",
-        "命运 Lucky",
-        "难题 Dilemma",
+        ("sun", "今日 Today"),
+        ("cards", "命运 Lucky"),
+        ("think", "难题 Dilemma"),
     ]
-    for ti, lbl in enumerate(mock_tools):
+    MT = {"sun": _draw_sun, "cards": _draw_cards_icon, "think": _draw_think_bubble}
+    # 视觉统一：sun 参数为半径、核心圆 0.9r；cards/think 参数为直径
+    MOCK_ICON_SZ = {"sun": 12, "cards": 22, "think": 20}
+    for ti, (ic, lbl) in enumerate(mock_tools):
         tx = mock_x + 12 + ti * (tc_w + 5)
         draw_rr(draw, (tx, tc_y, tx + tc_w - 5, tc_y + 60), radius=8, fill=CARD_BG)
-        dot_r = 7
-        cx = tx + (tc_w - 5) // 2
-        cy = tc_y + 24
-        draw.ellipse([cx - dot_r, cy - dot_r, cx + dot_r, cy + dot_r], fill=ACCENT_GOLD)
+        MT[ic](draw, tx + (tc_w - 5) // 2, tc_y + 22, MOCK_ICON_SZ[ic], ACCENT_GOLD)
         text_center(draw, (tx + (tc_w - 5) // 2, tc_y + 46), lbl, font_zh(11), fill=TEXT_SUB)
 
     # Spread list
