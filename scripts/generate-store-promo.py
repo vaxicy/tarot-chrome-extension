@@ -122,55 +122,6 @@ def _shade(hex_color, factor):
 #  ICON DRAWING FUNCTIONS
 # ════════════════════════════════════════
 
-def _draw_star(draw, cx, cy, outer_r, fill_color, points=5):
-    inner_r = outer_r * 0.4
-    pts = []
-    for i in range(points * 2):
-        angle = math.pi / 2 + i * math.pi / points
-        r = outer_r if i % 2 == 0 else inner_r
-        px = cx + r * math.cos(angle)
-        py = cy - r * math.sin(angle)
-        pts.append((px, py))
-    draw.polygon(pts, fill=fill_color)
-
-def _draw_sun(draw, cx, cy, diameter, fill_color):
-    """Unified line-style sun: ring + 8 equal rays. diameter = visual box size."""
-    r = diameter / 2.0
-    cr = r * 0.46           # core radius
-    lr = r * 0.92           # ray outer reach
-    lw = max(2, int(diameter * 0.14))
-    draw.ellipse([cx - cr, cy - cr, cx + cr, cy + cr], outline=fill_color, width=lw)
-    for i in range(8):
-        angle = i * math.pi / 4
-        x1 = cx + cr * 1.15 * math.cos(angle)
-        y1 = cy - cr * 1.15 * math.sin(angle)
-        x2 = cx + lr * math.cos(angle)
-        y2 = cy - lr * math.sin(angle)
-        draw.line([(x1, y1), (x2, y2)], fill=fill_color, width=lw)
-
-def _draw_think_bubble(draw, cx, cy, diameter, fill_color):
-    """Unified line-style speech bubble + question mark. diameter = visual box size."""
-    r = diameter / 2.0
-    lw = max(2, int(diameter * 0.13))
-    bw, bh = diameter * 0.88, diameter * 0.68
-    bx, by = cx - bw / 2, cy - bh / 2 - diameter * 0.08
-    # rounded-rect bubble (outline only)
-    draw.rounded_rectangle([bx, by, bx + bw, by + bh], radius=bh * 0.45,
-                           outline=fill_color, width=lw)
-    # tail
-    tw = diameter * 0.16
-    tx = cx - tw
-    draw.polygon([(tx, by + bh - 1),
-                  (tx - tw, by + bh + diameter * 0.18),
-                  (tx + tw, by + bh - 1)], fill=fill_color)
-    # question mark (centered in bubble)
-    qy = by + bh * 0.5
-    draw.arc([cx - bw * 0.2, qy - bh * 0.32, cx + bw * 0.2, qy + bh * 0.32],
-             200, 340, fill=fill_color, width=lw)
-    draw.line([(cx, qy + bh * 0.10), (cx, qy + bh * 0.30)], fill=fill_color, width=lw)
-    draw.ellipse([cx - lw * 0.7, qy + bh * 0.40, cx + lw * 0.7, qy + bh * 0.40 + lw * 1.4],
-                 fill=fill_color)
-
 def _draw_sparkle(draw, cx, cy, size, fill_color):
     pts = []
     for i in range(8):
@@ -209,24 +160,6 @@ def _draw_gamepad(draw, cx, cy, size, fill_color):
     for dx, dy in [(br, 0), (-br, 0), (0, br), (0, -br)]:
         draw.ellipse([cx + half // 3 + dx - br, cy + dy - br,
                       cx + half // 3 + dx + br, cy + dy + br], fill="#1a0a2e")
-
-def _draw_cards_icon(draw, cx, cy, diameter, fill_color):
-    """Unified line-style stacked tarot cards with a small star. diameter = visual box size."""
-    lw = max(2, int(diameter * 0.13))
-    card_w = diameter * 0.56
-    card_h = diameter * 0.78
-    # back card (offset up-right)
-    ox, oy = diameter * 0.12, -diameter * 0.12
-    draw.rounded_rectangle([cx - card_w / 2 + ox, cy - card_h / 2 + oy,
-                            cx + card_w / 2 + ox, cy + card_h / 2 + oy],
-                           radius=card_w * 0.14, outline=fill_color, width=lw)
-    # front card (offset down-left)
-    fx, fy = -diameter * 0.12, diameter * 0.12
-    draw.rounded_rectangle([cx - card_w / 2 + fx, cy - card_h / 2 + fy,
-                            cx + card_w / 2 + fx, cy + card_h / 2 + fy],
-                           radius=card_w * 0.14, outline=fill_color, width=lw)
-    # small star on front card
-    _draw_star(draw, cx + fx, cy + fy, card_w * 0.22, fill_color, points=5)
 
 def _draw_checkmark_circle(draw, cx, cy, size, fill_color):
     r = size // 2
@@ -334,25 +267,19 @@ def large_promo():
             radius=8, fill="#15082b")
     text_left(draw, (mock_x + 18, mock_y + 17), "魔法主题 · Mystic Theme", font_zh(12), fill=TEXT_SUB)
 
-    # Tool cards - 每个专属图标 + 统一视觉尺寸（~22px）
+    # Tool cards - 纯文字居中卡片（无图标）
     tc_y = mock_y + 56
     tc_w = (mock_w - 30) // 3
-    mock_tools = [
-        ("sun", "今日 Today"),
-        ("cards", "命运 Lucky"),
-        ("think", "难题 Dilemma"),
-    ]
-    MT = {"sun": _draw_sun, "cards": _draw_cards_icon, "think": _draw_think_bubble}
-    # 视觉统一：三个图标都传 diameter（视觉盒尺寸），统一为 24px
-    MOCK_ICON_SZ = {"sun": 24, "cards": 24, "think": 24}
-    for ti, (ic, lbl) in enumerate(mock_tools):
+    mock_tools = ["今日 Today", "命运 Lucky", "难题 Dilemma"]
+    tc_h = 44
+    for ti, lbl in enumerate(mock_tools):
         tx = mock_x + 12 + ti * (tc_w + 5)
-        draw_rr(draw, (tx, tc_y, tx + tc_w - 5, tc_y + 60), radius=8, fill=CARD_BG)
-        MT[ic](draw, tx + (tc_w - 5) // 2, tc_y + 22, MOCK_ICON_SZ[ic], ACCENT_GOLD)
-        text_center(draw, (tx + (tc_w - 5) // 2, tc_y + 46), lbl, font_zh(11), fill=TEXT_SUB)
+        draw_rr(draw, (tx, tc_y, tx + tc_w - 5, tc_y + tc_h), radius=8, fill=CARD_BG)
+        text_center(draw, (tx + (tc_w - 5) // 2, tc_y + tc_h // 2), lbl,
+                    font_zh(12, True), fill=ACCENT_GOLD)
 
     # Spread list
-    sl_y = tc_y + 70
+    sl_y = tc_y + tc_h + 16
     SL = {"sparkle": _draw_sparkle, "hourglass": _draw_hourglass,
           "gamepad": _draw_gamepad, "heart": _draw_heart}
     mock_spreads = [
