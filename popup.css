@@ -257,11 +257,6 @@ body::after {
   pointer-events: none;
 }
 
-.page-back-btn:hover {
-  background: rgba(255, 215, 0, 0.18);
-  border-color: var(--color-gold);
-}
-
 /* ============ 鍔犺浇鍔ㄧ敾 ============ */
 .loading-overlay {
   position: fixed;
