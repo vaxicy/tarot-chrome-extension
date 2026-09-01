@@ -29,6 +29,13 @@
 body {
   width: var(--popup-width);
   height: var(--popup-height);
+  /* 弹窗等比缩小到 300x428（420x600 的 0.714 倍）。
+     用 zoom 做布局级缩放，字号/间距/卡牌全部等比，无需改动其余 ~6200 行样式。
+     注意：zoom 只影响渲染，CSS 视口仍是 420x600，故媒体查询边界要按 420x600 判断。
+     小字号已上调：10/11/12/13px -> 14/15/16/17px（档位差仍为 1px，层级不丢），
+     缩放后渲染为 10.0/10.7/11.4/12.1px，均不低于 10px，避免中文糊掉。
+     牌阵图内的 6-8px 装饰性微标签未动（容器仅 36-56px，放大会溢出）。 */
+  zoom: 0.714;
   font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
   background: var(--color-primary);
   color: var(--color-text);
@@ -180,7 +187,7 @@ body::before {
 }
 
 .welcome-subtitle {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-text-muted);
   margin-bottom: 10px;
 }
@@ -206,7 +213,7 @@ body::before {
 
 .toolbar-select {
   padding: 5px 8px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-gold);
   background: rgba(26, 15, 64, 0.8);
   border: 1px solid rgba(255, 215, 0, 0.25);
@@ -268,7 +275,7 @@ body::before {
   justify-content: center;
   gap: 4px;
   padding: 14px 6px;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold);
   background: rgba(26, 15, 64, 0.6);
@@ -291,13 +298,13 @@ body::before {
 }
 
 .tool-card-label {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 
 .tool-card-sub {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 400;
   color: var(--color-text-muted);
   margin-top: 2px;
@@ -335,7 +342,7 @@ body::before {
   align-items: center;
   gap: 10px;
   padding: 5px 0;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
 }
 
@@ -365,7 +372,7 @@ body::before {
   gap: 0;
   width: 100%;
   padding: 10px 50px 10px 44px;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   background: rgba(30, 20, 70, 0.7);
   border: 1px solid rgba(255, 215, 0, 0.15);
@@ -427,7 +434,7 @@ body::before {
 
 .spread-name {
   font-weight: 700;
-  font-size: 13px;
+  font-size: 17px;
   letter-spacing: 0.5px;
   white-space: nowrap;
   overflow: hidden;
@@ -438,7 +445,7 @@ body::before {
 }
 
 .spread-desc {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   font-weight: 400;
   white-space: nowrap;
@@ -497,13 +504,13 @@ body::before {
 
 .spread-card-name {
   font-weight: 700;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   letter-spacing: 0.5px;
 }
 
 .spread-card-desc {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   font-weight: 400;
   line-height: 1.3;
@@ -527,7 +534,7 @@ body::before {
   background: transparent;
   border: none;
   color: var(--color-text-muted);
-  font-size: 11px;
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 0;
@@ -610,7 +617,7 @@ body::before {
   top: 42px;
   left: 9px;
   bottom: auto;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   padding: 1px 3px;
   border-radius: 4px;
@@ -672,7 +679,7 @@ body::before {
 }
 
 .spread-hover-preview .hover-meta-tag {
-  font-size: 10px;
+  font-size: 14px;
   padding: 1px 6px;
   border-radius: 8px;
   border: 1px solid rgba(255,215,0,0.3);
@@ -681,7 +688,7 @@ body::before {
 }
 
 .spread-hover-preview .hover-usage {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text);
   line-height: 1.5;
 }
@@ -707,7 +714,7 @@ body::before {
 }
 
 .spread-detail-tag {
-  font-size: 10px;
+  font-size: 14px;
   padding: 2px 8px;
   border-radius: 10px;
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -720,7 +727,7 @@ body::before {
 }
 
 .spread-detail-section-title {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 6px;
@@ -728,7 +735,7 @@ body::before {
 }
 
 .spread-detail-text {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.6;
 }
@@ -743,7 +750,7 @@ body::before {
 }
 
 .spread-detail-diagram-title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold-light);
   margin-bottom: 8px;
@@ -798,7 +805,7 @@ body::before {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold);
   letter-spacing: 1px;
@@ -815,7 +822,7 @@ body::before {
 .spread-category-header .category-arrow {
   display: inline-block;
   transition: transform 0.3s ease;
-  font-size: 10px;
+  font-size: 14px;
   flex-shrink: 0;
 }
 
@@ -828,7 +835,7 @@ body::before {
 }
 
 .spread-category-header .category-count {
-  font-size: 10px;
+  font-size: 14px;
   background: rgba(255, 215, 0, 0.15);
   border-radius: 8px;
   padding: 0 6px;
@@ -867,7 +874,7 @@ body::before {
 
 .spread-filter-btn {
   padding: 5px 10px;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--color-text-muted);
   background: rgba(26, 15, 64, 0.6);
@@ -903,7 +910,7 @@ body::before {
   border: 1px solid rgba(255, 215, 0, 0.5);
   background: rgba(26, 15, 64, 0.95);
   color: var(--color-gold);
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -924,7 +931,7 @@ body::before {
 
 /* 行内星级（由 JS 插入到名称末尾） */
 .difficulty-inline {
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 1px;
   opacity: 0.85;
   margin-left: 2px;
@@ -999,7 +1006,7 @@ body::before {
 }
 
 .spread-detail-tag {
-  font-size: 10px;
+  font-size: 14px;
   padding: 2px 8px;
   border-radius: 10px;
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -1012,7 +1019,7 @@ body::before {
 }
 
 .spread-detail-section-title {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 6px;
@@ -1020,7 +1027,7 @@ body::before {
 }
 
 .spread-detail-text {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.6;
 }
@@ -1039,14 +1046,14 @@ body::before {
 }
 
 .spread-detail-pos-name {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold-light);
   margin-bottom: 2px;
 }
 
 .spread-detail-pos-desc {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
@@ -1078,7 +1085,7 @@ body::before {
 }
 
 .step-hint {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
@@ -1421,7 +1428,7 @@ body::before {
   text-align: center;
   color: var(--color-text-muted);
   padding: 30px 10px;
-  font-size: 13px;
+  font-size: 17px;
 }
 
 /* 瑙ｈ鍗＄墖 */
@@ -1444,7 +1451,7 @@ body::before {
 }
 
 .meaning-text {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.7;
   text-align: justify;
@@ -1452,7 +1459,7 @@ body::before {
 
 /* 位置含义（牌阵优化） */
 .meaning-position {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   background: rgba(255, 215, 0, 0.08);
   border-left: 3px solid var(--color-gold);
@@ -1526,7 +1533,7 @@ body::before {
   color: var(--color-text-muted);
   cursor: pointer;
   border-radius: 4px;
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 500;
   transition: all 0.2s;
   white-space: nowrap;
@@ -1566,7 +1573,7 @@ body::before {
 
 .toggle-reading-btn {
   padding: 4px 10px;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid var(--color-gold-dark);
@@ -1614,7 +1621,7 @@ body::before {
 }
 
 .reading-section-title {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   font-weight: 700;
   margin-bottom: 6px;
@@ -1624,7 +1631,7 @@ body::before {
 }
 
 .reading-section-body {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.7;
   text-align: justify;
@@ -1640,7 +1647,7 @@ body::before {
 
 .reading-theme-tag {
   display: inline-block;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-gold);
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -1720,7 +1727,7 @@ body::before {
 
 button {
   padding: 9px 16px;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-gold);
   background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
@@ -1786,41 +1793,11 @@ button:active {
 .result-cards .tarot-card:nth-child(2) { animation-delay: 0.3s; }
 .result-cards .tarot-card:nth-child(3) { animation-delay: 0.5s; }
 
-/* ============ 灏忓睆鍗＄墝閫傞厤 ============ */
-@media (max-width: 420px) {
-  .result-cards .tarot-card {
-    width: 70px;
-    height: 112px;
-  }
-
-  .result-cards .card-3d-wrap {
-    width: 70px;
-    height: 112px;
-  }
-
-  }
-
-@media (max-height: 500px) {
-  .cards-container {
-    min-height: 120px;
-    max-height: 240px;
-  }
-
-  .result-cards .tarot-card {
-    width: 60px;
-    height: 96px;
-  }
-
-  .result-cards .card-3d-wrap {
-    width: 60px;
-    height: 96px;
-  }
-
-  .card-front {
-    padding: 6px 3px 10px;
-  }
-
-  }
+/* 注：原「小屏卡牌适配」的 @media (max-width:420px) / (max-height:500px) 两块已删除。
+   它们属于闭区间边界陷阱（见 chrome-popup-no-viewport-media-query-RULE）：
+   max-width:420px 在 popup 正常 420px 宽度时必然命中，会与 popup.js 的 inline
+   卡牌尺寸打架；max-height:500px 在高度恢复 600px 后已成死代码。
+   卡牌尺寸现在完全由 popup.js 按容器实测内联计算，CSS 不再插手。 */
 
 /* ============ 结果页：牌阵布局可视化 ============ */
 .result-spread-diagram {
@@ -2241,7 +2218,7 @@ button:active {
   margin-top: 10px;
   margin-bottom: 16px;
   padding: 10px;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 215, 0, 0.03) 100%);
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -2261,7 +2238,7 @@ button:active {
 }
 
 .fortune-date {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
 }
 
@@ -2367,7 +2344,7 @@ button:active {
 .fortune-loading {
   text-align: center;
   color: var(--color-gold);
-  font-size: 13px;
+  font-size: 17px;
   padding: 20px;
   animation: fortunePulse 1.5s ease-in-out infinite;
 }
@@ -2386,7 +2363,7 @@ button:active {
 }
 
 .fortune-section-title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 4px;
@@ -2396,7 +2373,7 @@ button:active {
 }
 
 .fortune-section-body {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text);
   line-height: 1.6;
   text-align: justify;
@@ -2443,7 +2420,7 @@ button:active {
 }
 
 .fortune-lucky-label {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   letter-spacing: 1px;
   line-height: 1;
@@ -2494,7 +2471,7 @@ button:active {
 }
 
 .fortune-lucky-num-badge {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   color: #FF9800;
   background: rgba(255, 152, 0, 0.12);
@@ -2505,7 +2482,7 @@ button:active {
 }
 
 .fortune-lucky-num-card {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   font-weight: 600;
 }
@@ -2539,7 +2516,7 @@ button:active {
 }
 
 .dilemma-history-label {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   white-space: nowrap;
   flex-shrink: 0;
@@ -2553,7 +2530,7 @@ button:active {
 }
 
 .dilemma-history-tag {
-  font-size: 11px;
+  font-size: 15px;
   padding: 2px 4px 2px 8px;
   background: rgba(255, 215, 0, 0.08);
   border: 1px solid rgba(255, 215, 0, 0.2);
@@ -2587,7 +2564,7 @@ button:active {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1;
   color: var(--color-text-muted);
   cursor: pointer;
@@ -2604,7 +2581,7 @@ button:active {
   background: none;
   border: none;
   color: var(--color-text-muted);
-  font-size: 11px;
+  font-size: 15px;
   cursor: pointer;
   padding: 2px 6px;
   border-radius: 8px;
@@ -2666,7 +2643,7 @@ button:active {
 }
 
 .dilemma-fate-sub {
-  font-size: 10px;
+  font-size: 14px;
   color: rgba(248, 187, 208, 0.7);
   letter-spacing: 0.5px;
 }
@@ -2735,7 +2712,7 @@ button:active {
 }
 
 .fortune-score-text {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-gold);
   min-width: 28px;
@@ -2798,7 +2775,7 @@ button:active {
   margin-bottom: 12px;
   line-height: 1.7;
   color: var(--color-text);
-  font-size: 12px;
+  font-size: 16px;
 }
 
 /* ============ 牌阵专属解读段落样式 ============ */
@@ -2810,12 +2787,12 @@ button:active {
   margin-bottom: 12px;
   line-height: 1.7;
   color: var(--color-text);
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .spread-specific .reading-section-title {
   color: #B57EDC;
-  font-size: 13px;
+  font-size: 17px;
   letter-spacing: 0.5px;
 }
 
@@ -2825,7 +2802,7 @@ button:active {
 }
 
 .keyword-tags-intro {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   margin-bottom: 8px;
 }
@@ -2844,7 +2821,7 @@ button:active {
 }
 
 .keyword-tag-card-name {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 4px;
@@ -2858,7 +2835,7 @@ button:active {
 
 .keyword-tag {
   display: inline-block;
-  font-size: 10px;
+  font-size: 14px;
   padding: 2px 8px;
   border-radius: 10px;
   background: rgba(255, 215, 0, 0.12);
@@ -2873,7 +2850,7 @@ button:active {
 }
 
 .action-steps-intro {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   margin-bottom: 8px;
 }
@@ -2896,7 +2873,7 @@ button:active {
 
 .action-step-time {
   flex-shrink: 0;
-  font-size: 9px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--color-gold);
   background: rgba(255, 215, 0, 0.1);
@@ -2912,14 +2889,14 @@ button:active {
 }
 
 .action-step-title {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-text);
   margin-bottom: 2px;
 }
 
 .action-step-desc {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
@@ -2930,7 +2907,7 @@ button:active {
 }
 
 .element-balance-intro {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   margin-bottom: 8px;
 }
@@ -2951,7 +2928,7 @@ button:active {
 .element-balance-label {
   flex-shrink: 0;
   width: 70px;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   text-align: right;
 }
@@ -2974,14 +2951,14 @@ button:active {
 .element-balance-count {
   flex-shrink: 0;
   width: 16px;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--color-gold);
   text-align: center;
 }
 
 .element-balance-analysis {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   margin-top: 6px;
   padding: 6px 8px;
@@ -2991,7 +2968,7 @@ button:active {
 }
 
 .element-balance-advice {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   margin-top: 4px;
   line-height: 1.5;
@@ -3045,7 +3022,7 @@ button:active {
 }
 
 .fortune-guide-name {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 2px;
@@ -3055,25 +3032,25 @@ button:active {
 }
 
 .fortune-guide-orig {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--color-text-muted);
 }
 
 .fortune-guide-pos {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   margin-bottom: 4px;
 }
 
 .fortune-guide-brief {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text);
   line-height: 1.5;
 }
 
 .fortune-guide-hint {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--color-text-muted);
   text-align: center;
   margin-top: 6px;
@@ -3118,7 +3095,7 @@ button:active {
 }
 
 .fortune-tag-prefix {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 4px;
@@ -3137,7 +3114,7 @@ button:active {
 }
 
 .fortune-tag {
-  font-size: 10px;
+  font-size: 14px;
   padding: 2px 9px;
   border-radius: 10px;
   border: 1px solid;
@@ -3165,7 +3142,7 @@ button:active {
 }
 
 .fortune-lucky-root {
-  font-size: 9px;
+  font-size: 14px;
   margin-left: 2px;
 }
 
@@ -3174,7 +3151,7 @@ button:active {
 }
 
 .fortune-lucky-tarot {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--color-gold-light);
   margin-top: 2px;
 }
@@ -3189,7 +3166,7 @@ button:active {
   margin-top: 12px;
   margin-bottom: 20px;
   padding: 10px;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   background: rgba(26, 15, 64, 0.6);
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -3232,7 +3209,7 @@ button:active {
   background: transparent;
   border: none;
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 17px;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
@@ -3277,7 +3254,7 @@ button:active {
   text-align: center;
   color: var(--color-text-muted);
   padding: 40px 20px;
-  font-size: 13px;
+  font-size: 17px;
 }
 
 .history-item {
@@ -3309,7 +3286,7 @@ button:active {
   border: 1px solid transparent;
   border-radius: 4px;
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
   padding: 2px 5px;
   line-height: 1;
@@ -3324,11 +3301,11 @@ button:active {
 }
 
 .history-spread {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
 }.history-time {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
 }
 
@@ -3339,7 +3316,7 @@ button:active {
 }
 
 .history-card-tag {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text);
   background: rgba(255, 215, 0, 0.08);
   border: 1px solid rgba(255, 215, 0, 0.15);
@@ -3403,14 +3380,14 @@ button:active {
 }
 
 .history-detail-card-name {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   margin-bottom: 4px;
 }
 
 .history-detail-card-meaning {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text);
   line-height: 1.6;
 }
@@ -3442,7 +3419,7 @@ button:active {
 }
 
 #fav-page .step-hint {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
@@ -3477,7 +3454,7 @@ button:active {
   padding: 40px 20px;
   text-align: center;
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 17px;
   line-height: 1.7;
   flex: 1;
 }
@@ -3494,7 +3471,7 @@ button:active {
 }
 
 .fav-empty-hint {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   opacity: 0.7;
 }
@@ -3528,7 +3505,7 @@ button:active {
 
 .fav-item-name {
   flex: 1;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   white-space: nowrap;
@@ -3538,7 +3515,7 @@ button:active {
 }
 
 .fav-item-sub {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   margin-top: 4px;
   white-space: nowrap;
@@ -3556,7 +3533,7 @@ button:active {
   border: 1px solid transparent;
   border-radius: 50%;
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
   padding: 0;
   line-height: 1;
@@ -3575,7 +3552,7 @@ button:active {
   display: inline-block;
   margin-top: 10px;
   padding: 5px 14px;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold);
   background: rgba(255, 215, 0, 0.08);
   border: 1px solid rgba(255, 215, 0, 0.25);
@@ -3597,7 +3574,7 @@ button:active {
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 4px 8px;
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
   outline: none;
   transition: border-color 0.2s;
@@ -3608,7 +3585,7 @@ button:active {
 }
 
 .deck-selector label[for="lang-select"] {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
   margin-left: 10px;
 }
@@ -3621,7 +3598,7 @@ button:active {
   border: 1px solid var(--color-gold);
   border-radius: 8px;
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-gold-light);
   line-height: 1.5;
   max-width: 220px;
@@ -3696,7 +3673,7 @@ button:active {
 .spread-search-input {
   flex: 1;
   padding: 7px 28px 7px 10px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   background: rgba(26, 15, 64, 0.7);
   border: 1px solid rgba(255, 215, 0, 0.25);
@@ -3712,7 +3689,7 @@ button:active {
 
 .spread-search-input::placeholder {
   color: var(--color-text-muted);
-  font-size: 11px;
+  font-size: 15px;
 }
 
 .spread-search-clear {
@@ -3723,7 +3700,7 @@ button:active {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
   padding: 2px 5px;
   border-radius: 50%;
@@ -3850,7 +3827,7 @@ button:active {
 }
 
 .card-preview-subtitle {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
@@ -3868,7 +3845,7 @@ button:active {
 }
 
 .card-preview-meaning-text {
-  font-size: 13px;
+  font-size: 17px;
   line-height: 1.7;
   color: var(--color-text);
   text-align: justify;
@@ -3915,7 +3892,7 @@ button:active {
 }
 
 .numgen-range-group label {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   letter-spacing: 1px;
 }
@@ -3972,7 +3949,7 @@ button:active {
 }
 
 .numgen-quantity-inline label {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   letter-spacing: 1px;
 }
@@ -3988,7 +3965,7 @@ button:active {
   width: 100%;
   max-width: 340px;
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: 16px;
   color: #ff6b6b;
   background: rgba(255, 107, 107, 0.1);
   border: 1px solid rgba(255, 107, 107, 0.3);
@@ -4022,7 +3999,7 @@ button:active {
   min-width: 0;
   max-width: 140px;
   padding: 7px 6px;
-  font-size: 11px;
+  font-size: 15px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4231,7 +4208,7 @@ button:active {
 }
 
 .numgen-number-label {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
   letter-spacing: 2px;
 }
@@ -4246,7 +4223,7 @@ button:active {
 }
 
 .numgen-reading-title {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   padding: 10px 14px;
   background: rgba(156, 39, 176, 0.15);
@@ -4256,7 +4233,7 @@ button:active {
 
 .numgen-reading-content {
   padding: 14px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.8;
   text-align: justify;
@@ -4334,7 +4311,7 @@ button:active {
 }
 
 .numgen-history-item .meta {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   text-align: right;
   white-space: nowrap;
@@ -4353,7 +4330,7 @@ button:active {
 .numgen-history-delete {
   flex-shrink: 0;
   padding: 4px 10px;
-  font-size: 11px;
+  font-size: 15px;
   color: #ff6b6b;
   background: rgba(255, 107, 107, 0.1);
   border: 1px solid rgba(255, 107, 107, 0.3);
@@ -4379,7 +4356,7 @@ button:active {
 }
 
 .numgen-tarot-meaning .numgen-reading-title {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold);
   padding: 10px 14px;
   background: rgba(156, 39, 176, 0.15);
@@ -4389,7 +4366,7 @@ button:active {
 
 .numgen-tarot-meaning .numgen-reading-content {
   padding: 14px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.8;
   text-align: justify;
@@ -4410,7 +4387,7 @@ button:active {
 }
 
 .numgen-stats-title {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   letter-spacing: 1px;
@@ -4420,7 +4397,7 @@ button:active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
@@ -4474,7 +4451,7 @@ button:active {
 }
 
 .dilemma-input-group label {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   letter-spacing: 1px;
 }
@@ -4482,7 +4459,7 @@ button:active {
 .dilemma-input {
   width: 100%;
   padding: 8px 10px;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-text);
   background: rgba(26, 15, 64, 0.8);
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -4499,7 +4476,7 @@ button:active {
 
 .dilemma-input::placeholder {
   color: var(--color-text-muted);
-  font-size: 11px;
+  font-size: 15px;
 }
 
 .dilemma-vs {
@@ -4520,7 +4497,7 @@ button:active {
 }
 
 .dilemma-method-title {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   text-align: center;
@@ -4538,7 +4515,7 @@ button:active {
   flex: 1;
   min-width: 0;
   padding: 10px 8px;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   background: rgba(26, 15, 64, 0.8);
@@ -4653,7 +4630,7 @@ button:active {
 }
 
 .dilemma-result-row {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-text);
   line-height: 1.8;
 }
@@ -4694,7 +4671,7 @@ button:active {
 }
 
 .dilemma-card-label {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold);
   text-align: center;
@@ -4732,14 +4709,14 @@ button:active {
 }
 
 .dilemma-card-label {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   letter-spacing: 0.5px;
 }
 
 .dilemma-card-name {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   text-align: center;
   line-height: 1.4;
@@ -4769,7 +4746,7 @@ button:active {
   border: 1px solid rgba(255, 215, 0, 0.2);
   border-radius: 10px;
   padding: 10px;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text);
   line-height: 1.7;
   text-align: justify;
@@ -4831,7 +4808,7 @@ button:active {
 }
 
 .dilemma-reading-content {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.7;
   text-align: justify;
@@ -4852,12 +4829,12 @@ button:active {
 }
 
 .dilemma-tarot-reading-title {
-  font-size: 12px;
+  font-size: 16px;
   margin-bottom: 6px;
 }
 
 .dilemma-tarot-reading-text {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.7;
   text-align: justify;
@@ -4869,7 +4846,7 @@ button:active {
   background: rgba(255, 215, 0, 0.08);
   border: 1px solid rgba(255, 215, 0, 0.2);
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 17px;
   text-align: center;
 }
 
@@ -4913,7 +4890,7 @@ button:active {
   padding: 10px 14px;
   background: rgba(233, 30, 99, 0.15);
   border-bottom: 1px solid rgba(255, 215, 0, 0.15);
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-gold-light);
 }
 
@@ -4930,7 +4907,7 @@ button:active {
 
 .dilemma-comprehensive-reading {
   padding: 12px 14px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   line-height: 1.8;
   text-align: justify;
@@ -4961,7 +4938,7 @@ button:active {
 }
 
 .dilemma-fun-title {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   text-align: center;
@@ -4982,7 +4959,7 @@ button:active {
 }
 
 .dilemma-game-panel-title {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--color-gold);
   letter-spacing: 1px;
@@ -5003,7 +4980,7 @@ button:active {
 }
 
 .dilemma-game-title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold-light);
   letter-spacing: 1px;
@@ -5073,7 +5050,7 @@ button:active {
 
 /* 娓告垙缁撴灉 */
 .dilemma-game-result {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--color-text);
   text-align: center;
   line-height: 1.7;
@@ -5189,7 +5166,7 @@ button:active {
 .dice-pip[data-pos="bc"] { bottom: 9px; }
 
 .dilemma-result-dice-label {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   text-align: center;
   line-height: 1.3;
@@ -5233,7 +5210,7 @@ button:active {
 .spread-question-input {
   width: 100%;
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text);
   background: rgba(26, 15, 64, 0.7);
   border: 1px solid rgba(255, 215, 0, 0.25);
@@ -5263,7 +5240,7 @@ button:active {
 }
 
 .recommended-title {
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold);
   font-weight: 700;
   width: 100%;
@@ -5272,7 +5249,7 @@ button:active {
 
 .recommended-spread-btn {
   padding: 5px 12px;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-gold-light);
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid rgba(255, 215, 0, 0.3);
@@ -5296,7 +5273,7 @@ button:active {
 }
 
 .recommended-spread-desc {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--color-text-muted);
 }
 
@@ -5319,7 +5296,7 @@ button:active {
 }
 
 .preview-title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-gold);
   text-align: center;
@@ -5347,13 +5324,13 @@ button:active {
 }
 
 .preview-pos-num {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--color-gold);
   font-weight: 700;
 }
 
 .preview-pos-name {
-  font-size: 9px;
+  font-size: 14px;
   color: var(--color-text-muted);
   text-align: center;
   max-width: 70px;
@@ -5363,7 +5340,7 @@ button:active {
 }
 
 .preview-more {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-gold);
   font-weight: 700;
   display: flex;
@@ -5383,7 +5360,7 @@ button:active {
 }
 
 .hover-pos {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
   line-height: 1.4;
   padding: 2px 4px;
@@ -5398,7 +5375,7 @@ button:active {
 }
 
 .hover-more {
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-gold);
   font-weight: 700;
   text-align: center;
@@ -5660,7 +5637,7 @@ button:active {
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 10px;
   color: #D4AF37;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -5701,7 +5678,7 @@ button:active {
   border: 1.5px solid var(--color-gold);
   border-radius: 10px;
   padding: 10px 22px;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: 1px;
   box-shadow:
@@ -5738,7 +5715,7 @@ button:active {
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 12px;
   color: #D4AF37;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease;
 }
@@ -5934,7 +5911,7 @@ button:active {
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--color-text-muted);
   padding: 4px 8px;
   border-radius: 12px;
@@ -6010,7 +5987,7 @@ button:active {
 }
 
 .reading-section-body {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--color-text);
   padding: 8px 10px;
@@ -6045,7 +6022,7 @@ button:active {
 }
 
 .donate-desc {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
   margin-bottom: 12px;
 }
@@ -6065,7 +6042,7 @@ button:active {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.06);
   color: var(--color-text);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
@@ -6161,14 +6138,14 @@ button:active {
 }
 
 .donate-qr-tip {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
 .donate-feedback {
   display: block;
   text-align: center;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-muted);
   margin-top: 12px;
   text-decoration: none;
