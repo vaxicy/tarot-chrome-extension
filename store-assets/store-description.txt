@@ -1,0 +1,57 @@
+=== English Detailed Description ===
+
+A beautiful, professional, and magically atmospheric tarot divination Chrome extension. Whether you're a beginner or a seasoned tarot enthusiast, find your destined guidance here.
+
+✨ Core Features
+
+8 Themed Decks: Magic, Rider-Waite, Marseille, Thoth, Angel, Healing, Osho Zen, and Stellar Tarot
+Daily Fortune: AI-powered in-depth interpretation of today's fortune, with regeneration support
+AI Deep Reading: Enter your own AI provider to generate structured, in-depth readings covering overall energy, per-card analysis, key insights, actionable steps, and a one-line summary
+AI Follow-up Q&A: Continue the conversation with multi-turn follow-up questions; the full reading and Q&A thread persist after closing and reopening the popup
+Lucky Number Generator: Tarot-guided lucky numbers, with custom range, preset modes (Mark Six, dice, phone number tail, etc.), and tarot-based number interpretation
+Dilemma Helper: Rock-paper-scissors / Dice rolling / Tarot draw — let randomness decide for you
+50+ Spreads: Covering beginner classics, relationships, decision analysis, life choices, fortune prediction, deep topics, career, self-growth, and spiritual growth
+
+📖 Smart Interpretation System
+
+Detailed upright and reversed card meanings for every spread
+Three interpretation modes: Simple / Standard / Deep
+Extended analysis: historical context, timing dimension, personality analysis
+AI comprehensive interpretation — one-click full report
+
+🌙 Experience Optimization
+
+Card-flip sound effect toggle
+Card favorites and reading history
+Bilingual UI (Chinese / English) — switch anytime
+Dark magical theme
+Completely free with no restrictions on any deck or spread
+
+=== 中文详细说明 ===
+
+一款精美、专业、充满魔法氛围的浏览器塔罗占卜扩展。无论你是塔罗新手还是资深爱好者，都能在这里找到属于你的命运指引。
+
+✨ 核心功能
+
+8 套主题牌组：魔法塔罗、韦特、马赛、托特、天使、疗愈、奥修禅宗、星辰塔罗
+每日运势：AI 驱动深度解读今日运势，支持重新生成
+AI 深度解读：接入你自己的 AI 服务商，一键生成结构化深度报告，包含整体能量、单张牌解析、核心洞见、行动建议与一句话总结
+AI 追问：多轮追问持续对话，关闭弹窗后重新打开仍可继续查看完整解读与问答记录
+命运数字生成器：塔罗灵感幸运数字，支持自定义范围与六合彩、骰子、手机尾号等预设模式
+选择困难症助手：石头剪刀布 / 掷骰子 / 抽塔罗，让随机性帮你做决定
+50+ 牌阵：覆盖新手经典、情感关系、决策分析、人生选择、运势预测、深度话题、事业、自我成长与灵性成长
+
+📖 智能解读体系
+
+每张牌均含正位与逆位详细释义
+三种解读模式：简洁 / 标准 / 深度
+延展分析：历史背景、时间维度、性格分析
+AI 综合解读：一键生成完整报告
+
+🌙 体验优化
+
+翻牌音效开关
+卡牌收藏与占卜历史
+中英双语界面，随时切换
+深色魔法主题
+完全免费，所有牌组与牌阵无限制使用
