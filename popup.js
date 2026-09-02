@@ -6251,27 +6251,8 @@
         this.aiMessages.push({ role: 'assistant', content: cleanText });
         this.persistAIMessages();
 
-        // 多轮：按「提问 → 回答」成对渲染，让上下文清晰可读
-        const pairs = [];
-        for (let i = 0; i < this.aiMessages.length; i++) {
-          const m = this.aiMessages[i];
-          if (m.role === 'user' && i > 0) {
-            // 首条 user 是牌面上下文，不重复展示；后续才是追问
-            const next = this.aiMessages[i + 1];
-            if (next && next.role === 'assistant') {
-              pairs.push({ q: m.content, a: next.content });
-              i++;
-            }
-          }
-        }
-        const html = pairs.map((p, i) => {
-          const qBlock = i > 0
-            ? '<p class="ai-turn-question">' + this.escapeHTML(p.q) + '</p>'
-            : '';
-          return (pairs.length > 1 ? '<div class="ai-turn' + (i > 0 ? ' ai-turn-follow' : '') + '">' : '')
-            + qBlock + this.formatAIReading(p.a)
-            + (pairs.length > 1 ? '</div>' : '');
-        }).join('');
+        // 多轮渲染：抽出的公用方法（恢复路径也用它，保证样式/结构一致）
+        const html = this.buildAIMessagesHTML(this.aiMessages);
 
         this.stopAILoading();
         body.classList.remove('ai-loading', 'ai-error', 'hidden');
@@ -6280,10 +6261,11 @@
         this.sanitizeTextNodes(body);
         if (followup) followup.classList.remove('hidden');
         // 追问后滚动到结果底部
-        if (followup && pairs.length > 1) {
+        const pairCount = this.aiMessages.filter(m => m.role === 'assistant').length;
+        if (followup && pairCount > 1) {
           try { followup.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
         }
-        // 存档前再清一次控制 token，避免脏数据进快照/历史
+        // 存档纯文本仅做兜底展示；重开渲染以 tarot_ai_messages（原始 markdown）为准
         const finalText = this.stripControlTokens(body.innerText || body.textContent || '');
         this.saveAIReading(question, finalText, 'done');
       } catch (e) {
@@ -6422,6 +6404,36 @@
       });
     }
 
+    // 从 aiMessages 构建「提问 → 回答」渲染 HTML（生成与恢复共用，保证样式/结构一致）
+    buildAIMessagesHTML(messages) {
+      if (!Array.isArray(messages)) return '';
+      const pairs = [];
+      for (let i = 0; i < messages.length; i++) {
+        const m = messages[i];
+        if (m.role === 'user' && i > 0) {
+          // 首条 user 是牌面上下文，不重复展示；后续才是追问
+          const next = messages[i + 1];
+          if (next && next.role === 'assistant') {
+            pairs.push({ q: m.content, a: next.content });
+            i++;
+          }
+        }
+      }
+      // 无追问对：直接渲染首条 assistant 内容
+      if (pairs.length === 0) {
+        const firstA = messages.find(m => m.role === 'assistant');
+        return firstA ? this.formatAIReading(firstA.content) : '';
+      }
+      return pairs.map((p, i) => {
+        const qBlock = i > 0
+          ? '<p class="ai-turn-question">' + this.escapeHTML(p.q) + '</p>'
+          : '';
+        return (pairs.length > 1 ? '<div class="ai-turn' + (i > 0 ? ' ai-turn-follow' : '') + '">' : '')
+          + qBlock + this.formatAIReading(p.a)
+          + (pairs.length > 1 ? '</div>' : '');
+      }).join('');
+    }
+
     // 富文本渲染：markdown 轻量转换（先清 token → 转义防注入 → 转换标记）
     formatAIReading(text) {
       const src = this.stripControlTokens(String(text || '')).trim();
@@ -6525,7 +6537,9 @@
     }
 
     // 隐藏/显示结果页 AI 区块（每次抽牌后调用）
-    async updateAISectionVisibility() {
+    // opts.keepContext: 恢复场景传 true，跳过多轮上下文清理（否则会把待恢复的对话先删掉）
+    async updateAISectionVisibility(opts) {
+      opts = opts || {};
       const section = document.getElementById('ai-reading-section');
       if (!section) return;
       const settings = await this.loadAISettings();
@@ -6547,10 +6561,12 @@
       if (followup) followup.classList.add('hidden');
       if (followInput) followInput.value = '';
       if (qInput) qInput.value = '';
-      // 新一轮抽牌：清空多轮上下文与计时器（含持久化）
-      this.aiMessages = null;
-      this.aiTemperature = 0.65;
-      this.persistAIMessages();
+      // 新一轮抽牌：清空多轮上下文与计时器（含持久化）；恢复场景跳过
+      if (!opts.keepContext) {
+        this.aiMessages = null;
+        this.aiTemperature = 0.65;
+        this.persistAIMessages();
+      }
       this.stopAILoading();
     }
 
@@ -6659,7 +6675,8 @@
       }
 
       this.showPage('divination-page');
-      await this.updateAISectionVisibility();
+      // keepContext: 防止在恢复前把持久化的 aiMessages 清掉（曾导致追问内容消失）
+      await this.updateAISectionVisibility({ keepContext: true });
       // 恢复 AI 解读缓存（中断的解读给出提示）
       let ai = null;
       try { ai = JSON.parse(localStorage.getItem('tarot_ai_reading') || 'null'); } catch (e) {}
@@ -6670,16 +6687,23 @@
         if (contentWrap) contentWrap.classList.remove('hidden');
         if (qInput) qInput.value = ai.question || '';
         const followup = document.getElementById('ai-followup');
-        // 恢复多轮上下文，让追问在弹窗重开后仍可用
+        // 恢复多轮上下文（原始 markdown，无损），让追问与富文本结构完整还原
         if (!this.aiMessages || this.aiMessages.length === 0) {
           this.aiMessages = this.restoreAIMessages();
         }
         if (body) {
-          if (ai.output) {
-            // 还原时用富文本渲染（与生成时一致）；存量脏数据再清一次
+          const rebuilt = this.buildAIMessagesHTML(this.aiMessages);
+          if (rebuilt) {
+            // 首选：从持久化的 aiMessages 重建（保留标题/列表/追问对等全部结构）
+            body.classList.remove('ai-loading', 'ai-error', 'hidden');
+            body.innerHTML = rebuilt;
+            this.sanitizeTextNodes(body);
+            if (followup) followup.classList.remove('hidden');
+          } else if (ai.output) {
+            // 兜底：上下文丢失时退回纯文本快照（结构有损但内容可读）
             body.classList.remove('ai-loading', 'ai-error', 'hidden');
             body.innerHTML = this.formatAIReading(this.stripControlTokens(ai.output));
-            this.sanitizeTextNodes(body); // DOM 级兜底
+            this.sanitizeTextNodes(body);
             if (followup) followup.classList.remove('hidden');
           } else {
             body.classList.remove('ai-loading', 'hidden');
