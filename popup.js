@@ -6112,7 +6112,7 @@
           '# 今天就能做的N件事\n3-4条今天就能落地的具体行动，用 "1. 2. 3." 编号，每条一句话。\n\n' +
           '# 一句话总结\n一句让人记住的收尾金句。\n\n' +
           '风格：通俗易懂、像朋友聊天。禁止玄学腔和云里雾里的表达（如"宇宙的低语""静水深处"）。重点词用 **加粗** 强调。\n' +
-          '严格限制：只输出干净的自然语言正文。绝对禁止输出任何控制字符，特别是 <|object|>、<|object Object|>、<|im_start|>、<|im_end|>、<|endoftext|>、</s>、<thinking> 以及任何 <|...|> 形式的标记。绝对不要输出 "Object object|" 这种字面量。
+          '严格限制：只输出干净的自然语言正文。绝对禁止输出任何控制字符，特别是 <|object|>、<|object Object|>、<|im_start|>、<|im_end|>、<|endoftext|>、</s>、<thinking> 以及任何 <|...|> 形式的标记。绝对不要输出 "Object object|" 这种字面量。';
       const user = (isEn
         ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
         : (question ? '我的问题：' + question + '\n' : '') + '牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
