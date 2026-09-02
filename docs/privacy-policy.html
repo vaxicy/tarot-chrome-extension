@@ -116,7 +116,7 @@
       <div class="brand">
         Magic Tarot
       </div>
-      <div class="updated" id="last-updated">Last Updated: 2026-05-21 · 最后更新：2026年5月21日</div>
+      <div class="updated" id="last-updated">Last Updated: 2026-09-02 · 最后更新：2026年9月2日</div>
     </header>
 
     <nav class="lang-tabs" aria-label="Language switcher">
@@ -135,32 +135,27 @@
       <ul>
         <li><strong>No Personal Data Collection:</strong> We do not collect names, email addresses, or any personally identifiable information.</li>
         <li><strong>No Tracking:</strong> We do not use analytics, tracking cookies, or any form of user behavior monitoring.</li>
-        <li><strong>Limited External Communication:</strong> The Extension operates primarily locally. External communication only occurs when:
-          <ul>
-            <li>Verifying license codes (connects to <code>tarot-license.huangzero2004.workers.dev</code>)</li>
-            <li>Processing payments (redirects to <code>ifdian.net</code> for purchases)</li>
-            <li>No personal data is transmitted during these communications</li>
-          </ul>
-        </li>
+        <li><strong>No Payments:</strong> The Extension and all its features are completely free. There are no in-app purchases, license codes, or payment flows.</li>
+        <li><strong>Limited External Communication:</strong> The Extension operates primarily locally. External communication only occurs when you explicitly use the AI feature, and the request is sent directly to the AI service provider configured by you.</li>
       </ul>
 
       <h2>Data Storage</h2>
-      <p>All data is stored <strong>locally</strong> on your device using Chrome's <code>storage</code> API:</p>
+      <p>All data is stored <strong>locally</strong> on your device using Chrome's <code>storage</code> API and localStorage:</p>
       <ul>
         <li><strong>Reading History:</strong> Your tarot reading history is saved locally to allow you to review past readings.</li>
-        <li><strong>Favorites:</strong> Cards you mark as favorites are stored locally.</li>
-        <li><strong>Settings:</strong> Your preferences (selected deck, language, sound settings) are saved locally.</li>
+        <li><strong>Settings:</strong> Your preferences (selected deck, language, sound settings) and optional AI configuration are saved locally.</li>
       </ul>
       <p>This data never leaves your device, is not accessible to the developer, and can be cleared by uninstalling the extension or using the "Clear History" function within the extension.</p>
 
       <h2>Permissions</h2>
-      <p>The Extension requests only one permission:</p>
+      <p>The Extension requests the following permissions:</p>
       <ul>
-        <li><code>storage</code>: Used exclusively to save your preferences, reading history, and favorites locally on your device.</li>
+        <li><code>storage</code>: Used exclusively to save your preferences and reading history locally on your device.</li>
+        <li><code>host_permissions: https://*/*</code>: Required only when you enable and use the AI feature, so the Extension can connect to the AI service provider and endpoint you configure yourself.</li>
       </ul>
 
       <h2>Third-Party Services</h2>
-      <p>This Extension does not integrate with any third-party analytics, advertising, or tracking platforms. All AI features, if enabled, communicate directly with the AI service provider configured by you.</p>
+      <p>This Extension does not integrate with any third-party analytics, advertising, or tracking platforms. If you choose to use the AI feature, the Extension communicates directly with the AI service provider and endpoint you configure (for example, OpenAI, DeepSeek, or any OpenAI-compatible service). Your AI API key and requests are sent directly to that provider and are not routed through or stored on the developer's servers.</p>
 
       <h2>Children's Privacy</h2>
       <p>This Extension does not knowingly collect any information from children under 13 years of age.</p>
@@ -186,32 +181,27 @@
       <ul>
         <li><strong>无个人数据收集：</strong>我们不收集姓名、电子邮件地址或任何可识别个人身份的信息。</li>
         <li><strong>无跟踪：</strong>我们不使用分析工具、跟踪 Cookie 或任何形式的用户行为监控。</li>
-        <li><strong>有限的外部通信：</strong>扩展程序主要在本地运行。仅在以下情况下进行外部通信：
-          <ul>
-            <li>验证授权码时（连接到 <code>tarot-license.huangzero2004.workers.dev</code>）</li>
-            <li>处理支付时（重定向到 <code>ifdian.net</code> 进行购买）</li>
-            <li>这些通信过程中不传输个人数据</li>
-          </ul>
-        </li>
+        <li><strong>无付费：</strong>本扩展程序及其所有功能完全免费，不存在应用内购买、授权码验证或支付流程。</li>
+        <li><strong>有限的外部通信：</strong>扩展程序主要在本地运行。仅当您主动使用 AI 功能时，才会按您自己配置的 AI 服务提供商和端点发送请求。</li>
       </ul>
 
       <h2>数据存储</h2>
-      <p>所有数据都<strong>本地</strong>存储在您的设备上，使用 Chrome 的 <code>storage</code> API：</p>
+      <p>所有数据都<strong>本地</strong>存储在您的设备上，使用 Chrome 的 <code>storage</code> API 和 localStorage：</p>
       <ul>
         <li><strong>占卜历史：</strong>您的塔罗占卜历史记录保存在本地，以便您回顾过去的占卜。</li>
-        <li><strong>收藏夹：</strong>您标记为收藏的卡牌存储在本地。</li>
-        <li><strong>设置：</strong>您的偏好设置（选择的牌组、语言、音效设置）保存在本地。</li>
+        <li><strong>设置：</strong>您的偏好设置（选择的牌组、语言、音效设置）以及可选的 AI 配置保存在本地。</li>
       </ul>
       <p>这些数据永远不会离开您的设备，开发者无法访问，可以通过卸载扩展程序或在扩展程序内使用"清空记录"功能来清除。</p>
 
       <h2>权限说明</h2>
-      <p>本扩展程序仅请求一个权限：</p>
+      <p>本扩展程序请求以下权限：</p>
       <ul>
-        <li><code>storage</code>：仅用于将您的偏好设置、占卜历史和收藏夹保存在您的设备本地。</li>
+        <li><code>storage</code>：仅用于将您的偏好设置和占卜历史保存在您的设备本地。</li>
+        <li><code>host_permissions: https://*/*</code>：仅在您启用并使用 AI 功能时需要，以便扩展程序连接您自己配置的 AI 服务提供商和端点。</li>
       </ul>
 
       <h2>第三方服务</h2>
-      <p>本扩展程序不集成任何第三方分析、广告或跟踪平台。AI 功能如启用，将直接与您配置的 AI 服务提供商通信。</p>
+      <p>本扩展程序不集成任何第三方分析、广告或跟踪平台。如果您选择使用 AI 功能，扩展程序将直接与您配置的 AI 服务提供商和端点通信（例如 OpenAI、DeepSeek 或任何 OpenAI 兼容服务）。您的 API Key 和请求将直接发送给该服务商，不会经过开发者的服务器，也不会在开发者服务器上存储。</p>
 
       <h2>儿童隐私</h2>
       <p>本扩展程序不会故意收集 13 岁以下儿童的任何信息。</p>
