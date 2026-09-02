@@ -23,3 +23,6 @@ node_modules/
 
 # npm
 package-lock.json
+
+# CodeBuddy working memory
+.codebuddy/
