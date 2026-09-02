@@ -6379,14 +6379,14 @@
       ));
     }
 
-    // 清理模型偶尔吐出的控制 token（<|object|>、<|im_end|>、</s>、<|endoftext|> 等）
+    // 清理模型偶尔吐出的控制 token（半角 <|object|> / 全角 <｜object｜> / <[object Object]> 等）
     stripControlTokens(text) {
       let s = String(text || '');
-      // <|...|> 形式（允许空格/字母/数字/Object 等内容；重复清理处理相邻连排）
+      // <|...|> 与全角变体 <｜...｜>（中文模型常输出全角竖线 U+FF5C；重复清理相邻连排）
       let prev;
       do {
         prev = s;
-        s = s.replace(/<\|[^<>|]{0,80}\|>/g, '');
+        s = s.replace(/<[|｜][^<>|｜]{0,80}[|｜]>/g, '');
       } while (s !== prev);
       // ChatML 与工具调用相关标签
       s = s.replace(/<\/?(?:s|eor|eos|endoftext|im_start|im_end|tool_call|tool_response)\b[^>]*>/gi, '');
@@ -6394,9 +6394,11 @@
       s = s.replace(/<\/?(?:thinking|reflection|analysis|reasoning|system|user|assistant|tool|human|ai)\b[^>]*>/gi, '');
       // 裸字面量泄漏
       s = s.replace(/\b(?:function_calls|tool_calls|tool_use|function_call)\b/g, '');
-      // 未闭合的残留 <| 或 |>（兜底）
-      s = s.replace(/<\|/g, '').replace(/\|>/g, '');
-      s = s.replace(/<\|end\|>/g, '').replace(/<\|user\|>/g, '').replace(/<\|assistant\|>/g, '');
+      // [object Object] 各式包裹（JS 对象被字符串化的泄漏）
+      s = s.replace(/<\[object Object\]>/gi, '');
+      s = s.replace(/\[object Object\]/gi, '');
+      // 未闭合的残留 <| / |> / <｜ / ｜>（兜底，半角全角都剥）
+      s = s.replace(/<[|｜]/g, '').replace(/[|｜]>/g, '');
       // 多余空行合并
       s = s.replace(/\n{3,}/g, '\n\n');
       return s;
@@ -6428,6 +6430,8 @@
         let t = this.escapeHTML(s);
         t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
         t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
+        // 清理未配对残留的 ** / 孤立反引号（模型输出格式不严时会留下）
+        t = t.replace(/\*{1,3}/g, '').replace(/`{1,2}(?=[^`]*$)/g, '');
         return t;
       };
 
