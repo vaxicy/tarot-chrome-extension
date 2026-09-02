@@ -1207,9 +1207,20 @@ body::after {
 
 /* 多轮追问：第二轮起加分隔线 */
 .ai-turn-follow {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dashed rgba(233, 30, 99, 0.25);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(233, 30, 99, 0.3);
+}
+
+/* 追问轮次的提问引文（灰底小字，区分于正文） */
+.ai-turn-question {
+  margin: 0 0 6px;
+  padding: 5px 8px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: rgba(233, 30, 99, 0.08);
+  border-left: 2px solid rgba(233, 30, 99, 0.4);
+  border-radius: 0 4px 4px 0;
 }
 
 .ai-error-settings-btn {

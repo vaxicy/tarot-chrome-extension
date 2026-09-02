@@ -6093,10 +6093,26 @@
           + this.getMeaningText(c.card, c.isReversed);
       });
 
-      // 通俗化：像朋友聊天，说人话，给具体建议
+      // 结构化详细解读：固定 5 段模板，输出更长更有条理
       const system = isEn
-        ? 'You are a friendly, down-to-earth tarot reader. Interpret the drawn cards in plain, conversational language (150-280 words) — like a close friend giving advice over coffee. NO mystical jargon, no vague "the universe whispers" fluff. Be direct: what the cards likely mean for the situation, and 2-3 concrete things the person can actually do today. If a question was provided, answer it specifically. You MAY use light markdown: **bold** for emphasis, "# " for short section headings, and "1. 2. 3." for lists.'
-        : '你是一个接地气、说人话的塔罗解读师。请用通俗易懂、像朋友聊天的口吻解读（150-280字）。禁止玄学腔、云里雾里的表达（如"宇宙的低语""静水深处"这类话）。直接讲：这些牌对TA的情况大概意味着什么，再给2-3条今天就能做的具体建议。如果用户提了问题，要针对问题回答，不要泛泛而谈。允许轻量排版：**加粗**强调重点、"# "开头写简短小标题、"1. 2. 3." 列具体建议。';
+        ? 'You are a friendly, down-to-earth tarot reader. Write a detailed, well-structured reading of 400-600 words that covers BOTH the overall picture AND each card individually.\n\n' +
+          'REQUIRED structure — use exactly these five "# " headings in this order:\n' +
+          '# Overall Energy\n2-3 sentences on the core tendency of this draw.\n\n' +
+          '# Card-by-Card\nFor EACH card: its name, upright/reversed, and what it specifically means for this situation (2-3 sentences per card). Do not skip any card.\n\n' +
+          '# What It Means For You\nAddress the person\'s question directly (or the general situation if no question). Be specific, not generic.\n\n' +
+          '# Actionable Steps\n3-4 concrete things the person can actually do today, numbered "1. 2. 3." Each step one sentence.\n\n' +
+          '# One-Line Takeaway\nA single memorable closing line.\n\n' +
+          'STYLE: plain conversational language, like a close friend over coffee. NO mystical jargon, no "the universe whispers" fluff. Use **bold** for key phrases.\n' +
+          'STRICT: output clean natural-language text ONLY. Never emit any control tokens such as <|object|>, <|im_start|>, <|im_end|>, <|endoftext|>, </s>, or any <|...|> sequence.'
+        : '你是一个接地气、说人话的塔罗解读师。请给出一份详细、有条理的解读，400-600字，既要讲整体趋势，也要逐张牌说清楚。\n\n' +
+          '必须严格按以下五个小标题顺序输出（用 "# " 开头）：\n' +
+          '# 整体能量\n2-3句话说明这次抽牌的核心走向。\n\n' +
+          '# 逐牌解读\n每一张牌都要单独讲：牌名、正逆位，以及它在这个情境下具体意味着什么（每张牌2-3句）。不能漏牌。\n\n' +
+          '# 对你的启示\n针对用户的问题直接回答（没提问题就针对整体情况）。要具体，不要泛泛而谈。\n\n' +
+          '# 今天就能做的N件事\n3-4条今天就能落地的具体行动，用 "1. 2. 3." 编号，每条一句话。\n\n' +
+          '# 一句话总结\n一句让人记住的收尾金句。\n\n' +
+          '风格：通俗易懂、像朋友聊天。禁止玄学腔和云里雾里的表达（如"宇宙的低语""静水深处"）。重点词用 **加粗** 强调。\n' +
+          '严格限制：只输出干净的自然语言正文。绝对禁止输出任何控制字符，例如 <|object|>、<|im_start|>、<|im_end|>、<|endoftext|>、</s> 以及任何 <|...|> 形式的标记。';
       const user = (isEn
         ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
         : (question ? '我的问题：' + question + '\n' : '') + '牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
@@ -6106,8 +6122,10 @@
         { role: 'system', content: system },
         { role: 'user', content: user }
       ];
-      if (opts.regenerate) this.aiTemperature = Math.min(1.0, (this.aiTemperature || 0.7) + 0.15);
-      else this.aiTemperature = 0.7;
+      this.persistAIMessages();
+      // 结构化输出用较低温度更稳定；重新生成时略提以增加变化
+      if (opts.regenerate) this.aiTemperature = Math.min(0.95, (this.aiTemperature || 0.65) + 0.12);
+      else this.aiTemperature = 0.65;
 
       await this.runAIChat(question);
     }
@@ -6118,7 +6136,15 @@
       if (!input) return;
       const text = (input.value || '').trim();
       if (!text) return;
-      if (!this.aiMessages || this.aiMessages.length === 0) return;
+      // 内存上下文丢失时（如 popup 重开）先尝试从 localStorage 恢复
+      if (!this.aiMessages || this.aiMessages.length === 0) {
+        this.aiMessages = this.restoreAIMessages();
+      }
+      if (!this.aiMessages || this.aiMessages.length === 0) {
+        const isEn0 = this.currentLang === 'en';
+        this.showToast(isEn0 ? 'Start an AI reading first' : '请先生成一次 AI 解读');
+        return;
+      }
 
       const isEn = this.currentLang === 'en';
       const settings = await this.loadAISettings();
@@ -6129,8 +6155,30 @@
       }
 
       this.aiMessages.push({ role: 'user', content: text });
+      this.persistAIMessages();
       input.value = '';
+      document.getElementById('ai-question-input')?.value;
       await this.runAIChat(document.getElementById('ai-question-input')?.value?.trim() || '');
+    }
+
+    // 多轮上下文持久化（popup 关闭重开后追问仍可用）
+    persistAIMessages() {
+      try {
+        if (this.aiMessages && this.aiMessages.length) {
+          localStorage.setItem('tarot_ai_messages', JSON.stringify(this.aiMessages));
+        } else {
+          localStorage.removeItem('tarot_ai_messages');
+        }
+      } catch (e) {}
+    }
+
+    restoreAIMessages() {
+      try {
+        const raw = localStorage.getItem('tarot_ai_messages');
+        if (!raw) return null;
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) && arr.length ? arr : null;
+      } catch (e) { return null; }
     }
 
     // 统一请求执行：骨架屏 + 计时 + 富文本渲染 + 错误分类
@@ -6191,15 +6239,32 @@
           ? data.choices[0].message.content : '';
         if (!text) throw { aiKind: 'empty' };
 
-        this.aiMessages.push({ role: 'assistant', content: text });
+        const cleanText = this.stripControlTokens(text);
+        if (!cleanText.trim()) throw { aiKind: 'empty' };
 
-        // 多轮：把历史回答累积渲染（每条 assistant 消息一段）
-        const turns = this.aiMessages.filter(m => m.role === 'assistant');
-        const html = turns.map((m, i) => {
-          const inner = this.formatAIReading(m.content);
-          return turns.length > 1
-            ? '<div class="ai-turn' + (i > 0 ? ' ai-turn-follow' : '') + '">' + inner + '</div>'
-            : inner;
+        this.aiMessages.push({ role: 'assistant', content: cleanText });
+        this.persistAIMessages();
+
+        // 多轮：按「提问 → 回答」成对渲染，让上下文清晰可读
+        const pairs = [];
+        for (let i = 0; i < this.aiMessages.length; i++) {
+          const m = this.aiMessages[i];
+          if (m.role === 'user' && i > 0) {
+            // 首条 user 是牌面上下文，不重复展示；后续才是追问
+            const next = this.aiMessages[i + 1];
+            if (next && next.role === 'assistant') {
+              pairs.push({ q: m.content, a: next.content });
+              i++;
+            }
+          }
+        }
+        const html = pairs.map((p, i) => {
+          const qBlock = i > 0
+            ? '<p class="ai-turn-question">' + this.escapeHTML(p.q) + '</p>'
+            : '';
+          return (pairs.length > 1 ? '<div class="ai-turn' + (i > 0 ? ' ai-turn-follow' : '') + '">' : '')
+            + qBlock + this.formatAIReading(p.a)
+            + (pairs.length > 1 ? '</div>' : '');
         }).join('');
 
         this.stopAILoading();
@@ -6207,10 +6272,12 @@
         body.innerHTML = html;
         if (followup) followup.classList.remove('hidden');
         // 追问后滚动到结果底部
-        if (followup && turns.length > 1) {
+        if (followup && pairs.length > 1) {
           try { followup.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
         }
-        this.saveAIReading(question, body.innerText || body.textContent || '', 'done');
+        // 存档前再清一次控制 token，避免脏数据进快照/历史
+        const finalText = this.stripControlTokens(body.innerText || body.textContent || '');
+        this.saveAIReading(question, finalText, 'done');
       } catch (e) {
         this.stopAILoading();
         body.classList.remove('ai-loading', 'hidden');
@@ -6306,9 +6373,23 @@
       ));
     }
 
-    // 富文本渲染：markdown 轻量转换（先转义防注入，再转换标记）
+    // 清理模型偶尔吐出的控制 token（<|object|>、<|im_end|>、</s>、<|endoftext|> 等）
+    stripControlTokens(text) {
+      let s = String(text || '');
+      // <|...|> 形式（重复清理，处理相邻连排的情况）
+      let prev;
+      do { prev = s; s = s.replace(/<\|[^<>|]{0,64}\|>/g, ''); } while (s !== prev);
+      // 常见的裸结束标记
+      s = s.replace(/<\/?(?:s|eor|eos|endoftext|im_start|im_end)\b[^>]*>/gi, '');
+      // 未闭合的残留 <| 或 |>
+      s = s.replace(/<\|/g, '').replace(/\|>/g, '');
+      s = s.replace(/<\|end\|>/g, '').replace(/<\|user\|>/g, '').replace(/<\|assistant\|>/g, '');
+      return s;
+    }
+
+    // 富文本渲染：markdown 轻量转换（先清 token → 转义防注入 → 转换标记）
     formatAIReading(text) {
-      const src = String(text || '').trim();
+      const src = this.stripControlTokens(String(text || '')).trim();
       if (!src) return '';
       const lines = src.split(/\r?\n/);
       const out = [];
@@ -6424,9 +6505,10 @@
       if (followup) followup.classList.add('hidden');
       if (followInput) followInput.value = '';
       if (qInput) qInput.value = '';
-      // 新一轮抽牌：清空多轮上下文与计时器
+      // 新一轮抽牌：清空多轮上下文与计时器（含持久化）
       this.aiMessages = null;
-      this.aiTemperature = 0.7;
+      this.aiTemperature = 0.65;
+      this.persistAIMessages();
       this.stopAILoading();
     }
 
@@ -6546,6 +6628,10 @@
         if (contentWrap) contentWrap.classList.remove('hidden');
         if (qInput) qInput.value = ai.question || '';
         const followup = document.getElementById('ai-followup');
+        // 恢复多轮上下文，让追问在弹窗重开后仍可用
+        if (!this.aiMessages || this.aiMessages.length === 0) {
+          this.aiMessages = this.restoreAIMessages();
+        }
         if (body) {
           if (ai.output) {
             // 还原时用富文本渲染（与生成时一致）
