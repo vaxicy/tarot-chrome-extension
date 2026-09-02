@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Tarot Privacy Policy | 隐私权政策</title>
+  <style>
+    :root {
+      --bg: #f8f6f3;
+      --surface: #ffffff;
+      --text: #2e2a36;
+      --sub: #6b6573;
+      --accent: #7b6791;
+      --border: #e5e1dc;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(46, 42, 54, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    .lang-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .lang-tab {
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--sub);
+      transition: all 0.2s ease;
+    }
+    .lang-tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .lang-content {
+      display: none;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+    .lang-content.active { display: block; }
+    h1 { font-size: 26px; margin: 0 0 8px; }
+    h2 { font-size: 18px; margin: 28px 0 12px; color: var(--accent); }
+    h3 { font-size: 16px; margin: 20px 0 10px; }
+    p { margin: 12px 0; }
+    ul { padding-left: 22px; margin: 12px 0; }
+    li { margin: 6px 0; }
+    code {
+      background: #f0ece6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+      word-break: break-word;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .updated {
+      display: inline-block;
+      background: #f0ece6;
+      color: var(--sub);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 13px;
+      color: var(--sub);
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 32px 16px 48px; }
+      .lang-content { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        Magic Tarot
+      </div>
+      <div class="updated" id="last-updated">Last Updated: 2026-05-21 · 最后更新：2026年5月21日</div>
+    </header>
+
+    <nav class="lang-tabs" aria-label="Language switcher">
+      <button class="lang-tab" data-lang="en">English</button>
+      <button class="lang-tab" data-lang="zh">中文</button>
+    </nav>
+
+    <section class="lang-content" data-lang="en" lang="en">
+      <h1>Privacy Policy</h1>
+
+      <h2>Overview</h2>
+      <p>This Chrome Extension ("Magic Tarot - Daily Divination", "the Extension") is committed to protecting your privacy. This privacy policy explains how we handle information when you use our extension.</p>
+
+      <h2>Information Collection</h2>
+      <p>This Extension <strong>does not collect or store</strong> any personal information on external servers. Specifically:</p>
+      <ul>
+        <li><strong>No Personal Data Collection:</strong> We do not collect names, email addresses, or any personally identifiable information.</li>
+        <li><strong>No Tracking:</strong> We do not use analytics, tracking cookies, or any form of user behavior monitoring.</li>
+        <li><strong>Limited External Communication:</strong> The Extension operates primarily locally. External communication only occurs when:
+          <ul>
+            <li>Verifying license codes (connects to <code>tarot-license.huangzero2004.workers.dev</code>)</li>
+            <li>Processing payments (redirects to <code>ifdian.net</code> for purchases)</li>
+            <li>No personal data is transmitted during these communications</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>Data Storage</h2>
+      <p>All data is stored <strong>locally</strong> on your device using Chrome's <code>storage</code> API:</p>
+      <ul>
+        <li><strong>Reading History:</strong> Your tarot reading history is saved locally to allow you to review past readings.</li>
+        <li><strong>Favorites:</strong> Cards you mark as favorites are stored locally.</li>
+        <li><strong>Settings:</strong> Your preferences (selected deck, language, sound settings) are saved locally.</li>
+      </ul>
+      <p>This data never leaves your device, is not accessible to the developer, and can be cleared by uninstalling the extension or using the "Clear History" function within the extension.</p>
+
+      <h2>Permissions</h2>
+      <p>The Extension requests only one permission:</p>
+      <ul>
+        <li><code>storage</code>: Used exclusively to save your preferences, reading history, and favorites locally on your device.</li>
+      </ul>
+
+      <h2>Third-Party Services</h2>
+      <p>This Extension does not integrate with any third-party analytics, advertising, or tracking platforms. All AI features, if enabled, communicate directly with the AI service provider configured by you.</p>
+
+      <h2>Children's Privacy</h2>
+      <p>This Extension does not knowingly collect any information from children under 13 years of age.</p>
+
+      <h2>Changes to This Policy</h2>
+      <p>If we make changes to this privacy policy, we will update the policy text and the "Last Updated" date.</p>
+
+      <h2>Contact</h2>
+      <p>If you have any questions about this privacy policy, please open an issue on our GitHub repository: <a href="https://github.com/vaxicy/tarot-chrome-extension/issues">https://github.com/vaxicy/tarot-chrome-extension/issues</a></p>
+
+      <h2>Compliance</h2>
+      <p>This extension complies with: Chrome Web Store Developer Program Policies, GDPR, and CCPA.</p>
+    </section>
+
+    <section class="lang-content" data-lang="zh" lang="zh-CN">
+      <h1>隐私权政策</h1>
+
+      <h2>概述</h2>
+      <p>本 Chrome 扩展程序（"Magic Tarot - 每日占卜"，简称"本扩展"）致力于保护您的隐私。本隐私政策说明了我们在您使用扩展程序时如何处理信息。</p>
+
+      <h2>信息收集</h2>
+      <p>本扩展程序<strong>不收集或存储</strong>任何个人信息在外部服务器上。具体包括：</p>
+      <ul>
+        <li><strong>无个人数据收集：</strong>我们不收集姓名、电子邮件地址或任何可识别个人身份的信息。</li>
+        <li><strong>无跟踪：</strong>我们不使用分析工具、跟踪 Cookie 或任何形式的用户行为监控。</li>
+        <li><strong>有限的外部通信：</strong>扩展程序主要在本地运行。仅在以下情况下进行外部通信：
+          <ul>
+            <li>验证授权码时（连接到 <code>tarot-license.huangzero2004.workers.dev</code>）</li>
+            <li>处理支付时（重定向到 <code>ifdian.net</code> 进行购买）</li>
+            <li>这些通信过程中不传输个人数据</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>数据存储</h2>
+      <p>所有数据都<strong>本地</strong>存储在您的设备上，使用 Chrome 的 <code>storage</code> API：</p>
+      <ul>
+        <li><strong>占卜历史：</strong>您的塔罗占卜历史记录保存在本地，以便您回顾过去的占卜。</li>
+        <li><strong>收藏夹：</strong>您标记为收藏的卡牌存储在本地。</li>
+        <li><strong>设置：</strong>您的偏好设置（选择的牌组、语言、音效设置）保存在本地。</li>
+      </ul>
+      <p>这些数据永远不会离开您的设备，开发者无法访问，可以通过卸载扩展程序或在扩展程序内使用"清空记录"功能来清除。</p>
+
+      <h2>权限说明</h2>
+      <p>本扩展程序仅请求一个权限：</p>
+      <ul>
+        <li><code>storage</code>：仅用于将您的偏好设置、占卜历史和收藏夹保存在您的设备本地。</li>
+      </ul>
+
+      <h2>第三方服务</h2>
+      <p>本扩展程序不集成任何第三方分析、广告或跟踪平台。AI 功能如启用，将直接与您配置的 AI 服务提供商通信。</p>
+
+      <h2>儿童隐私</h2>
+      <p>本扩展程序不会故意收集 13 岁以下儿童的任何信息。</p>
+
+      <h2>政策变更</h2>
+      <p>如果我们对本隐私政策进行更改，我们将更新政策文本和"最后更新日期"。</p>
+
+      <h2>联系方式</h2>
+      <p>如果您对本隐私政策有任何疑问，请在我们的 GitHub 仓库上提出问题：<a href="https://github.com/vaxicy/tarot-chrome-extension/issues">https://github.com/vaxicy/tarot-chrome-extension/issues</a></p>
+
+      <h2>合规性</h2>
+      <p>本扩展符合：Chrome 网上应用店开发者计划政策、通用数据保护条例 (GDPR)、加州消费者隐私法案 (CCPA)。</p>
+    </section>
+
+    <footer>
+      © 2026 Magic Tarot. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = 'tarot_privacy_lang';
+      const tabs = document.querySelectorAll('.lang-tab');
+      const panels = document.querySelectorAll('.lang-content');
+      const html = document.documentElement;
+
+      function detectDefaultLang() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved === 'en' || saved === 'zh') return saved;
+        const browser = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+        return browser.startsWith('zh') ? 'zh' : 'en';
+      }
+
+      function switchLang(lang) {
+        localStorage.setItem(STORAGE_KEY, lang);
+        html.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.lang === lang); });
+        panels.forEach(function (p) { p.classList.toggle('active', p.dataset.lang === lang); });
+      }
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () { switchLang(tab.dataset.lang); });
+      });
+
+      switchLang(detectDefaultLang());
+    })();
+  </script>
+</body>
+</html>
