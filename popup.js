@@ -6063,7 +6063,9 @@
     }
 
     // ============ AI 智能解读 ============
-    async aiInterpret() {
+    // opts: { regenerate: 重新生成（不带新追问，temperature 略高） }
+    async aiInterpret(opts) {
+      opts = opts || {};
       const btn = document.getElementById('ai-interpret-btn');
       const section = document.getElementById('ai-reading-section');
       const contentWrap = document.getElementById('ai-reading-content');
@@ -6093,65 +6095,305 @@
 
       // 通俗化：像朋友聊天，说人话，给具体建议
       const system = isEn
-        ? 'You are a friendly, down-to-earth tarot reader. Interpret the drawn cards in plain, conversational language (150-280 words) — like a close friend giving advice over coffee. NO mystical jargon, no vague "the universe whispers" fluff. Be direct: what the cards likely mean for the situation, and 2-3 concrete things the person can actually do today. If a question was provided, answer it specifically. STRICT plain text: no markdown at all (no ** bold, no # headings, no * bullets) — use "1. 2. 3." for lists.'
-        : '你是一个接地气、说人话的塔罗解读师。请用通俗易懂、像朋友聊天的口吻解读（150-280字）。禁止玄学腔、云里雾里的表达（如"宇宙的低语""静水深处"这类话）。直接讲：这些牌对TA的情况大概意味着什么，再给2-3条今天就能做的具体建议。如果用户提了问题，要针对问题回答，不要泛泛而谈。严格只输出纯文本：禁止一切 markdown 符号（如 ** 加粗、# 标题、* 列表），列表直接用「1. 2. 3.」开头即可。';
+        ? 'You are a friendly, down-to-earth tarot reader. Interpret the drawn cards in plain, conversational language (150-280 words) — like a close friend giving advice over coffee. NO mystical jargon, no vague "the universe whispers" fluff. Be direct: what the cards likely mean for the situation, and 2-3 concrete things the person can actually do today. If a question was provided, answer it specifically. You MAY use light markdown: **bold** for emphasis, "# " for short section headings, and "1. 2. 3." for lists.'
+        : '你是一个接地气、说人话的塔罗解读师。请用通俗易懂、像朋友聊天的口吻解读（150-280字）。禁止玄学腔、云里雾里的表达（如"宇宙的低语""静水深处"这类话）。直接讲：这些牌对TA的情况大概意味着什么，再给2-3条今天就能做的具体建议。如果用户提了问题，要针对问题回答，不要泛泛而谈。允许轻量排版：**加粗**强调重点、"# "开头写简短小标题、"1. 2. 3." 列具体建议。';
       const user = (isEn
         ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
         : (question ? '我的问题：' + question + '\n' : '') + '牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
 
-      // UI 进入加载态
-      btn.disabled = true;
-      btn.innerHTML = '&#8987; ' + (isEn ? 'Interpreting...' : '解读中...');
+      // 首轮：重建多轮上下文；重新生成：重置并略提 temperature
+      this.aiMessages = [
+        { role: 'system', content: system },
+        { role: 'user', content: user }
+      ];
+      if (opts.regenerate) this.aiTemperature = Math.min(1.0, (this.aiTemperature || 0.7) + 0.15);
+      else this.aiTemperature = 0.7;
+
+      await this.runAIChat(question);
+    }
+
+    // 追问（多轮对话，沿用已有上下文）
+    async aiFollowUp() {
+      const input = document.getElementById('ai-followup-input');
+      if (!input) return;
+      const text = (input.value || '').trim();
+      if (!text) return;
+      if (!this.aiMessages || this.aiMessages.length === 0) return;
+
+      const isEn = this.currentLang === 'en';
+      const settings = await this.loadAISettings();
+      const slot = settings.providerConfigs[settings.provider];
+      if (!slot.apiKey) {
+        this.showToast(isEn ? 'Set your API Key in Settings first' : '请先在设置中填写 API Key');
+        return;
+      }
+
+      this.aiMessages.push({ role: 'user', content: text });
+      input.value = '';
+      await this.runAIChat(document.getElementById('ai-question-input')?.value?.trim() || '');
+    }
+
+    // 统一请求执行：骨架屏 + 计时 + 富文本渲染 + 错误分类
+    async runAIChat(question) {
+      const btn = document.getElementById('ai-interpret-btn');
+      const section = document.getElementById('ai-reading-section');
+      const contentWrap = document.getElementById('ai-reading-content');
+      const body = document.getElementById('ai-reading-body');
+      const skeleton = document.getElementById('ai-reading-skeleton');
+      const followup = document.getElementById('ai-followup');
+      const isEn = this.currentLang === 'en';
+      if (!btn || !section || !contentWrap || !body) return;
+
+      const settings = await this.loadAISettings();
+      const slot = settings.providerConfigs[settings.provider];
+
       contentWrap.classList.remove('hidden');
-      body.classList.add('ai-loading');
-      body.textContent = isEn ? 'The stars are aligning…' : '星辰推演中…';
       section.classList.remove('hidden');
-      // 记录解读进行中（popup 关闭重开时可识别中断状态）
+      this.startAILoading();
       this.saveAIReading(question, '', 'loading');
 
       try {
         const base = this.normalizeBase(slot.baseUrl);
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 60000);
-        const res = await fetch(base + '/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + slot.apiKey
-          },
-          body: JSON.stringify({
-            model: slot.model,
-            messages: [
-              { role: 'system', content: system },
-              { role: 'user', content: user }
-            ],
-            temperature: 0.7
-          }),
-          signal: controller.signal
-        });
+        let res;
+        try {
+          res = await fetch(base + '/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + slot.apiKey
+            },
+            body: JSON.stringify({
+              model: slot.model,
+              messages: this.aiMessages,
+              temperature: this.aiTemperature || 0.7
+            }),
+            signal: controller.signal
+          });
+        } catch (fetchErr) {
+          clearTimeout(timer);
+          // AbortError 即超时；其余为网络层错误
+          if (fetchErr && fetchErr.name === 'AbortError') {
+            throw { aiKind: 'timeout' };
+          }
+          throw { aiKind: 'network', raw: fetchErr };
+        }
         clearTimeout(timer);
+
         if (!res.ok) {
           const errText = await res.text().catch(() => '');
-          throw new Error('HTTP ' + res.status + (errText ? ': ' + errText.slice(0, 120) : ''));
+          throw { aiKind: 'http', status: res.status, detail: errText };
         }
+
         const data = await res.json();
         const text = data.choices && data.choices[0] && data.choices[0].message
           ? data.choices[0].message.content : '';
-        if (!text) throw new Error('empty');
-        const clean = this.stripMarkdown(text.trim());
-        body.classList.remove('ai-loading');
-        body.textContent = clean;
-        this.saveAIReading(question, clean, 'done');
+        if (!text) throw { aiKind: 'empty' };
+
+        this.aiMessages.push({ role: 'assistant', content: text });
+
+        // 多轮：把历史回答累积渲染（每条 assistant 消息一段）
+        const turns = this.aiMessages.filter(m => m.role === 'assistant');
+        const html = turns.map((m, i) => {
+          const inner = this.formatAIReading(m.content);
+          return turns.length > 1
+            ? '<div class="ai-turn' + (i > 0 ? ' ai-turn-follow' : '') + '">' + inner + '</div>'
+            : inner;
+        }).join('');
+
+        this.stopAILoading();
+        body.classList.remove('ai-loading', 'ai-error', 'hidden');
+        body.innerHTML = html;
+        if (followup) followup.classList.remove('hidden');
+        // 追问后滚动到结果底部
+        if (followup && turns.length > 1) {
+          try { followup.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+        }
+        this.saveAIReading(question, body.innerText || body.textContent || '', 'done');
       } catch (e) {
-        body.classList.remove('ai-loading');
-        body.textContent = (isEn ? 'AI interpretation failed: ' : 'AI 解读失败：') + (e.message || e);
+        this.stopAILoading();
+        body.classList.remove('ai-loading', 'hidden');
+        body.classList.add('ai-error');
+        body.innerHTML = this.formatAIError(e, isEn);
+        if (followup) followup.classList.remove('hidden');
       } finally {
         btn.disabled = false;
         btn.innerHTML = '&#10024; <span data-i18n-key="ai_interpret_btn">' + (isEn ? 'AI Interpretation' : 'AI 智能解读') + '</span>';
+        const regen = document.getElementById('ai-regenerate-btn');
+        if (regen) regen.disabled = false;
       }
     }
 
-    // 清洗 AI 输出中的 markdown 标记（**粗体**、# 标题、`代码`）
+    // 骨架屏 + 计时
+    startAILoading() {
+      const btn = document.getElementById('ai-interpret-btn');
+      const body = document.getElementById('ai-reading-body');
+      const skeleton = document.getElementById('ai-reading-skeleton');
+      const timerEl = document.getElementById('ai-loading-timer');
+      const isEn = this.currentLang === 'en';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '&#8987; ' + (isEn ? 'Interpreting...' : '解读中...');
+      }
+      if (body) { body.classList.add('hidden'); body.classList.remove('ai-error'); }
+      if (skeleton) skeleton.classList.remove('hidden');
+      const regen = document.getElementById('ai-regenerate-btn');
+      if (regen) regen.disabled = true;
+
+      const t0 = Date.now();
+      if (this._aiTimerId) clearInterval(this._aiTimerId);
+      this._aiTimerId = setInterval(() => {
+        const el = document.getElementById('ai-loading-timer');
+        if (!el) return;
+        const s = Math.floor((Date.now() - t0) / 1000);
+        el.textContent = isEn ? (s + 's elapsed') : ('已等待 ' + s + 's');
+      }, 1000);
+      if (timerEl) timerEl.textContent = isEn ? '0s elapsed' : '已等待 0s';
+    }
+
+    stopAILoading() {
+      const skeleton = document.getElementById('ai-reading-skeleton');
+      if (skeleton) skeleton.classList.add('hidden');
+      if (this._aiTimerId) { clearInterval(this._aiTimerId); this._aiTimerId = null; }
+    }
+
+    // 错误分类：401/403 → Key 问题；404 → 地址问题；超时/网络 → 各自的引导
+    formatAIError(e, isEn) {
+      const kind = e && e.aiKind;
+      let msg;
+      let showSettings = false;
+
+      if (kind === 'timeout') {
+        msg = isEn
+          ? 'The AI took too long to respond (over 60s). Tap the regenerate button to try again, or switch to a faster model in Settings.'
+          : 'AI 响应超时（超过 60 秒）。可以点「重新生成」再试一次，或在设置里换成更快的模型。';
+      } else if (kind === 'network') {
+        msg = isEn
+          ? 'Could not reach the AI service. Check your network or VPN, then try again.'
+          : '无法连接到 AI 服务。请检查网络或代理后重试。';
+      } else if (kind === 'http' && (e.status === 401 || e.status === 403)) {
+        msg = isEn
+          ? 'Your API Key was rejected (HTTP ' + e.status + '). Please check the Key in Settings.'
+          : 'API Key 无效或无权限（HTTP ' + e.status + '）。请到设置里检查 Key 是否正确。';
+        showSettings = true;
+      } else if (kind === 'http' && e.status === 404) {
+        msg = isEn
+          ? 'The API endpoint was not found (HTTP 404). Check the API Base URL in Settings.'
+          : '接口地址错误（HTTP 404）。请到设置里检查 API 地址。';
+        showSettings = true;
+      } else if (kind === 'http') {
+        msg = (isEn ? 'AI service error (HTTP ' : 'AI 服务返回错误（HTTP ') + e.status + '）。' +
+          (isEn ? 'Please try again later.' : '请稍后重试。');
+      } else if (kind === 'empty') {
+        msg = isEn
+          ? 'The AI returned an empty response. Tap regenerate to try again.'
+          : 'AI 返回了空内容，点「重新生成」再试一次。';
+      } else {
+        msg = (isEn ? 'AI interpretation failed: ' : 'AI 解读失败：') + ((e && (e.message || e.raw)) || '');
+      }
+
+      const label = isEn ? 'Go to Settings' : '前往设置';
+      const btn = showSettings
+        ? '<button type="button" class="ai-error-settings-btn" data-action="open-settings">' + label + '</button>'
+        : '';
+      return '<p>' + this.escapeHTML(msg) + '</p>' + btn;
+    }
+
+    escapeHTML(s) {
+      return String(s || '').replace(/[&<>"']/g, (c) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+
+    // 富文本渲染：markdown 轻量转换（先转义防注入，再转换标记）
+    formatAIReading(text) {
+      const src = String(text || '').trim();
+      if (!src) return '';
+      const lines = src.split(/\r?\n/);
+      const out = [];
+      let para = [];
+      let list = null; // 'ol' | 'ul'
+
+      const flushPara = () => {
+        if (para.length) {
+          out.push('<p>' + para.join('<br/>') + '</p>');
+          para = [];
+        }
+      };
+      const flushList = () => {
+        if (list) {
+          out.push('<' + list + '>' + list.items.map(i => '<li>' + i + '</li>').join('') + '</' + list + '>');
+          list = null;
+        }
+      };
+      // 行内：**加粗**、`代码`、*斜体*
+      const inline = (s) => {
+        let t = this.escapeHTML(s);
+        t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
+        return t;
+      };
+
+      lines.forEach((raw) => {
+        const line = raw.trim();
+        if (!line) { flushPara(); flushList(); return; }
+
+        // 标题：# xxx
+        const h = line.match(/^#{1,6}\s*(.+)$/);
+        if (h) {
+          flushPara(); flushList();
+          out.push('<span class="ai-sec-title">' + inline(h[1]) + '</span>');
+          return;
+        }
+        // 有序列表：1. / 1) 
+        const ol = line.match(/^\d+[.、)]\s*(.+)$/);
+        if (ol) {
+          flushPara();
+          if (!list || list.type !== 'ol') { flushList(); list = { type: 'ol', items: [] }; }
+          list.items.push(inline(ol[1]));
+          return;
+        }
+        // 无序列表：- / * / •
+        const ul = line.match(/^[-*•]\s*(.+)$/);
+        if (ul) {
+          flushPara();
+          if (!list || list.type !== 'ul') { flushList(); list = { type: 'ul', items: [] }; }
+          list.items.push(inline(ul[1]));
+          return;
+        }
+        // 普通段落
+        flushList();
+        para.push(inline(line));
+      });
+      flushPara(); flushList();
+      return out.join('');
+    }
+
+    // 复制 AI 解读结果
+    copyAIReading() {
+      const body = document.getElementById('ai-reading-body');
+      if (!body) return;
+      const text = body.innerText || body.textContent || '';
+      if (!text.trim()) return;
+      this.copyToClipboard(text);
+    }
+
+    // 收起 / 展开 AI 结果
+    toggleAICollapse() {
+      const body = document.getElementById('ai-reading-body');
+      const followup = document.getElementById('ai-followup');
+      const btn = document.getElementById('ai-collapse-btn');
+      if (!body || !btn) return;
+      const collapsed = body.classList.toggle('hidden');
+      if (followup) followup.classList.toggle('hidden', collapsed);
+      btn.innerHTML = collapsed ? '&#9660;' : '&#9650;';
+      btn.title = collapsed
+        ? (this.currentLang === 'en' ? 'Expand' : '展开')
+        : (this.currentLang === 'en' ? 'Collapse' : '收起');
+    }
+
+    // 兼容旧调用：纯文本剥离（历史记录导出等场景仍可能用到）
     stripMarkdown(text) {
       return String(text || '')
         .replace(/\*\*([^*]+)\*\*/g, '$1')
@@ -6170,9 +6412,22 @@
       const contentWrap = document.getElementById('ai-reading-content');
       const body = document.getElementById('ai-reading-body');
       const qInput = document.getElementById('ai-question-input');
+      const skeleton = document.getElementById('ai-reading-skeleton');
+      const followup = document.getElementById('ai-followup');
+      const followInput = document.getElementById('ai-followup-input');
       if (contentWrap) contentWrap.classList.add('hidden');
-      if (body) { body.textContent = ''; body.classList.remove('ai-loading'); }
+      if (body) {
+        body.innerHTML = '';
+        body.classList.remove('ai-loading', 'ai-error', 'hidden');
+      }
+      if (skeleton) skeleton.classList.add('hidden');
+      if (followup) followup.classList.add('hidden');
+      if (followInput) followInput.value = '';
       if (qInput) qInput.value = '';
+      // 新一轮抽牌：清空多轮上下文与计时器
+      this.aiMessages = null;
+      this.aiTemperature = 0.7;
+      this.stopAILoading();
     }
 
     // ============ 占卜会话快照（关闭 popup 后恢复结果页） ============
@@ -6290,14 +6545,19 @@
         const qInput = document.getElementById('ai-question-input');
         if (contentWrap) contentWrap.classList.remove('hidden');
         if (qInput) qInput.value = ai.question || '';
+        const followup = document.getElementById('ai-followup');
         if (body) {
           if (ai.output) {
-            body.textContent = ai.output;
+            // 还原时用富文本渲染（与生成时一致）
+            body.classList.remove('ai-loading', 'ai-error', 'hidden');
+            body.innerHTML = this.formatAIReading(ai.output);
+            if (followup) followup.classList.remove('hidden');
           } else {
-            body.classList.remove('ai-loading');
-            body.textContent = isEn
+            body.classList.remove('ai-loading', 'hidden');
+            body.classList.add('ai-error');
+            body.innerHTML = '<p>' + this.escapeHTML(isEn
               ? 'The previous interpretation was interrupted when the popup was closed. Tap the button above to regenerate it.'
-              : '上次的 AI 解读因弹窗关闭而中断，点击上方按钮可重新生成。';
+              : '上次的 AI 解读因弹窗关闭而中断，点击上方按钮可重新生成。') + '</p>';
           }
         }
       }
@@ -7818,6 +8078,10 @@
         'settings-back-btn': () => this.showPage('welcome-page'),
         'settings-test-btn': () => this.testAIConnection(),
         'ai-interpret-btn': () => this.aiInterpret(),
+        'ai-regenerate-btn': () => this.aiInterpret({ regenerate: true }),
+        'ai-copy-btn': () => this.copyAIReading(),
+        'ai-collapse-btn': () => this.toggleAICollapse(),
+        'ai-followup-send': () => this.aiFollowUp(),
         // 命运数字生成器
         'number-gen-btn': () => this.showNumberGenPage(),
         'numgen-generate-btn': () => this.generateFateNumber(),
@@ -7890,6 +8154,32 @@
           }
         });
       });
+
+      // AI 结果区：动态按钮（错误提示里的「前往设置」）走事件委托
+      const aiBody = document.getElementById('ai-reading-body');
+      if (aiBody) {
+        aiBody.addEventListener('click', (e) => {
+          const target = e.target.closest('[data-action="open-settings"]');
+          if (target) {
+            e.stopPropagation();
+            this.showSettingsPage();
+          }
+        });
+      }
+
+      // AI 问题输入 / 追问输入：回车直接触发
+      const aiQInput = document.getElementById('ai-question-input');
+      if (aiQInput) {
+        aiQInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); this.aiInterpret(); }
+        });
+      }
+      const aiFollowInput = document.getElementById('ai-followup-input');
+      if (aiFollowInput) {
+        aiFollowInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); this.aiFollowUp(); }
+        });
+      }
 
       // 问题输入 → 牌阵智能推荐
       const questionInput = document.getElementById('spread-question-input');

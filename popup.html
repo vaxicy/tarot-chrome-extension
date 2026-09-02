@@ -789,14 +789,43 @@
 
             <!-- AI 智能解读区 -->
             <div id="ai-reading-section" class="ai-reading-section hidden">
-                <input type="text" id="ai-question-input" class="ai-question-input"
-                       placeholder="输入你的问题，AI 结合问题解读..." data-i18n-placeholder="ai_question_placeholder" />
-                <button id="ai-interpret-btn" type="button">&#10024; <span data-i18n-key="ai_interpret_btn">AI 智能解读</span></button>
+                <!-- 输入行：问题输入框 + 解读按钮同行 -->
+                <div class="ai-input-row">
+                    <input type="text" id="ai-question-input" class="ai-question-input"
+                           placeholder="输入你的问题，AI 结合问题解读..." data-i18n-placeholder="ai_question_placeholder" />
+                    <button id="ai-interpret-btn" type="button">&#10024; <span data-i18n-key="ai_interpret_btn">AI 智能解读</span></button>
+                </div>
+
                 <div id="ai-reading-content" class="ai-reading-content hidden">
                     <div class="ai-reading-header">
                         <span class="ai-reading-title" data-i18n-key="ai_reading_title">&#10024; AI 深度解读</span>
+                        <div class="ai-reading-actions">
+                            <button id="ai-regenerate-btn" class="ai-mini-btn" type="button"
+                                    title="重新生成">&#128260;</button>
+                            <button id="ai-copy-btn" class="ai-mini-btn" type="button"
+                                    title="复制">&#128203;</button>
+                            <button id="ai-collapse-btn" class="ai-mini-btn" type="button"
+                                    title="收起">&#9650;</button>
+                        </div>
+                    </div>
+                    <!-- 骨架屏（加载中显示） -->
+                    <div id="ai-reading-skeleton" class="ai-reading-skeleton hidden">
+                        <div class="ai-skeleton-line"></div>
+                        <div class="ai-skeleton-line"></div>
+                        <div class="ai-skeleton-line short"></div>
+                        <div id="ai-loading-timer" class="ai-loading-timer">0s</div>
                     </div>
                     <div id="ai-reading-body" class="ai-reading-body"></div>
+
+                    <!-- 追问区（有结果后显示，支持多轮对话） -->
+                    <div id="ai-followup" class="ai-followup hidden">
+                        <div class="ai-followup-row">
+                            <input type="text" id="ai-followup-input" class="ai-followup-input"
+                                   placeholder="继续追问..." data-i18n-placeholder="ai_followup_placeholder" />
+                            <button id="ai-followup-send" class="ai-mini-btn primary" type="button"
+                                    title="发送">&#10148;</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
