@@ -6276,6 +6276,8 @@
         this.stopAILoading();
         body.classList.remove('ai-loading', 'ai-error', 'hidden');
         body.innerHTML = html;
+        // DOM 级最后防线：扫描文本节点，删除任何漏网的 <|...|> / <[...] / [object Object] 残留
+        this.sanitizeTextNodes(body);
         if (followup) followup.classList.remove('hidden');
         // 追问后滚动到结果底部
         if (followup && pairs.length > 1) {
@@ -6394,14 +6396,30 @@
       s = s.replace(/<\/?(?:thinking|reflection|analysis|reasoning|system|user|assistant|tool|human|ai)\b[^>]*>/gi, '');
       // 裸字面量泄漏
       s = s.replace(/\b(?:function_calls|tool_calls|tool_use|function_call)\b/g, '');
-      // [object Object] 各式包裹（JS 对象被字符串化的泄漏）
+      // [object Object] 各式包裹（JS 对象被字符串化的泄漏）+ 任意 <[...] 尖括号方括号组合
       s = s.replace(/<\[object Object\]>/gi, '');
       s = s.replace(/\[object Object\]/gi, '');
+      // 兜底：<[(...)]> 形式的任意对象字符串化泄漏（大小写/空格变体）
+      s = s.replace(/<\s*\[\s*object\s+[^\]]{0,40}\]\s*>/gi, '');
+      s = s.replace(/\[\s*object\s+[^\]]{0,40}\]/gi, '');
       // 未闭合的残留 <| / |> / <｜ / ｜>（兜底，半角全角都剥）
       s = s.replace(/<[|｜]/g, '').replace(/[|｜]>/g, '');
       // 多余空行合并
       s = s.replace(/\n{3,}/g, '\n\n');
       return s;
+    }
+
+    // DOM 级最后防线：遍历文本节点，清除所有漏网的控制 token / 对象字面量
+    sanitizeTextNodes(root) {
+      if (!root) return;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      const re = /<\[[^\]]{0,60}\]>|\[[^\]]*object[^\]]*\]|<[|｜][^<>|｜]{0,80}[|｜]>|<\|[^<>|]{0,80}\|>/gi;
+      nodes.forEach(node => {
+        const cleaned = node.nodeValue.replace(re, '');
+        if (cleaned !== node.nodeValue) node.nodeValue = cleaned;
+      });
     }
 
     // 富文本渲染：markdown 轻量转换（先清 token → 转义防注入 → 转换标记）
@@ -6656,6 +6674,7 @@
             // 还原时用富文本渲染（与生成时一致）；存量脏数据再清一次
             body.classList.remove('ai-loading', 'ai-error', 'hidden');
             body.innerHTML = this.formatAIReading(this.stripControlTokens(ai.output));
+            this.sanitizeTextNodes(body); // DOM 级兜底
             if (followup) followup.classList.remove('hidden');
           } else {
             body.classList.remove('ai-loading', 'hidden');
