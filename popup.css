@@ -1157,12 +1157,16 @@ body::after {
   letter-spacing: 0.5px;
 }
 
-/* 正文：富文本渲染（段落 / 有序列表 / 小标题 / 加粗） */
+/* 正文：富文本渲染（段落 / 有序列表 / 小标题 / 加粗）
+   A: 标题衬线字体 + 金色层级；B: 段落呼吸感；C: 氛围细节 */
 .ai-reading-body {
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 1.85;
   color: var(--color-text);
   word-break: break-word;
+  background: rgba(74, 47, 159, 0.06);   /* 极淡紫渐变底，与外卡区分 */
+  border-radius: 8px;
+  padding: 12px 14px;
 }
 
 .ai-reading-body.hidden {
@@ -1170,7 +1174,13 @@ body::after {
 }
 
 .ai-reading-body p {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
+}
+
+/* 首段贴 header 更紧凑 */
+.ai-reading-body > p:first-child,
+.ai-reading-body > .ai-sec-title:first-child {
+  margin-top: 0;
 }
 
 .ai-reading-body p:last-child {
@@ -1179,26 +1189,56 @@ body::after {
 
 .ai-reading-body ol,
 .ai-reading-body ul {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
   padding-left: 20px;
 }
 
 .ai-reading-body li {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
-.ai-reading-body strong {
+/* 列表 marker 换金色 */
+.ai-reading-body li::marker {
   color: var(--color-gold);
   font-weight: 700;
 }
 
+/* 加粗 = 牌名/关键词：金色 + 微光晕 */
+.ai-reading-body strong {
+  color: var(--color-gold);
+  font-weight: 700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.25);
+}
+
+/* 小标题：衬线字体 + 金色 + 左侧装饰竖线（章节头仪式感） */
 .ai-reading-body .ai-sec-title {
   display: block;
-  margin: 12px 0 6px;
-  font-size: 13px;
+  margin: 18px 0 8px;
+  padding-left: 10px;
+  border-left: 3px solid;
+  border-image: linear-gradient(180deg, var(--color-gold) 0%, rgba(255, 215, 0, 0.15) 100%) 1;
+  font-family: 'Noto Serif SC', 'STZhongsong', 'SimSun', 'Georgia', 'Palatino', serif;
+  font-size: 16px;
   font-weight: 700;
-  color: #F8BBD0;
-  letter-spacing: 0.5px;
+  color: var(--color-gold);
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+/* 首个小标题上边距收紧 */
+.ai-reading-body .ai-sec-title:first-child {
+  margin-top: 4px;
+}
+
+/* 「一句话总结」引文风：居中 + 斜体 + 上下金色装饰线（JS 在渲染时给对应段落加 .ai-takeaway） */
+.ai-reading-body p.ai-takeaway {
+  text-align: center;
+  font-style: italic;
+  color: var(--color-gold-light);
+  padding: 10px 12px;
+  margin-top: 16px;
+  border-top: 1px solid rgba(255, 215, 0, 0.18);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.18);
 }
 
 .ai-reading-body.ai-error {

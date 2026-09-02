@@ -6430,11 +6430,14 @@
       const out = [];
       let para = [];
       let list = null; // 'ol' | 'ul'
+      let takeAwayNext = false; // 「一句话总结」标题后的段落按引文渲染
 
       const flushPara = () => {
         if (para.length) {
-          out.push('<p>' + para.join('<br/>') + '</p>');
+          const cls = takeAwayNext ? ' class="ai-takeaway"' : '';
+          out.push('<p' + cls + '>' + para.join('<br/>') + '</p>');
           para = [];
+          takeAwayNext = false; // 引文只作用于紧跟的第一段
         }
       };
       const flushList = () => {
@@ -6457,11 +6460,13 @@
         const line = raw.trim();
         if (!line) { flushPara(); flushList(); return; }
 
-        // 标题：# xxx
+        // 标题：# xxx（记录下一节是否为"一句话总结"，其正文按引文样式渲染）
         const h = line.match(/^#{1,6}\s*(.+)$/);
         if (h) {
           flushPara(); flushList();
-          out.push('<span class="ai-sec-title">' + inline(h[1]) + '</span>');
+          const titleText = h[1];
+          takeAwayNext = /一句话总结|One-Line|Takeaway/i.test(titleText);
+          out.push('<span class="ai-sec-title">' + inline(titleText) + '</span>');
           return;
         }
         // 有序列表：1. / 1) 
