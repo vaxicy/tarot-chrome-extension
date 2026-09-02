@@ -6103,7 +6103,7 @@
           '# Actionable Steps\n3-4 concrete things the person can actually do today, numbered "1. 2. 3." Each step one sentence.\n\n' +
           '# One-Line Takeaway\nA single memorable closing line.\n\n' +
           'STYLE: plain conversational language, like a close friend over coffee. NO mystical jargon, no "the universe whispers" fluff. Use **bold** for key phrases.\n' +
-          'STRICT: output clean natural-language text ONLY. Never emit any control tokens such as <|object|>, <|im_start|>, <|im_end|>, <|endoftext|>, </s>, or any <|...|> sequence.'
+          'STRICT: output clean natural-language text ONLY. Never emit any control tokens such as <|object|>, <|object Object|>, <|im_start|>, <|im_end|>, <|endoftext|>, </s>, <thinking>, or any <|...|> sequence. NEVER output "Object object|" literally.'
         : '你是一个接地气、说人话的塔罗解读师。请给出一份详细、有条理的解读，400-600字，既要讲整体趋势，也要逐张牌说清楚。\n\n' +
           '必须严格按以下五个小标题顺序输出（用 "# " 开头）：\n' +
           '# 整体能量\n2-3句话说明这次抽牌的核心走向。\n\n' +
@@ -6112,7 +6112,7 @@
           '# 今天就能做的N件事\n3-4条今天就能落地的具体行动，用 "1. 2. 3." 编号，每条一句话。\n\n' +
           '# 一句话总结\n一句让人记住的收尾金句。\n\n' +
           '风格：通俗易懂、像朋友聊天。禁止玄学腔和云里雾里的表达（如"宇宙的低语""静水深处"）。重点词用 **加粗** 强调。\n' +
-          '严格限制：只输出干净的自然语言正文。绝对禁止输出任何控制字符，例如 <|object|>、<|im_start|>、<|im_end|>、<|endoftext|>、</s> 以及任何 <|...|> 形式的标记。';
+          '严格限制：只输出干净的自然语言正文。绝对禁止输出任何控制字符，特别是 <|object|>、<|object Object|>、<|im_start|>、<|im_end|>、<|endoftext|>、</s>、<thinking> 以及任何 <|...|> 形式的标记。绝对不要输出 "Object object|" 这种字面量。
       const user = (isEn
         ? 'Question: ' + (question || '(not provided)') + '\nSpread: ' + spreadName + '\nCards:\n'
         : (question ? '我的问题：' + question + '\n' : '') + '牌阵：' + spreadName + '\n抽到的牌：\n') + lines.join('\n\n');
@@ -6177,7 +6177,13 @@
         const raw = localStorage.getItem('tarot_ai_messages');
         if (!raw) return null;
         const arr = JSON.parse(raw);
-        return Array.isArray(arr) && arr.length ? arr : null;
+        if (!Array.isArray(arr) || !arr.length) return null;
+        // 存量数据兜底清理：旧持久化可能含 <|object Object|> 等 token
+        return arr.map(m => {
+          if (!m || typeof m.content !== 'string') return m;
+          const cleaned = this.stripControlTokens(m.content);
+          return Object.assign({}, m, { content: cleaned });
+        });
       } catch (e) { return null; }
     }
 
@@ -6376,14 +6382,23 @@
     // 清理模型偶尔吐出的控制 token（<|object|>、<|im_end|>、</s>、<|endoftext|> 等）
     stripControlTokens(text) {
       let s = String(text || '');
-      // <|...|> 形式（重复清理，处理相邻连排的情况）
+      // <|...|> 形式（允许空格/字母/数字/Object 等内容；重复清理处理相邻连排）
       let prev;
-      do { prev = s; s = s.replace(/<\|[^<>|]{0,64}\|>/g, ''); } while (s !== prev);
-      // 常见的裸结束标记
-      s = s.replace(/<\/?(?:s|eor|eos|endoftext|im_start|im_end)\b[^>]*>/gi, '');
-      // 未闭合的残留 <| 或 |>
+      do {
+        prev = s;
+        s = s.replace(/<\|[^<>|]{0,80}\|>/g, '');
+      } while (s !== prev);
+      // ChatML 与工具调用相关标签
+      s = s.replace(/<\/?(?:s|eor|eos|endoftext|im_start|im_end|tool_call|tool_response)\b[^>]*>/gi, '');
+      // 部分模型泄漏的思考/角色标签（含内容）
+      s = s.replace(/<\/?(?:thinking|reflection|analysis|reasoning|system|user|assistant|tool|human|ai)\b[^>]*>/gi, '');
+      // 裸字面量泄漏
+      s = s.replace(/\b(?:function_calls|tool_calls|tool_use|function_call)\b/g, '');
+      // 未闭合的残留 <| 或 |>（兜底）
       s = s.replace(/<\|/g, '').replace(/\|>/g, '');
       s = s.replace(/<\|end\|>/g, '').replace(/<\|user\|>/g, '').replace(/<\|assistant\|>/g, '');
+      // 多余空行合并
+      s = s.replace(/\n{3,}/g, '\n\n');
       return s;
     }
 
@@ -6634,9 +6649,9 @@
         }
         if (body) {
           if (ai.output) {
-            // 还原时用富文本渲染（与生成时一致）
+            // 还原时用富文本渲染（与生成时一致）；存量脏数据再清一次
             body.classList.remove('ai-loading', 'ai-error', 'hidden');
-            body.innerHTML = this.formatAIReading(ai.output);
+            body.innerHTML = this.formatAIReading(this.stripControlTokens(ai.output));
             if (followup) followup.classList.remove('hidden');
           } else {
             body.classList.remove('ai-loading', 'hidden');
