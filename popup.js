@@ -5998,6 +5998,10 @@
       const noDilemma = await new Promise(r => chrome.storage.local.get({ tarot_no_dilemma_history: false }, d => r(d.tarot_no_dilemma_history)));
       const noDilemmaEl = document.getElementById('settings-no-dilemma-history');
       if (noDilemmaEl) noDilemmaEl.checked = !!noDilemma;
+      // 不保存幸运数字记录开关
+      const noNumgen = await new Promise(r => chrome.storage.local.get({ tarot_no_numgen_history: false }, d => r(d.tarot_no_numgen_history)));
+      const noNumgenEl = document.getElementById('settings-no-numgen-history');
+      if (noNumgenEl) noNumgenEl.checked = !!noNumgen;
     }
 
     _applyProviderUI(provider) {
@@ -7439,12 +7443,27 @@
 
     // ============ 命运数字历史记录 ============
     saveNumgenHistory(numbers, min, max) {
+      const persist = () => {
+        try {
+          const history = JSON.parse(localStorage.getItem('numgen_history') || '[]');
+          history.unshift({ numbers, min, max, time: Date.now() });
+          if (history.length > 10) history.length = 10;
+          localStorage.setItem('numgen_history', JSON.stringify(history));
+        } catch (e) {}
+      };
+      // 尊重「不保存幸运数字记录」设置
       try {
-        const history = JSON.parse(localStorage.getItem('numgen_history') || '[]');
-        history.unshift({ numbers, min, max, time: Date.now() });
-        if (history.length > 10) history.length = 10;
-        localStorage.setItem('numgen_history', JSON.stringify(history));
-      } catch (e) {}
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.get({ tarot_no_numgen_history: false }, (d) => {
+            if (d && d.tarot_no_numgen_history) return;
+            persist();
+          });
+        } else {
+          persist();
+        }
+      } catch (e) {
+        persist();
+      }
     }
 
     loadNumgenHistory() {
@@ -8269,6 +8288,13 @@
       if (noDilemmaEl) {
         noDilemmaEl.addEventListener('change', () => {
           chrome.storage.local.set({ tarot_no_dilemma_history: noDilemmaEl.checked });
+        });
+      }
+      // 设置页：不保存幸运数字记录开关
+      const noNumgenEl = document.getElementById('settings-no-numgen-history');
+      if (noNumgenEl) {
+        noNumgenEl.addEventListener('change', () => {
+          chrome.storage.local.set({ tarot_no_numgen_history: noNumgenEl.checked });
         });
       }
       const providerSel = document.getElementById('settings-provider');
