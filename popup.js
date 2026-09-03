@@ -5994,6 +5994,10 @@
       const noHistory = await new Promise(r => chrome.storage.local.get({ tarot_no_history: false }, d => r(d.tarot_no_history)));
       const noHistoryEl = document.getElementById('settings-no-history');
       if (noHistoryEl) noHistoryEl.checked = !!noHistory;
+      // 不保存选择困难症记录开关
+      const noDilemma = await new Promise(r => chrome.storage.local.get({ tarot_no_dilemma_history: false }, d => r(d.tarot_no_dilemma_history)));
+      const noDilemmaEl = document.getElementById('settings-no-dilemma-history');
+      if (noDilemmaEl) noDilemmaEl.checked = !!noDilemma;
     }
 
     _applyProviderUI(provider) {
@@ -6741,8 +6745,8 @@
           '<div class="custom-confirm-box">' +
             '<div class="custom-confirm-msg"></div>' +
             '<div class="custom-confirm-actions">' +
-              '<button type="button" class="custom-confirm-cancel secondary-btn" data-i18n-key="btn_cancel">取消</button>' +
-              '<button type="button" class="custom-confirm-ok primary-btn">确定</button>' +
+              '<button type="button" class="custom-confirm-cancel secondary-btn">' + (this.t('btn_cancel') || '取消') + '</button>' +
+              '<button type="button" class="custom-confirm-ok primary-btn">' + (this.t('btn_ok') || '确定') + '</button>' +
             '</div>' +
           '</div>';
         document.body.appendChild(overlay);
@@ -8258,6 +8262,13 @@
       if (noHistoryEl) {
         noHistoryEl.addEventListener('change', () => {
           chrome.storage.local.set({ tarot_no_history: noHistoryEl.checked });
+        });
+      }
+      // 设置页：不保存选择困难症记录开关
+      const noDilemmaEl = document.getElementById('settings-no-dilemma-history');
+      if (noDilemmaEl) {
+        noDilemmaEl.addEventListener('change', () => {
+          chrome.storage.local.set({ tarot_no_dilemma_history: noDilemmaEl.checked });
         });
       }
       const providerSel = document.getElementById('settings-provider');

@@ -34,7 +34,7 @@
     function validateInputs() {
       var texts = getOptionTexts();
       if (!texts.a || !texts.b) {
-        alert(app.t('dilemma_enter_both'));
+        if (app && app.showToast) app.showToast(app.t('dilemma_enter_both'));
         return null;
       }
       return texts;
@@ -52,16 +52,32 @@
       var defB = app.currentLang === 'en' ? 'Option B' : '选项B';
       if (texts.a === defA && texts.b === defB) return;
 
+      var persist = function () {
+        try {
+          var stored = JSON.parse(localStorage.getItem(DILEMMA_HISTORY_KEY) || '[]');
+          // 去重：如果已有相同选项对，移到最前
+          stored = stored.filter(function(item) {
+            return !(item.a === texts.a && item.b === texts.b);
+          });
+          stored.unshift({ a: texts.a, b: texts.b, time: Date.now() });
+          if (stored.length > MAX_HISTORY) stored = stored.slice(0, MAX_HISTORY);
+          localStorage.setItem(DILEMMA_HISTORY_KEY, JSON.stringify(stored));
+        } catch (e) {}
+      };
+
+      // 尊重「不保存选择困难症记录」设置
       try {
-        var stored = JSON.parse(localStorage.getItem(DILEMMA_HISTORY_KEY) || '[]');
-        // 去重：如果已有相同选项对，移到最前
-        stored = stored.filter(function(item) {
-          return !(item.a === texts.a && item.b === texts.b);
-        });
-        stored.unshift({ a: texts.a, b: texts.b, time: Date.now() });
-        if (stored.length > MAX_HISTORY) stored = stored.slice(0, MAX_HISTORY);
-        localStorage.setItem(DILEMMA_HISTORY_KEY, JSON.stringify(stored));
-      } catch (e) {}
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+          chrome.storage.local.get({ tarot_no_dilemma_history: false }, function (d) {
+            if (d && d.tarot_no_dilemma_history) return;
+            persist();
+          });
+        } else {
+          persist();
+        }
+      } catch (e) {
+        persist();
+      }
     }
 
     function loadDilemmaHistory() {
@@ -71,9 +87,17 @@
     }
 
     function clearAllDilemmaHistory() {
-      if (!confirm((app && app.t && app.t('dilemma_confirm_clear')) || '确定要清空所有历史记录吗？')) return;
-      try { localStorage.removeItem(DILEMMA_HISTORY_KEY); } catch(e){}
-      renderDilemmaHistory();
+      var msg = (app && app.t && app.t('dilemma_confirm_clear')) || '确定要清空所有历史记录吗？';
+      function doClear() {
+        try { localStorage.removeItem(DILEMMA_HISTORY_KEY); } catch(e){}
+        renderDilemmaHistory();
+      }
+      // 内联自定义确认弹窗（替代原生 confirm），无 app.showConfirm 时兜底
+      if (app && app.showConfirm) {
+        app.showConfirm(msg, doClear);
+      } else if (confirm(msg)) {
+        doClear();
+      }
     }
 
     function renderDilemmaHistory() {
