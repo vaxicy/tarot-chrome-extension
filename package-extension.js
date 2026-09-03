@@ -13,9 +13,14 @@ const EXCLUDE_PATTERNS = [
   '.git',
   '.vscode',
   '.idea',
+  '.codebuddy',
+  'store-assets',
+  'scripts',
+  'docs',
   '*.diff',
   '*.py',
   '*.md',
+  '*.zip',
   'test_*',
   'add_keywords.js',
   'analyze_keywords.js',
@@ -62,6 +67,21 @@ function createPackage() {
     console.log(`✅ 打包完成！`);
     console.log(`📦 文件大小: ${(archive.pointer() / 1024 / 1024).toFixed(2)} MB`);
     console.log(`📁 输出文件: ${outputFilename}`);
+
+    // 复制到默认项目集合根目录（从项目位置推导：Chrome Extensions/<project> -> ../..）
+    const defaultDir = path.resolve(__dirname, '..', '..');
+    const srcPath = path.join(__dirname, outputFilename);
+    const dstPath = path.join(defaultDir, outputFilename);
+    try {
+      fs.copyFileSync(srcPath, dstPath);
+      const srcSize = fs.statSync(srcPath).size;
+      const dstSize = fs.statSync(dstPath).size;
+      console.log(`\n📤 已复制到默认文件夹: ${dstPath}`);
+      console.log(`   大小校验: ${srcSize === dstSize ? 'OK（源 ' + srcSize + ' B = 目标 ' + dstSize + ' B）' : 'FAILED'}`);
+    } catch (e) {
+      console.error(`\n❌ 复制到默认文件夹失败: ${e.message}`);
+    }
+
     console.log(`\n🚀 下一步：`);
     console.log(`1. 访问 https://chrome.google.com/webstore/devconsole/`);
     console.log(`2. 登录开发者账号`);
@@ -97,7 +117,7 @@ function createPackage() {
       } else {
         // 添加文件
         const ext = path.extname(file);
-        if (INCLUDE_EXTENSIONS.includes(ext) || file === 'manifest.json') {
+        if (INCLUDE_EXTENSIONS.includes(ext) || file === 'manifest.json' || file === 'LICENSE') {
           archive.file(fullPath, { name: relativePath });
           console.log(`📄 添加文件: ${relativePath}`);
         }
