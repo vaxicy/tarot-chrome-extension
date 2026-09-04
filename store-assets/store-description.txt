@@ -1,57 +1,15 @@
 === English Detailed Description ===
 
-A beautiful, professional, and magically atmospheric tarot divination Chrome extension. Whether you're a beginner or a seasoned tarot enthusiast, find your destined guidance here.
+Magic Tarot is a daily tarot divination extension with a dark, magical atmosphere. Draw a card each morning for guidance, or choose from more than 50 spreads when you have a real question about love, career, or a life decision.
 
-✨ Core Features
+Everything you need is in one place: eight beautifully designed decks, daily fortune readings, an AI deep reading mode powered by your own AI provider, a lucky number generator, and a decision helper for those moments when you simply cannot choose between two options. Every card includes detailed upright and reversed meanings, with simple, standard, and deep interpretation modes.
 
-8 Themed Decks: Magic, Rider-Waite, Marseille, Thoth, Angel, Healing, Osho Zen, and Stellar Tarot
-Daily Fortune: AI-powered in-depth interpretation of today's fortune, with regeneration support
-AI Deep Reading: Enter your own AI provider to generate structured, in-depth readings covering overall energy, per-card analysis, key insights, actionable steps, and a one-line summary
-AI Follow-up Q&A: Continue the conversation with multi-turn follow-up questions; the full reading and Q&A thread persist after closing and reopening the popup
-Lucky Number Generator: Tarot-guided lucky numbers, with custom range, preset modes (Mark Six, dice, phone number tail, etc.), and tarot-based number interpretation
-Dilemma Helper: Rock-paper-scissors / Dice rolling / Tarot draw — let randomness decide for you
-50+ Spreads: Covering beginner classics, relationships, decision analysis, life choices, fortune prediction, deep topics, career, self-growth, and spiritual growth
-
-📖 Smart Interpretation System
-
-Detailed upright and reversed card meanings for every spread
-Three interpretation modes: Simple / Standard / Deep
-Extended analysis: historical context, timing dimension, personality analysis
-AI comprehensive interpretation — one-click full report
-
-🌙 Experience Optimization
-
-Card-flip sound effect toggle
-Card favorites and reading history
-Bilingual UI (Chinese / English) — switch anytime
-Dark magical theme
-Completely free with no restrictions on any deck or spread
+After a reading you can keep asking follow-up questions, and your reading history stays on your own device. The interface works in both English and Chinese, and the extension is completely free — every deck and every spread is unlocked from the start.
 
 === 中文详细说明 ===
 
-一款精美、专业、充满魔法氛围的浏览器塔罗占卜扩展。无论你是塔罗新手还是资深爱好者，都能在这里找到属于你的命运指引。
+魔法塔罗牌是一款每日塔罗占卜浏览器扩展，深色魔法主题界面。每天清晨抽一张牌获取今日指引，遇到感情、事业或人生选择时，也可以从 50 多个牌阵中挑选合适的牌阵寻找答案。
 
-✨ 核心功能
+功能一应俱全：八套精心设计的牌组、每日运势、接入你自己 AI 服务商的深度解读、幸运数字生成器，以及在两个选项间纠结时帮你做决定的选择困难症助手。每张牌都附带详细的正位与逆位释义，并提供简洁、标准、深度三种解读模式。
 
-8 套主题牌组：魔法塔罗、韦特、马赛、托特、天使、疗愈、奥修禅宗、星辰塔罗
-每日运势：AI 驱动深度解读今日运势，支持重新生成
-AI 深度解读：接入你自己的 AI 服务商，一键生成结构化深度报告，包含整体能量、单张牌解析、核心洞见、行动建议与一句话总结
-AI 追问：多轮追问持续对话，关闭弹窗后重新打开仍可继续查看完整解读与问答记录
-命运数字生成器：塔罗灵感幸运数字，支持自定义范围与六合彩、骰子、手机尾号等预设模式
-选择困难症助手：石头剪刀布 / 掷骰子 / 抽塔罗，让随机性帮你做决定
-50+ 牌阵：覆盖新手经典、情感关系、决策分析、人生选择、运势预测、深度话题、事业、自我成长与灵性成长
-
-📖 智能解读体系
-
-每张牌均含正位与逆位详细释义
-三种解读模式：简洁 / 标准 / 深度
-延展分析：历史背景、时间维度、性格分析
-AI 综合解读：一键生成完整报告
-
-🌙 体验优化
-
-翻牌音效开关
-卡牌收藏与占卜历史
-中英双语界面，随时切换
-深色魔法主题
-完全免费，所有牌组与牌阵无限制使用
+解读完成后可以继续追问，占卜历史只保存在你自己的设备上。界面支持中英双语随时切换，完全免费，所有牌组与牌阵开箱即用，无任何限制。
