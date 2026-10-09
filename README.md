@@ -41,7 +41,7 @@ A tarot divination Chrome extension with 8 decks and 50+ spread layouts, coverin
 - **Card Collection**: Save and organize your favorite cards with personal notes
 - **Reading Modes**: Choose from Simple, Standard, or Deep interpretation levels
 - **Extended Analysis**: Additional insights including historical analysis, timing dimensions, and personality analysis
-- **AI Deep Reading**: Powered by your own AI provider, generates a structured, in-depth reading (overall energy, per-card analysis, insights, actionable steps, and a one-line summary) with elegant typography and serif headings
+- **AI Deep Reading**: Powered by your own AI provider, generates a structured, in-depth reading (overall energy, per-card analysis, insights, actionable steps, and a one-line summary), laid out with serif headings
 - **AI Follow-up Q&A**: Ask follow-up questions in a multi-turn conversation; the full reading and follow-up thread persist after closing and reopening the popup
 - **Custom Card Meanings**: Edit and personalize your card interpretations
 - **Sound Effects**: Optional card-flipping sound effects (toggle on/off)
@@ -318,7 +318,7 @@ For commercial use, please contact the author.
 - **音效开关**：可选的翻牌音效
 - **卡牌预览**：点击查看完整卡牌详情、含义和象征意义
 - **结果分享**：复制和分享占卜结果给朋友
-- **深色魔法主题**：精美的暗色主题 UI，响应式设计
+- **深色魔法主题**：暗色主题界面，响应式布局
 
 ### 🎴 支持牌组
 
