@@ -27,12 +27,12 @@
 
 ## 🔮 Magic Tarot - Daily Divination
 
-A comprehensive tarot divination Chrome extension bringing the wisdom of 8 tarot decks and 40+ spread layouts right to your browser. Whether you seek daily guidance, relationship insights, career advice, or spiritual growth, Magic Tarot offers a complete toolkit for self-reflection and divination.
+A tarot divination Chrome extension with 8 decks and 50+ spread layouts, covering daily guidance, relationships, career questions and personal growth.
 
 ### ✨ Features
 
-- **8 Premium Decks**: Magic, Rider-Waite, Marseille, Thoth, Angel, Healing, Osho Zen (79 cards), and Stellar Tarot — each with unique artwork and interpretations
-- **40+ Spread Layouts**: From simple single-card draws to the full Celtic Cross, organized into 9 categories for every life situation
+- **8 Decks**: Magic, Rider-Waite, Marseille, Thoth, Angel, Healing, Osho Zen (79 cards) and Stellar Tarot, each with its own artwork and interpretation set
+- **50+ Spread Layouts**: From a single-card draw to the full Celtic Cross, organised into 9 categories
 - **Daily Fortune**: Auto-generated daily tarot reading with a fresh card each day
 - **Lucky Number Generator**: Generate random lucky numbers with tarot-based interpretations
 - **Dilemma Helper**: Three decision-making tools — rock-paper-scissors, dice rolling, and tarot card draw
@@ -62,7 +62,7 @@ A comprehensive tarot divination Chrome extension bringing the wisdom of 8 tarot
 | **Osho Zen** 🧘 | 79 | Enlightenment | Based on Osho's Zen wisdom — focuses on the present moment (the only deck with 79 cards) |
 | **Stellar** 🌟 | 78 | Cosmic | Starry universe theme with astrological constellations |
 
-### 📋 Supported Spreads (40+)
+### 📋 Supported Spreads (50+)
 
 #### Beginner & Classic
 | Spread | Cards | Purpose |
@@ -298,12 +298,12 @@ For commercial use, please contact the author.
 
 ## 🔮 魔法塔罗牌 - 每日占卜
 
-一款功能全面的 Chrome 塔罗占卜扩展，将 8 套塔罗牌组和 40+ 种牌阵带到你的浏览器中。无论你需要每日指引、感情分析、事业建议还是灵性成长，魔法塔罗牌都能为你提供完整的自我反思与占卜工具。
+一款 Chrome 塔罗占卜扩展，内置 8 套牌组与 50+ 种牌阵，覆盖每日指引、感情、事业与个人成长等场景。
 
 ### ✨ 功能特点
 
-- **8 套精美牌组**：魔法、伟特、马赛、托特、天使、治愈、奥修禅卡（79张）和星辰塔罗 — 每套都有独特的艺术风格和解读体系
-- **40+ 种牌阵布局**：从单张快速占卜到完整的凯尔特十字，按 9 大分类覆盖生活的每个方面
+- **8 套牌组**：魔法、伟特、马赛、托特、天使、治愈、奥修禅卡（79 张）与星辰塔罗，每套都有独立的画风与解读体系
+- **50+ 种牌阵**：从单张快速占卜到完整的凯尔特十字，按 9 大分类覆盖各类场景
 - **今日运势**：每日自动生成塔罗运势解读
 - **命运数字生成器**：自定义区间生成幸运数字，附塔罗解读
 - **选择困难症助手**：猜拳决胜、摇骰子、塔罗抽牌三种方式帮你做决定
@@ -333,7 +333,7 @@ For commercial use, please contact the author.
 | **奥修禅卡** 🧘 | 79 | 觉醒 | 基于奥修禅学智慧，关注当下觉知（唯一 79 张的牌组） |
 | **星辰** 🌟 | 78 | 宇宙 | 星空宇宙主题，融合星座连线 |
 
-### 📋 支持牌阵（40+ 种）
+### 📋 支持牌阵（50+ 种）
 
 #### 入门经典
 | 牌阵 | 张数 | 用途 |
@@ -433,7 +433,7 @@ For commercial use, please contact the author.
 
 ### 📦 安装方法
 
-#### 从 Chrome 网上应用店安装（推荐）
+#### 从 Chrome 应用商店安装（推荐）
 [![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/i7s6Rt2QoyR-2sHPI31t3F4iS1s.png)](https://chromewebstore.google.com/detail/%E9%AD%94%E6%B3%95%E5%A1%94%E7%BD%97%E7%89%8C-%E6%AF%8F%E6%97%A5%E5%8D%A0%E5%8D%9C-magic-tarot/peeoknbllpkikmcaecehgbpnfigohpjk)
 
 #### 手动安装（开发者模式）
